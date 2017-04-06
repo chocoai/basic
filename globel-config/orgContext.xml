@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<organizations share_file_url="http://localhost">
+<!-- id:站点名称 -->
+<!-- datasource:数据源配置;直接写文件名，文件放在SysFile/企业文件夹中  -->
+<!-- filepath:静态发布文件所在路径，即企业静态文件夹  -->
+<!-- share_file_url:内网公共文件resource文件夹 -->
+<!-- web_server_url:外网url，如果需要向外网发布，则需要设置此地址 -->
+<organization
+	id="eap2"
+	name="默认站点"
+	datasource="eap2_oracle.xml" 
+	datatype="Oracle"
+  	filepath="E:/tomcat_gis/webapps/ROOT/gis"
+  	web_server_url="http://localhost:8080">
+		<domain port="8080">http://localhost</domain>
+</organization>
+</organizations>

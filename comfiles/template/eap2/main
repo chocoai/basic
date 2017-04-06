@@ -1,0 +1,75 @@
+ [#include "/WEB-INF/commonftl/include.html"]
+
+
+	<title>济南市房屋电子地图云平台</title>
+	<script type="text/javascript" src="../resource/mbtool/showads.js"></script>
+	<script type="text/javascript">showads();</script>
+</head>
+<body bgcolor="" background="" style="margin:0px;repeat-x;background-repeat:repeat-x;background: url(${_share_file_url!''}/eap2/images/fcxiaobj_bottom.jpg);background-repeat:repeat;">
+			<div style="background:url(${_share_file_url!''}/eap2/images/fcxiaobj.jpg) repeat-x top center;">
+			<div style="">
+<table class="eap_table" cellspacing="0" cellpadding="0" width="1000" bgcolor="#ffffff" align="center">
+	<col width="346" />
+	<col width="308" />
+	<col width="346" />
+	<tbody>
+	<tr>
+		<td valign="top" colspan="3">
+[@web.block component_name="页面片断" site_id="eap2" block_name="头部banner" component_id="snipet" action_name="单页栏目" action_id="snipet.block" params="" block_id="43" /]
+		</td>
+	</tr>
+	<tr>
+		<td valign="top" colspan="3">
+[@web.block component_name="用户认证" site_id="eap2" block_name="用户认证" component_id="auth" action_name="用户登录gis" action_id="auth.loginblockgis" params="" block_id="" /]
+		</td>
+	</tr>
+	<tr>
+		<td valign="top">
+		</td>
+		<td valign="top">
+		</td>
+		<td valign="top">
+		</td>
+	</tr>
+	<tr>
+		<td style="PADDING-LEFT: 17px; PADDING-RIGHT: 14px; PADDING-TOP: 22px" valign="top">
+[@web.block view_name="仅显示标题长" view_id="news_titli_long_1" component_name="新闻类" site_id="eap2" param="" cache_type="none" block_style="" block_name="通知公告" component_id="news" action_name="新闻首页" action_id="news.block" params="" block_id="44" skin_name="blue_33" skin_sequence="undefined" /]
+		</td>
+		<td style="PADDING-TOP: 22px" valign="top">
+[@web.block view_name="办公应用" view_id="office" component_name="页面片断" site_id="eap2" param="" cache_type="none" block_style="" block_name="办公应用" component_id="snipet" action_name="单页栏目" action_id="snipet.block" params="" block_id="46" skin_name="blue_33" skin_sequence="undefined" /]
+		</td>
+		<td style="PADDING-LEFT: 14px; PADDING-RIGHT: 17px; PADDING-TOP: 22px" valign="top">
+[@web.block view_name="仅显示标题长" view_id="news_titli_long_1" component_name="新闻类" site_id="eap2" param="" cache_type="none" block_style="" block_name="帮助文档" component_id="news" action_name="新闻首页" action_id="news.block" params="" block_id="45" skin_name="blue_33" skin_sequence="undefined" /]
+		</td>
+	</tr>
+	<tr>
+		<td style="HEIGHT: 24px" valign="top" colspan="3">
+		</td>
+	</tr>
+	<tr>
+		<td style="BACKGROUND-COLOR: rgb(48,108,255); HEIGHT: 2px" valign="top" colspan="3">
+		</td>
+	</tr>
+	<tr>
+		<td valign="top" colspan="3">
+		</td>
+	</tr>
+	<tr>
+		<td valign="top" colspan="3">
+[@web.block component_name="页面片断" site_id="eap2" block_name="版权信息" component_id="snipet" action_name="单页栏目" action_id="snipet.block" params="" block_id="47" /]
+		</td>
+	</tr>
+	<tr>
+		<td valign="top">
+		</td>
+		<td valign="top">
+		</td>
+		<td valign="top">
+		</td>
+	</tr>
+	</tbody>
+</table>
+			</div>
+			</div>
+</body>
+</html>

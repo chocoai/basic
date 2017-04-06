@@ -1,0 +1,483 @@
+package com.originsys.auth.hessian;
+
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+import com.originsys.auth.Service.AuthRoleService;
+import com.originsys.auth.Service.AuthUserService;
+import com.originsys.auth.Service.UserInfoToUser;
+import com.originsys.auth.domain.Email;
+import com.originsys.auth.domain.OrgcomRole;
+import com.originsys.auth.domain.OrgcomType;
+import com.originsys.auth.domain.RoleRegister;
+import com.originsys.auth.domain.UserInfo;
+import com.originsys.auth.domain.UserRegister;
+import com.originsys.auth.domain.UserRole;
+import com.originsys.eap.domain.Role;
+import com.originsys.eap.domain.User;
+import com.originsys.eap.util.DataSource;
+import com.originsys.eap.util.EmailUtil;
+import com.originsys.eap.util.OrgContextHolder;
+import com.originsys.eap.util.UUIDshort;
+
+/**
+ auth:boy 2014-6-27
+   描述：用户认证hessian服务接口实现
+ */
+public class BasicServiceImpl implements BasicService{
+	
+	static String SITEID="eap2";
+	
+	private String serviceName; 
+    public void setServiceName(String serverName) { 
+        this.serviceName = serverName; 
+    }
+    public String getServiceName() { 
+    	CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));  
+        return this.serviceName; 
+    } 
+    
+    /**从企业站同步角色信息到注册站*/
+	public void addRole(Role role,String site_id) throws Exception {
+		/**增加角色信息*/
+		RoleRegister rolereg=new RoleRegister();
+	
+		rolereg.setRole_id(role.getRole_id());
+		rolereg.setRole_name(role.getRole_name());
+		rolereg.setSite_id(site_id);
+		rolereg.setRole_description(role.getRole_description());
+		rolereg.setIscheck(role.getIscheck());
+		rolereg.setPreposition_role(role.getPrepositive_role());
+		rolereg.setCheck_url("");
+		/**增加机构和角色的对应信息*/
+		OrgcomRole orgcomrole=new OrgcomRole();
+		
+		orgcomrole.setRoleid(role.getRole_id());
+		orgcomrole.setSite_id(site_id);
+		orgcomrole.setOrgan_type_id(role.getOrgan_type_id());
+		orgcomrole.setRole_organ_type_state("1");
+		OrgContextHolder.setVendorType(SITEID);
+		SqlMapClient sc=DataSource.getSqlMapInstance();
+		try{
+			sc.startTransaction();
+			//如果原来存在则修改
+			RoleRegister temp=(RoleRegister)sc.queryForObject("Auth.getRoleBy2", rolereg);
+			if(temp!=null){
+				rolereg.setRole_register_id(temp.getRole_register_id());
+				sc.update("Auth.updateRoleRegister", rolereg);
+				orgcomrole.setRole_register_id(temp.getRole_register_id());
+				/**一个角色只能对应一中企业类型，现根据角色的注册编号删除角色企业对应表中的数据，再增加*/
+				sc.delete("Auth.deleteOrgcomRole", temp.getRole_register_id());
+				sc.insert("Auth.addOrgcomRole",orgcomrole);
+			}else{
+				String key=UUIDshort.get();
+				rolereg.setRole_register_id(key);
+				orgcomrole.setRole_register_id(key);
+				sc.insert("Auth.addRoleRegister",rolereg);
+				sc.insert("Auth.addOrgcomRole",orgcomrole);
+			}			
+			sc.commitTransaction();
+		}catch(Exception e){
+			throw e;
+		}finally{
+			sc.endTransaction();
+		}
+	}
+	
+	/**从企业站同步删除注册站的角色信息*/
+	public void deleteRole(String role_id,String site_id) throws Exception {
+		OrgContextHolder.setVendorType(SITEID);
+		SqlMapClient sc=DataSource.getSqlMapInstance();
+		try{
+			UserRole userrole=new UserRole();
+			userrole.setRoleid(role_id);
+			userrole.setSite_id(site_id);
+			sc.startTransaction();
+			/**删除注册站的角色和用户的对应关系*/
+			sc.delete("Auth.deleteUserRoleByRoleid", userrole);
+			/**删除角色和企业类型的对应*/
+			sc.delete("Auth.deleteOrgcomRoleByRoleid", userrole);
+			/**删除注册站的角色信息*/
+			sc.delete("Auth.deleteRoleRegByRoleid", userrole);
+			sc.commitTransaction();
+		}catch(Exception e){
+			throw e;
+		}finally{
+			sc.endTransaction();
+		}				
+	}
+	
+	/**返回企业类型列表*/
+	public List<OrgcomType> getOrgcomTypeList(String site_id) throws Exception{
+		OrgContextHolder.setVendorType(SITEID);
+		SqlMapClient sc=DataSource.getSqlMapInstance();
+		List<OrgcomType> relist=sc.queryForList("Auth.getOrgcomTypeListBySiteid", site_id);
+		if(relist==null)
+			relist=new ArrayList<OrgcomType>();
+		return relist;
+	}
+	
+	/**根据企业站传递过来的角色id获得对应的用户列表的总数*/
+	public Integer getUserListCountByRoleID(Map param)  throws Exception{
+		OrgContextHolder.setVendorType(SITEID);
+		SqlMapClient sc=DataSource.getSqlMapInstance();
+		return (Integer)sc.queryForObject("Auth.getUserRoleCount1", param);
+		
+	}
+	
+	/**根据企业站传递过来的角色id及分页信息，查询用户列表*/
+	public List<User> getUserListBy(Map param) throws Exception{
+		OrgContextHolder.setVendorType(SITEID);
+		SqlMapClient sc=DataSource.getSqlMapInstance();
+		List<UserInfo> resultList=(List<UserInfo>)sc.queryForList("Auth.getUserInfoList4", param);
+		List<User> relist=new ArrayList<User>();
+		if(resultList!=null){
+			for(UserInfo info:resultList){
+				User user=UserInfoToUser.toUser(info);
+				relist.add(user);
+			}
+		}
+		return relist;
+	}
+	
+	/**根据企业站传递过来的用户id列表返回用户列表信息*/
+	public List<User> getUserListByMids(Map param) throws Exception{
+		if(param.get("memidlist")==null){
+			return new ArrayList<User>();
+		}
+		if(((List<String>)param.get("memidlist")).size()==0){
+			return new ArrayList<User>();
+		}
+		OrgContextHolder.setVendorType(SITEID);
+		SqlMapClient sc=DataSource.getSqlMapInstance();
+		List<UserInfo> userinfolist=sc.queryForList("Auth.getUserInfoByList", param);
+		List<User> relist=new ArrayList<User>();
+		if(userinfolist!=null){
+			for(UserInfo info:userinfolist){
+				User user=UserInfoToUser.toUser(info);
+				relist.add(user);
+			}
+		}
+		return relist;
+	}
+	
+	/**根据企业站传递过来的用户id列表返回用户列表信息
+	 * //定义参数
+				Map<String,Object> param=new HashMap<String,Object>();
+				param.put("memidlist", memidlist);//用户ids
+				param.put("username", ra.getParameter("mem_id"));//用户姓名*/
+	public Integer getUserListCountByMids(Map param) throws Exception{
+		OrgContextHolder.setVendorType(SITEID);
+		SqlMapClient sc=DataSource.getSqlMapInstance();
+		return (Integer)sc.queryForObject("Auth.getUserInfoCountByList", param);
+	}
+	
+	/**获取用户列表总数*/
+	public Integer getUserListCount(UserInfo user)  throws Exception{
+		OrgContextHolder.setVendorType(SITEID);
+		SqlMapClient sc=DataSource.getSqlMapInstance();
+		return (Integer)sc.queryForObject("Auth.getUserInfoCount1", user);
+	}
+	
+	/**获取用户列表*/
+	public List<UserInfo> getUserList(Map param)  throws Exception{
+		OrgContextHolder.setVendorType(SITEID);
+		SqlMapClient sc=DataSource.getSqlMapInstance();
+		return  (List<UserInfo>)sc.queryForList("Auth.getUserInfoList1",param);
+	}
+	
+	/**根据用户管理企业的organ_id返回企业id和名称的map list
+	 *  organ_id的内容格式 eap2, org1, org2,*/
+	public List<Map> getEadminOrgans(String organ_id) throws Exception{
+		OrgContextHolder.setVendorType(SITEID);
+		SqlMapClient sc=DataSource.getSqlMapInstance();
+		String n_ogan_id=organ_id.replaceAll(" ", "'").replaceAll(",", "',");
+		n_ogan_id=n_ogan_id.substring(0, n_ogan_id.length()-1);
+		List<Map> relist=sc.queryForList("Auth.getEadminOrgans", n_ogan_id);
+		return relist;
+	}
+	
+	public User getUserByMemid(String mem_id) throws Exception{
+		OrgContextHolder.setVendorType(SITEID);	
+		return AuthUserService.getInstance().getUser(mem_id);
+	}
+	
+	public User getUserByToken(String token) throws Exception{
+		OrgContextHolder.setVendorType(SITEID);	
+		SqlMapClient sc=DataSource.getSqlMapInstance();
+		String mem_id=(String)sc.queryForObject("Auth.getMemidByToken", token);
+		return AuthUserService.getInstance().getUser(mem_id);
+	}
+	
+	/**获取企业用户的数量*/
+	public Integer getUserInfoCount(UserInfo userInfo) throws Exception{
+		OrgContextHolder.setVendorType(SITEID);
+		SqlMapClient sc=DataSource.getSqlMapInstance();
+		return (Integer)sc.queryForObject("Auth.getUserInfoCount", userInfo);
+	}
+	/**获取企业用户的列表*/
+	public List<UserInfo> getUserInfoList(Map param) throws Exception{
+		OrgContextHolder.setVendorType(SITEID);
+		SqlMapClient sc=DataSource.getSqlMapInstance();
+		return  (List<UserInfo>)sc.queryForList("Auth.getUserInfoList",param);
+	}
+	
+	/**获得注册站的非未登录用户和非注册用户角色数量*/
+	public Integer getQuoteRoleCount(Role role) throws Exception{
+		OrgContextHolder.setVendorType(SITEID);
+		SqlMapClient sc=DataSource.getSqlMapInstance();
+		return (Integer)sc.queryForObject("Auth.getQuoteRoleCount", role);
+	}
+	
+	/**获得注册站的非未登录用户和非注册用户角色列表*/
+	public List<Role> getQuoteRoleList(Map param) throws Exception{
+		OrgContextHolder.setVendorType(SITEID);
+		SqlMapClient sc=DataSource.getSqlMapInstance();
+		return  (List<Role>)sc.queryForList("Auth.getQuoteRoleList",param);
+	}
+	
+	/**判断mem_name是否存在，返回数量*/
+	public Integer getMemnameCount(String mem_name) throws Exception{
+		OrgContextHolder.setVendorType(SITEID);
+		SqlMapClient sc=DataSource.getSqlMapInstance();
+		return (Integer)sc.queryForObject("Auth.selectMemNameCount",mem_name);
+	}
+	
+	/**企业管理员增加企业用户，保存用户的注册信息和基本信息及用户和企业的对应关系*/
+	public int addQyUser(Map param) throws Exception{
+		OrgContextHolder.setVendorType(SITEID);
+		SqlMapClient sc=DataSource.getSqlMapInstance();
+		int success=0;
+		try{
+			sc.startTransaction();
+			int num=(Integer)sc.queryForObject("Auth.selectMemNameCount",param.get("mem_name"));
+			if(num==0){
+				//增加用户注册信息
+				sc.insert("Auth.addUserRegister",param.get("userRegister"));
+				//增加用户基本信息
+				sc.insert("Auth.addUserInfoadmin",param.get("userInfo"));
+				//增加用户和企业的对应
+				sc.insert("Auth.addOrgcomMember",param.get("orgcomMember"));	
+				success=1;
+			}else{
+				success=2;
+			}
+			sc.commitTransaction();			
+		}catch(Exception e){
+			success=0;
+			throw e;
+		}finally{
+			sc.endTransaction();
+		}	
+		return success;
+	}
+	
+	/**根据企业管理员的当前管理企业的organ_id和当前的企业站点id获得企业类型id*/
+	public String getOrganTypeID(String organ_id,String site_id) throws Exception{
+		OrgContextHolder.setVendorType(SITEID);
+		SqlMapClient sc=DataSource.getSqlMapInstance();
+		Map<String,Object> param=new HashMap<String,Object>();
+		param.put("site_id", site_id);
+		param.put("organ_id", organ_id);
+		return (String)sc.queryForObject("Auth.getOrganTypeID", param);
+	}
+	
+	/**返回企业管理员当前管理企业在本站点下的角色列表*/
+	public List<RoleRegister> getAllQyRoleList(String organ_id,String site_id) throws Exception{
+		OrgContextHolder.setVendorType(SITEID);
+		SqlMapClient sc=DataSource.getSqlMapInstance();
+		Map<String,Object> param=new HashMap<String,Object>();
+		param.put("site_id", site_id);
+		param.put("organ_id", organ_id);
+		return sc.queryForList("Auth.getAllQyRoleList", param);
+	}
+	
+	/**返回指定用户在企业管理员当前管理企业在本站点下的角色列表*/
+	public List<RoleRegister> getQyRoleListByMemid(String organ_id,String site_id,String mem_id) throws Exception{
+		OrgContextHolder.setVendorType(SITEID);
+		SqlMapClient sc=DataSource.getSqlMapInstance();
+		Map<String,Object> param=new HashMap<String,Object>();
+		param.put("site_id", site_id);
+		param.put("organ_id", organ_id);
+		param.put("mem_id", mem_id);
+		return sc.queryForList("Auth.getQyRoleListByMemid", param);
+	}
+	
+	/**企业管理员增加角色和用户的对应关系*/
+	public String addQyUserRole(String mem_id,String organ_id,String role_reg_id) throws Exception{
+		OrgContextHolder.setVendorType(SITEID);
+		SqlMapClient sc=DataSource.getSqlMapInstance();
+		RoleRegister rolereg=AuthRoleService.getInstance().getRoleRegister(role_reg_id);
+		String success="0";
+		if(rolereg!=null){
+			//获取值
+			UserRole userRole=new UserRole();
+			userRole.setRoleid(rolereg.getRole_id());//String:角色id
+			userRole.setSite_id(rolereg.getSite_id());//String:站点
+			userRole.setMem_id(mem_id);//String:用户id
+			if("1".equals(rolereg.getIscheck()))
+				userRole.setMem_state("0");//String:用户状态
+			else
+				userRole.setMem_state("1");//String:用户状态
+			userRole.setCom_id(organ_id);//String:该角色所属的企业
+			userRole.setRole_register_id(role_reg_id);//String:角色注册id
+			
+			try{
+				sc.insert("Auth.addUserRole",userRole);
+				success="1";
+			}catch (Exception e) {
+				success="0";
+				throw e;
+			}
+		}
+		return success;
+	}
+	
+	/**企业管理员删除角色和用户的对应关系*/
+	public int delQyUserRole(String mem_id,String role_reg_id) throws Exception{
+		OrgContextHolder.setVendorType(SITEID);
+		SqlMapClient sc=DataSource.getSqlMapInstance();
+		UserRole userRole=new UserRole();
+		userRole.setRoleid(role_reg_id);//String
+		userRole.setMem_id(mem_id);
+		//获取值
+		int success=0;
+		try{
+			sc.delete("Auth.deleteUserRole",userRole);
+			success=1;
+		}catch (Exception e) {
+			success=0;
+			throw e;
+		}
+		return success;
+	}
+	
+	/**企业管理员删除用户与企业的对应关系及本企业的角色对应关系*/
+	public int delQyUser(String mem_id,String organ_id) throws Exception{
+		int success=0;
+		OrgContextHolder.setVendorType(SITEID);
+		SqlMapClient sc=DataSource.getSqlMapInstance();
+		/**1：删除注册站的用户和企业的对应
+   		   2：删除注册站的用户和本企业角色的对应*/
+		Map<String,Object> param=new HashMap<String,Object>();
+		param.put("organ_id", organ_id);
+		param.put("mem_id", mem_id);		
+		try{
+			sc.startTransaction();
+			//删除用户企业的对应关系
+			sc.delete("Auth.deleteQyOrgcomMemberByMemid",param);
+			//删除注册站用户角色的对应关系
+			sc.delete("Auth.deleteQyUserRole",param);
+			sc.commitTransaction();
+			success=1;
+		}catch (Exception e) {
+			success=0;
+			throw e;
+		}finally{
+			sc.endTransaction();
+		}
+		return success;
+	}
+	
+	/**企业管理员从服务端修改用户的密码*/
+	public int resetQyUserPass(UserRegister reg,UserInfo info) throws Exception{
+		OrgContextHolder.setVendorType(SITEID);
+		SqlMapClient sc=DataSource.getSqlMapInstance();
+		int success=0;
+        try{
+        	sc.startTransaction();
+	        sc.update("Auth.updatePass",reg);
+	        sc.update("Auth.updatePass2",info);
+	        sc.commitTransaction();
+	        success=1;
+        }catch(Exception e){
+        	success=0;
+        	throw e;
+        }finally{
+        	sc.endTransaction();
+        }
+        return success;
+	}
+	
+	/**根据mem_id返回用户信息*/
+	public UserInfo getUserInfoByMemid(String mem_id) throws Exception{
+		OrgContextHolder.setVendorType(SITEID);
+		SqlMapClient sc=DataSource.getSqlMapInstance();
+		return (UserInfo)sc.queryForObject("Auth.getUserInfo",mem_id);
+	}
+	
+	/**修改用户信息*/
+	public int updateUserInfo(UserInfo userinfo) throws Exception{
+		OrgContextHolder.setVendorType(SITEID);
+		SqlMapClient sc=DataSource.getSqlMapInstance();
+		int success = 0;
+		try {
+			sc.update("Auth.updateUserInfo", userinfo);
+			success = 1;
+		} catch (Exception e) {
+			success = 0;
+			throw e;
+		}
+		return success;
+	}
+
+	/**用户登录*/
+	public Map<String,Object> doClientLogin(String mem_name,String password) throws Exception{
+		Map<String,Object> remap=new HashMap<String,Object>();
+		String success="0";
+		User user=null;
+		OrgContextHolder.setVendorType(SITEID);
+		SqlMapClient sc=DataSource.getSqlMapInstance();
+		UserRegister userreg=(UserRegister)sc.queryForObject("Auth.getUserRegister",mem_name);
+		if(null!=userreg){
+			if(password.equals(userreg.getMem_pass())){
+				/**获取用户的基本信息，看看用户是否激活过了，未激活的用户不能正常登录*/
+				UserInfo info=(UserInfo)sc.queryForObject("Auth.getUserInfo", userreg.getMem_id());
+				if(null!=info){
+					if("1".equals(info.getMem_state())){
+						//可以登录了
+						success="1";
+						//调用服务类，返回用户的所有信息，用户对应的所有企业信息，用户对应的角色信息
+						user=AuthUserService.getInstance().getUser(info.getMem_id());
+					}else{
+						//未激活
+						success="5";
+					}
+				}else{
+					//用户基本信息不正确
+					success="4";
+				}
+			}else{
+				//密码不正确
+				success="3";
+			}
+		}else{
+			//用户不存在
+			success="2";
+		}
+		remap.put("success", success);
+		remap.put("user", user);
+		return remap;
+	}
+	
+	/**发邮件*/
+	public String sendMail(Email email) throws Exception{
+		String error="0";
+		try{
+			EmailUtil.sendEmail(email.getSmtp(), email.getAuthertic_name()
+				, email.getAuthertic_pass(), email.getUser(),
+				email.getViewFile(), email.getTitle(), email.getParamMap());
+			error="1";
+		}catch(Exception e){
+			error="0";
+			throw e;
+		}
+		return error;
+	}
+}

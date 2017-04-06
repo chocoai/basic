@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component xmlns="http://www.eap2.net" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.eap2.net http://www.eap2.net/eap2/component.xsd "
+name="安全鉴定" id="safeauth" instance-scope="SINGLE"> 
+	<description>安全鉴定</description>
+	<actions>
+		<!-- 点选房屋 -->
+		<get id="report.choosehouse" name="鉴定点选房屋" class="com.originsys.safemanage.safecheck.action.BuildingMapProperty">
+			<view type="html">com/originsys/safemanage/authenticate/view/choosehouse.ftl</view>
+		</get>
+		<get id="report.padchoosehouse" name="pad鉴定点选房屋" class="com.originsys.safemanage.safecheck.action.BuildingMapProperty">
+			<view type="html">com/originsys/safemanage/authenticate/view/padchoosehouse.ftl</view>
+		</get>
+		<get id="report.forinsert" name="鉴定报告录入" class="com.originsys.safemanage.authenticate.action.ReportForInsert">
+			<view type="html">com/originsys/safemanage/authenticate/view/reportinsert.ftl</view>
+		</get>  
+		<get id="report.forinsert1" name="鉴定报告录入(初始化t_building)" class="com.originsys.safemanage.authenticate.action.ReportForInsert1">
+			<view type="html">com/originsys/safemanage/authenticate/view/reportinsert.ftl</view>
+		</get> 
+		<get id="report.padchoosehouses" name="pad鉴定点选房屋s" class="com.originsys.safemanage.safecheck.action.BuildingMapProperty">
+			<view type="html">com/originsys/safemanage/authenticate/view/padchoosehouses.ftl</view>
+		</get>
+		<get id="report.forinserts" name="鉴定报告录入s" class="com.originsys.safemanage.authenticate.action.ReportForInsert">
+			<view type="html">com/originsys/safemanage/authenticate/view/reportinserts.ftl</view>
+		</get>  
+		<get id="report.forinsert1s" name="鉴定报告录入(初始化t_building)s" class="com.originsys.safemanage.authenticate.action.ReportForInsert1">
+			<view type="html">com/originsys/safemanage/authenticate/view/reportinserts.ftl</view>
+		</get> 
+		<data id="report.insert" name="鉴定报告录入保存" class="com.originsys.safemanage.authenticate.action.ReportInsert"  is-audit="true"/>
+		<get id="report.forupdate" name="鉴定报告预修改" class="com.originsys.safemanage.authenticate.action.ReportDetail">
+			<view type="html">com/originsys/safemanage/authenticate/view/reportupdate.ftl</view>
+		</get>	
+		<data id="report.update" name="鉴定报告修改保存" class="com.originsys.safemanage.authenticate.action.ReportUpdate"  is-audit="true"/>	
+		
+		<data id="report.insert4Android" name="app鉴定报告录入保存" class="com.originsys.safemanage.authenticate.action.ReportInsertJD"/>
+		<data id="report.jdlistjson4Android" name="app鉴定报告列表数据" class="com.originsys.safemanage.authenticate.action.ReportListJD" />
+		
+		<get id="report.forcheck" name="鉴定报告预审核" class="com.originsys.safemanage.authenticate.action.ReportDetail">
+			<view type="html">com/originsys/safemanage/authenticate/view/reportcheck.ftl</view>
+		</get>
+		<data id="report.check" name="鉴定报告审核保存" class="com.originsys.safemanage.authenticate.action.ReportCheck"  is-audit="true"/>		
+		<get id="report.list" name="鉴定报告列表" class="">
+			<view type="html">com/originsys/safemanage/authenticate/view/reportlist.ftl</view>
+		</get>
+		<get id="report.padlist" name="pad鉴定报告列表" class="">
+			<view type="html">com/originsys/safemanage/authenticate/view/padreportlist.ftl</view>
+		</get>
+		<get id="report.listjson" name="鉴定报告列表数据" class="com.originsys.safemanage.authenticate.action.ReportList">
+			<view type="plain">com/originsys/safemanage/authenticate/view/reportlistjson.ftl</view>
+			<view type="excel" id="excel" name="输出excel">com/originsys/safemanage/authenticate/view/authmxxls.ftl</view>
+		</get>
+		<get id="report.managelist" name="鉴定报告管理列表" class="">
+			<view type="html">com/originsys/safemanage/authenticate/view/reportmanagelist.ftl</view>
+		</get>
+		<get id="report.managelistjson" name="鉴定报告管理列表数据" class="com.originsys.safemanage.authenticate.action.ReportManageList">
+			<view type="plain">com/originsys/safemanage/authenticate/view/reportmanagelistjson.ftl</view>
+		</get>
+		<get id="report.detail" name="鉴定报告详细" class="com.originsys.safemanage.authenticate.action.ReportDetail">
+			<view type="html">com/originsys/safemanage/authenticate/view/reportdetail1.ftl</view>
+		</get>
+		<data id="report.delete" name="鉴定报告删除" class="com.originsys.safemanage.authenticate.action.ReportDelete" is-audit="true"/>
+		
+		<get id="report.query" name="鉴定报告查询" class="com.originsys.safemanage.authenticate.action.ReportQuery">
+			<view type="html">com/originsys/safemanage/authenticate/view/reportquery.ftl</view>
+		</get>  
+		
+		<data id="notice.add" name="危房通知书增加" class="com.originsys.safemanage.authenticate.action.NoticeAdd"  is-audit="true"/>
+		<get id="notice.detail" name="危房通知详细" class="com.originsys.safemanage.authenticate.action.NoticeDetail">
+			<view type="html">com/originsys/safemanage/authenticate/view/noticedetail.ftl</view>
+		</get>
+		<get id="dangerous.managelist" name="危房列表(管理员)" class="">
+			<view type="html">com/originsys/safemanage/dangeroushouse/view/dangerousmanagelist.ftl</view>
+		</get>
+		<get id="dangerous.managelistjson" name="危房列表数据(管理员)" class="com.originsys.safemanage.dangeroushouse.action.DangerousManageList">
+			<view type="plain">com/originsys/safemanage/dangeroushouse/view/dangerouslistjson.ftl</view>
+		</get>
+		<get id="dangerous.list" name="危房列表" class="">
+			<view type="html">com/originsys/safemanage/dangeroushouse/view/dangerouslist.ftl</view>
+		</get>
+		<get id="dangerous.listjson" name="危房列表数据" class="com.originsys.safemanage.dangeroushouse.action.DangerousList">
+			<view type="plain">com/originsys/safemanage/dangeroushouse/view/dangerouslistjson.ftl</view>
+		</get>
+		<data id="dangerouslog.insert" name="危房处置增加" class="com.originsys.safemanage.dangeroushouse.action.DangerousLogInsert"  is-audit="true"/>		
+		<get id="dangerous.detail" name="危房详细" class="com.originsys.safemanage.dangeroushouse.action.DangerousDetail">
+			<view type="html">com/originsys/safemanage/dangeroushouse/view/dangerousdetail.ftl</view>
+		</get>
+		<get id="dangerouscount.list" name="危房统计列表" class="com.originsys.safemanage.dangeroushouse.action.DangerousCountList">
+			<view type="html">com/originsys/safemanage/dangeroushouse/view/dangerouscountlist.ftl</view>
+			<view type="excel" id="excel" name="输出excel">com/originsys/safemanage/dangeroushouse/view/dangerouscountxls.ftl</view>
+		</get>
+		
+		<data id="jdtask.accept" name="鉴定任务单受理" class="com.originsys.safemanage.authenticate.action.JdTaskAccept" />
+		<data id="jdtask.insertsurvey" name="普查鉴定任务单增加" class="com.originsys.safemanage.authenticate.action.JdTaskInsertSurvey"  is-audit="true"/>
+		<data id="jdtask.insertnet" name="网站上报鉴定任务单增加" class="com.originsys.safemanage.authenticate.action.JdTaskInsertNet"  is-audit="true"/>
+		<data id="jdtask.insert" name="鉴定任务单增加" class="com.originsys.safemanage.authenticate.action.JdTaskInsert"  is-audit="true"/>
+		<get id="jdtask.list" name="鉴定任务单列表" class="">
+			<view type="html">com/originsys/safemanage/authenticate/view/jdtasklist.ftl</view>
+		</get>
+		<get id="jdtask.listjson" name="鉴定任务单列表数据" class="com.originsys.safemanage.authenticate.action.JdTaskList">
+			<view type="plain">com/originsys/safemanage/authenticate/view/jdtasklistjson.ftl</view>
+		</get>
+		<get id="recorddetail" name="楼幢鉴定列表详细" class="com.originsys.safemanage.authenticate.action.RecordDetail">
+ 	    	<view type="html">com/originsys/safemanage/authenticate/view/saferecorddetail.ftl</view>
+ 	    </get>
+	</actions>
+	
+</component>
+

@@ -1,0 +1,8 @@
+<script type="text/javascript" src="../resource/js/jquery-ui-1.7.2.custom.min.js"></script>
+<script type="text/javascript" src="../resource/js/ui.multiselect.js"></script>
+<script type="text/javascript" src="../resource/js/jquery.multibox.js"></script>
+<script type="text/javascript" src="../resource/js/i18n/ui.datepicker-zh-CN.js"></script>
+<script type="text/javascript" src="../resource/js/jquery.validate.pack.js"></script>
+<script type="text/javascript" src="../resource/js/messages_cn.js"></script>
+<script type="text/javascript" src="../resource/js/nicEdit.js"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="../resource/css/cmxform.css" />

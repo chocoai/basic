@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>测面功能示例</title>
+<script type="text/javascript" src="http://localhost:8090/gis/FMapLib/FMapLib.Include-1.0.4.js"></script>
+<script type="text/javascript">
+var map,areaToolInst;
+function onPageLoad(){
+	 map = new FMapLib.FMap("map");
+}
+/**
+ * 测面
+ */
+function areaMeasure() {
+	areaToolInst = new FMapLib.AreaMeasureTool(map);
+	areaToolInst.setMapAlert(false);//设置不现实弹出框 
+	areaToolInst.open();
+}
+//弹出提示框 
+function mapalert(){
+	areaToolInst.doMapAlert();
+}
+//显示结果 
+function alertresult(){
+	var num=areaToolInst.getArea();
+	alert(num);
+}
+</script>
+</head>
+<body onLoad="onPageLoad()">
+<div>
+<input type="button" onclick="javascript:areaMeasure()" value="测面"/>
+<input type="button" onclick="javascript:mapalert()" value="弹框"/>
+<input type="button" onclick="javascript:alertresult()" value="显示结果"/>
+</div>
+<div id="map" style="position:absolute;left:0px;right:0px;width:100%;height:100%;" visibility="visible">
+</div> 
+</body>
+</html>

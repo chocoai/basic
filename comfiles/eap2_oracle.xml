@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMapConfig
+PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+
+
+
+<sqlMapConfig>
+
+<!-- properties resource="proxyserver.properties" / -->
+<settings
+cacheModelsEnabled="true"
+enhancementEnabled="true"
+lazyLoadingEnabled="true"
+maxRequests="32"
+maxSessions="10"
+maxTransactions="5"
+useStatementNamespaces="true"
+/>
+
+<transactionManager type="JDBC" >
+<dataSource type="SIMPLE">
+<property name="JDBC.Driver" value="oracle.jdbc.driver.OracleDriver"/>
+<!-- <property name="JDBC.ConnectionURL" value="jdbc:oracle:thin:@172.22.14.36:1521:orcl"/> -->
+<property name="JDBC.ConnectionURL" value="jdbc:oracle:thin:@192.168.6.12:1521:orcl"/>
+<property name="JDBC.Username" value="fcchsys"/>
+<property name="JDBC.Password" value="fcchsys"/>
+
+<property name="Pool.MaximumActiveConnections" value="80"/>
+<property name="Pool.MaximumIdleConnections" value="40"/>
+<property name="Pool.MaximumWait" value="60000"/>
+<property name="Pool.ValidationQuery" value="show tables"/>
+<property name="Pool.LogAbandoned" value="false"/>
+<property name="Pool.RemoveAbandoned" value="true"/>
+<property name="Pool.RemoveAbandonedTimeout" value="50000"/>
+</dataSource>
+</transactionManager>
+
+	<sqlMap resource="com/originsys/eap/conf/oracle/oracle_baseSql.xml"/>
+	<sqlMap resource="com/originsys/eap/conf/oracle/actionSql.xml"/>
+	<sqlMap resource="com/originsys/eap/conf/oracle/templateSqlmap.xml"/>
+	<sqlMap resource="com/originsys/eap/conf/oracle/siteSqlmap.xml"/>
+	<sqlMap resource="com/originsys/eap/conf/oracle/skinSqlmap.xml"/>
+	<sqlMap resource="com/originsys/eap/conf/oracle/viewSqlmap.xml"/>
+	<sqlMap resource="com/originsys/eap/conf/oracle/moduleSqlmap.xml"/>
+	<sqlMap resource="com/originsys/eap/conf/oracle/pagemoduleSqlmap.xml"/>
+	<sqlMap resource="com/originsys/eap/conf/oracle/sequenceSqlmap.xml"/>
+	<sqlMap resource="com/originsys/eap/conf/oracle/componentSqlmap.xml"/>
+	<sqlMap resource="com/originsys/eap/conf/oracle/roleSqlmap.xml"/>
+	<sqlMap resource="com/originsys/eap/conf/oracle/contentTemplateSqlmap.xml"/>
+	<sqlMap resource="com/originsys/eap/conf/oracle/userSqlmap.xml"/>
+	<sqlMap resource="com/originsys/eap/conf/oracle/pointSqlmap.xml"/>
+	<sqlMap resource="com/originsys/eap/conf/oracle/functionGroupSqlmap.xml"/>
+	<sqlMap resource="com/originsys/eap/conf/oracle/enumSqlmap.xml"/>
+	<sqlMap resource="com/originsys/eap/conf/oracle/dictionarySqlmap.xml"/>
+	<sqlMap resource="com/originsys/eap/conf/oracle/advertisementSqlmap.xml"/>
+	<sqlMap resource="com/originsys/eap/conf/oracle/indexconfigSqlmap.xml"/>
+	<sqlMap resource="com/originsys/eap/conf/oracle/commonmap.xml"/>
+	<sqlMap resource="com/originsys/eap/conf/oracle/ycextendedattributeSqlmap.xml"/>
+	<sqlMap resource="com/originsys/eap/conf/oracle/visitcountSqlmap.xml"/>
+	<sqlMap resource="com/originsys/eap/conf/oracle/tagsqlmap.xml"/>
+	<sqlMap resource="com/originsys/eap/conf/oracle/system.xml"/>
+	<sqlMap resource="com/originsys/eap/conf/oracle/wfuser_sqlmap.xml"/>
+	<sqlMap resource="com/originsys/eap/conf/oracle/workflow_sqlmap.xml"/>
+	<sqlMap resource="com/originsys/eap/conf/oracle/commonattributeSqlmap.xml"/>
+	<sqlMap resource="com/originsys/news/conf/oracle/news_sqlmap.xml"/>
+	<sqlMap resource="com/originsys/news/conf/oracle/comments_sqlmap.xml"/>
+	<sqlMap resource="com/originsys/news/conf/oracle/NewsSign_sqlmap.xml"/>
+	<sqlMap resource="com/originsys/news/conf/oracle/NewsModuleProperty_sqlmap.xml"/>
+	<sqlMap resource="com/originsys/snipet/conf/oracle/sqlmap.xml"/>
+	<sqlMap resource="com/originsys/eap/common/conf/oracle/annexFileSqlmap.xml"/>
+	<sqlMap resource="com/originsys/question/conf/oracle/sqlmap.xml"/>
+	<sqlMap resource="com/originsys/search/conf/oracle/queryterm_sqlmap.xml"/>
+	<sqlMap resource="com/originsys/location/conf/oracle/sqlmap.xml"/>
+	<sqlMap resource="com/originsys/eap/common/conf/oracle/common_sqlmap.xml"/>	
+	<sqlMap resource="com/originsys/eap/common/conf/oracle/stationIinformation_sqlmap.xml"/>	
+	<sqlMap resource="com/originsys/eap/common/conf/oracle/organization_sqlmap.xml"/>
+	<sqlMap resource="com/originsys/treenavigation/conf/oracle/sqlmap.xml"/>
+	<sqlMap resource="com/originsys/eap/conf/oracle/datasourcesqlmap.xml"/>
+	<sqlMap resource="com/originsys/tagnews/conf/oracle/tagproperty-sqlmap.xml" />
+	<sqlMap resource="com/originsys/tabgroup/conf/oracle/sqlmap.xml" />
+	<sqlMap resource="com/originsys/questionnaire/conf/oracle/sqlmap.xml" />
+	<sqlMap resource="com/originsys/periodical/conf/oracle/periodical-sqlmap.xml" />
+	<sqlMap resource="com/originsys/eap/workflow/conf/oracle/workflow_sqlmap.xml" />
+<!-- 	<sqlMap resource="com/originsys/eap/workflow/conf/oracle/workflow_doc_sqlmap.xml" /> -->
+<!-- 	<sqlMap resource="com/originsys/cgflow/conf/cgflow_sql.xml" /> -->
+<!--     <sqlMap resource="com/originsys/subweb/conf/subweb_mysql.xml"/>  --> 
+       <sqlMap resource="com/originsys/realtygis/conf/realtygis_sqlmap.xml"/>
+      <sqlMap resource="com/originsys/access/conf/access_sqlmap.xml"/>   
+      <sqlMap resource="com/originsys/datacenter/oracle/conf/datacenter-sqlmap.xml"/>
+      <sqlMap resource="com/originsys/auth/conf/auth_sqlmap_oracle.xml"/>
+  	<sqlMap resource="com/originsys/authclient/conf/authclient_sqlmap_oracle.xml"/>
+</sqlMapConfig>

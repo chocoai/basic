@@ -1,0 +1,140 @@
+<script type="text/javascript" language="javascript">
+$(function(){
+	$("#outdiv").css("display","block");
+	$("#tabs").tabs({cache:false});
+});
+</script>
+<style>
+.td12{text-align:right;padding-right:12px;background-color:#E1F1FE;color:#2a51a4;}
+.td13{padding-left:12px;background-color:#F1F8FF;color:#4D4D4D;}
+.tdpad {padding-left:4px; background-color:#ffffff}
+.td_title {text-align:right;padding-right:4px; background-color:#ffffff}
+</style>
+
+<div id="outdiv" style="display:none">
+<div class="ui-widget ui-widget-content ui-corner-all" style="position: relative;padding: .1em;">
+	<div class="ui-widget" id="tabs">
+	<ul>
+		<li><a href="#tabs-1">基本信息</a></li>
+	    [#if access.canDo(user,'realtygis.LayeredHouseholdFigure')]
+		<li><a href="#tabs-2" title="tabs-2">分层分户图</a></li>
+		[/#if]	  
+		[#if access.canDo(user,'realtygis.housejson')]
+		<li><a href="#tabs-3" title="tabs-3">楼盘表</a></li>
+		[/#if]
+		[#if access.canDo(user,'realtygis.getstridrgndata')]
+		<li><a href="#tabs-4">基础测绘</a></li>
+		[/#if]
+		<li><a href="#tabs-5">全景信息</a></li>
+		<li><a href="#tabs-6">房屋城建档案</a></li>
+	</ul>
+	[#list map.list as item]
+	<div id="tabs-1">
+		<table width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#dee2e3" style="line-height:30px;">
+			<!--<tr>
+				<td class="td12">楼幢内码</td><td class="td13">${item.building_id!''}</td>
+				<td class="td12">项目测绘流程内码：</td><td class="td13">${item.surverproject_id!''}</td>
+			</tr>-->
+			<tr>
+				<td class="td12">施测单位</td><td class="td13">${item.unit!''}</td>
+				<td class="td12">丘地号（丘号）</td><td class="td13">${item.graphics_number!''}</td>
+				<!--<td class="td12">测绘比例</td><td class="td13">${item.surver!''}</td>-->
+				<!--<td class="td12">所在楼盘内码</td><td class="td13">${item.building_mapid!''}</td>-->
+			</tr>
+			<tr>
+				<td class="td12">设计用途</td><td class="td13">
+				[#if EnumService.getEnum('sjyt')?exists]
+				    [#list EnumService.getEnum('sjyt') as enum]
+							[#if "${item.use_desgin!''}" == "${enum.enum_value!''}"]
+								${enum.enum_name!''}
+							[/#if]
+					[/#list]
+				[/#if]
+				</td>
+				<td class="td12">房屋产别</td><td class="td13">
+				[#if EnumService.getEnum('fwcb')?exists]
+				    [#list EnumService.getEnum('fwcb') as enum]
+							[#if "${item.real_type!''}" == "${enum.enum_value!''}"]
+								${enum.enum_name!''}
+							[/#if]
+					[/#list]
+				[/#if]
+				</td>
+			</tr>
+			<tr>
+				<td class="td12">总套内建筑面积</td><td class="td13">${item.tn_area!''}</td>
+				<td class="td12">总分摊共用面积</td><td class="td13">${item.ft_area!''}</td>
+			</tr>
+			<tr>
+				<td class="td12">总建筑面积</td><td class="td13">${item.build_area!''}</td>
+				<td class="td12">总不分摊面积</td><td class="td13">${item.noft_area!''}</td>
+			</tr>
+			<tr>
+				<td class="td12">总不计面积</td><td class="td13">${item.no_area!''}</td>
+				<td class="td12">面积校核差值</td><td class="td13">${item.discrepant_area!''}</td>
+			</tr>
+			<tr>
+				<td class="td12">建成时间</td><td class="td13">${item.building_date!''}</td>
+				<td class="td12">测绘日期</td><td class="td13">${item.sruver_date!''}</td>
+			</tr>
+			<tr>
+				<td class="td12">结束日期</td><td class="td13">${item.surver_enddate!''}</td>
+				<td class="td12">行政区划</td><td class="td13">
+				[#if EnumService.getEnum('xzqh')?exists]
+				    [#list EnumService.getEnum('xzqh') as enum]
+							[#if "${item.city_district!''}" == "${enum.enum_value!''}"]
+								${enum.enum_name!''}
+							[/#if]
+					[/#list]
+				[/#if]
+				</td>
+			</tr>
+			<tr>
+				<td class="td12">幢号</td><td class="td13">${item.building_number!''}</td>
+				<td class="td12">幢坐落</td><td class="td13">${item.building_address!''}</td>
+			</tr>
+			<tr>
+				<td class="td12">层数</td><td class="td13">${item.floor_count!''}</td>
+				<td class="td12">结构</td><td class="td13">
+				[#if EnumService.getEnum('fwcb')?exists]
+				    [#list EnumService.getEnum('fwcb') as enum]
+							[#if "${item.build_struct!''}" == "${enum.enum_value!''}"]
+								${enum.enum_name!''}
+							[/#if]
+					[/#list]
+				[/#if]
+				</td>
+			</tr>
+			<tr>
+				<td class="td12">套数</td><td class="td13">${item.house_count!''}</td>
+				<td class="td12">幢编号</td><td class="td13">${item.graphics_codes!''}</td>
+			</tr>
+			<tr>
+				<td class="td12">入库时间</td><td class="td13">${item.input_date!''}</td>
+				<td class="td12">地上层数</td><td class="td13">${item.floorup_count!''}</td>
+			</tr>
+			<tr>
+				<td class="td12">地下层数</td><td class="td13">${item.floordown_count!''}</td>
+				<td class="td12"></td><td class="td13"></td>
+			</tr>
+		</table>
+	</div>
+	<div id="tabs-2">
+		<iframe id="lhf" name="lhf"frameborder="0" src="${_servlet_url!''}/realtygis.LayeredHouseholdFigure?building_id=${item.building_id!''}" style="width:100%;height:450px"></iframe>
+	</div>
+	<div id="tabs-3">
+		<iframe frameborder="0" src="${_servlet_url!''}/realtygis.housejson?method=houseQue&building_id=${item.building_id!''}" style="width:100%;height:450px"></iframe>
+	</div>
+	<div id="tabs-4">
+		<iframe frameborder="0" src="${_servlet_url!''}/realtygis.getstridrgndata?building_id=${item.building_id!''}" style="width:100%;height:450px"></iframe>
+	</div>
+	<div id="tabs-5">
+		<div class="text" style=" text-align:center;font-size:150%"><h1>暂无信息</h1></div>
+	</div>
+	<div id="tabs-6">
+	   <div class="text" style=" text-align:center;font-size:150%"><h1>暂无信息</h1></div>
+	</div>
+	 [#if item_has_next][/#if]
+	[/#list]
+</div>	
+</div>

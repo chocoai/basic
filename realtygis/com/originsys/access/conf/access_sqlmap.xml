@@ -1,0 +1,789 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!--   模块：房产GIS工程   -->
+<sqlMap namespace="Access">
+<typeAlias alias="accesshouseheightrange" type="com.originsys.access.domain.HouseHeightRange"/>
+ <typeAlias alias="accesshouseholdsarea" type="com.originsys.access.domain.HouseHoldsArea"/> 
+<!-- 注释？ -->			
+<select id="househeight" resultClass="accesshouseheightrange">
+(select '100' as range_name,count(*) as range_value from st_ridrgn where TOTAL_AREA between 0 and 100 ) 
+union 
+(select '100-1000' as range_name,count(*) as range_value  from st_ridrgn where TOTAL_AREA between 100 and 1000) 
+union 
+(select '1000-10000' as range_name,count(*) as range_value  from st_ridrgn where TOTAL_AREA between 1000 and 10000) 
+union 
+(select '10000-100000' as range_name,count(*) as range_value  from st_ridrgn where TOTAL_AREA between 10000 and 100000) 
+union 
+(select '100000-200000' as range_name,count(*) as range_value  from st_ridrgn where TOTAL_AREA between 100000 and 200000) 
+union 
+(select '200000' as range_name,count(*) as range_value  from st_ridrgn where TOTAL_AREA > 200000)
+</select>
+  	<select id="buildingdatacount" resultClass="accesshouseheightrange">
+	(select '1949' as range_name,count(*) as range_value from st_ridrgn where to_number(to_char(builddate,'yyyy')) between 0 and 1949 ) 
+     union 
+    (select '1949-1989' as range_name,count(*) as range_value  from st_ridrgn where to_number(to_char(builddate,'yyyy')) between 1949 and 1989) 
+     union 
+    (select '1989-2009' as range_name,count(*) as range_value  from st_ridrgn where to_number(to_char(builddate,'yyyy')) between 1980 and 2009) 
+	 union
+	(select '2009' as range_name,count(*) as range_value  from st_ridrgn where to_number(to_char(builddate,'yyyy')) >2009)
+	</select>
+	<select id="buildingtypecount" resultClass="accesshouseheightrange">
+	(select '1' as range_name,count(*) as range_value from T_BUILDING where FLOORUP_COUNT=1 ) 
+     union 
+    (select '2' as range_name,count(*) as range_value  from T_BUILDING where FLOORUP_COUNT between 2 and 7) 
+     union 
+    (select '3' as range_name,count(*) as range_value  from T_BUILDING where FLOORUP_COUNT between 7 and 12) 
+	 union
+	(select '4' as range_name,count(*) as range_value  from T_BUILDING where FLOORUP_COUNT >12)
+	</select>
+	<select id="buildingstructurecount" resultClass="accesshouseheightrange">
+	(select '0' as range_name,count(*) as range_value from st_ridrgn  where BUILDING_STRUCT =#steel# ) 
+     union 
+    (select '1' as range_name,count(*) as range_value  from st_ridrgn where BUILDING_STRUCT =#mixedsteel# ) 
+     union 
+    (select '2' as range_name,count(*) as range_value  from st_ridrgn where BUILDING_STRUCT =#steelconcrete# ) 
+	 union
+	(select '3' as range_name,count(*) as range_value  from st_ridrgn where BUILDING_STRUCT =#mixed# )
+	union
+	(select '4' as range_name,count(*) as range_value  from st_ridrgn where BUILDING_STRUCT =#brickwood# )
+	union
+	(select '5' as range_name,count(*) as range_value  from st_ridrgn where BUILDING_STRUCT =#brick#  )
+	union
+	(select '6' as range_name,count(*) as range_value  from st_ridrgn where BUILDING_STRUCT =#other#)
+	</select>
+	<select id="buildingnaturecount" resultClass="accesshouseheightrange">
+	(select '0' as range_name,count(*) as range_value from T_BUILDING where REAL_TYPE=9500 ) 
+     union 
+    (select '1' as range_name,count(*) as range_value  from T_BUILDING where REAL_TYPE=8200) 
+     union 
+    (select '2' as range_name,count(*) as range_value  from T_BUILDING where REAL_TYPE=8100) 
+	 union
+	(select '3' as range_name,count(*) as range_value  from T_BUILDING where REAL_TYPE=8014)
+	 union
+	(select '4' as range_name,count(*) as range_value  from T_BUILDING where REAL_TYPE=8013)
+	 union
+	(select '5' as range_name,count(*) as range_value  from T_BUILDING where REAL_TYPE=8011)
+	 union
+	(select '6' as range_name,count(*) as range_value  from T_BUILDING where REAL_TYPE=1006)
+	 union
+	(select '7' as range_name,count(*) as range_value  from T_BUILDING where REAL_TYPE=1)
+	</select>
+	<select id="buildingusecount" resultClass="accesshouseheightrange">
+	(select '0' as range_name,count(*) as range_value from T_BUILDING where USE_DESGIN=1000 ) 
+     union 
+    (select '1' as range_name,count(*) as range_value  from T_BUILDING where USE_DESGIN=1010) 
+     union 
+    (select '2' as range_name,count(*) as range_value  from T_BUILDING where USE_DESGIN=1011)
+	</select>
+	<select id="regionthemebystructurelx" resultClass="accesshouseheightrange">
+	(select '0' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =1 and CITY_DISTRICT=330101 ) 
+     union 
+    (select '1' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =2 and CITY_DISTRICT=330101 ) 
+     union 
+    (select '2' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =3 and CITY_DISTRICT=330101 ) 
+	 union
+	(select '3' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =4 and CITY_DISTRICT=330101 )
+	union
+	(select '4' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =5 and CITY_DISTRICT=330101 )
+	union
+	(select '5' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =6 and CITY_DISTRICT=330101 )
+	union
+	(select '6' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =7 and CITY_DISTRICT=330101 )
+	</select>
+	<select id="regionthemebystructuresz" resultClass="accesshouseheightrange">
+	(select '0' as range_name,count(*) as range_value from T_BUILDING  where BUILD_STRUCT =1 and CITY_DISTRICT=330102 ) 
+     union 
+    (select '1' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =2 and CITY_DISTRICT=330102 ) 
+     union 
+    (select '2' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =3 and CITY_DISTRICT=330102 ) 
+	 union
+	(select '3' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =4 and CITY_DISTRICT=330102 )
+	union
+	(select '4' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =5 and CITY_DISTRICT=330102 )
+	union
+	(select '5' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =6 and CITY_DISTRICT=330102 )
+	union
+	(select '6' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =7 and CITY_DISTRICT=330102 )
+	</select>
+	<select id="regionthemebystructurehy" resultClass="accesshouseheightrange">
+	(select '0' as range_name,count(*) as range_value from T_BUILDING  where BUILD_STRUCT =1 and CITY_DISTRICT=330103 ) 
+     union 
+    (select '1' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =2 and CITY_DISTRICT=330103 ) 
+     union 
+    (select '2' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =3 and CITY_DISTRICT=330103 ) 
+	 union
+	(select '3' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =4 and CITY_DISTRICT=330103 )
+	union
+	(select '4' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =5 and CITY_DISTRICT=330103 )
+	union
+	(select '5' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =6 and CITY_DISTRICT=330103 )
+	union
+	(select '6' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =7 and CITY_DISTRICT=330103 )
+	</select>
+	<select id="regionthemebystructuretq" resultClass="accesshouseheightrange">
+	(select '0' as range_name,count(*) as range_value from T_BUILDING  where BUILD_STRUCT =1 and CITY_DISTRICT=330104 ) 
+     union 
+    (select '1' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =2 and CITY_DISTRICT=330104 ) 
+     union 
+    (select '2' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =3 and CITY_DISTRICT=330104 ) 
+	 union
+	(select '3' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =4 and CITY_DISTRICT=330104 )
+	union
+	(select '4' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =5 and CITY_DISTRICT=330104 )
+	union
+	(select '5' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =6 and CITY_DISTRICT=330104 )
+	union
+	(select '6' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =7 and CITY_DISTRICT=330104 )
+	</select>
+	<select id="regionthemebystructurelc" resultClass="accesshouseheightrange">
+	(select '0' as range_name,count(*) as range_value from T_BUILDING  where BUILD_STRUCT =1 and CITY_DISTRICT=330105 ) 
+     union 
+    (select '1' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =2 and CITY_DISTRICT=330105 ) 
+     union 
+    (select '2' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =3 and CITY_DISTRICT=330105 ) 
+	 union
+	(select '3' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =4 and CITY_DISTRICT=330105 )
+	union
+	(select '4' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =5 and CITY_DISTRICT=330105 )
+	union
+	(select '5' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =6 and CITY_DISTRICT=330105 )
+	union
+	(select '6' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =7 and CITY_DISTRICT=330105 )
+	</select>
+	<select id="regionthemebystructuregx" resultClass="accesshouseheightrange">
+	(select '0' as range_name,count(*) as range_value from T_BUILDING  where BUILD_STRUCT =1 and CITY_DISTRICT=330106 ) 
+     union 
+    (select '1' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =2 and CITY_DISTRICT=330106 ) 
+     union 
+    (select '2' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =3 and CITY_DISTRICT=330106 ) 
+	 union
+	(select '3' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =4 and CITY_DISTRICT=330106 )
+	union
+	(select '4' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =5 and CITY_DISTRICT=330106 )
+	union
+	(select '5' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =6 and CITY_DISTRICT=330106 )
+	union
+	(select '6' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =7 and CITY_DISTRICT=330106 )
+	</select>
+	<select id="regionthemebystructurecq" resultClass="accesshouseheightrange">
+	(select '0' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =1 and CITY_DISTRICT=330107 ) 
+     union 
+    (select '1' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =2 and CITY_DISTRICT=330107 ) 
+     union 
+    (select '2' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =3 and CITY_DISTRICT=330107 ) 
+	 union
+	(select '3' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =4 and CITY_DISTRICT=330107 )
+	union
+	(select '4' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =5 and CITY_DISTRICT=330107 )
+	union
+	(select '5' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =6 and CITY_DISTRICT=330107 )
+	union
+	(select '6' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =7 and CITY_DISTRICT=330107 )
+	</select>
+	<select id="extenthouseheight" resultClass="accesshouseheightrange">
+(select '100' as range_name,count(*) as range_value from st_ridrgn where TOTAL_AREA between 0 and 100  and ( SMID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+) 
+union 
+(select '100-1000' as range_name,count(*) as range_value  from st_ridrgn where TOTAL_AREA between 100 and 1000 and ( SMID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+  ) 
+union 
+(select '1000-10000' as range_name,count(*) as range_value  from st_ridrgn where TOTAL_AREA between 1000 and 10000 and ( SMID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+  ) 
+union 
+(select '10000-100000' as range_name,count(*) as range_value  from st_ridrgn where TOTAL_AREA between 10000 and 100000 and ( SMID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+  ) 
+union 
+(select '100000-200000' as range_name,count(*) as range_value  from st_ridrgn where TOTAL_AREA between 100000 and 200000 and ( SMID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+  ) 
+union 
+(select '200000' as range_name,count(*) as range_value  from st_ridrgn where TOTAL_AREA > 200000 and ( SMID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+  )
+</select>
+<select id="extentbuildingdatacount" resultClass="accesshouseheightrange">
+	(select '1949' as range_name,count(*) as range_value from st_ridrgn where to_number(to_char(builddate,'yyyy')) between 0 and 1949 and ( SMID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+   ) 
+     union 
+    (select '1949-1989' as range_name,count(*) as range_value  from st_ridrgn where to_number(to_char(builddate,'yyyy')) between 1949 and 1989 and ( SMID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+    ) 
+     union 
+    (select '1989-2009' as range_name,count(*) as range_value  from st_ridrgn where to_number(to_char(builddate,'yyyy')) between 1980 and 2009 and ( SMID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+    ) 
+	 union
+	(select '2009' as range_name,count(*) as range_value  from st_ridrgn where to_number(to_char(builddate,'yyyy')) >2009 and ( SMID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+	)
+	</select>
+	<select id="extentbuildingstructurecount" resultClass="accesshouseheightrange">
+	(select '0' as range_name,count(*) as range_value from st_ridrgn  where BUILDING_STRUCT =#steel# and ( SMID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+	) 
+     union 
+    (select '1' as range_name,count(*) as range_value  from st_ridrgn where BUILDING_STRUCT =#mixedsteel# and ( SMID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+    ) 
+     union 
+    (select '2' as range_name,count(*) as range_value  from st_ridrgn where BUILDING_STRUCT =#steelconcrete# and ( SMID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+    ) 
+	 union
+	(select '3' as range_name,count(*) as range_value  from st_ridrgn where BUILDING_STRUCT =#mixed# and ( SMID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+	)
+	union
+	(select '4' as range_name,count(*) as range_value  from st_ridrgn where BUILDING_STRUCT =#brickwood# and ( SMID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+	)
+	union
+	(select '5' as range_name,count(*) as range_value  from st_ridrgn where BUILDING_STRUCT =#brick# and ( SMID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+	 )
+	union
+	(select '6' as range_name,count(*) as range_value  from st_ridrgn where BUILDING_STRUCT =#other# and ( SMID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+	)
+	</select>
+	 <select id="buildingquelist" resultClass="com.originsys.access.domain.Building" parameterClass="com.originsys.access.domain.Building" >
+    select * from T_BUILDING where building_mapid in  
+<iterate  prepend="" property="arrlist"  open="("  close=")"  conjunction="," > 
+               #arrlist[]# 
+  </iterate>
+  </select>
+  <select id="buildinglist"  resultClass="com.originsys.access.domain.Building">
+    select * from (select * from T_BUILDING where building_mapid=#building_mapid# ) where rownum=1
+  </select>
+  <select id="buildingmiltyquery" resultClass="com.originsys.access.domain.Building" parameterClass="com.originsys.access.domain.QueryParames">
+  select * from T_BUILDING where BUILDING_ID is not NUll
+    <isNotNull property="area" prepend="and">BUILD_AREA=#area#</isNotNull>
+    <isNotNull property="areamin" prepend="and"> BUILD_AREA &gt;=#areamin#</isNotNull>
+    <isNotNull property="areamax" prepend="and"> BUILD_AREA &lt; #areamax# </isNotNull> 
+    <isNotNull property="buildingdata" prepend="and"> BUILDING_DATE= #buildingdata# </isNotNull>
+    <isNotNull property="buildingdatamin" prepend="and"> BUILDING_DATE&gt;= #buildingdatamin# </isNotNull> 
+    <isNotNull property="buildingdatamax" prepend="and"> BUILDING_DATE&lt;#buildingdatamax# </isNotNull>
+    <isNotNull property="floor" prepend="and"> FLOORUP_COUNT=#floor# </isNotNull>
+    <isNotNull property="floormin" prepend="and"> FLOORUP_COUNT&gt;= #floormin# </isNotNull>
+    <isNotNull property="floormax" prepend="and"> FLOORUP_COUNT &lt;  #floormax# </isNotNull>
+    <isNotNull property="buildingnature" prepend="and"> REAL_TYPE= #buildingnature# </isNotNull>
+    <isNotNull property="buildingstructure" prepend="and"> REAL_TYPE= #buildingstructure#</isNotNull>
+    <isNotNull property="buildingfloortype" prepend="and"> FLOORUP_COUNT= #buildingfloortype# </isNotNull>
+    <isNotNull property="buildingfloortypemin" prepend="and"> FLOORUP_COUNT&gt;= #buildingfloortypemin# </isNotNull>
+    <isNotNull property="buildingfloortypemax" prepend="and"> FLOORUP_COUNT&lt;= #buildingfloortypemax# </isNotNull>
+    <isNotNull property="buildinguse" prepend="and"> USE_DESGIN = #buildinguse# </isNotNull> 
+  </select>
+  <select id="buildingmiltygetnum" resultClass="com.originsys.access.domain.HouseHeightRange" >
+   (select '100-1000' as range_name,count(*) as range_value from st_ridrgn where SMID is not NUll
+    <isNotNull property="area" prepend="and">TOTAL_AREA=#area#</isNotNull>
+    <isNotNull property="areamin" prepend="and"> TOTAL_AREA &gt;=#areamin#</isNotNull>
+    <isNotNull property="areamax" prepend="and"> TOTAL_AREA &lt; #areamax# </isNotNull> 
+    <isNotNull property="buildingdata" prepend="and"> to_number(to_char(builddate,'yyyy'))= #buildingdata# </isNotNull>
+    <isNotNull property="buildingdatamin" prepend="and"> to_number(to_char(builddate,'yyyy'))&gt;= #buildingdatamin# </isNotNull> 
+    <isNotNull property="buildingdatamax" prepend="and">to_number(to_char(builddate,'yyyy'))&lt;#buildingdatamax# </isNotNull>
+    <isNotNull property="floor" prepend="and"> LAYERS=#floor# </isNotNull>
+    <isNotNull property="floormin" prepend="and"> LAYERS&gt;= #floormin# </isNotNull>
+    <isNotNull property="floormax" prepend="and"> LAYERS &lt;  #floormax# </isNotNull>
+    <isNotNull property="buildingstructure" prepend="and"> BUILDING_STRUCT= #buildingstructure#</isNotNull>
+   ) 
+  </select>
+</sqlMap>

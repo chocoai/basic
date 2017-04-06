@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Role">
+    <typeAlias alias="memberRole" type="com.originsys.eap.domain.MemberRole"/>
+    
+	<select id="selectReqRoleLista" resultMap="roleResult" parameterClass="role">
+		select role_id,site_id,isrequest,role_name,
+		role_description,ischeck,issys,role_code,prepositive_role,organ_type_id,security_auth,
+		(select role_name from yc_role b where b.role_id=a.prepositive_role) as pre_role_name,user_type,is_register_request
+		from yc_role a where  role_id not in ('nologin','register')
+		 and a.organ_type_id is null or a.organ_type_id=''
+		<isNotEmpty prepend="AND" property="site_id"> site_id=#site_id# </isNotEmpty>
+		<isNotEmpty prepend="AND" property="role_name"> a.role_name like '%$role_name$%'</isNotEmpty>
+		<isNotEmpty prepend="AND" property="z_conditional_expression"> $z_conditional_expression$ </isNotEmpty>
+	</select>
+	
+	<select id="selectReqRoleCounta" resultClass="java.lang.Integer" parameterClass="role">
+	    select count(*) from yc_role where role_id not in ('nologin','register')
+	     and organ_type_id is null or organ_type_id='' 
+	    <isNotEmpty prepend="AND" property="site_id"> site_id=#site_id# </isNotEmpty>
+	    <isNotEmpty prepend="AND" property="role_name"> role_name like '%$role_name$%'</isNotEmpty>
+	    <isNotEmpty prepend="AND" property="z_conditional_expression"> $z_conditional_expression$ </isNotEmpty>
+	</select>
+	<update id="updateMemberRole" parameterClass="memberRole">
+	   update yc_member_role 
+	   <dynamic  prepend="set">
+	    <isNotEmpty prepend=","  property="role_state">role_state=#role_state#</isNotEmpty>
+	    <isNotEmpty prepend=","  property="confirmed_time">confirmed_time=#confirmed_time#</isNotEmpty>
+	   </dynamic>
+	     where role_id='qyadmin' and mem_id=#mem_id#	   
+	</update>
+</sqlMap>

@@ -1,0 +1,13 @@
+
+[#global web=JspTaglibs["/WEB-INF/eap.tld"]]
+[#include "/WEB-INF/commonftl/include.html"]
+<title>eap</title>
+<META HTTP-EQUIV='pragma' CONTENT='no-cache'> 
+<META HTTP-EQUIV='Cache-Control' CONTENT='no-cache, must-revalidate'>
+<META HTTP-EQUIV='expires' CONTENT='0'>
+<base target="_self">
+</head>
+<body style="padding:0px;margin:0px">
+[@web.content /]
+</body>
+</html>

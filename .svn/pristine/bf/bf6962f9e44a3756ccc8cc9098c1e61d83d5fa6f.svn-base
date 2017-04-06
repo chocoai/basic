@@ -1,0 +1,10 @@
+{
+	"building_id":"${block.building_id!''}",
+	"house_id":"${block.house_id!''}",
+	"lay_num":"${block.lay_num!''}",
+	"unit_number":"${block.unit_number!''}",
+	"unit_alias":"${block.unit_alias!''}",
+	"room_number":"${block.room_number!''}",
+	"room_alias":"${block.room_alias!''}",
+	"door_type":"${block.door_type!''}"		
+}

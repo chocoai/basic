@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+ *  Copyright (c) 2001-2003 The Open For Business Project and respected authors.
+ *
+ *  用于把组件打包为jar文件.
+ *  编译目录是bin，但包的路径并非严格按照组件名界定的，因此需要先复制到build目录中，
+ *  然后一个个目录单独打包为jar.
+ *  $Id: deploy.xml,v 1.2 2009/08/10 04:46:05 samsung Exp $
+-->
+<project name="delploy" default="copy" basedir="">
+    <!-- ================================================================== -->
+    <!-- 初始化属性						                        			-->
+    <!-- ================================================================== -->
+
+    <target name="init-properties" description="==>初始化属性">
+        <property file="build.properties"/>
+        <property name="bin.dir"        value="bin"                 />
+    	<property name="build.dir"        value="build"                 />
+		<property name="webapp.dir" value="${deploy.dir}/${name}" />
+    </target>
+	<target name="clean" depends="init-properties" description="clean up">
+			<delete dir="build"/>
+		</target>
+		
+		<target name="init" depends="clean">
+			<tstamp/>
+			<mkdir dir="${build.dir}"/>
+			<mkdir dir="${build.dir}/core"/>
+			<mkdir dir="${build.dir}/manager"/>
+			<mkdir dir="${build.dir}/snipet"/>
+			<mkdir dir="${build.dir}/news"/>
+			<mkdir dir="${build.dir}/virtual"/>
+			<mkdir dir="${build.dir}/location"/>
+			<mkdir dir="${build.dir}/info"/>
+			<mkdir dir="${build.dir}/search"/>
+			<mkdir dir="${build.dir}/map"/>
+			<mkdir dir="${build.dir}/question"/>
+			<mkdir dir="${build.dir}/questionnaire"/>
+			<mkdir dir="${build.dir}/tabgroup"/>
+			<mkdir dir="${build.dir}/workflow"/>
+			<mkdir dir="${build.dir}/treenavigation"/>
+			<mkdir dir="${build.dir}/consult"/>
+			<mkdir dir="${build.dir}/tagnews"/>
+			<mkdir dir="${build.dir}/common"/>
+			<mkdir dir="${build.dir}/workflow"/>
+			<mkdir dir="${build.dir}/sso"/>
+			<mkdir dir="${build.dir}/periodical"/>
+			<mkdir dir="${build.dir}/interaction"/>
+			<mkdir dir="${build.dir}/interview"/>
+			<mkdir dir="${build.dir}/forum"/>
+			<mkdir dir="${build.dir}/banktool"/>
+			<mkdir dir="${build.dir}/foodsafe"/>
+			<mkdir dir="${build.dir}/duty"/>
+			<mkdir dir="${build.dir}/WebPost"/>
+			<mkdir dir="${build.dir}/note"/>
+			<mkdir dir="${build.dir}/adr"/>
+			<mkdir dir="${build.dir}/oam"/>
+			<mkdir dir="${build.dir}/mcs"/>
+			<mkdir dir="${build.dir}/petition"/>
+		</target>
+    <!-- **************************************************** -->
+    <!-- 拷贝class和web文件									  -->
+    <!-- **************************************************** -->
+        <target name="copy" depends="init" description="拷贝并打包">               
+ 
+        <copy todir="${build.dir}/core">
+        	<fileset dir="${bin.dir}" includes="com/originsys/eap/"/>
+        </copy>
+        <copy todir="${build.dir}/manager">
+        	<fileset dir="${bin.dir}" includes="com/originsys/manager/"/>
+        </copy>
+        <copy todir="${build.dir}/snipet">
+        	<fileset dir="${bin.dir}" includes="com/originsys/snipet/"/>
+        </copy>
+    	<copy todir="${build.dir}/news">
+        	<fileset dir="${bin.dir}" includes="com/originsys/news/"/>
+        </copy>
+		<copy todir="${build.dir}/location">
+        	<fileset dir="${bin.dir}" includes="com/originsys/location/"/>
+        </copy>
+		<copy todir="${build.dir}/virtual">
+        	<fileset dir="${bin.dir}" includes="com/originsys/virtual/"/>
+        </copy>
+    	<copy todir="${build.dir}/map">
+        	<fileset dir="${bin.dir}" includes="com/originsys/map/"/>
+        </copy>
+        <copy todir="${build.dir}/search">
+        	<fileset dir="${bin.dir}" includes="com/originsys/search/"/>
+        </copy>
+        <copy todir="${build.dir}/question">
+        	<fileset dir="${bin.dir}" includes="com/originsys/question/"/>
+        </copy>
+        <copy todir="${build.dir}/questionnaire">
+        	<fileset dir="${bin.dir}" includes="com/originsys/questionnaire/"/>
+        </copy>
+    	<copy todir="${build.dir}/workflow">
+        	<fileset dir="${bin.dir}" includes="com/originsys/workflow/"/>
+        </copy>
+		<copy todir="${build.dir}/info">
+        	<fileset dir="${bin.dir}" includes="com/originsys/info/"/>
+        </copy>
+		<copy todir="${build.dir}/tabgroup">
+        	<fileset dir="${bin.dir}" includes="com/originsys/tabgroup/"/>
+        </copy>
+    	<copy todir="${build.dir}/treenavigation">
+        	<fileset dir="${bin.dir}" includes="com/originsys/treenavigation/"/>
+        </copy>
+    	<copy todir="${build.dir}/consult">
+        	<fileset dir="${bin.dir}" includes="com/originsys/consult/"/>
+        </copy>
+    	<copy todir="${build.dir}/tagnews">
+        	<fileset dir="${bin.dir}" includes="com/originsys/tagnews/"/>
+        </copy>
+    	<!-- copy todir="${build.dir}/common">
+    	    <fileset dir="${bin.dir}" includes="com/originsys/eap/common/"/>
+    	</copy -->
+    	<copy todir="${build.dir}/workflow">
+    	    <fileset dir="${bin.dir}" includes="com/originsys/eap/workflow/"/>
+    	</copy>
+    	<copy todir="${build.dir}/sso">
+    	    <fileset dir="${bin.dir}" includes="com/originsys/sso/"/>
+    	</copy>
+        <!-- start-->
+    	<copy todir="${build.dir}/periodical">
+    	    <fileset dir="${bin.dir}" includes="com/originsys/periodical/"/>
+    	</copy>
+    	<copy todir="${build.dir}/interaction">
+    	    <fileset dir="${bin.dir}" includes="com/originsys/interaction/"/>
+    	</copy>
+    	<copy todir="${build.dir}/interview">
+    	    <fileset dir="${bin.dir}" includes="com/originsys/interview/"/>
+    	</copy>
+    	<copy todir="${build.dir}/forum">
+    	    <fileset dir="${bin.dir}" includes="com/originsys/forum/"/>
+    	</copy>
+    	<copy todir="${build.dir}/banktool">
+    	    <fileset dir="${bin.dir}" includes="com/originsys/banktool/"/>
+    	</copy>
+    	<copy todir="${build.dir}/foodsafe">
+    	    <fileset dir="${bin.dir}" includes="com/originsys/foodsafe/"/>
+    	</copy>
+    	<copy todir="${build.dir}/duty">
+    	    <fileset dir="${bin.dir}" includes="com/originsys/duty/"/>
+    	</copy>
+    	<copy todir="${build.dir}/WebPost">
+    	    <fileset dir="${bin.dir}" includes="com/originsys/WebPost/"/>
+    	</copy>
+    	<copy todir="${build.dir}/note">
+    	    <fileset dir="${bin.dir}" includes="com/originsys/note/"/>
+    	</copy>
+    	<copy todir="${build.dir}/adr">
+    	    <fileset dir="${bin.dir}" includes="com/originsys/adr/"/>
+    	</copy>
+    	<copy todir="${build.dir}/oam">
+    	    <fileset dir="${bin.dir}" includes="com/originsys/oam/"/>
+    	</copy>
+    	<copy todir="${build.dir}/mcs">
+    	    <fileset dir="${bin.dir}" includes="com/originsys/mcs/"/>
+    	</copy>
+    	<copy todir="${build.dir}/petition">
+    	    <fileset dir="${bin.dir}" includes="com/originsys/petition/"/>
+    	</copy>
+        <!--  end-->
+        <jar jarfile="${webapp.dir}/WEB-INF/lib/eap-core.jar" basedir="${build.dir}/core"/>
+        <jar jarfile="${webapp.dir}/WEB-INF/lib/eap-manager.jar" basedir="${build.dir}/manager"/>
+        <jar jarfile="${webapp.dir}/WEB-INF/lib/eap-snipet.jar" basedir="${build.dir}/snipet"/>
+        <jar jarfile="${webapp.dir}/WEB-INF/lib/eap-news.jar" basedir="${build.dir}/news"/>
+    	<jar jarfile="${webapp.dir}/WEB-INF/lib/eap-location.jar" basedir="${build.dir}/location"/>
+    	<jar jarfile="${webapp.dir}/WEB-INF/lib/eap-virtual.jar" basedir="${build.dir}/virtual"/>
+		<jar jarfile="${webapp.dir}/WEB-INF/lib/eap-map.jar" basedir="${build.dir}/map"/>
+        <jar jarfile="${webapp.dir}/WEB-INF/lib/eap-search.jar" basedir="${build.dir}/search"/>
+        <jar jarfile="${webapp.dir}/WEB-INF/lib/eap-question.jar" basedir="${build.dir}/question"/>
+        <jar jarfile="${webapp.dir}/WEB-INF/lib/eap-questionnaire.jar" basedir="${build.dir}/questionnaire"/>
+        <jar jarfile="${webapp.dir}/WEB-INF/lib/eap-workflow.jar" basedir="${build.dir}/workflow"/>
+        <jar jarfile="${webapp.dir}/WEB-INF/lib/eap-tabgroup.jar" basedir="${build.dir}/tabgroup"/>
+    	<jar jarfile="${webapp.dir}/WEB-INF/lib/eap-info.jar" basedir="${build.dir}/info"/>
+    	<jar jarfile="${webapp.dir}/WEB-INF/lib/eap-treenavigation.jar" basedir="${build.dir}/treenavigation"/>
+        <jar jarfile="${webapp.dir}/WEB-INF/lib/eap-consult.jar" basedir="${build.dir}/consult"/>
+        <jar jarfile="${webapp.dir}/WEB-INF/lib/eap-tagnews.jar" basedir="${build.dir}/tagnews"/>
+        <!-- jar jarfile="${webapp.dir}/WEB-INF/lib/eap-common.jar" basedir="${build.dir}/common"/ -->
+        <jar jarfile="${webapp.dir}/WEB-INF/lib/eap-sso.jar" basedir="${build.dir}/sso"/>
+        <!--  start -->
+    	<jar jarfile="${webapp.dir}/WEB-INF/lib/eap-periodical.jar" basedir="${build.dir}/periodical"/>
+    	<jar jarfile="${webapp.dir}/WEB-INF/lib/eap-interaction.jar" basedir="${build.dir}/interaction"/>
+    	<jar jarfile="${webapp.dir}/WEB-INF/lib/eap-interview.jar" basedir="${build.dir}/interview"/>
+        <jar jarfile="${webapp.dir}/WEB-INF/lib/eap-forum.jar" basedir="${build.dir}/forum"/>
+        <jar jarfile="${webapp.dir}/WEB-INF/lib/eap-banktool.jar" basedir="${build.dir}/banktool"/>
+        <jar jarfile="${webapp.dir}/WEB-INF/lib/eap-foodsafe.jar" basedir="${build.dir}/foodsafe"/>
+        <jar jarfile="${webapp.dir}/WEB-INF/lib/eap-duty.jar" basedir="${build.dir}/duty"/>	
+    	<jar jarfile="${webapp.dir}/WEB-INF/lib/eap-WebPost.jar" basedir="${build.dir}/WebPost"/>
+    	<jar jarfile="${webapp.dir}/WEB-INF/lib/eap-note.jar" basedir="${build.dir}/note"/>
+    	<jar jarfile="${webapp.dir}/WEB-INF/lib/eap-adr.jar" basedir="${build.dir}/adr"/>
+        <jar jarfile="${webapp.dir}/WEB-INF/lib/eap-oam.jar" basedir="${build.dir}/oam"/>
+        <jar jarfile="${webapp.dir}/WEB-INF/lib/eap-mcs.jar" basedir="${build.dir}/mcs"/>
+        <jar jarfile="${webapp.dir}/WEB-INF/lib/eap-petition.jar" basedir="${build.dir}/petition"/>
+        <!--  end -->
+        <delete dir="build"/>
+  		</target>
+    
+  <!-- ================================================================ -->
+  <!-- 主要任务 -->
+  <!-- ================================================================ -->
+  <target name="main" description="==> 发布程序">
+    <antcall target="copy"/>
+  </target>
+</project>

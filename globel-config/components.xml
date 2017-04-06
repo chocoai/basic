@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components core-version="1" core-jar="eap-core.jar">
+		<component id="snipet" version="" jar="" configuration="com/originsys/snipet/conf/eap-component.xml"/>
+	<component id="manager" configuration="com/originsys/manager/conf/manager-component.xml"/>
+	<component id="location" configuration="com/originsys/location/conf/location-component.xml"/>
+	<component id="news" configuration="com/originsys/news/conf/news-component.xml"/>
+	<component id="virtual" configuration="com/originsys/virtual/conf/virtual-component.xml"/>
+	<component id="question" configuration="com/originsys/question/conf/question-component.xml"/>
+	<component id="questionnaire" configuration="com/originsys/questionnaire/conf/questionnaire-component.xml"/>
+	<component id="search" configuration="com/originsys/search/conf/search-component.xml"/>
+    <component id="adscrolling" configuration="com/originsys/adscrolling/conf/ad-component.xml"/>
+	<component id="map" configuration="com/originsys/map/conf/map-component.xml"/>
+	<component id="tabgroup" configuration="com/originsys/tabgroup/conf/tabgroup-component.xml"/>
+	<component id="commonservice" configuration="com/originsys/eap/common/conf/common-component.xml"/>
+	<component id="sso" configuration="com/originsys/sso/conf/sso-component.xml"/>
+	  <component id="periodical" configuration="com/originsys/periodical/conf/periodical-component.xml"/>
+	<component id="treenavigation" configuration="com/originsys/treenavigation/conf/component.xml"/>
+	<component id="workflow" configuration="com/originsys/eap/workflow/conf/eap-component.xml"/>
+	<component id="realtygis" configuration="com/originsys/realtygis/conf/realtygis_component.xml"/>
+	<component id="access" configuration="com/originsys/access/conf/access_component.xml"/>
+	<component id="datacenter" configuration="com/originsys/datacenter/conf/datacenter_component.xml"/>
+  <component id="auth" configuration="com/originsys/auth/conf/auth_component.xml"/>
+	<component id="authclient" configuration="com/originsys/authclient/conf/authclient_component.xml"/>
+</components>

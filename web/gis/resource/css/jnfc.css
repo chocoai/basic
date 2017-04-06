@@ -1,0 +1,47 @@
+@charset "utf-8";
+/* CSS Document */
+
+ *{ margin:0px; padding:0px; font-size:12px; font-family:"宋体";}
+img { border:none;display:block}
+a{ text-decoration:none}
+ul { list-style:none;}
+.clear{ clear:both}
+
+html { height:100%; }
+body { height:100%;}
+
+.nav {height:30px; line-height:30px; margin-left:15px; float:right; margin-right:20px; padding-top:5px; background:#f3f3f3}
+.nav a {display:block;  font-size:12px; color:#0094ea; }
+.nav a:hover{color:#fff;background:#0094ea}
+.nav li {float:left; width:65px; text-align:center; font-size:14px; height:26px;}
+
+.searchBar{ height:90px; width:100%; background:#f3f3f3; border-bottom:1px solid #e5e5e5}
+.logo{ margin-left:80px; padding-top:8px; float:left;}
+
+.part {overflow:hidden;;margin:15px 0 0 40px; float:left}
+.part .tab_title {height:23px;line-height:23px;overflow:hidden;}
+.part .tab_title li {float:left;width:70px;text-align:center;list-style:none}
+.part .tab_title li a {display:block;font-size:13px;text-decoration:none;font-weight:bold;color:#7d7d7d}
+.part .tab_title li .dorp {background: url(../images/tab_title_dorp.jpg) top no-repeat;color:#FFF;}
+.part .tab_title li .nodorp {background:url(../images/tab_title_nodorp.jpg) top no-repeat;color:#daf2ff;}
+.part .content .search_text {width:395px;height:36px; line-height:36px;border:none;background:url(../images/search_bg.jpg) no-repeat; padding-left:5px; float:left}
+.part .content .search_button {width:86px;height:36px;border:none; background:url(../images/search_button.jpg); float:left; cursor: pointer}
+.gj{ color:#F00; width:30px; float:left; margin-top:50px; margin-left:10px;}
+.gj a{ color:#F00; text-decoration:underline}
+.gj a:hover{ color:#d0000a; text-decoration:underline}
+.tabColor{ background:#005bc9 }
+.trBg{ background:#d5edff}
+.trBg:hover{ background:#afd8f7}
+.left_title a{ color:#005bc9;  width:170px;  display:inline-block }
+.left_title a:hover{ color:#0054b9}
+
+.wrapperLeft{ width:224px; height:100%; float:left; background:url(../images/leftRepeat.jpg) repeat-y}
+.wrapperRight{ }
+
+
+.right_top{ height:37px; background:url(../images/rightRepeat.jpg) repeat-x}
+.weather{ height:37px; line-height:37px; margin-left:10px; color:#858585; float:left; width:200px;}
+.map_tool{ float:right; width:350px; height:37px;}
+.tool_title a{ color:#616161}
+.map_tl{ float:left;width:255px; height:27px;padding-top:8px}
+

@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component xmlns="http://www.eap2.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eap2.net http://www.eap2.net/eap2/component.xsd "
+name="用户认证" id="auth" instance-scope="SINGLE">
+	<description>用户认证</description>
+	<actions>
+		<get id="forauthorize" name="认证授权" class="com.originsys.auth.action.AuthorizeParam">
+			<view type="html">com/originsys/auth/view/authorize.ftl</view>
+		</get>
+		<post id="authorize" name="登录授权页" class="com.originsys.auth.action.Authorize" is-switch="true" />
+		<data name="获取token" class="com.originsys.auth.action.AccessTokenAction" id="token"/>
+		<post id="login1" name="用户登录1" class="com.originsys.auth.action.AuthLogin1" is-switch="true" />
+		<get id="isused" class="com.originsys.auth.action.IsUsed" name="是否存在" >
+			<view type="plain">com/originsys/auth/view/isused.ftl</view>		
+		</get>
+		<get id="isused2" class="com.originsys.auth.action.IsUsed2" name="是否存在" >
+			<view type="plain">com/originsys/auth/view/isused.ftl</view>		
+		</get>
+		<get id="reg" name="注册须知" class="">
+			<view type="html">com/originsys/auth/view/register.ftl</view>
+		</get>
+		<get id="rega" name="用户注册第一步" class="">
+			<view type="html">com/originsys/auth/view/register1.ftl</view>
+		</get>
+		<post id="dorega" name="用户注册第一步保存" class="com.originsys.auth.action.Register1" is-switch="true">
+			<view type="html">com/originsys/auth/view/register22.ftl</view>
+		</post>
+		<get id="doregafter" name="用户注册完成之后的提示" class="">
+			<view type="html">com/originsys/auth/view/register22.ftl</view>
+		</get>
+		<get id="regb" name="用户注册第二步" class="com.originsys.auth.action.RegisterFor2">
+			<view type="html">com/originsys/auth/view/register2.ftl</view>
+		</get>
+		<get id="doregb" name="用户注册第二步保存" class="com.originsys.auth.action.Register2">
+			<view type="html">com/originsys/auth/view/register22.ftl</view>
+		</get>
+		<post id="regc" name="用户注册第三步(激活后)" class="com.originsys.auth.action.ActiveUser" is-switch="true">
+			<view type="html">com/originsys/auth/view/register3.ftl</view>
+		</post>
+		<post id="doregc" name="用户注册第三部保存" class="com.originsys.auth.action.Register3" is-switch="true" /> 
+		
+		<get id="joinorgcom" name="预加入组织" class="com.originsys.auth.action.ForJoinOrgcom">
+			<view type="html">com/originsys/auth/view/forjoinorgcom.ftl</view>
+		</get>
+		<data id="dojoinorgcom" name="加入组织保存" class="com.originsys.auth.action.JoinOrgcom" />
+		<get id="orgcomregister" name="企业组织注册" class="com.originsys.auth.action.OrgcomForAdd">
+			<view type="html">com/originsys/auth/view/orgcomregister.ftl</view>
+		</get>
+		<post id="doorgcomregister" name="企业组织注册保存" class="com.originsys.auth.action.OrgcomRegister" is-switch="true" />
+		<get id="orgcomregister.after" name="企业组织注册成功" class="">
+			<view type="html">com/originsys/auth/view/orgcomregisterafter.ftl</view>
+		</get>
+		<post id="login" name="用户登录保存" class="com.originsys.auth.action.Login" is-switch="true" />
+		<get id="eloginblock" name="专家登录" class="">
+			<view type="html">com/originsys/auth/view/expertlogin.ftl</view>
+		</get>
+		<get id="cploginblock" name="测评专家登录" class="">
+			<view type="html">com/originsys/auth/view/cpexpertlogin.ftl</view>
+		</get>
+		<get id="loginblock" name="用户登录" class="com.originsys.auth.action.LoginBlock">
+			<view type="html">com/originsys/auth/view/loginblock.ftl</view>
+		</get>
+		<get id="loginblock1" name="机构登录" class="">
+			<view type="html">com/originsys/auth/view/loginblockadmin.ftl</view>
+		</get>
+		<post id="orgcomlogin" name="机构登录保存" class="com.originsys.auth.action.OrgcomLogin" is-switch="true" />
+		<data id="setcurorgan" name="设置当前企业" class="com.originsys.auth.action.SetCurrentOrgcom"/>
+		<get id="personalinfo" name="个人信息面板" class="">
+			<view type="html">com/originsys/auth/view/PersonalInformation.ftl</view>
+		</get>
+		<data name="管理员增加用户" class="com.originsys.auth.action.AdminAddUserInfo" id="adminAddUser"/>
+		<!--   公司（组织）表首页         -->
+			<get id="orgcomlist" name="公司（组织）表列表"  class="">
+				<view id="orgcomlist" name="公司（组织）表列表" type="html">com/originsys/auth/view/orgcomlist.ftl</view>
+			</get>
+			<!--   公司（组织）表首页数据    -->
+			<get id="orgcomlistdata" name="公司（组织）表列表数据"  class="com.originsys.auth.action.OrgcomList">
+				<view id="orgcomlistdata" name="公司（组织）表列表数据" type="plain">com/originsys/auth/view/orgcomlistdata.ftl</view>
+			</get>
+			<!--   公司（组织）表查看详细    -->
+			<get id="orgcomdetail" name="公司（组织）表详细"  class="com.originsys.auth.action.OrgcomDetail">
+				<view id="orgcomdetail" name="公司（组织）表详细" type="html">com/originsys/auth/view/orgcomdetail.ftl</view>
+			</get>
+			<!--   公司（组织）表增加操作    -->
+			<get id="orgcomadd" name="公司（组织）表增加"  class="com.originsys.auth.action.OrgcomForAdd">
+				<view id="orgcomadd" name="公司（组织）表增加" type="html">com/originsys/auth/view/orgcomadd.ftl</view>
+			</get>
+			<data id="doorgcomadd" name="企业组织添加提交" class="com.originsys.auth.action.OrgcomAdd"/>
+			<data id="doorgcomcheck" name="企业组织审核" class="com.originsys.auth.action.OrgcomCheck"/>
+			<!--   公司（组织）表查看详细(更新操作用)    -->
+			<get id="orgcommodify" name="公司（组织）表修改"  class="com.originsys.auth.action.OrgcomDetail">
+				<view id="orgcommodify" name="公司（组织）表修改" type="html">com/originsys/auth/view/orgcommodify.ftl</view>
+			</get>
+			<get id="orgcommodify1" name="公司（组织）表修改1"  class="com.originsys.auth.action.OrgcomDetail">
+				<view id="orgcommodify" name="公司（组织）表修改" type="html">com/originsys/auth/view/orgcommodify1.ftl</view>
+			</get>
+			<!--   公司（组织）表更新操作用    -->
+			<data id="orgcomupdate" name="公司（组织）表修改保存" class="com.originsys.auth.action.OrgcomUpdate"/>
+			<!--   公司（组织）表删除操作    -->
+			<data id="orgcomdelete" name="公司（组织）表删除" class="com.originsys.auth.action.OrgcomDelete"/>	
+			<get id="orgcomlistdialog" name="公司（组织）表列表窗口"  class="com.originsys.auth.action.OrgcomList">
+				<view type="html">com/originsys/auth/view/orgcomlistdialog.ftl</view>
+			</get>
+			<get id="orgcomcheck" name="公司（组织）认证"  class="com.originsys.auth.action.OrgcomDetail">
+				<view type="html">com/originsys/auth/view/orgcomcheck.ftl</view>
+			</get>
+		<!--   用户注册表首页         -->
+			<get id="userInfolist" name="企业管理用户列表"  class="">
+				<view id="userInfolist" name="用户注册表列表" type="html">com/originsys/auth/view/userInfolist.ftl</view>
+			</get>
+			<!--   用户注册表首页数据    -->
+			<get id="userInfolistdata" name="企业管理用户列表数据"  class="com.originsys.auth.action.UserInfoList">
+				<view id="userInfolistdata" name="用户注册表列表数据" type="plain">com/originsys/auth/view/userInfolistdata.ftl</view>
+			</get>
+			<!--   用户注册表查看详细    -->
+			<get id="userInfodetail" name="用户注册表详细"  class="com.originsys.auth.action.UserInfoDetail">
+				<view id="userInfodetail" name="用户注册表详细" type="html">com/originsys/auth/view/userInfodetail.ftl</view>
+			</get>
+			<!--   用户增加    -->
+			<get id="userInfoforadd" name="企业管理用户预增加"  class="">
+				<view id="userInfoforadd" name="企业管理用户预增加" type="html">com/originsys/auth/view/userInfoforadd.ftl</view>
+			</get>
+			<!--   用户注册表增加操作    -->
+			<data id="userInfoadd" name="企业管理用户增加" class="com.originsys.auth.action.UserInfoAdd"/>
+			<!--   用户注册表查看详细(更新操作用)    -->
+			<get id="userInfomodify" name="企业管理用户修改"  class="com.originsys.auth.action.UserInfoDetail">
+				<view id="userInfomodify" name="用户注册表修改" type="html">com/originsys/auth/view/userInfomodify.ftl</view>
+			</get>
+			<!--   用户注册表更新操作用    -->
+			<data id="userInfoupdate" name="企业管理用户修改保存" class="com.originsys.auth.action.UserInfoUpdate"/>
+			<!--   用户注册表删除操作    -->
+			<data id="userInfodelete" name="企业管理用户删除" class="com.originsys.auth.action.UserInfoDelete"/>
+			<!--  &&&&&&&&&&&&&&&&&&&&&&&&&&&&& 用户注册表&&&&&&&&&&&&&&&&&&&&&&&&&&&&&    结束     -->
+	
+			<!--   用户角色对应首页         -->
+			<get id="userRolelist" name="用户角色对应列表"  class="com.originsys.auth.action.PassParam">
+				<view id="userRolelist" name="用户角色对应列表" type="html">com/originsys/auth/view/userRolelist.ftl</view>
+			</get>
+			<!--   用户角色对应首页数据    -->
+			<get id="userRolelistdata" name="用户角色对应列表数据"  class="com.originsys.auth.action.UserRoleList">
+				<view id="userRolelistdata" name="用户角色对应列表数据" type="plain">com/originsys/auth/view/userRolelistdata.ftl</view>
+			</get>
+			<!--   用户角色对应增加操作    -->
+			<data id="userRoleadd" name="用户角色对应增加" class="com.originsys.auth.action.UserRoleAdd"/>
+			<!--   用户角色对应增加操作    -->
+			<data id="userRoleadd2" name="用户角色对应增加2" class="com.originsys.auth.action.UserRoleAdd2"/>
+			<!--   用户角色对应删除操作    -->
+			<data id="userRoledelete" name="用户角色对应删除" class="com.originsys.auth.action.UserRoleDelete"/>
+			<get id="userroledialog" name="企业管理选择角色窗口" class="com.originsys.auth.action.UserRoleDialog">
+				<view type="html">com/originsys/auth/view/userroledialog.ftl</view>
+			</get>
+			<get id="rolelistjson" name="企业管理角色列表数据" class="com.originsys.auth.action.UserRoleDialog">
+				<view type="plain">com/originsys/auth/view/rolelistjson.ftl</view>
+			</get>
+			<get id="rolelist" name="企业管理角色列表" class="">
+				<view type="html">com/originsys/auth/view/rolelist.ftl</view>
+			</get>
+		<get id="user.roledialog" class="com.originsys.auth.action.UserList" name="所有用户窗口"   template="dialog">
+			<view type="html">com/originsys/auth/view/userlistdialog1.ftl</view>		
+		</get>
+		<get id="admin.userlist" class="" name="系统管理员用户窗口">
+			<view type="html">com/originsys/auth/view/adminuserlist.ftl</view>		
+		</get>
+		<get id="admin.userlistjson" class="com.originsys.auth.action.AdminUserList" name="系统管理员用户窗口数据">
+			<view type="plain">com/originsys/auth/view/adminuserlistjson.ftl</view>		
+		</get>
+		<get id="admin.userInfoforadd" name="系统管理用户预增加"  class="">
+			<view id="userInfoforadd" name="系统管理用户预增加" type="html">com/originsys/auth/view/adminuserInfoforadd.ftl</view>
+		</get>
+		<data id="admin.userInfoadd" name="系统管理员用户增加" class="com.originsys.auth.action.AdminUserAdd"/>
+		<data id="admin.userInfodelete" name="系统管理员用户删除" class="com.originsys.auth.action.AdminUserDelete"/>
+		<data id="admin.userInfocheck" name="系统管理员用户审核" class="com.originsys.auth.action.AdminUserCheck"/>
+		<get id="forchangepass" name="修改密码" class="">
+			<view type="html">com/originsys/auth/view/forchangepassowrd.ftl</view>
+		</get>
+		<data id="changepass" name="修改密码保存" class="com.originsys.auth.action.ChangePassword" />
+		<get id="passwordforfind1" name="找回密码" class="">
+			<view type="html">com/originsys/auth/view/passwordforfind1.ftl</view>
+		</get>
+		<post id="passwordfind" name="找回密码保存" class="com.originsys.auth.action.PasswordFind" is-switch="true"/>
+		<get id="forresetpassword" name="重置密码" class="com.originsys.auth.action.PassParam">
+			<view type="html">com/originsys/auth/view/restpassword.ftl</view>
+		</get>
+		<post id="passwordreset" name="重置密码保存" class="com.originsys.auth.action.ResetPassword" is-switch="true" />
+		<data id="qyusercheck" name="企业管理员审核用户" class="com.originsys.auth.action.QYCheckUser" />
+		<post name="用户注销" id="loginout" class="com.originsys.auth.action.LoginOut" is-switch="true" />
+		<get id="person.userinfo" name="个人信息用户基本信息" class="com.originsys.auth.action.PersonUserBasicInfo">
+			<view type="html">com/originsys/auth/view/personuserbasicinfo.ftl</view>
+		</get>
+		<get id="person.passsecurity" name="个人信息密码安全" class="com.originsys.auth.action.PersonUserPassSecurity">
+			<view type="html">com/originsys/auth/view/personpasssecurity.ftl</view>
+		</get>
+		<data id="person.passsecuritysave" name="个人信息密码安全保存" class="com.originsys.auth.action.PersonUserPassSecuritySave" />
+		<get id="person.orgcomlist" name="个人信息我的组织列表" class="com.originsys.auth.action.PersonUserOrgcomList">
+			<view type="html">com/originsys/auth/view/personorgcomlist.ftl</view>
+		</get>
+		<get id="person.rolelist" name="个人信息我的角色列表" class="com.originsys.auth.action.PersonRoleList">
+			<view type="html">com/originsys/auth/view/personrolelist.ftl</view>
+		</get>
+		<get id="forotpsync" name="动态密码同步" class="">
+			<view type="html">com/originsys/auth/view/otpverifysync.ftl</view>
+		</get>
+		<data id="otpsync" name="动态密码同步保存" class="com.originsys.auth.action.OTPSync" /> 
+		<get id="forimportotp" name="动态口令导入" class="">
+			<view type="html">com/originsys/auth/view/importotp.ftl</view>
+		</get>
+		<data id="importotp" name="动态口令导入保存" class="com.originsys.auth.action.ImportOtp" />
+		<data id="resetpass" name="管理员重置用户登录密码" class="com.originsys.auth.action.Reset_Pass" />
+		<get id="forchangeorganpass" name="修改单位登录密码" class="">
+			<view type="html">com/originsys/auth/view/forchangeorganpassowrd.ftl</view>
+		</get>
+		<data id="changeorganpass" name="修改单位登录密码保存" class="com.originsys.auth.action.ChangeOrganPassword" />
+		<data id="resetorganpass" name="管理员重置单位登录密码" class="com.originsys.auth.action.ResetOrganPass" />
+		<get id="orgcomworkerlist" name="单位工作人员列表" class="">
+			<view type="html">com/originsys/auth/view/orgcomworkerlist.ftl</view>
+		</get>
+		<get id="orgcomworkerlistdata" name="单位工作人员列表数据" class="com.originsys.auth.action.OrgcomWorkerList">
+			<view type="plain">com/originsys/auth/view/orgcomworkerlistdata.ftl</view>
+		</get>
+		<data name="增加工作人员" class="com.originsys.auth.action.WorkerAdd" id="addWorker"/>
+		<data name="重置工作人员密码" class="com.originsys.auth.action.WorkerResetPass" id="workerresetpass"/>
+		<get id="workerexport" name="工作人员导出" class="com.originsys.auth.action.WorkerExport">
+			<view type="plain">com/originsys/auth/view/orgcomworkerexport.ftl</view>
+			<view type="excel" id="excel" name="导出Excel">com/originsys/auth/view/orgcomworkerexport.ftl</view>
+		</get>
+		<get id="forfindname" name="找回登录名" class="">
+			<view type="html">com/originsys/auth/view/forfindmemname.ftl</view>
+		</get>
+		<data id="findname" name="找回登录名1" class="com.originsys.auth.action.FindMemName" />
+		<get id="orgreginfo" name="单位注册须知" class="">
+			<view type="html">com/originsys/auth/view/orgreginfo.ftl</view>
+		</get>
+		<get id="user.rolelist" class="com.originsys.manager.memberrole.ForRoleListByMemId" name="用户对应角色列表">
+			<view type="html">com/originsys/auth/view/rolelistbymemid.ftl</view>		
+		</get>
+		<data id="memberrole.insert" class="com.originsys.auth.action.MemberRoleInsert" name="角色用户对应增加" />
+		<data id="memberrole.delete" class="com.originsys.auth.action.MemberRoleDelete" name="角色用户对应删除" />
+		<data id="memberrole.changestate" class="com.originsys.auth.action.MemberRoleChangeState" name="角色用户对应状态修改" />
+		
+		<get id="eadmin.forupdate" name="企业管理员信息修改" class="com.originsys.auth.action.EadminPropertyDetail">
+			<view type="html">com/originsys/auth/view/eadminupdate.ftl</view>
+		</get>
+		<data id="eadmin.update" name="企业管理员信息修改保存" class="com.originsys.auth.action.EadminPropertyUpdate" />
+		<get id="eadmin.list" name="企业管理员列表" class="">
+			<view type="html">com/originsys/auth/view/eadminlist.ftl</view>
+		</get>
+		<get id="eadmin.listjson" name="企业管理员列表数据" class="com.originsys.auth.action.EadminPropertyList">
+			<view type="plain">com/originsys/auth/view/eadminlistjson.ftl</view>
+		</get>
+		<get id="eadmin.detail" name="企业管理员信息详细" class="com.originsys.auth.action.EadminPropertyDetail">
+			<view type="html">com/originsys/auth/view/eadmindetail.ftl</view>
+		</get>
+		
+		<get id="eadmin.plist" name="可管理企业列表" class="com.originsys.auth.action.EadminPropertyDetail">
+			<view type="html">com/originsys/auth/view/eadminplist.ftl</view>
+		</get>
+		
+		<get id="app.forinsert" name="应用注册" class="">
+			<view type="html">com/originsys/auth/view/appinsert.ftl</view>
+		</get>
+		<data id="app.insert" name="应用注册保存" class="com.originsys.auth.action.AppInsert" />
+		<get id="app.mylist" name="我的应用列表" class="com.originsys.auth.action.AppListMy">
+			<view type="html">com/originsys/auth/view/applistmy.ftl</view>
+		</get>
+		<get id="app.detail" name="应用详细" class="com.originsys.auth.action.AppDetail">
+			<view type="html">com/originsys/auth/view/appdetail.ftl</view>
+		</get>
+		<get id="app.managelist" name="应用管理列表" class="">
+			<view type="html">com/originsys/auth/view/applistmanage.ftl</view>
+		</get>
+		<get id="app.managelistjson" name="应用管理列表数据" class="com.originsys.auth.action.AppListManage">
+			<view type="plain">com/originsys/auth/view/applistjson.ftl</view>
+		</get>
+		<get id="app.forcheck" name="应用审核" class="com.originsys.auth.action.AppDetail">
+			<view type="html">com/originsys/auth/view/appcheck.ftl</view>
+		</get>
+		<data id="app.check" name="应用审核保存" class="com.originsys.auth.action.AppCheck" />
+	</actions>
+	
+	<user-types>
+		<user-type id="eadmin" name="企业管理员"
+		 setting-action="auth.eadmin.forupdate" 
+		 list-action="auth.eadmin.list" 
+		 show-action="auth.eadmin.detail">
+			<implement-class>com.originsys.auth.action.EadminUserTypeIm</implement-class>
+		</user-type>
+	</user-types>
+</component>

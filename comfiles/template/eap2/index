@@ -1,0 +1,79 @@
+ [#include "/WEB-INF/commonftl/include.html"]
+
+
+
+	
+	<title>网站</title>
+
+	<script type="text/javascript" src="../resource/mbtool/showads.js"></script>
+	<script type="text/javascript">showads();</script>
+</head>
+
+<body bgcolor="#fff9e6" background="" style="margin:0px;repeat-x;background:url(../resource/images/dabj.jpg);background-repeat:repeat-x;">
+
+			<div style="">
+
+<table style="TABLE-LAYOUT: fixed" bgcolor="#ffffff" cellpadding="0" cellspacing="0" align="center" width="999">
+	<col width="229"/>
+	<col width="363"/>
+	<col/>
+	<col width="215"/>
+	<tbody>													
+	<tr>																										
+		<td colspan="4" style="PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px" valign="top">																						
+				
+		</td>													
+	</tr>													
+	<tr>																										
+		<td valign="top">																										
+		</td>																										
+		<td colspan="2" style="PADDING-LEFT: 12px; PADDING-RIGHT: 4px" valign="top">																						
+		</td>																										
+		<td style="PADDING-LEFT: 12px; PADDING-RIGHT: 4px" valign="top">																										
+		</td>													
+	</tr>													
+	<tr>																										
+		<td rowspan="3" style="PADDING-TOP: 12px" valign="top">				
+[@web.block params="" action_id="commonservice.login.loginblock" action_name="用户登录" block_id="" component_id="commonservice" block_name="系统公共服务" site_id="eap2" component_name="系统公共服务"/]																						
+		</td>																										
+		<td colspan="3" style="PADDING-LEFT: 12px; PADDING-RIGHT: 4px" valign="top">												
+														
+		</td>													
+	</tr>													
+	<tr>																										
+		<td colspan="3" style="PADDING-LEFT: 12px; PADDING-RIGHT: 4px; PADDING-TOP: 12px" valign="top">																						
+			
+		</td>													
+	</tr>													
+	<tr>																										
+		<td colspan="3" valign="top">																										
+		</td>													
+	</tr>													
+	<tr>																										
+		<td colspan="4" valign="top">																						
+				
+		</td>													
+	</tr>													
+	<tr>																										
+		<td colspan="4" valign="top">																						
+			
+		</td>													
+	</tr>													
+	<tr>																										
+		<td valign="top">																										
+		</td>																										
+		<td valign="top">																										
+		</td>																										
+		<td valign="top">																										
+		</td>																										
+		<td valign="top">																										
+		</td>													
+	</tr>													
+	</tbody>
+</table>
+
+			</div>
+
+</body>
+
+</html>

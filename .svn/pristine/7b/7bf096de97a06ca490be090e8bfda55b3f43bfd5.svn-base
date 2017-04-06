@@ -1,0 +1,68 @@
+<style type="text/css">
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,blockquote,p
+{
+   padding:0; 
+	 margin:0;
+}
+li {
+    list-style:none;
+}
+a{
+	text-decoration:none;
+	color:#4b4344;
+}
+a:hover{ 
+	color:#4b4344;
+}
+img {
+    border:none;
+}
+.clear {
+    clear:both;
+}
+body{margin:0; padding:0; font-family:"宋体"; font-size:12px;}
+
+.left_nav{ width:203px; height:auto; background:#fff; border:#a9d2f4 1px solid; border-top:none;}
+
+.nav_zhzl{width:203px; padding-bottom:10px;}
+.nav_zhzl span{font:14px/28px "微软雅黑"; color:#333; padding-left:13px; display:block; width:190px; height:28px; background:url(${_share_file_url!''}/resource/images/nav_btbg.png) repeat-x; }
+.nav_zhzl li{background:url(${_share_file_url!''}/resource/images/nav_liabg.png) repeat-x; width:auto; line-height:31px; text-indent:44px;}
+.nav_zhzl li a{color:#333;}
+.nav_zhzl li a:hover{color:#FF3333;}
+
+</style>
+
+<body>
+<div class="left_nav">
+	<div class="nav_zhzl">
+	<span>账号</span>
+	<ul><li><a href="${_servlet_url!''}/auth.person.userinfo">基本资料</a></li>
+		<li><a href="${_servlet_url!''}/auth.person.passsecurity">密码安全</a></li>
+		<li><a href="${_servlet_url!''}/auth.forchangepass">修改密码</a></li>
+	</ul>
+	</div>
+	<div class="nav_zhzl">
+	<span>组织</span>
+	<ul><li><a href="${_servlet_url!''}/auth.person.orgcomlist">我的组织</a></li>
+		<li><a href="${_servlet_url!''}/auth.joinorgcom">加入组织</a></li>
+		[#if access.canDo(user,'auth.eadmin.plist')]
+		<li><a href="${_servlet_url!''}/auth.eadmin.plist?mem_id=${user.mem_id!''}">可管理企业</a></li>
+		[/#if]
+	</ul>
+	</div>
+	<div class="nav_zhzl">
+	<span>角色</span>
+	<ul><li><a href="${_servlet_url!''}/auth.person.rolelist">我的角色</a></li>
+		<!--li><a href="${_servlet_url!''}/commonservice.login.requestlist">申请角色</a></li-->
+	</ul>
+	</div>
+	[#if access.canDo(user,'auth.app.mylist')]
+	<div class="nav_zhzl">
+	<span>应用</span>
+	<ul><li><a href="${_servlet_url!''}/auth.app.mylist">我的应用</a></li>
+		<li><a href="${_servlet_url!''}/auth.app.forinsert">注册应用</a></li>		
+	</ul>
+	</div>
+	[/#if]
+</div>
+

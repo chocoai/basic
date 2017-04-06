@@ -1,0 +1,1894 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Safecheck">
+	<typeAlias alias="tSafeCensor" type="com.originsys.safemanage.domain.TSafeCensor"/>
+	<typeAlias alias="tSafeManager" type="com.originsys.safemanage.domain.TSafeManager"/>
+	<typeAlias alias="tSafeAssessors" type="com.originsys.safemanage.domain.TSafeAssessors"/>
+	<typeAlias alias="tInvmBase" type="com.originsys.safemanage.domain.TInvmBase"/>
+	<typeAlias alias="tInvmEnclosur" type="com.originsys.safemanage.domain.TInvmEnclosur"/>
+	<typeAlias alias="tInvmEquipment" type="com.originsys.safemanage.domain.TInvmEquipment"/>
+	<typeAlias alias="tInvmField" type="com.originsys.safemanage.domain.TInvmField"/>
+	<typeAlias alias="tInvmHistory" type="com.originsys.safemanage.domain.TInvmHistory"/>
+	<typeAlias alias="tInvmUponPole" type="com.originsys.safemanage.domain.TInvmUponPole"/>
+	<typeAlias alias="tInvmUponRoofbean" type="com.originsys.safemanage.domain.TInvmUponRoofbean"/>
+	<typeAlias alias="tInvmUponWall" type="com.originsys.safemanage.domain.TInvmUponWall"/>
+	<typeAlias alias="tBuilding" type="com.originsys.safemanage.domain.TBuilding"/>
+	<typeAlias alias="tBuildingCtrack" type="com.originsys.safemanage.domain.TBuildingCtrack"/>
+	<typeAlias alias="tBuildingSafe" type="com.originsys.safemanage.domain.TBuildingSafe"/>
+	<typeAlias alias="tBuildingSurvey" type="com.originsys.safemanage.domain.TBuildingSurvey"/>
+	<typeAlias alias="tHouse" type="com.originsys.safemanage.domain.THouse"/>
+	<typeAlias alias="tHouseCtrack" type="com.originsys.safemanage.domain.THouseCtrack"/>
+	<typeAlias alias="tHouseSafe" type="com.originsys.safemanage.domain.THouseSafe"/>
+	<typeAlias alias="tHdangerBuilding" type="com.originsys.safemanage.domain.THdangerBuilding"/>
+	<typeAlias alias="disasterWarn" type="com.originsys.safemanage.domain.DisasterWarn"/>
+	<typeAlias alias="tHSafeTheme" type="com.originsys.safemanage.domain.THouseSafeTheme"/>
+	<typeAlias alias="tBuildingRepair" type="com.originsys.safemanage.domain.TBuildingRepair"/>
+	<typeAlias alias="tBuildingAccident" type="com.originsys.safemanage.domain.TBuildingAccident"/>
+	<typeAlias alias="tBuildingProject" type="com.originsys.safemanage.domain.TBuildingProject"/>
+	<typeAlias alias="tBuildingUnit" type="com.originsys.safemanage.domain.TBuildingUnit"/>
+	
+	
+	<!-- 楼幢普查安全管理员管理区域 -->
+	<select id="getBuildingSafeManageRegion" parameterClass="java.lang.String" resultClass="java.lang.String">
+		select region from t_safe_manager where mem_id = #mem_id# 
+	</select>
+	
+	<!-- 楼幢普查安全管理员列表 -->
+	<select id="getBuildingSafeManageList1" parameterClass="java.lang.String" resultClass="tBuilding">
+		select t.building_id,t.building_address,t.builiding_region,t.real_type,t.use_desgin,t.building_date,
+				t.build_struct,ts.health_savegrade as health_grade_pc,t.dangerous_type_pc,ts.info_state,ts.info_id,
+				ts.add_date,ts.check_time,t.check_address       
+				from t_building t,t_building_safe ts  
+				where  t.building_id = ts.building_id  and  ts.info_state !='0'  and  t.building_id=#value# 
+		order by ts.check_time desc
+	</select>
+	<select id="getBuildingSafeManageList" parameterClass="java.util.Map" resultClass="tBuilding">
+		SELECT * FROM 
+		(
+			SELECT A.*, ROWNUM RN 
+			FROM (
+				select t.building_id,t.building_address,t.builiding_region,t.real_type,t.use_desgin,t.building_date,
+				t.build_struct,ts.health_savegrade as health_grade_pc,t.dangerous_type_pc,ts.info_state,ts.info_id,
+				ts.add_date,ts.check_time,t.check_address       
+				from t_building t,t_building_safe ts  
+				where  t.building_id = ts.building_id  and  ts.info_state !='0'  
+				<isNotNull property="tBuilding.building_address" prepend="and"> (t.building_address like '%$tBuilding.building_address$%' or t.check_address like '%$tBuilding.building_address$%')</isNotNull> 
+				<isNotNull property="tBuilding.builiding_region" prepend="and"> t.builiding_region = #tBuilding.builiding_region# </isNotNull> 
+				<isNotNull property="tBuilding.real_type" prepend="and"> t.real_type = #tBuilding.real_type# </isNotNull> 
+				<isNotNull property="tBuilding.use_desgin" prepend="and"> t.use_desgin = #tBuilding.use_desgin# </isNotNull> 
+				<isNotNull property="tBuilding.building_date" prepend="and"> t.building_date = #tBuilding.building_date# </isNotNull> 
+				<isNotNull property="tBuilding.build_struct" prepend="and"> t.build_struct = #tBuilding.build_struct# </isNotNull> 
+				<isNotNull property="tBuilding.health_grade_pc" prepend="and"> ts.health_savegrade = #tBuilding.health_grade_pc# </isNotNull> 
+				<isNotNull property="tBuilding.dangerous_type_pc" prepend="and"> t.dangerous_type_pc = #tBuilding.dangerous_type_pc# </isNotNull> 
+				<isNotNull property="tBuilding.info_state" prepend="and"> ts.info_state = #tBuilding.info_state# </isNotNull> 
+				<isNotEmpty prepend="order by " property="_sortname">
+					$_sortname$ $_sortorder$
+				</isNotEmpty>
+			) A 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#		 
+	</select>
+
+	<select id="getBuildingSafeManageListCount" parameterClass="tBuilding" resultClass="java.lang.Integer">
+		select count(t.building_id) from t_building t,t_building_safe ts   where  t.building_id = ts.building_id  and  ts.info_state !='0'  
+		<isNotNull property="building_address" prepend="and"> t.building_address like '%$building_address$%' </isNotNull> 
+		<isNotNull property="builiding_region" prepend="and"> t.builiding_region = #builiding_region# </isNotNull> 
+		<isNotNull property="real_type" prepend="and"> t.real_type = #real_type# </isNotNull> 
+		<isNotNull property="use_desgin" prepend="and"> t.use_desgin = #use_desgin# </isNotNull> 
+		<isNotNull property="building_date" prepend="and"> t.building_date = #building_date# </isNotNull> 
+		<isNotNull property="build_struct" prepend="and"> t.build_struct = #build_struct# </isNotNull> 
+		<isNotNull property="health_grade_pc" prepend="and"> ts.health_savegrade = #health_grade_pc# </isNotNull> 
+		<isNotNull property="dangerous_type_pc" prepend="and"> t.dangerous_type_pc = #dangerous_type_pc# </isNotNull> 
+		<isNotNull property="info_state" prepend="and"> ts.info_state = #info_state# </isNotNull> 
+	</select>
+	<!-- 楼幢普查安全检查员列表 -->
+	<select id="getBuildingEditList" parameterClass="java.util.Map" resultClass="tBuilding">
+		SELECT * FROM 
+		(
+			SELECT A.*, ROWNUM RN 
+			FROM (
+				select t.building_id,t.building_address,t.builiding_region,t.real_type,t.use_desgin,t.building_date,
+				t.build_struct,ts.health_savegrade as health_grade_pc,t.dangerous_type_pc,ts.info_state,ts.info_id,
+				ts.add_date,ts.check_time,t.check_address     
+				from t_building t,t_building_safe ts  
+				where  t.building_id = ts.building_id  and  ts.check_userid = #tBuilding.check_userid# 
+				<isNotNull property="tBuilding.building_address" prepend="and"> (t.building_address like '%$tBuilding.building_address$%' or t.check_address like '%$tBuilding.building_address$%') </isNotNull> 
+				<isNotNull property="tBuilding.builiding_region" prepend="and"> t.builiding_region = #tBuilding.builiding_region# </isNotNull> 
+				<isNotNull property="tBuilding.real_type" prepend="and"> t.real_type = #tBuilding.real_type# </isNotNull> 
+				<isNotNull property="tBuilding.use_desgin" prepend="and"> t.use_desgin = #tBuilding.use_desgin# </isNotNull> 
+				<isNotNull property="tBuilding.building_date" prepend="and"> t.building_date = #tBuilding.building_date# </isNotNull> 
+				<isNotNull property="tBuilding.build_struct" prepend="and"> t.build_struct = #tBuilding.build_struct# </isNotNull> 
+				<isNotNull property="tBuilding.health_grade_pc" prepend="and"> ts.health_savegrade = #tBuilding.health_grade_pc# </isNotNull> 
+				<isNotNull property="tBuilding.dangerous_type_pc" prepend="and"> t.dangerous_type_pc = #tBuilding.dangerous_type_pc# </isNotNull>
+				<isNotNull property="tBuilding.info_state" prepend="and"> ts.info_state = #tBuilding.info_state# </isNotNull>  
+				<isNotEmpty prepend="order by " property="_sortname">
+					$_sortname$ $_sortorder$
+				</isNotEmpty>
+			) A 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#		 
+	</select>
+	
+	<select id="getBuildingEditListCount" parameterClass="tBuilding" resultClass="java.lang.Integer">
+		select count(t.building_id) from t_building t,t_building_safe ts   where  t.building_id = ts.building_id  and  ts.check_userid = #check_userid#  
+		<isNotNull property="building_address" prepend="and"> t.building_address like '%$building_address$%' </isNotNull> 
+		<isNotNull property="builiding_region" prepend="and"> t.builiding_region = #builiding_region# </isNotNull> 
+		<isNotNull property="real_type" prepend="and"> t.real_type = #real_type# </isNotNull> 
+		<isNotNull property="use_desgin" prepend="and"> t.use_desgin = #use_desgin# </isNotNull> 
+		<isNotNull property="building_date" prepend="and"> t.building_date = #building_date# </isNotNull> 
+		<isNotNull property="build_struct" prepend="and"> t.build_struct = #build_struct# </isNotNull> 
+		<isNotNull property="health_grade_pc" prepend="and"> ts.health_savegrade = #health_grade_pc# </isNotNull> 
+		<isNotNull property="dangerous_type_pc" prepend="and"> t.dangerous_type_pc = #dangerous_type_pc# </isNotNull>
+		<isNotNull property="info_state" prepend="and"> ts.info_state = #info_state# </isNotNull>  
+	</select>
+	
+	<!-- 隐患房屋检查列表 -->
+	<select id="getBuildingCtrackList" parameterClass="java.util.Map" resultClass="tBuilding">
+		SELECT * FROM 
+		(
+			SELECT A.*, ROWNUM RN 
+			FROM (
+				select t.building_id,t.building_address,t.builiding_region,t.real_type,t.use_desgin,
+				t.building_date,t.build_struct,t.health_grade_pc,t.dangerous_type_pc,tc.info_state,tc.info_id   
+				from t_building t,t_building_ctrack tc  
+				where  t.building_id = tc.building_id and  t.health_grade_pc is not null  and  tc.check_userid = #tBuilding.check_userid# 
+				<isNotNull property="tBuilding.building_address" prepend="and"> t.building_address like '%$tBuilding.building_address$%' </isNotNull> 
+				<isNotNull property="tBuilding.builiding_region" prepend="and"> t.builiding_region = #tBuilding.builiding_region# </isNotNull> 
+				<isNotNull property="tBuilding.real_type" prepend="and"> t.real_type = #tBuilding.real_type# </isNotNull> 
+				<isNotNull property="tBuilding.use_desgin" prepend="and"> t.use_desgin = #tBuilding.use_desgin# </isNotNull> 
+				<isNotNull property="tBuilding.building_date" prepend="and"> t.building_date = #tBuilding.building_date# </isNotNull> 
+				<isNotNull property="tBuilding.build_struct" prepend="and"> t.build_struct = #tBuilding.build_struct# </isNotNull> 
+				<isNotNull property="tBuilding.health_grade_pc" prepend="and"> t.health_grade_pc = #tBuilding.health_grade_pc# </isNotNull> 
+				<isNotNull property="tBuilding.dangerous_type_pc" prepend="and"> t.dangerous_type_pc = #tBuilding.dangerous_type_pc# </isNotNull> 
+				<isNotEmpty prepend="order by " property="_sortname">
+					$_sortname$ $_sortorder$
+				</isNotEmpty>
+			) A 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#		 
+	</select>
+	
+	<select id="getBuildingCtrackListCount" parameterClass="tBuilding" resultClass="java.lang.Integer">
+		select count(t.building_id) from t_building t,t_building_ctrack tc where  t.building_id = tc.building_id  and  t.health_grade_pc is not null  and tc.check_userid = #check_userid#  
+		<isNotNull property="building_address" prepend="and"> t.building_address like '%$building_address$%' </isNotNull> 
+		<isNotNull property="builiding_region" prepend="and"> t.builiding_region = #builiding_region# </isNotNull> 
+		<isNotNull property="real_type" prepend="and"> t.real_type = #real_type# </isNotNull> 
+		<isNotNull property="use_desgin" prepend="and"> t.use_desgin = #use_desgin# </isNotNull> 
+		<isNotNull property="building_date" prepend="and"> t.building_date = #building_date# </isNotNull> 
+		<isNotNull property="build_struct" prepend="and"> t.build_struct = #build_struct# </isNotNull> 
+		<isNotNull property="health_grade_pc" prepend="and"> t.health_grade_pc = #health_grade_pc# </isNotNull> 
+		<isNotNull property="dangerous_type_pc" prepend="and"> t.dangerous_type_pc = #dangerous_type_pc# </isNotNull> 
+	</select>
+	
+	<!--   楼幢基本信息(tBuilding)根据主键返回单条记录    -->
+	<select id="getTBuilding" parameterClass="java.lang.String"  resultClass="tBuilding">
+		select * from t_building where building_id=#value#
+	</select>
+	<!--   楼幢月检结果表(tBuildingSafe)根据主键返回单条记录    -->
+	<select id="getTBuildingSafe" parameterClass="java.lang.String"  resultClass="tBuildingSafe">
+		select * from t_building_safe where info_id=#value#
+	</select>
+	
+	<!--   隐患房屋跟踪表(tBuildingCtrack)根据主键返回单条记录    -->
+	<select id="getTBuildingCtrack" parameterClass="java.lang.String"  resultClass="tBuildingCtrack">
+		select * from t_building_ctrack where info_id=#value#
+	</select>
+	
+	<!--   地基基础(tInvmBase)根据主键返回单条记录    -->
+	<select id="getTInvmBase" parameterClass="java.lang.String"  resultClass="tInvmBase">
+		select * from t_invm_base where info_id=#value#
+	</select>
+	
+	<!--   现场调查场地环境(tInvmField)根据主键返回单条记录    -->
+	<select id="getTInvmField" parameterClass="java.lang.String"  resultClass="tInvmField">
+		select * from t_invm_field where info_id=#value#
+	</select>
+	
+	<!--   楼幢普查信息(tBuildingSurvey)根据主键返回单条记录    -->
+	<select id="getTBuildingSurvey" parameterClass="java.lang.String"  resultClass="tBuildingSurvey">
+		select * from t_building_survey where survey_id=#value#
+	</select>
+	
+	<select id="getSafeCount" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(*) from t_building_safe where building_id=#value#
+	</select>
+	
+	<select id="getHealthGradePc" parameterClass="java.lang.String"  resultClass="java.util.HashMap">
+		select count(building_id) as COUNT,health_grade_pc as GRADE from t_building where health_grade_pc is not null 
+		<isNotNull property="value" prepend="and"> builiding_region = #value# </isNotNull> 
+		group by health_grade_pc order by health_grade_pc  
+	</select>
+	
+	<select id="getHealthGradeJd" parameterClass="java.lang.String"  resultClass="java.util.HashMap">
+		select count(building_id) as COUNT,health_grade_jd as GRADE from t_building where health_grade_jd is not null 
+		<isNotNull property="value" prepend="and"> builiding_region = #value# </isNotNull> 
+		group by health_grade_jd order by health_grade_jd  
+	</select>
+	
+	<!-- pop列表 -->
+	<select id="getBuildingSafePopList" parameterClass="java.util.Map" resultClass="tBuilding">
+		SELECT * FROM 
+		(
+			SELECT A.*, ROWNUM RN 
+			FROM (
+				select t.building_id,t.building_address,t.builiding_region,t.real_type,t.use_desgin,
+				t.building_date,t.build_struct,t.health_grade_pc,t.dangerous_type_pc,t.health_grade_jd   
+				from t_building t  where  1=1  
+				<isNotNull property="tBuilding.building_address" prepend="and"> t.building_address like '%$tBuilding.building_address$%' </isNotNull> 
+				<isNotNull property="tBuilding.builiding_region" prepend="and"> t.builiding_region = #tBuilding.builiding_region# </isNotNull> 
+				<isNotNull property="tBuilding.real_type" prepend="and"> t.real_type = #tBuilding.real_type# </isNotNull> 
+				<isNotNull property="tBuilding.use_desgin" prepend="and"> t.use_desgin = #tBuilding.use_desgin# </isNotNull> 
+				<isNotNull property="tBuilding.building_date" prepend="and"> t.building_date = #tBuilding.building_date# </isNotNull> 
+				<isNotNull property="tBuilding.build_struct" prepend="and"> t.build_struct = #tBuilding.build_struct# </isNotNull> 
+				<isNotNull property="tBuilding.health_grade_pc" prepend="and"> t.health_grade_pc = #tBuilding.health_grade_pc# </isNotNull> 
+				<isNotNull property="tBuilding.health_grade_jd" prepend="and"> t.health_grade_jd = #tBuilding.health_grade_jd# </isNotNull> 
+				<isNotEmpty prepend="order by " property="_sortname">
+					$_sortname$ $_sortorder$
+				</isNotEmpty>
+			) A 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#		 
+	</select>
+
+	<select id="getBuildingSafePopListCount" parameterClass="tBuilding" resultClass="java.lang.Integer">
+		select count(t.building_id) from t_building t   where  1=1   
+		<isNotNull property="building_address" prepend="and"> t.building_address like '%$building_address$%' </isNotNull> 
+		<isNotNull property="builiding_region" prepend="and"> t.builiding_region = #builiding_region# </isNotNull> 
+		<isNotNull property="real_type" prepend="and"> t.real_type = #real_type# </isNotNull> 
+		<isNotNull property="use_desgin" prepend="and"> t.use_desgin = #use_desgin# </isNotNull> 
+		<isNotNull property="building_date" prepend="and"> t.building_date = #building_date# </isNotNull> 
+		<isNotNull property="build_struct" prepend="and"> t.build_struct = #build_struct# </isNotNull> 
+		<isNotNull property="health_grade_pc" prepend="and"> t.health_grade_pc = #health_grade_pc# </isNotNull> 
+		<isNotNull property="health_grade_jd" prepend="and"> t.health_grade_jd = #health_grade_jd# </isNotNull> 
+	</select>
+	
+	<!-- pop列表(普查) -->
+	<select id="getPcBuildingSafePopList" parameterClass="java.util.Map" resultClass="tBuilding">
+		SELECT * FROM 
+		(
+			SELECT A.*, ROWNUM RN 
+			FROM (
+				select building_id,building_address,builiding_region,real_type,use_desgin,
+				building_date,build_struct,health_grade_pc,dangerous_type_pc,health_grade_jd,check_address     
+				from t_building  where   health_grade_pc is not null and health_grade_pc !='1'       
+				<isNotNull property="tBuilding.building_address" prepend="and"> (building_address like '%$tBuilding.building_address$%' or check_address like '%$tBuilding.building_address$%') </isNotNull> 
+				<isNotNull property="tBuilding.builiding_region" prepend="and"> builiding_region = #tBuilding.builiding_region# </isNotNull> 
+				<isNotNull property="tBuilding.real_type" prepend="and"> real_type = #tBuilding.real_type# </isNotNull> 
+				<isNotNull property="tBuilding.use_desgin" prepend="and"> use_desgin = #tBuilding.use_desgin# </isNotNull> 
+				<isNotNull property="tBuilding.building_date" prepend="and"> building_date = #tBuilding.building_date# </isNotNull> 
+				<isNotNull property="tBuilding.build_struct" prepend="and"> build_struct = #tBuilding.build_struct# </isNotNull> 
+				<isNotNull property="tBuilding.health_grade_pc" prepend="and"> health_grade_pc = #tBuilding.health_grade_pc# </isNotNull> 
+				<isNotNull property="tBuilding.health_grade_jd" prepend="and"> health_grade_jd = #tBuilding.health_grade_jd# </isNotNull> 
+				<isNotEmpty prepend="order by " property="_sortname">
+					$_sortname$ $_sortorder$
+				</isNotEmpty>
+			) A 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#		 
+	</select>
+
+	<select id="getPcBuildingSafePopListCount" parameterClass="tBuilding" resultClass="java.lang.Integer">
+		select count(building_id) from t_building  where  health_grade_pc is not null and health_grade_pc !='1'     
+		<isNotNull property="building_address" prepend="and"> (building_address like '%$building_address$%' or check_address like '%$building_address$%') </isNotNull> 
+		<isNotNull property="builiding_region" prepend="and"> builiding_region = #builiding_region# </isNotNull> 
+		<isNotNull property="real_type" prepend="and"> real_type = #real_type# </isNotNull> 
+		<isNotNull property="use_desgin" prepend="and"> use_desgin = #use_desgin# </isNotNull> 
+		<isNotNull property="building_date" prepend="and"> building_date = #building_date# </isNotNull> 
+		<isNotNull property="build_struct" prepend="and"> build_struct = #build_struct# </isNotNull> 
+		<isNotNull property="health_grade_pc" prepend="and"> health_grade_pc = #health_grade_pc# </isNotNull> 
+		<isNotNull property="health_grade_jd" prepend="and"> health_grade_jd = #health_grade_jd# </isNotNull> 
+	</select>
+	<!-- pop列表(鉴定) -->
+	<select id="getJdBuildingSafePopList" parameterClass="java.util.Map" resultClass="tBuilding">
+		SELECT * FROM 
+		(
+			SELECT A.*, ROWNUM RN 
+			FROM (
+				select tb.building_id,tb.building_address,tb.builiding_region,tb.real_type,tb.use_desgin,
+				tb.building_date,tb.build_struct,tb.health_grade_pc,tb.dangerous_type_pc,tb.health_grade_jd,tar.building_address as check_address       
+				from t_building tb,t_appraisal_report tar  
+				where tb.jdinfo_id=tar.jdinfo_id and  tb. health_grade_jd is not null and tb.health_grade_jd !='1'     
+				<isNotNull property="tBuilding.building_address" prepend="and"> (tb.building_address like '%$tBuilding.building_address$%' or tar.building_address like '%$tBuilding.building_address$%') </isNotNull> 
+				<isNotNull property="tBuilding.builiding_region" prepend="and"> tb.builiding_region = #tBuilding.builiding_region# </isNotNull> 
+				<isNotNull property="tBuilding.real_type" prepend="and"> tb.real_type = #tBuilding.real_type# </isNotNull> 
+				<isNotNull property="tBuilding.use_desgin" prepend="and"> tb.use_desgin = #tBuilding.use_desgin# </isNotNull> 
+				<isNotNull property="tBuilding.building_date" prepend="and"> tb.building_date = #tBuilding.building_date# </isNotNull> 
+				<isNotNull property="tBuilding.build_struct" prepend="and"> tb.build_struct = #tBuilding.build_struct# </isNotNull> 
+				<isNotNull property="tBuilding.health_grade_pc" prepend="and"> tb.health_grade_pc = #tBuilding.health_grade_pc# </isNotNull> 
+				<isNotNull property="tBuilding.health_grade_jd" prepend="and"> tb.health_grade_jd = #tBuilding.health_grade_jd# </isNotNull> 
+				<isNotEmpty prepend="order by " property="_sortname">
+					$_sortname$ $_sortorder$
+				</isNotEmpty>
+			) A 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#		 
+	</select>
+
+	<select id="getJdBuildingSafePopListCount" parameterClass="tBuilding" resultClass="java.lang.Integer">
+		select count(tb.building_id) from t_building tb,t_appraisal_report tar  
+		where tb.jdinfo_id=tar.jdinfo_id and  tb.health_grade_jd is not null and tb.health_grade_jd !='1' 
+		<isNotNull property="building_address" prepend="and"> (tb.building_address like '%$building_address$%' or tar.building_address like '%$building_address$%') </isNotNull> 
+		<isNotNull property="builiding_region" prepend="and"> tb.builiding_region = #builiding_region# </isNotNull> 
+		<isNotNull property="real_type" prepend="and"> tb.real_type = #real_type# </isNotNull> 
+		<isNotNull property="use_desgin" prepend="and"> tb.use_desgin = #use_desgin# </isNotNull> 
+		<isNotNull property="building_date" prepend="and"> tb.building_date = #building_date# </isNotNull> 
+		<isNotNull property="build_struct" prepend="and"> tb.build_struct = #build_struct# </isNotNull> 
+		<isNotNull property="health_grade_pc" prepend="and"> tb.health_grade_pc = #health_grade_pc# </isNotNull> 
+		<isNotNull property="health_grade_jd" prepend="and"> tb.health_grade_jd = #health_grade_jd# </isNotNull> 
+	</select>
+	
+	<insert id="addTInvmBase" parameterClass="tInvmBase">
+		insert into t_invm_base (info_id,building_id,benormal,sedi_crack,obv_incline,low_water,elseitem,b_grading,b_secritygrading,b_tdesc,b_peotected_grage) 
+		values (#info_id#,#building_id#,#benormal#,#sedi_crack#,#obv_incline#,#low_water#,#elseitem#,#b_grading#,
+		#b_secritygrading#,#b_tdesc#,#b_peotected_grage#)  
+	</insert>
+	
+	<!--   地基基础(tInvmBase)修改记录    -->
+	<update id="updateTInvmBase"  parameterClass="tInvmBase">
+		update t_invm_base 
+		<dynamic  prepend="set">
+				<isNotNull prepend=","  property="benormal"> benormal=#benormal# </isNotNull>
+				<isNotNull prepend=","  property="sedi_crack"> sedi_crack=#sedi_crack# </isNotNull>
+				<isNotNull prepend=","  property="obv_incline"> obv_incline=#obv_incline# </isNotNull>
+				<isNotNull prepend=","  property="low_water"> low_water=#low_water# </isNotNull>
+				<isNotNull prepend=","  property="elseitem"> elseitem=#elseitem# </isNotNull>
+				<isNotNull prepend=","  property="b_grading"> b_grading=#b_grading# </isNotNull>
+				<isNotNull prepend=","  property="b_secritygrading"> b_secritygrading=#b_secritygrading# </isNotNull>
+				<isNotNull prepend=","  property="b_tdesc"> b_tdesc=#b_tdesc# </isNotNull>
+				<isNotNull prepend=","  property="b_peotected_grage"> b_peotected_grage=#b_peotected_grage# </isNotNull>
+				<isNotNull prepend=","  property="building_id"> building_id=#building_id# </isNotNull>
+		</dynamic>
+		where info_id=#info_id#
+	</update>
+	
+	<insert id="addTInvmField" parameterClass="tInvmField">
+		insert into t_invm_field (info_id,building_id,field_flat,field_hillfoot,field_cliff,field_margin,field_low,
+		field_sink,field_earthtype,neighbor_normal,neighbor_shook,neighbor_rain,neighbor_interfere,chemic_normal,
+		chemic_hcl,chemic_h2so4,chemic_seewater,chemic_else,field_grading,field_tdesc) 
+		values (#info_id#,#building_id#,#field_flat#,#field_hillfoot#,#field_cliff#,#field_margin#,#field_low#,
+		#field_sink#,#field_earthtype#,#neighbor_normal#,#neighbor_shook#,#neighbor_rain#,#neighbor_interfere#,
+		#chemic_normal#,#chemic_hcl#,#chemic_h2so4#,#chemic_seewater#,#chemic_else#,#field_grading#,#field_tdesc#)   
+	</insert>
+	
+	<!--   现场调查场地环境(tInvmField)修改记录    -->
+	<update id="updateTInvmField"  parameterClass="tInvmField">
+		update t_invm_field 
+		<dynamic  prepend="set">
+				<isNotNull prepend=","  property="field_flat"> field_flat=#field_flat# </isNotNull>
+				<isNotNull prepend=","  property="field_hillfoot"> field_hillfoot=#field_hillfoot# </isNotNull>
+				<isNotNull prepend=","  property="field_cliff"> field_cliff=#field_cliff# </isNotNull>
+				<isNotNull prepend=","  property="field_margin"> field_margin=#field_margin# </isNotNull>
+				<isNotNull prepend=","  property="field_low"> field_low=#field_low# </isNotNull>
+				<isNotNull prepend=","  property="field_sink"> field_sink=#field_sink# </isNotNull>
+				<isNotNull prepend=","  property="field_earthtype"> field_earthtype=#field_earthtype# </isNotNull>
+				<isNotNull prepend=","  property="neighbor_normal"> neighbor_normal=#neighbor_normal# </isNotNull>
+				<isNotNull prepend=","  property="neighbor_shook"> neighbor_shook=#neighbor_shook# </isNotNull>
+				<isNotNull prepend=","  property="neighbor_rain"> neighbor_rain=#neighbor_rain# </isNotNull>
+				<isNotNull prepend=","  property="neighbor_interfere"> neighbor_interfere=#neighbor_interfere# </isNotNull>
+				<isNotNull prepend=","  property="chemic_normal"> chemic_normal=#chemic_normal# </isNotNull>
+				<isNotNull prepend=","  property="chemic_hcl"> chemic_hcl=#chemic_hcl# </isNotNull>
+				<isNotNull prepend=","  property="chemic_h2so4"> chemic_h2so4=#chemic_h2so4# </isNotNull>
+				<isNotNull prepend=","  property="chemic_seewater"> chemic_seewater=#chemic_seewater# </isNotNull>
+				<isNotNull prepend=","  property="chemic_else"> chemic_else=#chemic_else# </isNotNull>
+				<isNotNull prepend=","  property="field_grading"> field_grading=#field_grading# </isNotNull>
+				<isNotNull prepend=","  property="field_tdesc"> field_tdesc=#field_tdesc# </isNotNull>
+				<isNotNull prepend=","  property="building_id"> building_id=#building_id# </isNotNull>
+		</dynamic>
+		where info_id=#info_id#
+	</update>
+	
+	<insert id="addTBuildingSafe" parameterClass="tBuildingSafe">
+		insert into t_building_safe (info_id,building_id,dt_tdesc,struct_desc,bz_desc,dere_desc,check_time,check_user,
+		check_userid,info_state,verify_userid,verify_time,verify_comment,structure_grade,used_grade,kz_grade,
+		fl_grade,xf_grade,other_grade,all_grade,health_savegrade,clresult,health_gradetdesc,lose_grade,
+		check_type,pc_num,usefunction,wq_type,annex,annex_pic,add_date,build_area,building_region) 
+		values (#info_id#,#building_id#,#dt_tdesc#,#struct_desc#,#bz_desc#,#dere_desc#,#check_time#,#check_user#,
+		#check_userid#,#info_state#,#verify_userid#,#verify_time#,#verify_comment#,#structure_grade#,
+		#used_grade#,#kz_grade#,#fl_grade#,#xf_grade#,#other_grade#,#all_grade#,#health_savegrade#,#clresult#,
+		#health_gradetdesc#,#lose_grade#,#check_type#,#pc_num#,#usefunction#,#wq_type#,#annex#,
+		#annex_pic#,#add_date#,#build_area#,#building_region#)    
+	</insert>
+	
+	<!--   楼幢月检结果表(tBuildingSafe)修改记录    -->
+	<update id="updateTBuildingSafe"  parameterClass="tBuildingSafe">
+		update t_building_safe 
+		<dynamic  prepend="set">
+				<isNotNull prepend=","  property="dt_tdesc"> dt_tdesc=#dt_tdesc# </isNotNull>
+				<isNotNull prepend=","  property="struct_desc"> struct_desc=#struct_desc# </isNotNull>
+				<isNotNull prepend=","  property="bz_desc"> bz_desc=#bz_desc# </isNotNull>
+				<isNotNull prepend=","  property="dere_desc"> dere_desc=#dere_desc# </isNotNull>
+				<isNotNull prepend=","  property="check_time"> check_time=#check_time# </isNotNull>
+				<isNotNull prepend=","  property="check_user"> check_user=#check_user# </isNotNull>
+				<isNotNull prepend=","  property="check_userid"> check_userid=#check_userid# </isNotNull>
+				<isNotNull prepend=","  property="info_state"> info_state=#info_state# </isNotNull>
+				<isNotNull prepend=","  property="verify_userid"> verify_userid=#verify_userid# </isNotNull>
+				<isNotNull prepend=","  property="verify_time"> verify_time=#verify_time# </isNotNull>
+				<isNotNull prepend=","  property="verify_comment"> verify_comment=#verify_comment# </isNotNull>
+				<isNotNull prepend=","  property="structure_grade"> structure_grade=#structure_grade# </isNotNull>
+				<isNotNull prepend=","  property="used_grade"> used_grade=#used_grade# </isNotNull>
+				<isNotNull prepend=","  property="kz_grade"> kz_grade=#kz_grade# </isNotNull>
+				<isNotNull prepend=","  property="fl_grade"> fl_grade=#fl_grade# </isNotNull>
+				<isNotNull prepend=","  property="xf_grade"> xf_grade=#xf_grade# </isNotNull>
+				<isNotNull prepend=","  property="other_grade"> other_grade=#other_grade# </isNotNull>
+				<isNotNull prepend=","  property="all_grade"> all_grade=#all_grade# </isNotNull>
+				<isNotNull prepend=","  property="health_savegrade"> health_savegrade=#health_savegrade# </isNotNull>
+				<isNotNull prepend=","  property="clresult"> clresult=#clresult# </isNotNull>
+				<isNotNull prepend=","  property="health_gradetdesc"> health_gradetdesc=#health_gradetdesc# </isNotNull>
+				<isNotNull prepend=","  property="lose_grade"> lose_grade=#lose_grade# </isNotNull>
+				<isNotNull prepend=","  property="check_type"> check_type=#check_type# </isNotNull>
+				<isNotNull prepend=","  property="pc_num"> pc_num=#pc_num# </isNotNull>
+				<isNotNull prepend=","  property="usefunction"> usefunction=#usefunction# </isNotNull>
+				<isNotNull prepend=","  property="wq_type"> wq_type=#wq_type# </isNotNull>
+				<isNotNull prepend=","  property="annex"> annex=#annex# </isNotNull>
+				<isNotNull prepend=","  property="annex_pic"> annex_pic=#annex_pic# </isNotNull>
+				<isNotNull prepend=","  property="building_id"> building_id=#building_id# </isNotNull>
+				<isNotNull prepend=","  property="add_date"> add_date=#add_date# </isNotNull>
+				<isNotNull prepend=","  property="build_area"> build_area=#build_area# </isNotNull>
+				<isNotNull prepend=","  property="building_region"> building_region=#building_region# </isNotNull>
+		</dynamic>
+		where info_id=#info_id#
+	</update>
+	
+	<insert id="addTBuilding" parameterClass="tBuilding">
+		insert into t_building (building_id,building_address) values (#building_id#,#building_address#)  
+	</insert>
+	<!--   楼幢基本信息(tBuilding)修改记录    -->
+	<update id="updateTBuilding"  parameterClass="tBuilding">
+		update t_building 
+		<dynamic  prepend="set">
+				<isNotNull prepend=","  property="building_address"> building_address=#building_address# </isNotNull>
+				<isNotNull prepend=","  property="builiding_region"> builiding_region=#builiding_region# </isNotNull>
+				<isNotNull prepend=","  property="building_number"> building_number=#building_number# </isNotNull>
+				<isNotNull prepend=","  property="floor_count"> floor_count=#floor_count# </isNotNull>
+				<isNotNull prepend=","  property="house_count"> house_count=#house_count# </isNotNull>
+				<isNotNull prepend=","  property="floorup_count"> floorup_count=#floorup_count# </isNotNull>
+				<isNotNull prepend=","  property="floordown_count"> floordown_count=#floordown_count# </isNotNull>
+				<isNotNull prepend=","  property="build_area"> build_area=#build_area# </isNotNull>
+				<isNotNull prepend=","  property="real_type"> real_type=#real_type# </isNotNull>
+				<isNotNull prepend=","  property="use_desgin"> use_desgin=#use_desgin# </isNotNull>
+				<isNotNull prepend=","  property="building_date"> building_date=#building_date# </isNotNull>
+				<isNotNull prepend=","  property="build_struct"> build_struct=#build_struct# </isNotNull>
+				<isNotNull prepend=","  property="building_mapid"> building_mapid=#building_mapid# </isNotNull>
+				<isNotNull prepend=","  property="health_grade_pc"> health_grade_pc=#health_grade_pc# </isNotNull>
+				<isNotNull prepend=","  property="dangerous_type_pc"> dangerous_type_pc=#dangerous_type_pc# </isNotNull>
+				<isNotNull prepend=","  property="health_grade_jd"> health_grade_jd=#health_grade_jd# </isNotNull>
+				<isNotNull prepend=","  property="dangerous_type_jd"> dangerous_type_jd=#dangerous_type_jd# </isNotNull>
+				<isNotNull prepend=","  property="is_die"> is_die=#is_die# </isNotNull>
+				<isNotNull prepend=","  property="fw_type"> fw_type=#fw_type# </isNotNull>
+				<isNotNull prepend=","  property="usefunction"> usefunction=#usefunction# </isNotNull>
+				<isNotNull prepend=","  property="base_type"> base_type=#base_type# </isNotNull>
+				<isNotNull prepend=","  property="upon_type"> upon_type=#upon_type# </isNotNull>
+				<isNotNull prepend=","  property="wm_type"> wm_type=#wm_type# </isNotNull>
+				<isNotNull prepend=","  property="wairang_type"> wairang_type=#wairang_type# </isNotNull>
+				<isNotNull prepend=","  property="lt_number"> lt_number=#lt_number# </isNotNull>
+				<isNotNull prepend=","  property="lt_type"> lt_type=#lt_type# </isNotNull>
+				<isNotNull prepend=","  property="dt_number"> dt_number=#dt_number# </isNotNull>
+				<isNotNull prepend=","  property="wq_type"> wq_type=#wq_type# </isNotNull>
+				<isNotNull prepend=","  property="build_right"> build_right=#build_right# </isNotNull>
+				<isNotNull prepend=","  property="right_type"> right_type=#right_type# </isNotNull>
+				<isNotNull prepend=","  property="owner"> owner=#owner# </isNotNull>
+				<isNotNull prepend=","  property="heigth"> heigth=#heigth# </isNotNull>
+				<isNotNull prepend=","  property="depth"> depth=#depth# </isNotNull>
+				<isNotNull prepend=","  property="plane_shape"> plane_shape=#plane_shape# </isNotNull>
+				<isNotNull prepend=","  property="exposure"> exposure=#exposure# </isNotNull>
+				<isNotNull prepend=","  property="lm_shape"> lm_shape=#lm_shape# </isNotNull>
+				<isNotNull prepend=","  property="management_unit"> management_unit=#management_unit# </isNotNull>
+				<isNotNull prepend=","  property="floor_height"> floor_height=#floor_height# </isNotNull>
+				<isNotNull prepend=","  property="frozen_area"> frozen_area=#frozen_area# </isNotNull>
+				<isNotNull prepend=","  property="belong_street"> belong_street=#belong_street# </isNotNull>
+				<isNotNull prepend=","  property="belong_community"> belong_community=#belong_community# </isNotNull>
+				<isNotNull prepend=","  property="yt_type"> yt_type=#yt_type# </isNotNull>
+				<isNotNull prepend=","  property="notice_state"> notice_state=#notice_state# </isNotNull>
+				<isNotNull prepend=","  property="jdinfo_id"> jdinfo_id=#jdinfo_id# </isNotNull>
+				<isNotNull prepend=","  property="check_address"> check_address=#check_address# </isNotNull>
+				<isNotNull prepend=","  property="is_same"> is_same=#is_same# </isNotNull>				
+		</dynamic>
+		where building_id=#building_id#
+	</update>
+	
+	
+	
+			
+	<!--   安全检查员用户类型属性表(tSafeCensor)查询总记录数    -->
+	<select id="getTSafeCensorCount" parameterClass="tSafeCensor" resultClass="java.lang.Integer">
+		select count(b.mem_id)  from t_safe_censor b,yc_member a where a.mem_id=b.mem_id and b.region= #region#
+		<isNotEmpty prepend="and"  property="mem_name"> a.mem_name=#mem_name# </isNotEmpty>
+		<isNotEmpty prepend="and"  property="firstname"> a.fullname like '%$firstname$%' </isNotEmpty>
+	</select>
+	<!--   安全检查员用户类型属性表(tSafeCensor)分页查询返回列表     -->
+	<select id="getTSafeCensorList" parameterClass="java.util.Map" resultClass="tSafeCensor">
+		SELECT * FROM 
+		(
+			SELECT M.*, ROWNUM RN 
+			FROM (
+				select a.mem_id,a.mem_name,fullname,a.isenable,a.register_time,a.last_time,
+				b.manage_scope,b.work_years  from t_safe_censor b,yc_member a where a.mem_id=b.mem_id  and b.region= #tSafeCensor.region# 
+				<isNotEmpty prepend="and"  property="tSafeCensor.mem_name"> a.mem_name=#tSafeCensor.mem_name# </isNotEmpty>
+				<isNotEmpty prepend="and"  property="tSafeCensor.firstname"> a.fullname like '%$tSafeCensor.firstname$%' </isNotEmpty>
+				<isNotEmpty prepend="order by " property="_sortname">
+					$_sortname$ $_sortorder$
+				</isNotEmpty>
+			) M 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#		 
+	</select>
+	<!--   安全检查员用户类型属性表(tSafeCensor)根据主键返回单条记录    -->
+	<select id="getTSafeCensor" parameterClass="java.lang.String"  resultClass="tSafeCensor">
+		select  mem_id,manage_scope,certificate_number,certificate_date,certificate,professional_titles,
+		work_years,professional,region,manage_scope_name		
+		  from t_safe_censor where mem_id=#value#
+	</select>
+	
+	<insert id="addTSafeCensor" parameterClass="tSafeCensor">
+		insert into t_safe_censor 
+		(mem_id,manage_scope,certificate_number,certificate_date,certificate,
+		professional_titles,work_years,professional,region,manage_scope_name)
+		values (#mem_id#,#manage_scope:VARCHAR#,#certificate_number:VARCHAR#,
+		#certificate_date:DATE#,#certificate:VARCHAR#,#professional_titles:VARCHAR#,
+		#work_years:INTEGER#,#professional:VARCHAR#,#region:VARCHAR#,#manage_scope_name#)
+	</insert>
+	<!--   安全检查员用户类型属性表(tSafeCensor)修改记录    -->
+	<update id="updateTSafeCensor"  parameterClass="tSafeCensor">
+		update t_safe_censor 
+		<dynamic  prepend="set">
+				<isNotNull prepend=","  property="manage_scope"> manage_scope=#manage_scope# </isNotNull>
+				<isNotNull prepend=","  property="certificate_number"> certificate_number=#certificate_number# </isNotNull>
+				<isNotNull prepend=","  property="certificate_date"> certificate_date=#certificate_date# </isNotNull>
+				<isNotNull prepend=","  property="certificate"> certificate=#certificate# </isNotNull>
+				<isNotNull prepend=","  property="professional_titles"> professional_titles=#professional_titles# </isNotNull>
+				<isNotNull prepend=","  property="work_years"> work_years=#work_years# </isNotNull>
+				<isNotNull prepend=","  property="professional"> professional=#professional# </isNotNull>
+				<isNotNull prepend=","  property="region"> region=#region# </isNotNull>
+				<isNotNull prepend=","  property="manage_scope_name">manage_scope_name=#manage_scope_name#</isNotNull>
+		</dynamic>
+		where mem_id=#mem_id#
+	</update>		
+	<!--   安全检查员用户类型属性表(tSafeCensor)按主键删除记录    -->
+	<delete id="deleteTSafeCensor" parameterClass="java.lang.String">
+		delete from t_safe_censor where mem_id=#value#
+	</delete>
+	
+	<select id="getCountByMemid" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(*) from t_safe_censor where mem_id=#value#
+	</select>
+	<select id="getCountByMemid1" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(*) from t_safe_manager where mem_id=#value#
+	</select>
+	
+	<!--   安全管理员用户类型属性表(tSafeManager)根据主键返回单条记录    -->
+	<select id="getTSafeManager" parameterClass="java.lang.String"  resultClass="tSafeManager">
+		select mem_id,region  from t_safe_manager where mem_id=#value#
+	</select>
+	<!--   安全管理员用户类型属性表(tSafeManager)查询总记录数    -->
+	<select id="getTSafeManagerCount" parameterClass="tSafeManager" resultClass="java.lang.Integer">
+		select count(b.mem_id)  from t_safe_manager b,yc_member a where a.mem_id=b.mem_id 
+		<isNotEmpty prepend="and"  property="mem_name"> a.mem_name=#mem_name# </isNotEmpty>
+		<isNotEmpty prepend="and"  property="firstname"> a.fullname like '%$firstname$%' </isNotEmpty>
+	</select>
+	<!--   安全管理员用户类型属性表(tSafeManager)分页查询返回列表     -->
+	<select id="getTSafeManagerList" parameterClass="java.util.Map" resultClass="tSafeManager">
+		SELECT * FROM 
+		(
+			SELECT M.*, ROWNUM RN 
+			FROM (
+				select a.mem_id,a.mem_name,fullname,a.isenable,a.register_time,a.last_time,
+				b.region  from t_safe_manager b,yc_member a where a.mem_id=b.mem_id  
+				<isNotEmpty prepend="and"  property="tSafeManager.mem_name"> a.mem_name=#tSafeManager.mem_name# </isNotEmpty>
+				<isNotEmpty prepend="and"  property="tSafeManager.firstname"> a.fullname like '%$tSafeManager.firstname$%' </isNotEmpty>
+				<isNotEmpty prepend="order by " property="_sortname">
+					$_sortname$ $_sortorder$
+				</isNotEmpty>
+			) M 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#		 
+	</select>
+	<insert id="addTSafeManager" parameterClass="tSafeManager">
+		insert into t_safe_manager (mem_id,region) values (#mem_id#,#region:VARCHAR#)
+	</insert>
+	<!--   安全管理员用户类型属性表(tSafeManager)修改记录    -->
+	<update id="updateTSafeManager"  parameterClass="tSafeManager">
+		update t_safe_manager 
+		<dynamic  prepend="set">
+				<isNotNull prepend=","  property="region"> region=#region# </isNotNull>
+		</dynamic>
+		where mem_id=#mem_id#
+	</update>	
+	<delete id="deleteTSafeManager" parameterClass="java.lang.String">
+		delete from t_safe_manager where mem_id=#value#
+	</delete>	
+	
+	<!--   安全鉴定员用户类型属性表(tSafeAssessors)根据主键返回单条记录    -->
+	<select id="getTSafeAssessors" parameterClass="java.lang.String"  resultClass="tSafeAssessors">
+		select  mem_id,certificate_number,certificate_date,certificate,professional_titles,
+		work_years,professional,signature  from t_safe_assessors where mem_id=#value#
+	</select>
+	<!--   安全鉴定员用户类型属性表(tSafeAssessors)查询总记录数    -->
+	<select id="getTSafeAssessorsCount" parameterClass="tSafeAssessors" resultClass="java.lang.Integer">
+		select count(b.mem_id)  from t_safe_assessors b,yc_member a where a.mem_id=b.mem_id 
+		<isNotEmpty prepend="and"  property="mem_name"> a.mem_name=#mem_name# </isNotEmpty>
+		<isNotEmpty prepend="and"  property="firstname"> a.fullname like '%$firstname$%' </isNotEmpty>
+	</select>
+	<!--   安全鉴定员用户类型属性表(tSafeAssessors)分页查询返回列表     -->
+	<select id="getTSafeAssessorsList" parameterClass="java.util.Map" resultClass="tSafeAssessors">
+		SELECT * FROM 
+		(
+			SELECT M.*, ROWNUM RN 
+			FROM (
+				select a.mem_id,a.mem_name,fullname,a.isenable,a.register_time,a.last_time,
+				b.work_years  from t_safe_assessors b,yc_member a where a.mem_id=b.mem_id  
+				<isNotEmpty prepend="and"  property="tSafeAssessors.mem_name"> a.mem_name=#tSafeAssessors.mem_name# </isNotEmpty>
+				<isNotEmpty prepend="and"  property="tSafeAssessors.firstname"> a.fullname like '%$tSafeAssessors.firstname$%' </isNotEmpty>
+				<isNotEmpty prepend="order by " property="_sortname">
+					$_sortname$ $_sortorder$
+				</isNotEmpty>
+			) M 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#		 
+	</select>
+	<insert id="addTSafeAssessors" parameterClass="tSafeAssessors">
+		insert into t_safe_assessors 
+		(mem_id,certificate_number,certificate_date,certificate,
+		professional_titles,work_years,professional,signature)
+		values (#mem_id#,#certificate_number:VARCHAR#,#certificate_date:DATE#,#certificate:VARCHAR#,
+		#professional_titles:VARCHAR#,#work_years:INTEGER#,#professional:VARCHAR#,#signature:VARCHAR#)
+	</insert>
+	<!--   安全鉴定员用户类型属性表(tSafeAssessors)修改记录    -->
+	<update id="updateTSafeAssessors"  parameterClass="tSafeAssessors">
+		update t_safe_assessors 
+		<dynamic  prepend="set">
+				<isNotNull prepend=","  property="certificate_number"> certificate_number=#certificate_number# </isNotNull>
+				<isNotNull prepend=","  property="certificate_date"> certificate_date=#certificate_date# </isNotNull>
+				<isNotNull prepend=","  property="certificate"> certificate=#certificate# </isNotNull>
+				<isNotNull prepend=","  property="professional_titles"> professional_titles=#professional_titles# </isNotNull>
+				<isNotNull prepend=","  property="work_years"> work_years=#work_years# </isNotNull>
+				<isNotNull prepend=","  property="professional"> professional=#professional# </isNotNull>
+				<isNotNull prepend=","  property="signature"> signature=#signature# </isNotNull>
+		</dynamic>
+		where mem_id=#mem_id#
+	</update>	
+	<delete id="deleteTSafeAssessors" parameterClass="java.lang.String">
+		delete from t_safe_assessors where mem_id=#value#
+	</delete>		
+	<select id="getCountByMemid2" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(*) from t_safe_assessors where mem_id=#value#
+	</select>
+	
+	<!--   楼幢检查跟踪表(tBuildingCtrack)插入新记录    -->
+	<insert id="addTBuildingCtrack" parameterClass="tBuildingCtrack">
+		insert into t_building_ctrack 
+		(info_id,building_id,dt_tdesc,struct_desc,bz_desc,dere_desc,
+		check_time,check_user,check_userid,info_state,verify_userid,
+		verify_time,verify_comment,structure_grade,used_grade,kz_grade,
+		fl_grade,xf_grade,other_grade,all_grade,health_savegrade,clresult,
+		health_gradetdesc,lose_grade,usefunction,wq_type)
+		values (#info_id:VARCHAR#,#building_id:VARCHAR#,#dt_tdesc:VARCHAR#,#struct_desc:VARCHAR#,
+		#bz_desc:VARCHAR#,#dere_desc:VARCHAR#,#check_time:DATE#,#check_user:VARCHAR#,#check_userid:VARCHAR#,
+		#info_state:VARCHAR#,#verify_userid:VARCHAR#,#verify_time:DATE#,#verify_comment:VARCHAR#,
+		#structure_grade:VARCHAR#,#used_grade:VARCHAR#,#kz_grade:VARCHAR#,#fl_grade:VARCHAR#,#xf_grade:VARCHAR#,
+		#other_grade:VARCHAR#,#all_grade:VARCHAR#,#health_savegrade:VARCHAR#,#clresult:VARCHAR#,
+		#health_gradetdesc:VARCHAR#,#lose_grade:VARCHAR#,#usefunction:VARCHAR#,#wq_type:VARCHAR#)
+	</insert>
+	<!--   楼幢检查跟踪表(tBuildingCtrack)修改记录    -->
+	<update id="updateTBuildingCtrack"  parameterClass="tBuildingCtrack">
+		update t_building_ctrack 
+		<dynamic  prepend="set">
+				<isNotNull prepend=","  property="building_id"> building_id=#building_id# </isNotNull>
+				<isNotNull prepend=","  property="dt_tdesc"> dt_tdesc=#dt_tdesc# </isNotNull>
+				<isNotNull prepend=","  property="struct_desc"> struct_desc=#struct_desc# </isNotNull>
+				<isNotNull prepend=","  property="bz_desc"> bz_desc=#bz_desc# </isNotNull>
+				<isNotNull prepend=","  property="dere_desc"> dere_desc=#dere_desc# </isNotNull>
+				<isNotNull prepend=","  property="check_time"> check_time=#check_time# </isNotNull>
+				<isNotNull prepend=","  property="check_user"> check_user=#check_user# </isNotNull>
+				<isNotNull prepend=","  property="check_userid"> check_userid=#check_userid# </isNotNull>
+				<isNotNull prepend=","  property="info_state"> info_state=#info_state# </isNotNull>
+				<isNotNull prepend=","  property="verify_userid"> verify_userid=#verify_userid# </isNotNull>
+				<isNotNull prepend=","  property="verify_time"> verify_time=#verify_time# </isNotNull>
+				<isNotNull prepend=","  property="verify_comment"> verify_comment=#verify_comment# </isNotNull>
+				<isNotNull prepend=","  property="structure_grade"> structure_grade=#structure_grade# </isNotNull>
+				<isNotNull prepend=","  property="used_grade"> used_grade=#used_grade# </isNotNull>
+				<isNotNull prepend=","  property="kz_grade"> kz_grade=#kz_grade# </isNotNull>
+				<isNotNull prepend=","  property="fl_grade"> fl_grade=#fl_grade# </isNotNull>
+				<isNotNull prepend=","  property="xf_grade"> xf_grade=#xf_grade# </isNotNull>
+				<isNotNull prepend=","  property="other_grade"> other_grade=#other_grade# </isNotNull>
+				<isNotNull prepend=","  property="all_grade"> all_grade=#all_grade# </isNotNull>
+				<isNotNull prepend=","  property="health_savegrade"> health_savegrade=#health_savegrade# </isNotNull>
+				<isNotNull prepend=","  property="clresult"> clresult=#clresult# </isNotNull>
+				<isNotNull prepend=","  property="health_gradetdesc"> health_gradetdesc=#health_gradetdesc# </isNotNull>
+				<isNotNull prepend=","  property="lose_grade"> lose_grade=#lose_grade# </isNotNull>
+				<isNotNull prepend=","  property="usefunction"> usefunction=#usefunction# </isNotNull>
+				<isNotNull prepend=","  property="wq_type"> wq_type=#wq_type# </isNotNull>
+		</dynamic>
+		where info_id=#info_id#
+	</update>
+	
+	<!-- 删除楼幢检查结果 -->
+	<delete id="deleteTBuildingSafe" parameterClass="java.lang.String">
+		delete from t_building_safe where info_id=#value#
+	</delete>
+	<delete id="deleteTInvmBase" parameterClass="java.lang.String">
+		delete from t_invm_base where info_id=#value#
+	</delete>
+	<delete id="deleteTInvmField" parameterClass="java.lang.String">
+		delete from t_invm_field where info_id=#value#
+	</delete>
+	<!-- 删除隐患房屋跟踪信息 -->
+	<delete id="deleteTBuildingCtrack" parameterClass="java.lang.String">
+		delete from t_building_ctrack where info_id=#value#
+	</delete>
+	<!-- 删除楼幢普查结果 -->
+	<delete id="deleteTBuildingSurvey" parameterClass="java.lang.String">
+		delete from t_building_survey where survey_id=#value#
+	</delete>
+	
+	<select id="getSurveyCount" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(*) from t_building_survey where building_id=#value#
+	</select>
+	<select id="getTBuildingCount" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(*) from t_building where building_id=#value#
+	</select>
+	
+	<!-- 第一期楼幢普查新增 -->
+	<insert id="addTBuildingSurvey" parameterClass="tBuildingSurvey">
+		insert into t_building_survey 
+		(building_id,building_holder,building_manager_name,building_manager_phone,building_material, manage_type, 
+		build_dept, design_dept, building_properties, construct_dept, local_survey, building_safecondition,
+		manager_name,survey_name,survey_date,report_userid,info_state,building_address,build_area,floorup_count,
+		floordown_count,house_count,use_desgin,building_date,build_struct,upon_type,wm_type,annex,annex_pic,building_region,
+		building_newaddress,issame,last_editor)
+		values (#building_id:VARCHAR#,#building_holder:VARCHAR#,#building_manager_name:VARCHAR#,#building_manager_phone:VARCHAR#,
+		#building_material:VARCHAR#,#manage_type:VARCHAR#,#build_dept:VARCHAR#,#design_dept:VARCHAR#,
+		#building_properties:VARCHAR#,#construct_dept:VARCHAR#,#local_survey:DATE#,#building_safecondition:VARCHAR#,
+		#manager_name:VARCHAR#,#survey_name:VARCHAR#,#survey_date:DATE#,#report_userid:VARCHAR#,#info_state:VARCHAR#,
+		#building_address#,#build_area#,#floorup_count#,#floordown_count#,#house_count#,
+		#use_desgin#,#building_date#,#build_struct#,#upon_type#,#wm_type#,#annex#,#annex_pic#,#building_region#,
+		#building_newaddress#,#issame#,#last_editor#)
+	</insert>
+	<!--   楼幢普查修改记录    -->
+	<update id="updateTBuildingSurvey"  parameterClass="tBuildingSurvey">
+		update t_building_survey 
+		<dynamic  prepend="set">
+				<isNotNull prepend=","  property="building_holder"> building_holder=#building_holder# </isNotNull>
+				<isNotNull prepend=","  property="building_manager_name"> building_manager_name=#building_manager_name# </isNotNull>
+				<isNotNull prepend=","  property="building_manager_phone"> building_manager_phone=#building_manager_phone# </isNotNull>
+				<isNotNull prepend=","  property="building_material"> building_material=#building_material# </isNotNull>
+				<isNotNull prepend=","  property="manage_type"> manage_type=#manage_type# </isNotNull>
+				<isNotNull prepend=","  property="build_dept"> build_dept=#build_dept# </isNotNull>
+				<isNotNull prepend=","  property="design_dept"> design_dept=#design_dept# </isNotNull>
+				<isNotNull prepend=","  property="building_properties"> building_properties=#building_properties# </isNotNull>
+				<isNotNull prepend=","  property="construct_dept"> construct_dept=#construct_dept# </isNotNull>
+				<isNotNull prepend=","  property="local_survey"> local_survey=#local_survey# </isNotNull>
+				<isNotNull prepend=","  property="building_safecondition"> building_safecondition=#building_safecondition# </isNotNull>
+				<isNotNull prepend=","  property="manager_name"> manager_name=#manager_name# </isNotNull>
+				<isNotNull prepend=","  property="survey_name"> survey_name=#survey_name# </isNotNull>
+				<isNotNull prepend=","  property="survey_date"> survey_date=#survey_date# </isNotNull>
+				<isNotNull prepend=","  property="report_userid"> report_userid=#report_userid# </isNotNull>
+				<isNotNull prepend=","  property="info_state"> info_state=#info_state# </isNotNull>
+				<isNotNull prepend=","  property="building_address"> building_address=#building_address# </isNotNull>
+				<isNotNull prepend=","  property="building_region"> building_region=#building_region# </isNotNull>
+				<isNotNull prepend=","  property="house_count"> house_count=#house_count# </isNotNull>
+				<isNotNull prepend=","  property="floorup_count"> floorup_count=#floorup_count# </isNotNull>
+				<isNotNull prepend=","  property="floordown_count"> floordown_count=#floordown_count# </isNotNull>
+				<isNotNull prepend=","  property="build_area"> build_area=#build_area# </isNotNull>
+				<isNotNull prepend=","  property="use_desgin"> use_desgin=#use_desgin# </isNotNull>
+				<isNotNull prepend=","  property="building_date"> building_date=#building_date# </isNotNull>
+				<isNotNull prepend=","  property="build_struct"> build_struct=#build_struct# </isNotNull>
+				<isNotNull prepend=","  property="upon_type"> upon_type=#upon_type# </isNotNull>
+				<isNotNull prepend=","  property="wm_type"> wm_type=#wm_type# </isNotNull>
+				<isNotNull prepend=","  property="annex"> annex=#annex# </isNotNull>
+				<isNotNull prepend=","  property="annex_pic"> annex_pic=#annex_pic# </isNotNull>
+				<isNotNull prepend=","  property="check_userid"> check_userid=#check_userid# </isNotNull>
+				<isNotNull prepend=","  property="check_message"> check_message=#check_message# </isNotNull>
+				<isNotNull prepend=","  property="check_date"> check_date=#check_date# </isNotNull>
+				<isNotNull prepend=","  property="building_newaddress"> building_newaddress=#building_newaddress# </isNotNull>
+				<isNotNull prepend=","  property="issame"> issame=#issame# </isNotNull>
+				<isNotNull prepend=","  property="last_editor"> last_editor=#last_editor# </isNotNull>
+		</dynamic>
+		where survey_id=#survey_id#
+	</update>
+	<select id="getSurveyEditListCount" parameterClass="tBuildingSurvey" resultClass="java.lang.Integer">
+		select count(survey_id) from t_building_survey  where  1=1     
+		<isNotNull property="building_address" prepend="and"> (building_address like '%$building_address$%' or building_newaddress like '%$building_address$%') </isNotNull> 
+		<isNotNull property="use_desgin" prepend="and"> use_desgin = #use_desgin# </isNotNull> 
+		<isNotNull property="building_date" prepend="and"> building_date = #building_date# </isNotNull> 
+		<isNotNull property="build_struct" prepend="and"> build_struct = #build_struct# </isNotNull> 
+		<isNotNull property="manage_type" prepend="and"> manage_type = #manage_type# </isNotNull> 
+		<isNotNull property="building_properties" prepend="and"> building_properties = #building_properties# </isNotNull> 
+		<isNotNull property="building_safecondition" prepend="and"> building_safecondition = #building_safecondition# </isNotNull> 
+		<isNotNull property="info_state" prepend="and"> info_state = #info_state# </isNotNull> 
+		<isNotNull property="last_editor" prepend="and"> last_editor like '%$last_editor$%' </isNotNull> 
+		<isNotNull property="survey_date" prepend="and"> survey_date = #survey_date# </isNotNull>
+		<isNotNull property="building_region" prepend="and"> building_region = #building_region# </isNotNull>
+		<isNotNull property="report_userid" prepend="and"> report_userid = #report_userid# </isNotNull>
+		<isNotNull property="survey_type" prepend="and"> survey_type = #survey_type# </isNotNull>
+	</select>
+	<!-- 楼幢普查安全检查员列表 -->
+	<select id="getSurveyEditList" parameterClass="java.util.Map" resultClass="tBuildingSurvey">
+		SELECT * FROM 
+		(
+			SELECT A.*, ROWNUM RN 
+			FROM (
+				select building_id,survey_id,survey_type,building_address,use_desgin,building_date,build_struct,info_state,
+				manage_type,building_properties,building_safecondition,survey_date,last_editor,building_newaddress,building_region,issame 
+				from  t_building_survey  
+				where 1=1  
+				<isNotNull property="tBuildingSurvey.building_address" prepend="and">  (building_address like '%$tBuildingSurvey.building_address$%' or building_newaddress like '%$tBuildingSurvey.building_address$%')  </isNotNull> 
+				<isNotNull property="tBuildingSurvey.use_desgin" prepend="and"> use_desgin = #tBuildingSurvey.use_desgin# </isNotNull> 
+				<isNotNull property="tBuildingSurvey.building_date" prepend="and"> building_date = #tBuildingSurvey.building_date# </isNotNull> 
+				<isNotNull property="tBuildingSurvey.build_struct" prepend="and"> build_struct = #tBuildingSurvey.build_struct# </isNotNull> 
+				<isNotNull property="tBuildingSurvey.manage_type" prepend="and"> manage_type = #tBuildingSurvey.manage_type# </isNotNull> 
+				<isNotNull property="tBuildingSurvey.building_properties" prepend="and"> building_properties = #tBuildingSurvey.building_properties# </isNotNull> 
+				<isNotNull property="tBuildingSurvey.building_safecondition" prepend="and"> building_safecondition = #tBuildingSurvey.building_safecondition# </isNotNull>  
+				<isNotNull property="tBuildingSurvey.info_state" prepend="and"> info_state = #tBuildingSurvey.info_state# </isNotNull> 
+				<isNotNull property="tBuildingSurvey.last_editor" prepend="and"> last_editor like '%$tBuildingSurvey.last_editor$%' </isNotNull> 
+				<isNotNull property="tBuildingSurvey.survey_date" prepend="and"> survey_date = #tBuildingSurvey.survey_date# </isNotNull>
+				<isNotNull property="tBuildingSurvey.survey_type" prepend="and"> survey_type = #tBuildingSurvey.survey_type# </isNotNull>
+				<isNotNull property="tBuildingSurvey.building_region" prepend="and"> building_region = #tBuildingSurvey.building_region# </isNotNull>
+				<isNotNull property="tBuildingSurvey.report_userid" prepend="and"> report_userid = #tBuildingSurvey.report_userid# </isNotNull>
+				<isNotEmpty prepend="order by " property="_sortname">
+					$_sortname$ $_sortorder$
+				</isNotEmpty>
+			) A 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#		 
+	</select>
+	<select id="getSurveyManagerListCount" parameterClass="tBuildingSurvey" resultClass="java.lang.Integer">
+		select count(survey_id) from t_building_survey  where info_state!='0'     
+		<isNotNull property="building_address" prepend="and"> (building_address like '%$building_address$%' or building_newaddress like '%$building_address$%') </isNotNull> 
+		<isNotNull property="use_desgin" prepend="and"> use_desgin = #use_desgin# </isNotNull> 
+		<isNotNull property="building_date" prepend="and"> building_date = #building_date# </isNotNull> 
+		<isNotNull property="build_struct" prepend="and"> build_struct = #build_struct# </isNotNull> 
+		<isNotNull property="manage_type" prepend="and"> manage_type = #manage_type# </isNotNull> 
+		<isNotNull property="building_properties" prepend="and"> building_properties = #building_properties# </isNotNull> 
+		<isNotNull property="building_safecondition" prepend="and"> building_safecondition = #building_safecondition# </isNotNull> 
+		<isNotNull property="info_state" prepend="and"> info_state = #info_state# </isNotNull> 
+		<isNotNull property="building_region" prepend="and"> building_region = #building_region# </isNotNull> 
+		<isNotNull property="last_editor" prepend="and"> last_editor like '%$last_editor$%' </isNotNull> 
+		<isNotNull property="survey_date" prepend="and"> survey_date = #survey_date# </isNotNull>
+		<isNotNull property="survey_type" prepend="and"> survey_type = #survey_type# </isNotNull>
+	</select>
+	<!-- 楼幢普查安全检查员列表 -->
+	<select id="getSurveyManagerList" parameterClass="java.util.Map" resultClass="tBuildingSurvey">
+		SELECT * FROM 
+		(
+			SELECT A.*, ROWNUM RN 
+			FROM (
+				select building_id,survey_id,survey_type,building_address,use_desgin,building_date,build_struct,info_state,
+				manage_type,building_properties,building_safecondition,survey_date,building_region,last_editor,building_newaddress     
+				from t_building_survey
+				where  info_state!='0'    
+				<isNotNull property="tBuildingSurvey.building_address" prepend="and"> (building_address like '%$tBuildingSurvey.building_address$%' or building_newaddress like '%$tBuildingSurvey.building_address$%') </isNotNull> 
+				<isNotNull property="tBuildingSurvey.use_desgin" prepend="and"> use_desgin = #tBuildingSurvey.use_desgin# </isNotNull> 
+				<isNotNull property="tBuildingSurvey.building_date" prepend="and"> building_date = #tBuildingSurvey.building_date# </isNotNull> 
+				<isNotNull property="tBuildingSurvey.build_struct" prepend="and"> build_struct = #tBuildingSurvey.build_struct# </isNotNull> 
+				<isNotNull property="tBuildingSurvey.manage_type" prepend="and"> manage_type = #tBuildingSurvey.manage_type# </isNotNull> 
+				<isNotNull property="tBuildingSurvey.building_properties" prepend="and"> building_properties = #tBuildingSurvey.building_properties# </isNotNull> 
+				<isNotNull property="tBuildingSurvey.building_safecondition" prepend="and"> building_safecondition = #tBuildingSurvey.building_safecondition# </isNotNull>  
+				<isNotNull property="tBuildingSurvey.info_state" prepend="and"> info_state = #tBuildingSurvey.info_state# </isNotNull> 
+				<isNotNull property="tBuildingSurvey.building_region" prepend="and"> building_region = #tBuildingSurvey.building_region# </isNotNull> 
+				<isNotNull property="tBuildingSurvey.last_editor" prepend="and"> last_editor like '%$tBuildingSurvey.last_editor$%' </isNotNull> 
+				<isNotNull property="tBuildingSurvey.survey_date" prepend="and"> survey_date = #tBuildingSurvey.survey_date# </isNotNull>
+				<isNotNull property="tBuildingSurvey.survey_type" prepend="and"> survey_type = #tBuildingSurvey.survey_type# </isNotNull>
+				<isNotEmpty prepend="order by " property="_sortname">
+					$_sortname$ $_sortorder$
+				</isNotEmpty>
+			) A 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#		 
+	</select>
+	
+	<select id="getSurveyMxCount" parameterClass="tBuildingSurvey" resultClass="java.lang.Integer">
+		select count(survey_id) from t_building_survey  where  1=1     
+		<isNotNull property="use_desgin" prepend="and"> use_desgin = #use_desgin# </isNotNull> 
+		<isNotNull property="build_struct" prepend="and"> build_struct = #build_struct# </isNotNull> 
+		<isNotNull property="building_properties" prepend="and"> building_properties = #building_properties# </isNotNull> 
+		<isNotNull property="building_safecondition" prepend="and"> building_safecondition = #building_safecondition# </isNotNull> 
+		<isNotNull property="building_region" prepend="and"> building_region = #building_region# </isNotNull>
+		<isNotNull property="floordown_count" prepend="and"> floorup_count &gt;= #floordown_count# </isNotNull>
+		<isNotNull property="floorup_count" prepend="and"> floorup_count &lt;= #floorup_count# </isNotNull>
+		<isNotNull property="info_state" prepend="and"> info_state = #info_state# </isNotNull> 
+		<isNotNull property="survey_type" prepend="and"> survey_type = #survey_type# </isNotNull>
+	</select>
+	<!-- 楼幢普查明细列表 -->
+	<select id="getSurveyMxList" parameterClass="java.util.Map" resultClass="tBuildingSurvey">
+		SELECT * FROM 
+		(
+			SELECT A.*, ROWNUM RN 
+			FROM (
+				select building_id,building_address,use_desgin,building_date,build_struct,info_state,
+				manage_type,building_properties,building_safecondition,survey_date,last_editor,building_newaddress   
+				from  t_building_survey  
+				where 1=1  
+				<isNotNull property="tBuildingSurvey.use_desgin" prepend="and"> use_desgin = #tBuildingSurvey.use_desgin# </isNotNull> 
+				<isNotNull property="tBuildingSurvey.build_struct" prepend="and"> build_struct = #tBuildingSurvey.build_struct# </isNotNull> 
+				<isNotNull property="tBuildingSurvey.building_properties" prepend="and"> building_properties = #tBuildingSurvey.building_properties# </isNotNull> 
+				<isNotNull property="tBuildingSurvey.building_safecondition" prepend="and"> building_safecondition = #tBuildingSurvey.building_safecondition# </isNotNull> 
+				<isNotNull property="tBuildingSurvey.building_region" prepend="and"> building_region = #tBuildingSurvey.building_region# </isNotNull>
+				<isNotNull property="tBuildingSurvey.floordown_count" prepend="and"> floorup_count &gt;= #tBuildingSurvey.floordown_count# </isNotNull>
+				<isNotNull property="tBuildingSurvey.floorup_count" prepend="and"> floorup_count &lt;= #tBuildingSurvey.floorup_count# </isNotNull>
+				<isNotNull property="tBuildingSurvey.info_state" prepend="and"> info_state = #tBuildingSurvey.info_state# </isNotNull> 
+				<isNotNull property="tBuildingSurvey.survey_type" prepend="and"> survey_type = #tBuildingSurvey.survey_type# </isNotNull>
+				<isNotEmpty prepend="order by " property="_sortname">
+					$_sortname$ $_sortorder$
+				</isNotEmpty>
+			) A 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#		 
+	</select>
+	
+	<select id="getDistrict"  resultClass="java.lang.String">
+		select enum_value from yc_enum_value where  enum_id = 'xzqh'  
+	</select>
+	<select id="getHouseCountTj"  resultClass="java.util.HashMap">
+		select count(survey_id) as COUNT,building_region as DISTRICT from t_building_survey 
+		where info_state ='8' and  building_region is not null
+		group by building_region order by building_region 
+	</select>
+	
+	<select id="getBuildAreaTj"  resultClass="java.util.HashMap">
+		select sum(build_area) AREA,building_region DISTRICT from t_building_survey 
+		where info_state ='8' and build_area is not null and building_region is not null
+		group by building_region order by building_region  
+	</select>
+	<select id="getSafeGradeTj"  resultClass="java.util.HashMap">
+		select count(survey_id) as COUNT,building_safecondition as SAFEGRADE,building_region as DISTRICT from t_building_survey 
+		where info_state ='8' and building_safecondition is not null and building_region is not null 
+		group by building_safecondition,building_region order by building_safecondition,building_region  
+	</select>
+	<select id="getHouseCountHz"  resultClass="java.util.HashMap">
+		select count(survey_id) as COUNT,building_safecondition as SAFEGRADE,building_region as DISTRICT from t_building_survey 
+		where info_state ='8' and building_safecondition is not null and building_region is not null   
+		group by building_region,building_safecondition order by building_region,building_safecondition  
+	</select>
+	<select id="getHouseCountGradeHz"  resultClass="java.util.HashMap">
+		select count(survey_id) as COUNT,building_safecondition as SAFEGRADE from t_building_survey 
+		where info_state ='8' and building_safecondition is not null and building_region is not null  
+		group by building_safecondition order by building_safecondition
+	</select>
+	<select id="getBuildAreaHz"  resultClass="java.util.HashMap">
+		select sum(build_area) AREA,building_safecondition as SAFEGRADE,building_region as DISTRICT from t_building_survey 
+		where info_state ='8' and building_safecondition is not null and building_region is not null  
+		group by building_region,building_safecondition order by building_region,building_safecondition  
+	</select>
+	<select id="getBuildAreaGradeHz"  resultClass="java.util.HashMap">
+		select sum(build_area) AREA,building_safecondition as SAFEGRADE from t_building_survey 
+		where info_state ='8' and building_safecondition is not null and building_region is not null  
+		group by building_safecondition order by building_safecondition
+	</select>
+	<!-- 楼幢普查明细表 -->
+	<select id="getSurveyDetailList" parameterClass="java.util.Map" resultClass="tBuildingSurvey">
+		select building_id,survey_id,survey_type,building_address,build_area,building_date,building_holder,
+		build_dept, design_dept,construct_dept,build_struct,building_properties,building_safecondition,
+		survey_date,building_region,last_editor,building_newaddress   
+		from t_building_survey 
+		where  info_state!='0'    
+		<isNotNull property="tBuildingSurvey.use_desgin" prepend="and"> use_desgin = #tBuildingSurvey.use_desgin# </isNotNull> 
+		<isNotNull property="tBuildingSurvey.build_struct" prepend="and"> build_struct = #tBuildingSurvey.build_struct# </isNotNull> 
+		<isNotNull property="tBuildingSurvey.building_properties" prepend="and"> building_properties = #tBuildingSurvey.building_properties# </isNotNull> 
+		<isNotNull property="tBuildingSurvey.building_safecondition" prepend="and"> building_safecondition = #tBuildingSurvey.building_safecondition# </isNotNull> 
+		<isNotNull property="tBuildingSurvey.building_region" prepend="and"> building_region = #tBuildingSurvey.building_region# </isNotNull>
+		<isNotNull property="tBuildingSurvey.floordown_count" prepend="and"> floorup_count &gt;= #tBuildingSurvey.floordown_count# </isNotNull>
+		<isNotNull property="tBuildingSurvey.floorup_count" prepend="and"> floorup_count &lt;= #tBuildingSurvey.floorup_count# </isNotNull>
+		<isNotNull property="tBuildingSurvey.survey_type" prepend="and"> survey_type = #tBuildingSurvey.survey_type# </isNotNull>
+		<isNotEmpty prepend="order by " property="_sortname">
+			$_sortname$ $_sortorder$
+		</isNotEmpty>
+	</select>
+	<select id="getSurveyMxExcel" parameterClass="java.util.Map" resultClass="tBuildingSurvey">
+		select building_id,survey_id,survey_type,building_address,build_area,building_date,building_holder,
+		build_dept, design_dept,construct_dept,build_struct,building_properties,building_safecondition,
+		survey_date,building_region,last_editor,building_newaddress   
+		from t_building_survey 
+		where  info_state='8'    
+		<isNotNull property="tBuildingSurvey.building_address" prepend="and"> building_address like '%$tBuildingSurvey.building_address$%' </isNotNull> 
+		<isNotNull property="tBuildingSurvey.use_desgin" prepend="and"> use_desgin = #tBuildingSurvey.use_desgin# </isNotNull> 
+		<isNotNull property="tBuildingSurvey.building_date" prepend="and"> building_date = #tBuildingSurvey.building_date# </isNotNull> 
+		<isNotNull property="tBuildingSurvey.build_struct" prepend="and"> build_struct = #tBuildingSurvey.build_struct# </isNotNull> 
+		<isNotNull property="tBuildingSurvey.manage_type" prepend="and"> manage_type = #tBuildingSurvey.manage_type# </isNotNull> 
+		<isNotNull property="tBuildingSurvey.building_properties" prepend="and"> building_properties = #tBuildingSurvey.building_properties# </isNotNull> 
+		<isNotNull property="tBuildingSurvey.building_safecondition" prepend="and"> building_safecondition = #tBuildingSurvey.building_safecondition# </isNotNull>  
+		<isNotNull property="tBuildingSurvey.info_state" prepend="and"> info_state = #tBuildingSurvey.info_state# </isNotNull> 
+		<isNotNull property="tBuildingSurvey.building_region" prepend="and"> building_region = #tBuildingSurvey.building_region# </isNotNull> 
+		<isNotNull property="tBuildingSurvey.last_editor" prepend="and"> last_editor like '%$tBuildingSurvey.last_editor$%' </isNotNull> 
+		<isNotNull property="tBuildingSurvey.survey_date" prepend="and"> survey_date = #tBuildingSurvey.survey_date# </isNotNull>
+		<isNotNull property="tBuildingSurvey.survey_type" prepend="and"> survey_type = #tBuildingSurvey.survey_type# </isNotNull>
+		<isNotEmpty prepend="order by " property="_sortname">
+			$_sortname$ $_sortorder$
+		</isNotEmpty>
+	</select>
+	<!-- 房屋普查通用查询SQL   start -->
+  <select id="buildingcommonlist" parameterClass="com.originsys.safemanage.domain.BuildingSurvey" resultClass="com.originsys.safemanage.domain.BuildingSurvey">
+    select * from (select * from t_building_survey where building_id=#building_id#) where rownum=1
+  </select>
+  <select id="BuildingCommonMultiQuery" parameterClass="java.util.Map" resultClass="com.originsys.safemanage.domain.BuildingSurvey">
+		select t.building_id 
+			from t_building_survey t   where 1=1  
+		  <isNotNull property="building.report_userid" prepend="and" > report_userid=#building.report_userid# </isNotNull>
+		  <isNotNull property="building.building_address" prepend="and"> building_address like '%$building.building_address$%' </isNotNull> 
+		  <isNotNull property="building.building_holder" prepend="and"> building_holder like '%$building.building_holder$%' </isNotNull> 
+		  <isNotNull property="building.building_manager_name" prepend="and"> building_manager_name like '%$building.building_manager_name$%' </isNotNull> 
+		  <isNotNull property="building.build_dept" prepend="and"> build_dept like '%$building.build_dept$%' </isNotNull> 
+		  <isNotNull property="building.design_dept" prepend="and"> design_dept like '%$building.design_dept$%' </isNotNull> 
+		  <isNotNull property="building.construct_dept" prepend="and"> construct_dept like '%$building.construct_dept$%' </isNotNull> 
+		  <isNotNull property="building.build_struct" prepend="and"> build_struct=#building.build_struct#  </isNotNull> 
+		  <isNotNull property="building.upon_type" prepend="and"> upon_type=#building.upon_type#</isNotNull> 
+		  <isNotNull property="building.wm_type" prepend="and"> wm_type=#building.wm_type#</isNotNull> 
+		  <isNotNull property="building.building_properties" prepend="and"> building_properties=#building.building_properties#</isNotNull> 
+		  <isNotNull property="building.building_safecondition" prepend="and"> building_safecondition=#building.building_safecondition#</isNotNull> 
+		  <isNotNull property="building.build_areamin" prepend="and"> build_area&gt;=#building.build_areamin#</isNotNull> 
+		  <isNotNull property="building.build_areamax" prepend="and"> build_area&lt;=#building.build_areamax#</isNotNull> 
+		 <isNotNull property="building.building_datestart" prepend="and" > building_date&gt;= #building.building_datestart# </isNotNull>
+		 <isNotNull property="building.building_dateend" prepend="and" > building_date&lt;= #building.building_dateend# </isNotNull>	
+		 <isNotNull property="building.survey_type" prepend="and"> survey_type = #building.survey_type# </isNotNull>
+	</select>
+  <!-- 房屋普查通用查询SQL    end -->
+  <!-- 安全检查统计汇总   -->
+  	<select id="getPcHouseCountTj"  resultClass="java.util.HashMap">
+		select count(building_id) as COUNT,builiding_region as DISTRICT  from t_building  
+		where builiding_region is not null and health_grade_pc is not null 
+		group by builiding_region order by builiding_region
+	</select>
+	<select id="getPcBuildAreaTj"  resultClass="java.util.HashMap">
+		select sum(build_area) AREA,builiding_region  as  DISTRICT from t_building
+		where builiding_region is not null and health_grade_pc is not null and build_area is not null  
+		group by builiding_region order by builiding_region 
+	</select><select id="getPcSafeGradeTj"  resultClass="java.util.HashMap">
+		select count(building_id) as COUNT,health_grade_pc as SAFEGRADE,builiding_region as DISTRICT from t_building  
+		where  builiding_region is not null and health_grade_pc is not null 
+		group by health_grade_pc,builiding_region order by health_grade_pc,builiding_region 
+	</select>
+	<select id="getPcHouseCountHz"  resultClass="java.util.HashMap">
+		select count(building_id) as COUNT,health_grade_pc as SAFEGRADE,builiding_region as DISTRICT from t_building  
+		where  builiding_region is not null and health_grade_pc is not null 
+		group by builiding_region,health_grade_pc order by builiding_region,health_grade_pc 
+	</select>
+	<select id="getPcHouseCountGradeHz"  resultClass="java.util.HashMap">
+		select count(building_id) as COUNT,health_grade_pc as SAFEGRADE from t_building  
+		where  builiding_region is not null and health_grade_pc is not null 
+		group by health_grade_pc order by health_grade_pc  
+	</select>
+	<select id="getPcBuildAreaHz"  resultClass="java.util.HashMap">
+		select sum(build_area) AREA,health_grade_pc as SAFEGRADE,builiding_region as DISTRICT from t_building  
+		where  builiding_region is not null and health_grade_pc is not null  
+		group by builiding_region,health_grade_pc order by builiding_region,health_grade_pc  
+	</select>
+	<select id="getPcBuildAreaGradeHz"  resultClass="java.util.HashMap">
+		select sum(build_area) AREA,health_grade_pc as SAFEGRADE from t_building  
+		where  builiding_region is not null and health_grade_pc is not null 
+		group by health_grade_pc order by health_grade_pc
+	</select>
+	<!-- 安全鉴定统计汇总   -->
+  	<select id="getJdHouseCountTj"  resultClass="java.util.HashMap">
+		select count(building_id) as COUNT,builiding_region as DISTRICT  from t_building  
+		where builiding_region is not null and health_grade_jd is not null 
+		group by builiding_region order by builiding_region
+	</select>
+	<select id="getJdBuildAreaTj"  resultClass="java.util.HashMap">
+		select sum(build_area) AREA,builiding_region  as  DISTRICT from t_building
+		where builiding_region is not null and health_grade_jd is not null and build_area is not null  
+		group by builiding_region order by builiding_region 
+	</select><select id="getJdSafeGradeTj"  resultClass="java.util.HashMap">
+		select count(building_id) as COUNT,health_grade_jd as SAFEGRADE,builiding_region as DISTRICT from t_building  
+		where  builiding_region is not null and health_grade_jd is not null 
+		group by health_grade_jd,builiding_region order by health_grade_jd,builiding_region 
+	</select>
+	<select id="getJdHouseCountHz"  resultClass="java.util.HashMap">
+		select count(building_id) as COUNT,health_grade_jd as SAFEGRADE,builiding_region as DISTRICT from t_building  
+		where  builiding_region is not null and health_grade_jd is not null 
+		group by builiding_region,health_grade_jd order by builiding_region,health_grade_jd 
+	</select>
+	<select id="getJdHouseCountGradeHz"  resultClass="java.util.HashMap">
+		select count(building_id) as COUNT,health_grade_jd as SAFEGRADE from t_building  
+		where  builiding_region is not null and health_grade_jd is not null 
+		group by health_grade_jd order by health_grade_jd  
+	</select>
+	<select id="getJdBuildAreaHz"  resultClass="java.util.HashMap">
+		select sum(build_area) AREA,health_grade_jd as SAFEGRADE,builiding_region as DISTRICT from t_building  
+		where  builiding_region is not null and health_grade_jd is not null  
+		group by builiding_region,health_grade_jd order by builiding_region,health_grade_jd  
+	</select>
+	<select id="getJdBuildAreaGradeHz"  resultClass="java.util.HashMap">
+		select sum(build_area) AREA,health_grade_jd as SAFEGRADE from t_building  
+		where  builiding_region is not null and health_grade_jd is not null 
+		group by health_grade_jd order by health_grade_jd
+	</select>
+	<!-- 工作量统计   -->
+  	<select id="getPcWorkLoadTj"  parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select count(info_id) as COUNT,building_region as DISTRICT  from t_building_safe  
+		where building_region is not null 
+		<isNotNull property="start_time" prepend="and"> (to_char(check_time,'yyyy-MM-dd')) &gt;= #start_time# </isNotNull> 
+		<isNotNull property="end_time" prepend="and"> (to_char(check_time,'yyyy-MM-dd')) &lt;= #end_time# </isNotNull> 
+		group by building_region order by building_region 
+	</select>
+	<select id="getJdWorkLoadTj"  parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select count(jdinfo_id) as COUNT,building_region as DISTRICT  from  t_appraisal_report 
+		where building_region is not null 
+		<isNotNull property="start_time" prepend="and"> (to_char(jd_date,'yyyy-MM-dd')) &gt;= #start_time# </isNotNull> 
+		<isNotNull property="end_time" prepend="and"> (to_char(jd_date,'yyyy-MM-dd')) &lt;= #end_time# </isNotNull> 
+		group by building_region order by building_region 
+	</select>
+	<!-- 安全鉴定明细列表 -->
+	<select id="getAuthMx" parameterClass="java.util.Map" resultClass="tBuilding">
+		select building_id,building_address,builiding_region,real_type,use_desgin,building_date,build_struct,health_grade_jd  
+		from t_building  where  builiding_region is not null and health_grade_jd is not null 
+		<isNotNull property="tBuilding.builiding_region" prepend="and"> builiding_region = #tBuilding.builiding_region# </isNotNull> 
+		<isNotNull property="tBuilding.health_grade_jd" prepend="and"> health_grade_jd = #tBuilding.health_grade_jd# </isNotNull> 
+		<isNotEmpty prepend="order by " property="_sortname">
+			$_sortname$ $_sortorder$
+		</isNotEmpty>	 
+	</select>
+	<select id="getAuthMxList" parameterClass="java.util.Map" resultClass="tBuilding">
+		SELECT * FROM 
+		(
+			SELECT A.*, ROWNUM RN 
+			FROM (
+				select building_id,building_address,builiding_region,real_type,use_desgin,building_date,build_struct,health_grade_jd  
+				from t_building  where  builiding_region is not null and health_grade_jd is not null 
+				<isNotNull property="tBuilding.builiding_region" prepend="and"> builiding_region = #tBuilding.builiding_region# </isNotNull> 
+				<isNotNull property="tBuilding.health_grade_jd" prepend="and"> health_grade_jd = #tBuilding.health_grade_jd# </isNotNull> 
+				<isNotEmpty prepend="order by " property="_sortname">
+					$_sortname$ $_sortorder$
+				</isNotEmpty>
+			) A 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#		 
+	</select>
+	
+	<select id="getAuthMxCount" parameterClass="tBuilding" resultClass="java.lang.Integer">
+		select count(building_id) from t_building  where  builiding_region is not null and health_grade_jd is not null 
+		<isNotNull property="builiding_region" prepend="and"> builiding_region = #builiding_region# </isNotNull> 
+		<isNotNull property="health_grade_jd" prepend="and"> health_grade_jd = #health_grade_jd# </isNotNull> 
+	</select>
+	<!-- 安全检查明细列表 -->
+	<select id="getBuildingMx" parameterClass="java.util.Map" resultClass="tBuilding">
+		select building_id,building_address,builiding_region,real_type,use_desgin,building_date,build_struct,health_grade_pc  
+		from t_building  where  builiding_region is not null and health_grade_pc is not null 
+		<isNotNull property="tBuilding.builiding_region" prepend="and"> builiding_region = #tBuilding.builiding_region# </isNotNull> 
+		<isNotNull property="tBuilding.health_grade_pc" prepend="and"> health_grade_pc = #tBuilding.health_grade_pc# </isNotNull> 
+		<isNotNull property="tBuilding.use_desgin" prepend="and"> use_desgin = #tBuilding.use_desgin# </isNotNull> 
+		<isNotNull property="tBuilding.build_struct" prepend="and"> build_struct = #tBuilding.build_struct# </isNotNull> 
+		<isNotNull property="tBuilding.usefunction" prepend="and"> usefunction = #tBuilding.usefunction# </isNotNull> 
+		<isNotNull property="tBuilding.right_type" prepend="and"> right_type = #tBuilding.right_type# </isNotNull> 
+		<isNotEmpty prepend="order by " property="_sortname">
+			$_sortname$ $_sortorder$
+		</isNotEmpty>
+	</select>
+	<select id="getBuildingMxList" parameterClass="java.util.Map" resultClass="tBuilding">
+		SELECT * FROM 
+		(
+			SELECT A.*, ROWNUM RN 
+			FROM (
+				select building_id,building_address,builiding_region,real_type,use_desgin,building_date,build_struct,health_grade_pc,check_address   
+				from t_building  where  builiding_region is not null and health_grade_pc is not null 
+				<isNotNull property="tBuilding.builiding_region" prepend="and"> builiding_region = #tBuilding.builiding_region# </isNotNull> 
+				<isNotNull property="tBuilding.health_grade_pc" prepend="and"> health_grade_pc = #tBuilding.health_grade_pc# </isNotNull> 
+				<isNotNull property="tBuilding.use_desgin" prepend="and"> use_desgin = #tBuilding.use_desgin# </isNotNull> 
+				<isNotNull property="tBuilding.build_struct" prepend="and"> build_struct = #tBuilding.build_struct# </isNotNull> 
+				<isNotNull property="tBuilding.usefunction" prepend="and"> usefunction = #tBuilding.usefunction# </isNotNull> 
+				<isNotNull property="tBuilding.right_type" prepend="and"> right_type = #tBuilding.right_type# </isNotNull> 
+				<isNotEmpty prepend="order by " property="_sortname">
+					$_sortname$ $_sortorder$
+				</isNotEmpty>
+			) A 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#		 
+	</select>
+	
+	<select id="getBuildingMxCount" parameterClass="tBuilding" resultClass="java.lang.Integer">
+		select count(building_id) from t_building  where  builiding_region is not null and health_grade_pc is not null 
+		<isNotNull property="builiding_region" prepend="and"> builiding_region = #builiding_region# </isNotNull> 
+		<isNotNull property="health_grade_pc" prepend="and"> health_grade_pc = #health_grade_pc# </isNotNull> 
+		<isNotNull property="use_desgin" prepend="and"> use_desgin = #use_desgin# </isNotNull> 
+		<isNotNull property="build_struct" prepend="and"> build_struct = #build_struct# </isNotNull> 
+		<isNotNull property="usefunction" prepend="and"> usefunction = #usefunction# </isNotNull> 
+		<isNotNull property="right_type" prepend="and"> right_type = #right_type# </isNotNull> 
+	</select>
+	<!--   隐患房屋上报(tHdangerBuilding)查询总记录数    -->
+	<select id="getTHdangerBuildingCount" parameterClass="tHdangerBuilding" resultClass="java.lang.Integer">
+	select count(info_id) from t_hdanger_building
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND"  property="building_address"> building_address like '%$building_address$%' </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="building_region"> building_region=#building_region# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="link_man"> link_man=#link_man# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="entry_time"> entry_time=#entry_time# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="info_state"> info_state=#info_state# </isNotEmpty>
+		</dynamic>
+	</select>
+	<!--   隐患房屋上报(tHdangerBuilding)分页查询返回列表     -->
+	<select id="getTHdangerBuildingList" parameterClass="java.util.Map" resultClass="tHdangerBuilding">
+		SELECT * FROM 
+		(
+			SELECT A.*, ROWNUM RN 
+			FROM (
+		select   info_id,building_address,building_region,house_count,floor_count,
+		annex_file,annex_image,
+		link_man,link_tel,entry_time,info_state,accept_opinion,acceptor,accept_date   from t_hdanger_building
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND"  property="tHdangerBuilding.building_address"> building_address like '%$tHdangerBuilding.building_address$%' </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tHdangerBuilding.building_region"> building_region=#tHdangerBuilding.building_region# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tHdangerBuilding.link_man"> link_man=#tHdangerBuilding.link_man# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tHdangerBuilding.entry_time"> entry_time=#tHdangerBuilding.entry_time# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tHdangerBuilding.info_state"> info_state=#tHdangerBuilding.info_state# </isNotEmpty>
+		</dynamic>
+		<isNotEmpty prepend="order by " property="_sortname">
+			$_sortname$ $_sortorder$
+		</isNotEmpty>
+		) A 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#
+	</select>
+	<!--   隐患房屋上报(tHdangerBuilding)根据主键返回单条记录    -->
+	<select id="getTHdangerBuilding" parameterClass="java.lang.String"  resultClass="tHdangerBuilding">
+		select * from t_hdanger_building where info_id=#value#
+	</select>
+	<!--   隐患房屋上报(tHdangerBuilding)插入新记录    -->
+	<insert id="addTHdangerBuilding" parameterClass="tHdangerBuilding">
+		insert into t_hdanger_building 
+		(info_id,building_address,building_region,house_count,floor_count,
+		dangerous_desc,annex_file,annex_image,link_man,link_tel,entry_time,info_state)
+		values (#info_id#,#building_address#,#building_region#,#house_count:INTEGER#,#floor_count:INTEGER#,
+		#dangerous_desc#,#annex_file:VARCHAR#,#annex_image:VARCHAR#,#link_man:VARCHAR#,#link_tel:VARCHARl#,
+		#entry_time#,#info_state#)
+	</insert>
+	<!--   隐患房屋上报(tHdangerBuilding)修改记录    -->
+	<update id="updateTHdangerBuilding"  parameterClass="tHdangerBuilding">
+		update t_hdanger_building 
+		<dynamic  prepend="set">
+			<isNotNull prepend=","  property="info_state"> info_state=#info_state# </isNotNull>
+			<isNotNull prepend=","  property="accept_opinion"> accept_opinion=#accept_opinion# </isNotNull>
+			<isNotNull prepend=","  property="acceptor"> acceptor=#acceptor# </isNotNull>
+			<isNotNull prepend=","  property="accept_date"> accept_date=#accept_date# </isNotNull>
+		</dynamic>
+		where info_id=#info_id#
+	</update>
+	
+	<select id="getBSafeList" parameterClass="java.lang.String" resultClass="tBuildingSafe">
+		select check_time,check_user,health_savegrade from t_building_safe where building_id=#value# and info_state='8' order by check_time desc
+	</select>
+	
+	<select id="surveyComplexCountEnum" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select a.enum_name as ENUM_NAME,a.enum_value as ENUM_VALUE,
+		case when b.num1 is null then 0 else b.num1 end as A1,
+		case when b.num2 is null then 0 else b.num2 end as A2,
+		case when c.num1 is null then 0 else c.num1 end as B1,
+		case when c.num2 is null then 0 else c.num2 end as B2,
+		case when d.num1 is null then 0 else d.num1 end as C1,
+		case when d.num2 is null then 0 else d.num2 end as C2,
+		case when e.num1 is null then 0 else e.num1 end as D1,
+		case when e.num2 is null then 0 else e.num2 end as D2,
+		case when f.num1 is null then 0 else f.num1 end as H1,
+		case when f.num2 is null then 0 else f.num2 end as H2 
+		from 
+		(select enum_name,enum_value from yc_enum_value where enum_id=#enum_id#) a 
+		left join  
+		(select $colum_term$,count(building_id) as num1,sum(build_area) as num2 
+		from T_BUILDING_SURVEY t where t.building_safecondition='1' and info_state='8' 
+		<isNotEmpty prepend="AND"  property="region_id"> t.building_region=#region_id# </isNotEmpty>
+		 group by $colum_term$) b 
+		on b.$colum_term$=a.enum_value 
+		left join 
+		(select $colum_term$,count(building_id) as num1,sum(build_area) as num2 
+		from T_BUILDING_SURVEY t where t.building_safecondition='2' and info_state='8' 
+		<isNotEmpty prepend="AND"  property="region_id"> t.building_region=#region_id# </isNotEmpty>
+		 group by $colum_term$) c 
+		on c.$colum_term$=a.enum_value
+		left join 
+		(select $colum_term$,count(building_id) as num1,sum(build_area) as num2 
+		from T_BUILDING_SURVEY t where t.building_safecondition='3' and info_state='8' 
+		<isNotEmpty prepend="AND"  property="region_id"> t.building_region=#region_id# </isNotEmpty>
+		 group by $colum_term$) d 
+		 on d.$colum_term$=a.enum_value
+		left join 
+		(select $colum_term$,count(building_id) as num1,sum(build_area) as num2 
+		from T_BUILDING_SURVEY t where t.building_safecondition='4' and info_state='8' 
+		<isNotEmpty prepend="AND"  property="region_id"> t.building_region=#region_id# </isNotEmpty>
+		 group by $colum_term$) e 
+		 on e.$colum_term$=a.enum_value
+		 left join 
+		(select $colum_term$,count(building_id) as num1,sum(build_area) as num2 
+		from T_BUILDING_SURVEY t where info_state='8'  
+		<isNotEmpty prepend="AND"  property="region_id"> t.building_region=#region_id# </isNotEmpty>
+		  group by $colum_term$) f 
+		 on f.$colum_term$=a.enum_value
+	</select>
+	
+	<select id="surveyComplexCountEnumHJ" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select 
+		case when b.num1 is null then 0 else b.num1 end as A1,
+		case when b.num2 is null then 0 else b.num2 end as A2,
+		case when c.num1 is null then 0 else c.num1 end as B1,
+		case when c.num2 is null then 0 else c.num2 end as B2,
+		case when d.num1 is null then 0 else d.num1 end as C1,
+		case when d.num2 is null then 0 else d.num2 end as C2,
+		case when e.num1 is null then 0 else e.num1 end as D1,
+		case when e.num2 is null then 0 else e.num2 end as D2,
+		case when f.num1 is null then 0 else f.num1 end as H1,
+		case when f.num2 is null then 0 else f.num2 end as H2 
+		from 
+		(select count(building_id) as num1,sum(build_area) as num2 
+		from T_BUILDING_SURVEY t where t.building_safecondition='1' and $colum_term$ is not null and info_state='8' 
+		<isNotEmpty prepend="AND"  property="region_id"> t.building_region=#region_id# </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="start_date"> t.$colum_term$ <![CDATA[>=]]>$start_date$ </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="end_date"> t.$colum_term$ <![CDATA[<]]>$end_date$ </isNotEmpty>
+		  ) b ,
+		(select count(building_id) as num1,sum(build_area) as num2 
+		from T_BUILDING_SURVEY t where t.building_safecondition='2' and $colum_term$ is not null and info_state='8' 
+		<isNotEmpty prepend="AND"  property="region_id"> t.building_region=#region_id# </isNotEmpty> 
+		<isNotEmpty prepend="AND"  property="start_date"> t.$colum_term$ <![CDATA[>=]]>$start_date$ </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="end_date"> t.$colum_term$ <![CDATA[<]]>$end_date$ </isNotEmpty>
+		 ) c ,
+		(select count(building_id) as num1,sum(build_area) as num2 
+		from T_BUILDING_SURVEY t where t.building_safecondition='3' and $colum_term$ is not null and info_state='8' 
+		<isNotEmpty prepend="AND"  property="region_id"> t.building_region=#region_id# </isNotEmpty> 
+		<isNotEmpty prepend="AND"  property="start_date"> t.$colum_term$ <![CDATA[>=]]>$start_date$ </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="end_date"> t.$colum_term$ <![CDATA[<]]>$end_date$ </isNotEmpty>
+		 ) d ,
+		(select count(building_id) as num1,sum(build_area) as num2 
+		from T_BUILDING_SURVEY t where t.building_safecondition='4' and $colum_term$ is not null and info_state='8'  
+		<isNotEmpty prepend="AND"  property="region_id"> t.building_region=#region_id# </isNotEmpty> 
+		<isNotEmpty prepend="AND"  property="start_date"> t.$colum_term$ <![CDATA[>=]]>$start_date$ </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="end_date"> t.$colum_term$ <![CDATA[<]]>$end_date$ </isNotEmpty>
+		 ) e ,
+		(select count(building_id) as num1,sum(build_area) as num2 
+		from T_BUILDING_SURVEY t  where $colum_term$ is not null and info_state='8' 
+		<isNotEmpty prepend="AND"  property="region_id"> t.building_region=#region_id# </isNotEmpty> 
+		<isNotEmpty prepend="AND"  property="start_date"> t.$colum_term$ <![CDATA[>=]]>$start_date$ </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="end_date"> t.$colum_term$ <![CDATA[<]]>$end_date$ </isNotEmpty>
+		 ) f 
+	</select>
+	
+	<select id="surveyComplexCount" parameterClass="java.util.Map" resultClass="java.util.HashMap">			
+		select a.$colum_term$ as ENUM_NAME,
+		case when b.num1 is null then 0 else b.num1 end as A1,
+		case when b.num2 is null then 0 else b.num2 end as A2,
+		case when c.num1 is null then 0 else c.num1 end as B1,
+		case when c.num2 is null then 0 else c.num2 end as B2,
+		case when d.num1 is null then 0 else d.num1 end as C1,
+		case when d.num2 is null then 0 else d.num2 end as C2,
+		case when e.num1 is null then 0 else e.num1 end as D1,
+		case when e.num2 is null then 0 else e.num2 end as D2,
+		case when f.num1 is null then 0 else f.num1 end as H1,
+		case when f.num2 is null then 0 else f.num2 end as H2 
+		from 
+		(select distinct $colum_term$ from T_BUILDING_SURVEY t where $colum_term$ is not null and info_state='8'
+		<isNotEmpty prepend="AND"  property="region_id"> t.building_region=#region_id# </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="start_date"> t.$colum_term$ <![CDATA[>=]]>$start_date$ </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="end_date"> t.$colum_term$ <![CDATA[<]]>$end_date$ </isNotEmpty>
+		 ) a 
+		left join  
+		(select $colum_term$,count(building_id) as num1,sum(build_area) as num2 
+		from T_BUILDING_SURVEY t where t.building_safecondition='1' and info_state='8'
+		<isNotEmpty prepend="AND"  property="region_id"> t.building_region=#region_id# </isNotEmpty> 
+		<isNotEmpty prepend="AND"  property="start_date"> t.$colum_term$ <![CDATA[>=]]>$start_date$ </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="end_date"> t.$colum_term$ <![CDATA[<]]>$end_date$ </isNotEmpty>
+		  group by $colum_term$) b 
+		on b.$colum_term$=a.$colum_term$ 
+		left join 
+		(select $colum_term$,count(building_id) as num1,sum(build_area) as num2 
+		from T_BUILDING_SURVEY t where t.building_safecondition='2' and info_state='8' 
+		<isNotEmpty prepend="AND"  property="region_id"> t.building_region=#region_id# </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="start_date"> t.$colum_term$ <![CDATA[>=]]>$start_date$ </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="end_date"> t.$colum_term$ <![CDATA[<]]>$end_date$ </isNotEmpty>
+		  group by $colum_term$) c 
+		on c.$colum_term$=a.$colum_term$ 
+		left join 
+		(select $colum_term$,count(building_id) as num1,sum(build_area) as num2 
+		from T_BUILDING_SURVEY t where t.building_safecondition='3'  and info_state='8' 
+		<isNotEmpty prepend="AND"  property="region_id"> t.building_region=#region_id# </isNotEmpty> 
+		<isNotEmpty prepend="AND"  property="start_date"> t.$colum_term$ <![CDATA[>=]]>$start_date$ </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="end_date"> t.$colum_term$ <![CDATA[<]]>$end_date$ </isNotEmpty>
+		  group by $colum_term$) d 
+		on d.$colum_term$=a.$colum_term$ 
+		left join 
+		(select $colum_term$,count(building_id) as num1,sum(build_area) as num2 
+		from T_BUILDING_SURVEY t where t.building_safecondition='4'  and info_state='8' 
+		<isNotEmpty prepend="AND"  property="region_id"> t.building_region=#region_id# </isNotEmpty> 
+		<isNotEmpty prepend="AND"  property="start_date"> t.$colum_term$ <![CDATA[>=]]>$start_date$ </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="end_date"> t.$colum_term$ <![CDATA[<]]>$end_date$ </isNotEmpty>
+		 group by $colum_term$) e 
+		on e.$colum_term$=a.$colum_term$ 
+		 left join 
+		(select $colum_term$,count(building_id) as num1,sum(build_area) as num2 
+		from T_BUILDING_SURVEY t where info_state='8'  
+		<isNotEmpty prepend="AND"  property="region_id"> t.building_region=#region_id# </isNotEmpty> 
+		<isNotEmpty prepend="AND"  property="start_date"> t.$colum_term$ <![CDATA[>=]]>$start_date$ </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="end_date"> t.$colum_term$ <![CDATA[<]]>$end_date$ </isNotEmpty>
+		  group by $colum_term$) f 
+		 on f.$colum_term$=a.$colum_term$
+	</select>
+		<!-- 房屋鉴定表查询SQL   start -->
+  <select id="buildingtestlist" parameterClass="com.originsys.safemanage.domain.TAppraisalReport" resultClass="com.originsys.safemanage.domain.TAppraisalReport">
+    select * from (select * from T_APPRAISAL_REPORT t where t.building_id=#building_id# order by t.jd_date desc) where rownum=1
+  </select>
+
+  
+  
+	<select id="getCensorMemids" resultClass="java.lang.String">
+		select mem_id from t_safe_censor
+	</select>
+	
+	<select id="getAssessorsMemids" resultClass="java.lang.String">
+		select mem_id from t_safe_assessors
+	</select>
+	
+	<select id="getManagerMemids" resultClass="java.lang.String">
+		select mem_id from t_safe_manager
+	</select>
+
+  
+  <select id="getUseWarnCount" parameterClass="tBuilding" resultClass="java.lang.Integer">
+		select count(*) from use_warn  where warn_grade is not null 
+		<isNotEmpty prepend="AND"  property="building_address"> building_address like '%$building_address$%' </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="builiding_region"> builiding_region=#builiding_region# </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="building_date"> building_date=#building_date# </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="health_grade_pc"> health_grade_pc=#health_grade_pc# </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="build_right"> build_right=#build_right# </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="warn_grade"> warn_grade=#warn_grade# </isNotEmpty>
+	</select>
+	<!--  房屋使用超限列表     -->
+	<select id="getUseWarnList" parameterClass="java.util.Map" resultClass="tBuilding">
+		SELECT * FROM 
+		(
+			SELECT A.*, ROWNUM RN 
+			FROM (
+		select  *  from use_warn  where warn_grade is not null 
+		<isNotEmpty prepend="AND"  property="tBuilding.building_address"> building_address like '%$tBuilding.building_address$%' </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="tBuilding.builiding_region"> builiding_region=#tBuilding.builiding_region# </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="tBuilding.building_date"> building_date=#tBuilding.building_date# </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="tBuilding.health_grade_pc"> health_grade_pc=#tBuilding.health_grade_pc# </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="tBuilding.build_right"> build_right=#tBuilding.build_right# </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="tBuilding.warn_grade"> warn_grade=#tBuilding.warn_grade# </isNotEmpty>
+		<isNotEmpty prepend="order by " property="_sortname">
+			$_sortname$ $_sortorder$
+		</isNotEmpty>
+		) A 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#
+	</select>
+	
+	 <select id="getDisasterWarnCount" parameterClass="disasterWarn" resultClass="java.lang.Integer">
+	select count(*) from disaster_warn
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND"  property="disaster_name"> disaster_name like '%$disaster_name$%' </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="disaster_region"> disaster_region=#disaster_region# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="disaster_type"> disaster_type=#disaster_type# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="disaster_grade"> disaster_grade=#disaster_grade# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="disaster_date"> disaster_date=#disaster_date# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="info_state"> info_state=#info_state# </isNotEmpty>
+		</dynamic>
+	</select>
+	<!--  房屋使用超限列表     -->
+	<select id="getDisasterWarnList" parameterClass="java.util.Map" resultClass="disasterWarn">
+		SELECT * FROM 
+		(
+			SELECT A.*, ROWNUM RN 
+			FROM (
+		select  *  from disaster_warn  
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND"  property="disasterWarn.disaster_name"> disaster_name like '%$disasterWarn.disaster_name$%' </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="disasterWarn.disaster_region"> disaster_region=#disasterWarn.disaster_region# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="disasterWarn.disaster_type"> disaster_type=#disasterWarn.disaster_type# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="disasterWarn.disaster_grade"> disaster_grade=#disasterWarn.disaster_grade# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="disasterWarn.disaster_date"> disaster_date=#disasterWarn.disaster_date# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="disasterWarn.info_state"> info_state=#disasterWarn.info_state# </isNotEmpty>
+		</dynamic>
+		<isNotEmpty prepend="order by " property="_sortname">
+			$_sortname$ $_sortorder$
+		</isNotEmpty>
+		) A 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#
+	</select>
+	<insert id="addDisasterWarn" parameterClass="disasterWarn">
+		insert into disaster_warn (disaster_id,disaster_name,disaster_discription,disaster_region,
+		disaster_type,disaster_grade,disaster_date,add_time,info_state,smx,smy,smuserid) 
+		values (#disaster_id#,#disaster_name#,#disaster_discription#,#disaster_region#,
+		#disaster_type#,#disaster_grade#,#disaster_date#,#add_time#,#info_state#,#smx#,#smy#,#smuserid#)  
+	</insert>
+	<select id="getDisasterWarn" parameterClass="java.lang.String"  resultClass="disasterWarn">
+		select * from disaster_warn where disaster_id=#value# 
+	</select>
+	<update id="updateDisasterWarn"  parameterClass="disasterWarn">
+		update disaster_warn 
+		<dynamic  prepend="set">
+			<isNotEmpty prepend=","  property="disaster_name"> disaster_name=#disaster_name#  </isNotEmpty>
+			<isNotEmpty prepend=","  property="disaster_region"> disaster_region=#disaster_region# </isNotEmpty>
+			<isNotEmpty prepend=","  property="disaster_type"> disaster_type=#disaster_type# </isNotEmpty>
+			<isNotEmpty prepend=","  property="disaster_grade"> disaster_grade=#disaster_grade# </isNotEmpty>
+			<isNotEmpty prepend=","  property="disaster_date"> disaster_date=#disaster_date# </isNotEmpty>
+			<isNotEmpty prepend=","  property="info_state"> info_state=#info_state# </isNotEmpty>
+			<isNotEmpty prepend=","  property="disaster_discription"> disaster_discription=#disaster_discription# </isNotEmpty>
+			<isNotEmpty prepend=","  property="smx"> smx=#smx# </isNotEmpty>
+			<isNotEmpty prepend=","  property="smy"> smy=#smy# </isNotEmpty>
+			<isNotEmpty prepend=","  property="smuserid"> smuserid=#smuserid# </isNotEmpty>
+			<isNotEmpty prepend=","  property="check_log"> check_log=#check_log# </isNotEmpty>
+		</dynamic>
+		where disaster_id=#disaster_id#
+	</update>
+	<delete id="deleteDisasterWarn" parameterClass="java.lang.String">
+		delete from disaster_warn where disaster_id=#value#
+	</delete>
+	
+	<!-- 根据人员的ID来获取该人员对应角色 -->
+	<select id="getRoles" parameterClass="string" resultClass="string">
+		select role_id from  yc_member_role where mem_id=#value#
+	</select>
+
+
+	<select id="getSurveyBuildingProTj"  resultClass="java.util.HashMap" parameterClass="java.lang.String">
+		select count(building_id) as COUNT,building_region as REGION from t_building_survey 
+   		 where  info_state='8' and building_properties is not null and building_properties=#value#
+   		  and building_region is not null  group by building_region
+	</select> 
+	<select id="getSurveyBuildingProMembersTj"  resultClass="java.util.HashMap"> 
+		select building_id as SMUSERID,building_properties as PROPERTIES from t_building_survey 
+   		 where  info_state='8' and building_properties is not null group by building_id,building_properties order by PROPERTIES
+	</select>
+	<select id="getSurveyUseDesginTj"  resultClass="java.util.HashMap" parameterClass="java.lang.String">
+		select count(building_id) as COUNT,building_region as REGION from t_building_survey 
+   		 where  info_state='8' and use_desgin is not null and use_desgin=#value#
+   		  and building_region is not null  group by building_region
+	</select>
+   <select id="getSurveyUseDesginMembersTj"  resultClass="java.util.HashMap">
+		select building_id as SMUSERID,use_desgin as DESGIN from t_building_survey 
+        where  info_state='8' and use_desgin is not null group by building_id,use_desgin order by DESGIN
+   </select>	
+	<select id="getSurveyBuildStructTj"  resultClass="java.util.HashMap" parameterClass="java.lang.String">
+		select count(building_id) as COUNT,building_region as REGION from t_building_survey 
+   		 where info_state='8' and build_struct is not null and build_struct=#value#
+   		  and building_region is not null  group by building_region
+	</select> 
+	<select id="getSurveyBuildStructMembersTj"  resultClass="java.util.HashMap">
+		 select building_id as SMUSERID,build_struct as STRUCT from t_building_survey 
+   		 where info_state='8' and build_struct is not null group by building_id,build_struct order by STRUCT
+	</select>
+	
+	<select id="getSurveyFloorupCountTj" resultClass="java.util.HashMap">
+		select COUNT,CENGJI from 
+		(
+		select count(*) as COUNT,'1' as CENGJI from T_BUILDING_SURVEY t where info_state='8' and floorup_count between 1 and 3 
+		union
+		select count(*) as COUNT,'2' as CENGJI from T_BUILDING_SURVEY t where info_state='8' and floorup_count between 4 and 7 
+		union 
+		select count(*) as COUNT,'3' as CENGJI from T_BUILDING_SURVEY t where info_state='8' and floorup_count between 8 and 12 
+		union
+		select count(*) as COUNT,'4' as CENGJI from T_BUILDING_SURVEY t where info_state='8' and floorup_count >12 
+		union
+		select count(*) as COUNT,'5' as CENGJI from T_BUILDING_SURVEY t where info_state='8' and (floorup_count =0 or floorup_count is null) 
+		) order by CENGJI 		
+	</select>
+	<select id="getSurveyFloorupMembersTj" resultClass="java.util.HashMap">
+	 select SMUSERID,CENGJI from 
+    (
+    select building_id as SMUSERID,'1' as CENGJI from T_BUILDING_SURVEY t where info_state='8' and floorup_count between 1 and 3 
+    union
+    select building_id as SMUSERID,'2' as CENGJI from T_BUILDING_SURVEY t where info_state='8' and floorup_count between 4 and 7 
+    union 
+    select building_id as SMUSERID,'3' as CENGJI from T_BUILDING_SURVEY t where info_state='8' and floorup_count between 8 and 12 
+    union
+    select building_id as SMUSERID,'4' as CENGJI from T_BUILDING_SURVEY t where info_state='8' and floorup_count >12 
+    union
+    select building_id as SMUSERID,'5' as CENGJI from T_BUILDING_SURVEY t where info_state='8' and (floorup_count =0 or floorup_count is null) 
+	) order by CENGJI	
+	</select>
+	<select id="getHouseSafeThemeData" resultClass="tHSafeTheme">
+		select rownum num,t.jdinfo_id,t.building_id,t.building_address,t.building_region,
+		decode(t.dangerous_level,'1','A','2','B','3','C','4','D') dangerous_level,to_char(t.jd_date,'YYYY-MM-DD') jd_date,to_char(t.check_date,'YYYY-MM-DD') check_date,t.jd_department_id,t.jd_department,
+		tt.smx,tt.smy from t_appraisal_report t,
+		fcch.st_ridrgn_safe_p tt,
+		(select distinct t.building_id id,max(t.jd_date) tim from t_appraisal_report t where info_state='8' group by t.building_id) t3
+		where 1=1
+		and t.building_id=tt.smuserid
+		and t.building_id=t3.id
+		and t.jd_date=t3.tim
+		and t.info_state='8'
+		order by t.building_region
+	</select>
+
+	<select id="getBuildingSafeImgs" resultClass="java.lang.String" parameterClass="java.lang.String">
+		select annex_pic from t_building_safe where info_id=#value#
+	</select>
+
+	<select id="getNewInfoId" parameterClass="java.lang.String" resultClass="java.lang.String">
+		select info_id from 
+		( select info_id from t_building_safe t where building_id=#value# order  by check_time desc )
+		where rownum=1
+	</select>
+	
+	<insert id="addTBuildingRepair" parameterClass="tBuildingRepair">
+		insert into t_building_repair 
+		(repair_id,building_id,repair_content,repair_cost,repair_organ,repair_manager,manager_tel,complete_date,repair_remarks)
+		values (#repair_id#,#building_id#,#repair_content#,#repair_cost#,#repair_organ#,#repair_manager#,#manager_tel#,#complete_date#,#repair_remarks#)
+	</insert>
+	<select id="getTBuildingRepairCount" parameterClass="tBuildingRepair" resultClass="java.lang.Integer">
+		select count(repair_id) from t_building_repair   
+		<dynamic prepend="WHERE">
+			<isNotNull property="repair_content" prepend="and"> repair_content like '%$repair_content$%'  </isNotNull> 
+			<isNotNull property="repair_manager" prepend="and"> repair_manager like '%$repair_manager$%'  </isNotNull> 
+			<isNotNull property="complete_date" prepend="and"> complete_date =#complete_date# </isNotNull> 
+		</dynamic>
+	</select>
+	<select id="getTBuildingRepairList" parameterClass="java.util.Map" resultClass="tBuildingRepair">
+		SELECT * FROM 
+		(
+			SELECT A.*, ROWNUM RN 
+			FROM (
+				select  repair_id,building_id,repair_content,repair_cost,repair_organ,repair_manager,manager_tel,complete_date,repair_remarks  
+				from t_building_repair   
+				<dynamic prepend="WHERE">
+					<isNotNull property="tBuildingRepair.repair_content" prepend="and"> repair_content like '%$tBuildingRepair.repair_content$%'  </isNotNull> 
+					<isNotNull property="tBuildingRepair.repair_manager" prepend="and"> repair_manager like '%$tBuildingRepair.repair_manager$%' </isNotNull> 
+					<isNotNull property="tBuildingRepair.complete_date" prepend="and"> complete_date =#tBuildingRepair.complete_date# </isNotNull> 
+				</dynamic>
+				<isNotEmpty prepend="order by " property="_sortname">
+					$_sortname$ $_sortorder$
+				</isNotEmpty>
+			) A 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#		 
+	</select>
+	<select id="getTBuildingRepair" resultClass="tBuildingRepair" parameterClass="java.lang.String">
+		select  repair_id,building_id,repair_content,repair_cost,repair_organ,repair_manager,manager_tel,complete_date,repair_remarks  
+				from t_building_repair    where repair_id=#value#  
+	</select>
+	<update id="updateTBuildingRepair"  parameterClass="tBuildingRepair">
+		update t_building_repair  
+		<dynamic  prepend="set">
+				<isNotNull prepend=","  property="repair_content"> repair_content=#repair_content# </isNotNull>
+				<isNotNull prepend=","  property="repair_cost"> repair_cost=#repair_cost# </isNotNull>
+				<isNotNull prepend=","  property="repair_organ"> repair_organ=#repair_organ# </isNotNull>
+				<isNotNull prepend=","  property="repair_manager"> repair_manager=#repair_manager# </isNotNull>
+				<isNotNull prepend=","  property="manager_tel"> manager_tel=#manager_tel# </isNotNull>
+				<isNotNull prepend=","  property="complete_date"> complete_date=#complete_date# </isNotNull>
+				<isNotNull prepend=","  property="repair_remarks"> repair_remarks=#repair_remarks# </isNotNull>
+		</dynamic>
+		where repair_id=#repair_id#
+	</update>
+	<delete id="deleteTBuildingRepair" parameterClass="java.lang.String">
+		delete from t_building_repair where repair_id=#value#
+	</delete>
+	
+	
+	<select id="getTBuildingRepairList1" parameterClass="java.lang.String" resultClass="tBuildingRepair">
+		select  repair_id,building_id,repair_content,repair_cost,repair_organ,repair_manager,
+		manager_tel,complete_date,repair_remarks   from t_building_repair where building_id=#value# 
+		order by complete_date desc
+	</select>
+	
+	<insert id="addTBuildingAccident" parameterClass="tBuildingAccident">
+		insert into t_building_accident 
+		(accident_id,accident_name,accident_date,accident_description,accident_type,accident_reporter,accident_note,building_id)
+		values (#accident_id#,#accident_name#,#accident_date#,#accident_description#,#accident_type#,#accident_reporter#,#accident_note#,#building_id#)
+	</insert>
+	<select id="getTBuildingAccidentCount" parameterClass="tBuildingAccident" resultClass="java.lang.Integer">
+		select count(accident_id) from t_building_accident   
+		<dynamic prepend="WHERE">
+			<isNotNull property="accident_name" prepend="and"> accident_name like '%$accident_name$%'  </isNotNull> 
+			<isNotNull property="accident_type" prepend="and"> accident_type like '%$accident_type$%'  </isNotNull> 
+			<isNotNull property="accident_date" prepend="and"> accident_date = #accident_date# </isNotNull> 
+		</dynamic>
+	</select>
+	<select id="getTBuildingAccidentList" parameterClass="java.util.Map" resultClass="tBuildingAccident">
+		SELECT * FROM 
+		(
+			SELECT A.*, ROWNUM RN 
+			FROM (
+				select  accident_id,accident_name,accident_date,accident_description,accident_type,accident_reporter,accident_note,building_id 
+				from t_building_accident   
+				<dynamic prepend="WHERE">
+					<isNotNull property="tBuildingAccident.accident_name" prepend="and"> accident_name like '%$tBuildingAccident.accident_name$%'  </isNotNull> 
+					<isNotNull property="tBuildingAccident.accident_type" prepend="and"> accident_type like '%$tBuildingAccident.accident_type$%' </isNotNull> 
+					<isNotNull property="tBuildingAccident.accident_date" prepend="and"> accident_date = #tBuildingAccident.accident_date# </isNotNull> 
+				</dynamic>
+				<isNotEmpty prepend="order by " property="_sortname">
+					$_sortname$ $_sortorder$
+				</isNotEmpty>
+			) A 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#		 
+	</select>
+	<select id="getTBuildingAccidentList1" parameterClass="java.lang.String" resultClass="tBuildingAccident">
+		select  accident_id,accident_name,accident_date,accident_description,accident_type,accident_reporter,accident_note,building_id 
+				from t_building_accident   where  building_id=#value# 
+		order by accident_date desc
+	</select>
+	<select id="getTBuildingAccident" resultClass="tBuildingAccident" parameterClass="java.lang.String">
+		select  accident_id,accident_name,accident_date,accident_description,accident_type,accident_reporter,accident_note,building_id 
+				from t_building_accident    where accident_id=#value#  
+	</select>
+	<update id="updateTBuildingAccident"  parameterClass="tBuildingAccident">
+		update t_building_accident  
+		<dynamic  prepend="set">
+				<isNotNull prepend=","  property="accident_name"> accident_name=#accident_name# </isNotNull>
+				<isNotNull prepend=","  property="accident_date"> accident_date=#accident_date# </isNotNull>
+				<isNotNull prepend=","  property="accident_description"> accident_description=#accident_description# </isNotNull>
+				<isNotNull prepend=","  property="accident_type"> accident_type=#accident_type# </isNotNull>
+				<isNotNull prepend=","  property="accident_reporter"> accident_reporter=#accident_reporter# </isNotNull>
+				<isNotNull prepend=","  property="accident_note"> accident_note=#accident_note# </isNotNull>
+		</dynamic>
+		where accident_id=#accident_id#
+	</update>
+	<delete id="deleteTBuildingAccident" parameterClass="java.lang.String">
+		delete from t_building_accident where accident_id=#value#
+	</delete>
+	
+	<select id="getTBuildingProjectCount" parameterClass="tBuildingProject" resultClass="int">
+	select count(project_id) from t_building_project 
+	where 1=1 
+			<isNotEmpty prepend="AND"  property="project_name"> project_name like '%$project_name$%' </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="project_address"> project_address=#project_address# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="city_district"> city_district=#city_district# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="project_desc"> project_desc=#project_desc# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="project_buildingids"> project_buildingids=#project_buildingids# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="unit_id"> unit_id=#unit_id# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="review_state"> review_state=#review_state# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="unit_name"> unit_name like '%$unit_name$%' </isNotEmpty>
+	</select>
+	<!--   管理项目小区表(tBuildingProject)分页查询返回列表     -->
+	<select id="getTBuildingProjectList" parameterClass="map" resultClass="tBuildingProject">
+		SELECT * FROM 
+		(
+			SELECT A.*, ROWNUM RN 
+			FROM (
+		select  project_id,project_name,project_address,city_district,project_desc,project_buildingids,review_state,
+	    unit_name,unit_id   
+	    from t_building_project 
+		where 1=1 
+			<isNotEmpty prepend="AND"  property="tBuildingProject.project_name"> project_name like '%$tBuildingProject.project_name$%' </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tBuildingProject.project_address"> project_address=#tBuildingProject.project_address# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tBuildingProject.city_district"> city_district=#tBuildingProject.city_district# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tBuildingProject.project_desc"> project_desc=#tBuildingProject.project_desc# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tBuildingProject.project_buildingids"> project_buildingids=#tBuildingProject.project_buildingids# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tBuildingProject.unit_id"> unit_id=#tBuildingProject.unit_id# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tBuildingProject.review_state"> review_state=#tBuildingProject.review_state# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tBuildingProject.unit_name"> unit_name like '%$tBuildingProject.unit_name$%' </isNotEmpty>
+		<isNotEmpty prepend="order by " property="_sortname">
+			$_sortname$ $_sortorder$
+		</isNotEmpty>
+		) A 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#	
+	</select>
+	<!--   管理项目小区表(tBuildingProject)根据主键返回单条记录    -->
+	<select id="getTBuildingProject" parameterClass="java.lang.String"  resultClass="tBuildingProject">
+		select  project_id,project_name,project_address,city_district,project_desc,project_buildingids,unit_id,review_state,unit_name		
+		  from t_building_project where project_id=#value#
+	</select>
+	<!--   管理项目小区表(tBuildingProject)插入新记录    -->
+	<insert id="addTBuildingProject" parameterClass="tBuildingProject">
+		insert into t_building_project 
+		(project_id,project_name,project_address,city_district,project_desc,project_buildingids,unit_id,review_state,unit_name)
+		values (#project_id#,#project_name:VARCHAR#,#project_address:VARCHAR#,#city_district:VARCHAR#,#project_desc:VARCHAR#,#project_buildingids:VARCHAR#,#unit_id:VARCHAR#,#review_state:VARCHAR#,#unit_name:VARCHAR#)
+	</insert>
+	<!--   管理项目小区表(tBuildingProject)修改记录    -->
+	<update id="updateTBuildingProject"  parameterClass="tBuildingProject">
+		update t_building_project 
+		<dynamic  prepend="set">
+				<isNotNull prepend=","  property="project_name"> project_name=#project_name# </isNotNull>
+				<isNotNull prepend=","  property="project_address"> project_address=#project_address# </isNotNull>
+				<isNotNull prepend=","  property="city_district"> city_district=#city_district# </isNotNull>
+				<isNotNull prepend=","  property="project_desc"> project_desc=#project_desc# </isNotNull>
+				<isNotNull prepend=","  property="project_buildingids"> project_buildingids=#project_buildingids# </isNotNull>
+				<isNotNull prepend=","  property="unit_id"> unit_id=#unit_id# </isNotNull>
+				<isNotNull prepend=","  property="review_state"> review_state=#review_state# </isNotNull>
+				<isNotNull prepend=","  property="unit_name"> unit_name=#unit_name# </isNotNull>
+		</dynamic>
+		where project_id=#project_id#
+	</update>
+	
+	<!--   管理项目小区表(tBuildingProject)按主键删除记录    -->
+	<delete id="deleteTBuildingProject" parameterClass="java.lang.String">
+	delete from t_building_project where project_id=#value#
+	</delete>
+	
+	<!--   安全责任单位表(tBuildingUnit)查询总记录数    
+	<select id="getTBuildingUnitCount" parameterClass="tBuildingUnit" resultClass="int">
+	select count(unit_id) from t_building_unit
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND"  property="unit_name"> unit_name like '%$unit_name$%' </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="unit_type"> unit_type=#unit_type# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="link_man"> link_man=#link_man# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="link_phone"> link_phone=#link_phone# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="unit_desc"> unit_desc=#unit_desc# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="city_district"> city_district=#city_district# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="review_state"> review_state=#review_state# </isNotEmpty>
+		</dynamic>
+	</select>-->
+	<!--   安全责任单位表(tBuildingUnit)分页查询返回列表     
+	<select id="getTBuildingUnitList" parameterClass="map" resultClass="tBuildingUnit">
+		SELECT * FROM 
+		(
+			SELECT A.*, ROWNUM RN 
+			FROM (
+		select * from t_building_unit
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND"  property="tBuildingUnit.unit_name"> unit_name like '%$tBuildingUnit.unit_name$%' </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tBuildingUnit.unit_type"> unit_type=#tBuildingUnit.unit_type# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tBuildingUnit.link_man"> link_man=#tBuildingUnit.link_man# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tBuildingUnit.link_phone"> link_phone=#tBuildingUnit.link_phone# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tBuildingUnit.unit_desc"> unit_desc=#tBuildingUnit.unit_desc# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tBuildingUnit.city_district"> city_district=#tBuildingUnit.city_district# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tBuildingUnit.review_state"> review_state=#tBuildingUnit.review_state# </isNotEmpty>
+		</dynamic>
+		<isNotEmpty prepend="order by " property="_sortname">
+			$_sortname$ $_sortorder$
+		</isNotEmpty>
+		) A 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#	
+	</select>-->
+	<!--   安全责任单位表(tBuildingUnit)普通查询返回列表     
+	<select id="getAllTBuildingUnits"  resultClass="tBuildingUnit">
+	select * from t_building_unit		
+	</select>-->
+	<!--   安全责任单位表(tBuildingUnit)根据主键返回单条记录    
+	<select id="getTBuildingUnit" parameterClass="java.lang.String"  resultClass="tBuildingUnit">
+		select  unit_id,unit_name,unit_type,link_man,link_phone,unit_desc,city_district,review_state  from t_building_unit where unit_id=#value#
+	</select>-->
+	<!--   安全责任单位表(tBuildingUnit)插入新记录    
+	<insert id="addTBuildingUnit" parameterClass="tBuildingUnit">
+		insert into t_building_unit 
+		(unit_id,unit_name,unit_type,link_man,link_phone,unit_desc,city_district,review_state,org_id)
+		values (#unit_id#,#unit_name:VARCHAR#,#unit_type:VARCHAR#,#link_man:VARCHAR#,#link_phone:VARCHAR#,#unit_desc:VARCHAR#,#city_district:VARCHAR#,#review_state:VARCHAR#,#org_id:VARCHAR#)
+	</insert>-->
+	<!--   安全责任单位表(tBuildingUnit)修改记录   
+	<update id="updateTBuildingUnit"  parameterClass="tBuildingUnit">
+		update t_building_unit 
+		<dynamic  prepend="set">
+				<isNotNull prepend=","  property="unit_name"> unit_name=#unit_name# </isNotNull>
+				<isNotNull prepend=","  property="unit_type"> unit_type=#unit_type# </isNotNull>
+				<isNotNull prepend=","  property="link_man"> link_man=#link_man# </isNotNull>
+				<isNotNull prepend=","  property="link_phone"> link_phone=#link_phone# </isNotNull>
+				<isNotNull prepend=","  property="unit_desc"> unit_desc=#unit_desc# </isNotNull>
+				<isNotNull prepend=","  property="city_district"> city_district=#city_district# </isNotNull>
+				<isNotNull prepend=","  property="review_state"> review_state=#review_state# </isNotNull>
+		</dynamic>
+		where unit_id=#unit_id#
+	</update> -->
+	
+	<!--   安全责任单位表(tBuildingUnit)按主键删除记录    
+	<delete id="deleteTBuildingUnit" parameterClass="java.lang.String">
+		delete from t_building_unit where unit_id=#value#
+	</delete>-->
+
+	<update id="updateProjectBuildingids" parameterClass="tBuildingProject">
+		update t_building set project_id=#project_id# where building_id in $project_buildingids$
+	</update>
+	
+	<select id="getBuildingIds" parameterClass="java.lang.String" resultClass="java.lang.String">
+		select project_buildingids from t_building_project where unit_id=#value#
+	</select>
+	
+	<select id="loadEnumvalue" parameterClass="java.util.Map" resultClass="com.originsys.safemanage.domain.EnumValue">
+		select * from yc_enum_value t
+		where 1=1  
+		<isNotNull property="enum_id" prepend="and">  enum_id = $enum_id$  </isNotNull> 
+		<isNotNull property="enum_name" prepend="and"> enum_id like '%$enum_name$%' </isNotNull> 
+		<isNotNull property="enum_value" prepend="and"> enum_value = $enum_value$ </isNotNull> 
+		<isNotEmpty property="_sortname" prepend="order by ">
+			$_sortname$ $_sortorder$
+		</isNotEmpty>
+		 
+	</select>
+</sqlMap>

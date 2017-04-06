@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component xmlns="http://www.eap2.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eap2.net http://www.eap2.net/eap2/component.xsd "
+name="房产GIS工程" id="realtygis" instance-scope="SINGLE">
+	<description>房产GIS工程</description>
+	<actions>
+	   <get id="tourist" name="游客首页" class="com.originsys.eap.common.login.action.LoginBlock">
+           <view type="html">com/originsys/realtygis/view/touristGIS.ftl</view>
+	   </get>	  
+	   <get id="gis" name="首页" class="com.originsys.realtygis.action.Gis">
+           <view type="html">com/originsys/realtygis/view/gis.ftl</view>
+	   </get>
+	   <get id="housetheme" name="房屋楼高专题图" class="com.originsys.realtygis.action.HouseThemeQuery">
+			<view type="plain">com/originsys/realtygis/view/househeightquery.ftl</view>
+		</get>		
+		<get id="buildingjson" name="楼幢表json" class="com.originsys.realtygis.action.BuildingFromSurvey">
+		    <view type="plain">com/originsys/realtygis/view/buildingfromsurvey.ftl</view>
+		</get>
+		<get id="housejson"  name="楼盘表json" class="com.originsys.realtygis.action.BuildingFromSurvey">
+	 	    <view type="html">com/originsys/realtygis/view/houseinfo1.ftl</view>
+		</get>
+		<get id="buildingquelist"  name="房屋查询结果列表json" class="com.originsys.realtygis.action.BuildingQueList">
+	 	    <view type="html">com/originsys/realtygis/view/buildingquelist.ftl</view>
+		</get>
+		<get id="buildingarealist"  name="房屋面积查询列表json" class="com.originsys.realtygis.action.BuildingAreaList">
+	 	    <view type="html">com/originsys/realtygis/view/buildingarealist.ftl</view>
+		</get>
+		<get id="buildingareamap"  name="房屋面积mapid json" class="com.originsys.realtygis.action.BuildingAreaList">
+	 	    <view type="plain">com/originsys/realtygis/view/buildingareamap.ftl</view>
+		</get>
+		<get id="housearealist"  name="符合面积条件的户列表json" class="com.originsys.realtygis.action.HouseAreaList">
+		   <view type="html">com/originsys/realtygis/view/housearealist.ftl</view>
+		</get>
+		<get id="households" name="房屋到户专题图" class="com.originsys.realtygis.action.HouseHoldsTheme"> 
+	 	<view type="plain">com/originsys/realtygis/view/households.ftl</view>	 
+	 	</get>
+	 	<get id="buildinglistgrid" name="房屋面积查询列表jqGrid" class="com.originsys.realtygis.action.BuildingListGrid">
+	 	   <view type="html">com/originsys/realtygis/view/buildinglistgrid.ftl</view>
+	 	</get>
+	 	<get id="buildinglistgridjson" name="房屋面积查询列表jqGrid-json" class="com.originsys.realtygis.action.BuildingListGridJson">
+	 	    <view type="plain">com/originsys/realtygis/view/buildinglistgridjson.ftl</view>
+	 	</get>
+	 	<get id="dialog" name="综合查询对话框" class="">
+	 	<view type="plain">com/originsys/realtygis/view/dialog.ftl</view>
+	 	</get>
+	 	<get id="houseareagrid" name="户面积查询列表jqGrid" class="com.originsys.realtygis.action.HouseAreaGrid">
+	 	    <view type="html">com/originsys/realtygis/view/houseareagrid.ftl</view>
+	 	</get>
+	 	<get id="houseareagridjson" name="户面积查询列表jqGrid-json" class="com.originsys.realtygis.action.HouseAreaGridJson">
+	 	    <view type="plain">com/originsys/realtygis/view/houseareagridjson.ftl</view>
+	 	</get>
+	 	<get id="queryconditions" name="可见视野范围查询条件框" class="">
+	 	<view type="plain">com/originsys/realtygis/view/querybyextent.ftl</view>
+	 	</get>
+	 		<get id="mapversiongrid" name="地图版本号列表jqGrid" class="">
+	 	   <view type="html">com/originsys/realtygis/view/mapversiongrid.ftl</view>
+	 	</get>
+	 	<get id="mapversiongridjson" name="地图版本号列表jqGrid-json" class="com.originsys.realtygis.action.MapVersionGrid">
+	 	   <view type="plain">com/originsys/realtygis/view/mapversiongridjson.ftl</view>
+	 	</get>
+	 	<get id="mapversion.forinsert" class="" name="地图版本预增加">
+		  <view type="html">com/originsys/realtygis/view/mapversionforinsert.ftl</view>
+		</get>
+		<data id="mapversion.insert1" name="地图版本增加" class="com.originsys.realtygis.action.MapVersionInsert1" />
+	 	<data id="mapversion.delete" class="com.originsys.realtygis.action.MapVersionDelete" name="地图版本列表及属性删除"  />
+		<get id="mapversion.forupdate" class="com.originsys.realtygis.action.MapVersionForUpdate" name="预修改地图版本列表及属性">
+		  <view type="html">com/originsys/realtygis/view/mapversionforupdate.ftl</view>
+		</get>
+		<get id="mapversion.update" class="com.originsys.realtygis.action.MapVersionUpdate" name="修改地图版本列表及属性"  >
+			<view type="plain">com/originsys/realtygis/view/mapversionupdate.ftl</view>		
+		</get>
+		<get id="addmapversion" name="新建地图版本对话框" class="">
+	 	<view type="plain">com/originsys/realtygis/view/addmapversion.ftl</view>
+	 	</get>
+	 	<post id="mapversion.insert" class="com.originsys.realtygis.action.MapVersionInsert" name="地图版本增加" is-switch="true">
+				</post>
+		<get id="versionmanagerpopup" name="历史版本切换对话框" class="com.originsys.realtygis.action.MapVersionGrid">
+	 	<view type="plain">com/originsys/realtygis/view/versionmanagerpopup.ftl</view>
+	 	</get>
+	 	<get id="idcheck" name="检查id是否已存在" class="com.originsys.realtygis.action.VersionIdCheck">
+	 	  <view type="plain">com/originsys/realtygis/view/versionidcheck.ftl</view>
+	 	</get>
+	 	 <get id="allhousetheme" name="全市房屋专题图" class="com.originsys.realtygis.action.ALLHouseThemeQuery">
+			<view type="plain">com/originsys/realtygis/view/allhousethemequery.ftl</view>
+		</get>
+		<get id="regionthemebystructure" name="分区房屋结购统计" class="com.originsys.realtygis.action.RegionThemeByStructure">
+		<view type="plain">com/originsys/realtygis/view/regionthemebystructure.ftl</view>
+		</get>
+		<get id="housethemebyextent" name="可见视野范围内房屋统计" class="com.originsys.realtygis.action.HouseThemeByExtent">
+		<view type="plain">com/originsys/realtygis/view/housethemebyextent.ftl</view>
+		</get>
+		<get id="regionthemebyarea" name="分区房屋面积统计" class="">
+		<view type="plain"></view>
+		</get>
+		<get id="apihelp" name="api在线帮助" class="">
+		<view type="html">com/originsys/realtygis/view/apihelp.ftl</view>
+		</get>
+		<get id="LayeredHouseholdFigure" name="分层分户图" class="com.originsys.realtygis.action.LayeredHouseholdFigure">
+	 		<view type="html">com/originsys/realtygis/view/LayeredHouseholdFigure.ftl</view>
+	 	</get>
+	 	<get id="LayeredHouseholdFigureCount" name="分层分户图数量" class="com.originsys.realtygis.action.LayeredHouseholdFigure">
+	 		<view type="plain">com/originsys/realtygis/view/LayeredHouseholdFigureCount.ftl</view>
+	 	</get>
+	 	<data id="housedetail" name="房屋详细" class="com.originsys.realtygis.action.HouseDetail"/>
+	 	<get id="tabdialog" name="带tab页的弹出窗口" class="com.originsys.realtygis.action.TabDialog">
+	 		<view type="html">com/originsys/realtygis/view/tabdialog.ftl</view>
+	 	</get>
+	 		 		 	<get id="mapversionforview" name="预览地图版本" class="com.originsys.realtygis.action.MapVersionForView">
+ 	  <view type="html">com/originsys/realtygis/view/versionforview.ftl</view>
+ 	    </get>
+ 	    <get id="updatebuildingproperty" name="修改楼栋表属性" class="com.originsys.realtygis.action.PropertyListForUpdate">
+ 	      <view type="html">com/originsys/realtygis/view/propertylistforupdate.ftl</view>
+ 	    </get>
+ 	    <get id="splitscreencontrast" name="地图分屏对比" class="com.originsys.realtygis.action.MapVersionForView">
+ 	  <view type="html">com/originsys/realtygis/view/splitscreencontrast.ftl</view>
+ 	    </get>
+ 	    <get id="buildingbasicsurver" name="基础测绘成果查询" class="com.originsys.realtygis.action.BuildingBasicSurver">
+ 	    <view type="html">com/originsys/realtygis/view/basicsurverlist.ftl</view>
+ 	    </get>
+ 	    <post id="buildingbasicproduct" name="下载基础测绘文档" class="com.originsys.realtygis.action.DocDownLoad"> 
+	</post>
+	<!-- 测绘统计 start  2014年3月19日 -->
+	<get id="cityprojectsurveytj" name="全市按年预实测套数统计" class="com.originsys.realtygis.action.CityProjectSurveyTj">
+ 	    <view type="html">com/originsys/realtygis/view/cityprojectsurveytj.ftl</view>
+ 	</get>
+ 	<get id="cityprojectsurveyjdtj" name="全市按季度预实测套数统计" class="com.originsys.realtygis.action.CityProjectSurveyJdTj">
+ 	    <view type="html">com/originsys/realtygis/view/cityprojectsurveyjdtj.ftl</view>
+ 	</get>
+ 	<get id="districtprojectsurveytj" name="各区县按年预实测套数统计" class="com.originsys.realtygis.action.DistrictProjectSurveyTj">
+ 	    <view type="html">com/originsys/realtygis/view/districtprojectsurveytj.ftl</view>
+ 	</get>
+ 	<get id="districtprojectsurveyjdtj" name="各区县按季度预实测套数统计" class="com.originsys.realtygis.action.DistrictProjectSurveyJdTj">
+ 	    <view type="html">com/originsys/realtygis/view/districtprojectsurveyjdtj.ftl</view>
+ 	</get>
+ 	
+ 	<get id="citysurveyareatj" name="全市按年基础测绘面积统计" class="com.originsys.realtygis.action.CitySurveyAreaTj">
+ 	    <view type="html">com/originsys/realtygis/view/citysurveyareatj.ftl</view>
+ 	</get>
+ 	
+ 	<get id="districtsurveyareatj" name="各区县按年基础测绘面积统计" class="com.originsys.realtygis.action.DistrictSurveyAreaTj">
+ 	    <view type="html">com/originsys/realtygis/view/districtsurveyareatj.ftl</view>
+ 	</get>
+ 	
+ 	<get id="citysurveyusedesigntj" name="全市历年测绘按设计用途测绘套数统计" class="com.originsys.realtygis.action.CitySurveyUsedesignTj">
+ 	    <view type="html">com/originsys/realtygis/view/citysurveyusedesigntj.ftl</view>
+ 	</get>
+ 	
+ 	<get id="districtsurveyusedesigntj" name="各区县历年测绘按设计用途测绘套数统计" class="com.originsys.realtygis.action.DistrictSurveyUsedesignTj">
+ 	    <view type="html">com/originsys/realtygis/view/districtsurveyusedesigntj.ftl</view>
+ 	</get>
+ 	
+ 	<get id="citybuildingareatj" name="全市历年完成的房屋建筑面积的统计" class="com.originsys.realtygis.action.CityBuildingAreaTj">
+ 	    <view type="html">com/originsys/realtygis/view/citybuildingareatj.ftl</view>
+ 	</get>
+ 	<get id="citybuildingareajdtj" name="全市按季度房屋建筑面积的统计" class="com.originsys.realtygis.action.CityBuildingAreaJdTj">
+ 	    <view type="html">com/originsys/realtygis/view/citybuildingareajdtj.ftl</view>
+ 	</get>
+ 	
+ 	<get id="citybuildingareatj1" name="全市历年完成的实测绘房屋建筑面积的统计" class="com.originsys.realtygis.action.CityBuildingAreaTj1">
+ 	    <view type="html">com/originsys/realtygis/view/citybuildingareatj1.ftl</view>
+ 	</get>
+ 	
+ 	<get id="districtbuildingareatj1" name="各区县历年完成的实测绘房屋建筑面积占比统计" class="com.originsys.realtygis.action.DistrictBuildingAreaTj1">
+ 	    <view type="html">com/originsys/realtygis/view/districtbuildingareatj1.ftl</view>
+ 	</get>
+ 	
+ 	<get id="districtbuildingareatj" name="各区县历年完成的房屋建筑面积占比统计" class="com.originsys.realtygis.action.DistrictBuildingAreaTj">
+ 	    <view type="html">com/originsys/realtygis/view/districtbuildingareatj.ftl</view>
+ 	</get>
+ 	
+ 	<get id="districthouseareatj" name="各区县历年完成的房屋建筑面积统计" class="com.originsys.realtygis.action.DistrictHouseAreaTj">
+ 	    <view type="html">com/originsys/realtygis/view/districthouseareatj.ftl</view>
+ 	</get>
+ 	<get id="districthouseareajdtj" name="各区县完成的房屋建筑面积按季度统计" class="com.originsys.realtygis.action.DistrictHouseAreaJdTj">
+ 	    <view type="html">com/originsys/realtygis/view/districthouseareajdtj.ftl</view>
+ 	</get>
+ 		
+	<!-- 测绘统计 end -->
+		<data id="downloadproject" name="下载项目测绘文档" class="com.originsys.realtygis.action.DocDownLoadProject" />
+	
+	   <get id="buildingmultiquery" name="楼栋综合查询" class="">
+	 	   <view type="html" id="bmultiquery" name="楼栋综合查询">com/originsys/realtygis/view/buildingmultiquery.ftl</view>
+	 	   <view type="html" id="firstpagesearch" name="首页房屋地址查询">com/originsys/realtygis/view/firstpagesearch.ftl</view>
+	 	</get>
+	 	<get id="buildingmultiqueryjson" name="楼栋综合查询json" class="com.originsys.realtygis.action.BuildingMultiQuery">
+	 	   <view type="plain">com/originsys/realtygis/view/buildingmultiqueryjson.ftl</view>
+	 	</get>
+	 	<get id="dropextenthouquery" name="拉框房屋查询" class="com.originsys.realtygis.action.DropExtentHouQuery">
+	 	    <view type="html">com/originsys/realtygis/view/dropextenthouquery.ftl</view>
+	 	</get>
+	 	<get id="housequerygridjson" name="拉框房屋查询结果列表" class="com.originsys.realtygis.action.HouseQueryGridJson">
+	 	  <view type="plain">com/originsys/realtygis/view/houseareagridjson.ftl</view>
+	 	</get>
+	 	<!-- 指定楼幢面（可以是多个）按照房屋建筑面积分类统计房屋数量 start  2014年3月25日 -->
+ 		<get id="houseareatj" name="指定楼幢面按照房屋建筑面积分类统计房屋数量" class="com.originsys.realtygis.action.HouseAreaTj">
+	 	  <view type="html">com/originsys/realtygis/view/houseareatj.ftl</view>
+	 	</get>
+	 	<!-- 指定楼幢面（可以是多个）按照房屋建筑面积分类统计房屋数量 end -->
+	 	<get id="simplebuildingquery"  name="楼栋单一条件查询" class="com.originsys.realtygis.action.SimpleBuildingQuery">
+	 	  <view type="html">com/originsys/realtygis/view/simplebuildingquery.ftl</view>
+	 	</get>
+	 	<get id="simplebuildingqueryjson" name="楼栋单一条件查询json" class="com.originsys.realtygis.action.BuildingMultiQuery">
+	 	  <view type="plain">com/originsys/realtygis/view/buildingmultiqueryjson.ftl</view>
+	 	</get>
+	 	<!-- 权限控制动作   2014年3月28日   start -->
+	 	<data id="blockaccess" name="首页权限" class="" />
+	 	<data id="surveraccess" name="测绘权限" class="" />
+	 	<data id="safetyaccess" name="安全权限" class="" />
+	 	<data id="guaranteeaccess" name="保障权限" class="" />
+	 	<data id="ownershipaccess" name="权属权限" class="" />
+	 	<data id="tenementaccess" name="物业权限" class="" />
+	 	<data id="operationaccess" name="运维权限" class="" />
+	 	
+	 	
+	 	<!-- 权限控制动作   end -->
+	 	
+	 	<get id="buildingmapidenty" name="楼栋地图定位" class="com.originsys.realtygis.action.BuildingMapIdenty">
+	 	 <view type="html">com/originsys/realtygis/view/buildingmapidenty.ftl</view>
+	 	</get>
+	 	<get id="buildingfrommap" name="缓冲分析楼栋查询列表" class="com.originsys.realtygis.action.BuildingFromMap">
+	 	    <view type="html">com/originsys/realtygis/view/buildingfrommaplist.ftl</view>
+		</get>
+		<get id="buildingfrommapjson" name="缓冲分析楼栋查询列表json" class="com.originsys.realtygis.action.BuildingFromMapJson">
+	 	    <view type="plain">com/originsys/realtygis/view/buildingmultiqueryjson.ftl</view>
+		</get>
+			<get id="bufferanalysiscount" name="缓冲分析结果统计" class="com.originsys.realtygis.action.BufferAnalysisCount">
+		    <view type="plain">com/originsys/realtygis/view/bufferanalysiscount.ftl</view>
+		</get>
+		<get id="simplebuildingqueryjsonforall" name="楼栋单一条件查询json获取所有结果" class="com.originsys.realtygis.action.BuildingMultiQueryForAll">
+	 	  <view type="plain">com/originsys/realtygis/view/buildingmultiqueryjsonforall.ftl</view>
+	 	</get>
+	 	<!--健康档案查询请求   start  -->
+	 	<get id="safetybuildingjson" name="安全楼幢表json" class="com.originsys.realtygis.action.BuildingSafetySurvey">
+		    <view type="plain">com/originsys/realtygis/view/buildingsafetysurvey.ftl</view>
+		</get>
+		<get id="jkdatabdialog" name="带tab页的弹出窗口" class="com.originsys.realtygis.action.JkdaTabDialog">
+	 		<view type="html">com/originsys/realtygis/view/jkdatabdialog.ftl</view>
+	 	</get>
+	 	<get id="healthgradetab" name="健康等级页面" class="com.originsys.realtygis.action.HealthGrade">
+	 	    <view type="html">com/originsys/realtygis/view/healthgradetab.ftl</view>
+	 	</get>
+	 	 <get id="jkdjforview" name="健康等级地图叠加显示" class="com.originsys.realtygis.action.MapVersionForView">
+ 	  <view type="html">com/originsys/realtygis/view/jkdjmapforview.ftl</view>
+ 	    </get>
+		<!--健康档案查询请求   end  -->
+		<!-- 更新房屋普查数据 -->
+		<get id="updatesafedate" name="更新房屋普查数据" class="com.originsys.realtygis.action.BuildingSafeDateUpdate">
+		 <view type="plain">com/originsys/realtygis/view/updatesafedate.ftl</view>
+		</get>
+		<!-- 查询ST_RIDRGN表数据 -->
+		<get id="getstridrgndata" name="查询ST_RIDRGN表数据 " class="com.originsys.realtygis.action.BuildingSpaceQuery">
+		  <view type="html">com/originsys/realtygis/view/getstridrgndata.ftl</view>
+		</get>
+		<get id="getCountyLZCountAndArea" name="统计房屋数量和面积" class="com.originsys.realtygis.action.CountyLZCountAndArea">
+	 	<view type="plain">com/originsys/realtygis/view/getcountylzcountandarea.ftl</view>
+	 	</get>
+	 	<get id="qj" name="全景" class="com.originsys.realtygis.action.BuildingSceneProperty">
+			<view type="html">com/originsys/realtygis/view/hdscene.ftl</view>
+		</get>	 	
+	</actions>
+</component>

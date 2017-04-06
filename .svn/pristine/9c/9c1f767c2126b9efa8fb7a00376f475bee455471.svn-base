@@ -1,0 +1,74 @@
+package com.originsys.auth.action;
+
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.ehcache.Element;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+import com.originsys.auth.Service.OrgComService;
+import com.originsys.auth.domain.Orgcom;
+import com.originsys.auth.domain.OrgcomType;
+import com.originsys.auth.domain.OrgcomtypeOrgcom;
+import com.originsys.eap.action.BaseAction;
+import com.originsys.eap.iservice.IData;
+import com.originsys.eap.util.CacheUtil;
+import com.originsys.eap.util.DataSource;
+import com.originsys.eap.util.RequestAction;
+
+/**
+ auth:boy 2013-7-16
+   描述：组织审核
+ */
+public class OrgcomCheck extends BaseAction implements IData{
+
+	public void execute(RequestAction ra, HttpServletResponse response)
+			throws Exception {
+		String organ_id = ra.getParameter("organ_id");
+		Orgcom orgcom=new Orgcom();
+		orgcom.setOrgan_id(organ_id);
+		orgcom.setAuthentication_state(ra.getParameter("state"));
+		SqlMapClient sc=DataSource.getSqlMapInstance();
+		int success=0;
+		try{
+			sc.startTransaction();
+			//审核企业的状态
+			sc.update("Auth.orgcomcheck", orgcom);
+			//审核企业类型的状态
+			List<OrgcomType> typelist=sc.queryForList("Auth.getOrgTypeListByOrgID1", organ_id);
+			if(typelist!=null){	
+				for(OrgcomType type:typelist){
+					String type_state=ra.getParameter(type.getOrgan_type_id());
+					OrgcomtypeOrgcom temp=new OrgcomtypeOrgcom();
+					temp.setOrgan_type_id(type.getOrgan_type_id());
+					temp.setOrgan_id(organ_id);
+					temp.setOrgan_type_state(type_state);
+					sc.update("Auth.orgcomtypecheck", temp);
+				}
+			}
+			//清除缓存
+			CacheUtil.dataCache().remove("orgcom_"+organ_id);
+			orgcom=OrgComService.getInstance().getOrgcomByID(organ_id);
+			//重新放到缓存中
+			CacheUtil.dataCache().put(new Element("orgcom_"+organ_id,orgcom));
+			CacheUtil.dataCache().put(new Element(orgcom.getOrgan_code(),orgcom));
+			success=1;
+			sc.commitTransaction();
+		}catch (Exception e) {
+			success=0;
+			log().info(e.getMessage());
+			log().info(e.getStackTrace());
+			throw e;
+		}finally{
+			sc.endTransaction();
+		}
+		response.setContentType("text/plain");
+		PrintWriter out=response.getWriter();
+		out.print("{\"success\":"+success+"}");
+	}
+}

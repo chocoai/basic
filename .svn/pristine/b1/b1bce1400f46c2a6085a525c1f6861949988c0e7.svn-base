@@ -1,0 +1,742 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>地图初始化类参考</title>
+<link rel="stylesheet" href="./style.css"/>
+</head>
+<body>
+	<div class="classTitle">类参考</div>
+	<div id="main_content" class="main_content">
+		<div id="index">
+			<!-- begin publish.classesIndex -->
+			<div align="center" class="class_index">
+				<a href="./maphelp.html?map">参考类</a> | <a href="./mapfiles.html?map">文件</a>
+			</div>
+			<div class="class_index1">
+				<h2>Classes</h2>
+				<ul class="classList">
+					<li><a href="./FMapLib.html?map">FMapLib</a></li>
+					<li><a href="./mapclassreference.html">FMapLib.FMap</a></li>
+
+				</ul>
+			</div>
+		</div>
+		<div id="content">
+			<h1 class="classTitle">类 FMapLib.FMap</h1>
+			<p class="description">
+				地图初始化API是房产GIS API接口的基础。 实例化该类后，即可在页面上展示地图并进行后续的操作，是一切工作的开始。 <br />
+			</p>
+			<h1 class="classTitle2">
+				类
+				</h1>
+				<table class="summaryTable" cellspacing="0"
+					summary="A summary of the constructor documented in the class BMapLib.DrawingManager.">
+					<tr class="title">
+						<td style="border-left: 1px solid #C8CCD1;">类</td>
+						<td>描述</td>
+					</tr>
+					<tbody>
+						<tr>
+							<td class="attributes attributesCstor">
+								<div class="fixedFont">
+									<b>FMap.FMap</b>(div:string)
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description">FMap类的构造函数</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<h1 class="classTitle2">方法</h1>
+				<table class="summaryTable" cellspacing="0">
+					<tr class="title">
+						<td style="border-left: 1px solid #C8CCD1;">方法</td>
+						<td>返回值</td>
+						<td>描述</td>
+					</tr>
+					<tbody>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>render</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">None</div></td>
+							<td class="nameDescription"><div class="description">在指定的容器中渲染地图。</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes "><div class="fixedFont">
+									<b>destroy</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">None</div></td>
+							<td class="nameDescription"><div class="description">销毁地图
+									注意，如果从DOM中移除map容器，需要在destroy前执行。</div></td>
+						</tr>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>setOptions</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">None</div></td>
+							<td class="nameDescription"><div class="description">设置地图的options.</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes "><div class="fixedFont">
+									<b>getTileSize</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">FMap.Size</div></td>
+							<td class="nameDescription"><div class="description">获取地图瓦片的大小。</div></td>
+						</tr>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>getBy</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">Array</div></td>
+							<td class="nameDescription"><div class="description">获取一个对象数组，并通过给定的属性匹配其中的项。</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes "><div class="fixedFont">
+									<b>getLayersBy</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">Array</div></td>
+							<td class="nameDescription"><div class="description">获取与给定属性和匹配字符串匹配的图层列表。</div></td>
+						</tr>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>getLayersByName</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">Array</div></td>
+							<td class="nameDescription"><div class="description">获取根据名称匹配得到的图层列表。</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes "><div class="fixedFont">
+									<b>getLayersByClass</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">Array</div></td>
+							<td class="nameDescription"><div class="description">根据类名获取的图层列表。</div></td>
+						</tr>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>getControlsBy</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">Array</div></td>
+							<td class="nameDescription"><div class="description">根据给定的属性和匹配字符串匹配到的控件列表。</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes "><div class="fixedFont">
+									<b>getControlsByClass</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">Array</div></td>
+							<td class="nameDescription"><div class="description">根据给定类的类名匹配到的控件列表。</div></td>
+						</tr>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>getLayer</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">FMap。Layer</div></td>
+							<td class="nameDescription"><div class="description">根据传入参数id获取图层。</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes "><div class="fixedFont">
+									<b>addLayer</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">None</div></td>
+							<td class="nameDescription"><div class="description">向地图中添加指定的单个图层。</div></td>
+						</tr>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>addLayers</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">None</div></td>
+							<td class="nameDescription"><div class="description">向地图中添加指定的多个图层。</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes "><div class="fixedFont">
+									<b>removeLayer</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">None</div></td>
+							<td class="nameDescription"><div class="description">通过删除可见元素（即layer.div属性）来移除地图上的图层。然后从地图的
+									图层列表中移除该图层，同时设置图层的map属性为null。</div></td>
+						</tr>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>getNumLayers</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">int</div></td>
+							<td class="nameDescription"><div class="description">获取地图上的图层数量。</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes "><div class="fixedFont">
+									<b>getLayerIndex</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">int</div></td>
+							<td class="nameDescription"><div class="description">获取图层在地图上的索引值（索引值从零开始）。</div></td>
+						</tr>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>setLayerIndex</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">None</div></td>
+							<td class="nameDescription"><div class="description">移动图层到图层列表中的指定索引值（索引值从零开始）的位置。改变
+									它在地图显示时的z-index值。 使用map.getLayerIndex()方法查看图层
+									当前的索引值。注意该方法不能将底图移动到叠加图层之上。</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes "><div class="fixedFont">
+									<b>raiseLayer</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">None</div></td>
+							<td class="nameDescription"><div class="description">通过给定的增量值（delta参数）来改变给定图层的索引值。
+									如果增量值为 正，图层就会在图层堆栈中向上移；如果增量值为负，图层就会向下移。这个方法同样不能将底图移动到叠加图层之上。</div></td>
+						</tr>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>setBaseLayer</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">None</div></td>
+							<td class="nameDescription"><div class="description">允许用户指定当前加载的某一图层为地图新的底图。</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes "><div class="fixedFont">
+									<b>addControl</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">None</div></td>
+							<td class="nameDescription"><div class="description">为地图添加控件。可选的位置参数用来指定控件的像素位置。</div></td>
+						</tr>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>addControls</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">None</div></td>
+							<td class="nameDescription"><div class="description">将控件添加到map上。
+									可以通过options的第二个数组通过像素对象控制控件的位置
+									两个数组应该匹配，如果pixel设为null，控件会显示在默认位置。</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes "><div class="fixedFont">
+									<b>getControl</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">FMap.Control</div></td>
+							<td class="nameDescription"><div class="description">通过id值获取控件对象。</div></td>
+						</tr>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>removeControl</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">None</div></td>
+							<td class="nameDescription"><div class="description">移除控件。</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes "><div class="fixedFont">
+									<b>addPopup</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">None</div></td>
+							<td class="nameDescription"><div class="description">在地图中添加弹出窗口。</div></td>
+						</tr>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>removePopup</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">None</div></td>
+							<td class="nameDescription"><div class="description">移除指定的弹出窗口。</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes "><div class="fixedFont">
+									<b>getSize</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">FMap.Size</div></td>
+							<td class="nameDescription"><div class="description">获取当前地图容器大小。</div></td>
+						</tr>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>updateSize</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">None</div></td>
+							<td class="nameDescription"><div class="description">通过动态调用updateSize()方式，来改变地图容器的大小。</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes "><div class="fixedFont">
+									<b>getCenter</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">String</div></td>
+							<td class="nameDescription"><div class="description">获取当前地图的中心点坐标。</div></td>
+						</tr>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>getZoom</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">int</div></td>
+							<td class="nameDescription"><div class="description">获取当前地图的缩放比例级别。</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes "><div class="fixedFont">
+									<b>pan</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">None</div></td>
+							<td class="nameDescription"><div class="description">根据指定的屏幕像素值平移地图。</div></td>
+						</tr>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>panTo</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">None</div></td>
+							<td class="nameDescription"><div class="description">平移地图到新的位置
+									如果新的位置在地图的当前范围内，地图将平滑地移动。</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes "><div class="fixedFont">
+									<b>setCenter</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">None</div></td>
+							<td class="nameDescription"><div class="description">设置地图中心点。</div></td>
+						</tr>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>getProjection</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">String</div></td>
+							<td class="nameDescription"><div class="description">该方法返回代表投影的字符串。</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes "><div class="fixedFont">
+									<b>getProjectionObject</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">FMap.Project</div></td>
+							<td class="nameDescription"><div class="description">返回baseLayer的投影。</div></td>
+						</tr>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>getMaxResolution</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">FMap.Project</div></td>
+							<td class="nameDescription"><div class="description">返回baseLayer最大的分辨率。</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes "><div class="fixedFont">
+									<b>getMaxExtent</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">FMap.Bounds</div></td>
+							<td class="nameDescription"><div class="description">获取地图的最大范围。</div></td>
+						</tr>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>getNumZoomLevels</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">int</div></td>
+							<td class="nameDescription"><div class="description">获取当前底图的缩放级别总数，在底图存在的情况下与底图缩放级别（numZoomLevels）
+									相同。</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes "><div class="fixedFont">
+									<b>getExtent</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">FMap.Bounds</div></td>
+							<td class="nameDescription"><div class="description">获取当前地图的范围。</div></td>
+						</tr>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>getResolution</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">float</div></td>
+							<td class="nameDescription"><div class="description">获取当前地图的分辨率。</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes "><div class="fixedFont">
+									<b>getUnits</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">String</div></td>
+							<td class="nameDescription"><div class="description">获取地图的当前单位。</div></td>
+						</tr>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>getScale</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">float</div></td>
+							<td class="nameDescription"><div class="description">获取当前地图的缩放比例。</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes "><div class="fixedFont">
+									<b>getZoomForExtent</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">int</div></td>
+							<td class="nameDescription"><div class="description">通过给定的范围获取比例级别。</div></td>
+						</tr>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>getResolutionForZoom</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">float</div></td>
+							<td class="nameDescription"><div class="description">根据缩放级别获取对应分辨率。</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes "><div class="fixedFont">
+									<b>getZoomForResolution</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">int</div></td>
+							<td class="nameDescription"><div class="description">根据分辨率获取对应缩放级别。</div></td>
+						</tr>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>zoomTo</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">None</div></td>
+							<td class="nameDescription"><div class="description">缩放到指定的级别。</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes "><div class="fixedFont">
+									<b>zoomIn</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">None</div></td>
+							<td class="nameDescription"><div class="description">在当前缩放级别的基础上放大一级。</div></td>
+						</tr>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>zoomOut</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">None</div></td>
+							<td class="nameDescription"><div class="description">在当前缩放级别的基础上缩小一级。</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes "><div class="fixedFont">
+									<b>zoomToExtent</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">None</div></td>
+							<td class="nameDescription"><div class="description">缩放到指定范围，重新定位中心点。</div></td>
+						</tr>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>zoomToMaxExtent</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">None</div></td>
+							<td class="nameDescription"><div class="description">缩放到最大范围，并重新定位中心点。</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes "><div class="fixedFont">
+									<b>zoomTo</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">None</div></td>
+							<td class="nameDescription"><div class="description">缩放到指定的比例</div></td>
+						</tr>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>getViewPortPxFromLonLat</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">FMap.Pixel</div></td>
+							<td class="nameDescription"><div class="description">根据指定地理位置，返回其相对于当前地图窗口左上角的像素位置。</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes "><div class="fixedFont">
+									<b>getLonLatFromPixel</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">String</div></td>
+							<td class="nameDescription"><div class="description">根据相对于地图窗口左上角的像素位置，返回其在地图上的地理位置。
+									依据当前baselayer转换成 lon/lat (经度/纬度)形式。</div></td>
+						</tr>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>getPixelFromLonLat</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">FMap.Pixel</div></td>
+							<td class="nameDescription"><div class="description">获取地图上的像素坐标。依照当前baselayer，将指定的地理点位置坐标，
+									转换成其相对于地图窗口左上角点的像素坐标。</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes "><div class="fixedFont">
+									<b>getLayerPxFromViewPortPx</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">FMap.Pixel</div></td>
+							<td class="nameDescription"><div class="description">根据视图窗口像素点坐标获取图层像素点坐标。</div></td>
+						</tr>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>getLayerPxFromLonLat </b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">FMap.Pixel</div></td>
+							<td class="nameDescription"><div class="description">根据传入的大地坐标获取图层坐标对象。</div></td>
+						</tr>
+					</tbody>
+				</table>
+				<h1 class="classTitle2">属性</h1>
+				<table class="summaryTable" cellspacing="0"
+					summary="A summary of the events documented in the class BMapLib.DrawingManager.">
+					<tr class="title">
+						<td style="border-left: 1px solid #C8CCD1;">属性</td>
+						<td>描述</td>
+					</tr>
+					<tbody>
+						<tr>
+							<td class="attributes attributesEvts"><div class="fixedFont">
+									<b>events</b>
+								</div></td>
+							<td class="nameDescription"><div class="description">{FMap.Events}
+									事件对象,负责触发地图上的所有事件。</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes attributesEvts"><div class="fixedFont">
+									<b>allOverlays</b>
+								</div></td>
+							<td class="nameDescription"><div class="description">{Boolean}
+									地图所有图层都被当做叠加图层来使用，默认是false。如果设置为 true，
+									则图层相互叠加，最先绘制的图层可以被视为是底图（显示效果上的底图,其isBaseLayer为false）。
+									此外，如果将此属性设置为true， 所有将要添加的图层的”isBaseLayer”属性在添加的时候都会被默认修改成false。</div></td>
+						</tr>
+						<tr>
+							<td class="attributes attributesEvts"><div class="fixedFont">
+									<b>div</b>
+								</div></td>
+							<td class="nameDescription"><div class="description">{DOMElement|String}
+									装载地图的DOM元素（或一个元素的id值），如果 调用 FMap.Map 构造函数的时候传递两个参数， 它将作为第一
+									个参数。此外，构造函数也能够只接收选项(options)对象作为唯一的参 数，这种情况下，div属性可能会也可能不会被提供。
+									如果div属性没有 被提供，稍后可以使用 render 方法指定地图渲染的地方。</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes attributesEvts"><div class="fixedFont">
+									<b>layers</b>
+								</div></td>
+							<td class="nameDescription">
+								<div class="description">{Array(FMap.Layer)} 地图上图层的有序列表。</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="attributes attributesEvts">
+								<div class="fixedFont">
+									<b>popups</b>
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description">{Array(FMap.Popup)} 地图上的弹窗列表。</div>
+							</td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes attributesEvts">
+								<div class="fixedFont">
+									<b>baseLayer</b>
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description">{FMap.Layer} 用来确定min/max zoom
+									level、projection等属性。</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="attributes attributesEvts">
+								<div class="fixedFont">
+									<b>tileSize</b>
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description">{FMap.Size}
+									在地图选项中被设置，用来设置地图上默认瓦片尺寸。</div>
+							</td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes attributesEvts">
+								<div class="fixedFont">
+									<b>projection</b>
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description">{String}
+									在地图选项中被设置，用来指定地图添加图层的默认投影。同时 也可以选择设置maxExtent、 maxResolution、 和
+									units等属性。 该项 默认值是”EPSG:4326”。</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="attributes attributesEvts">
+								<div class="fixedFont">
+									<b>units</b>
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description">{String}
+									地图的单位。默认是’degrees’。可选值为’degrees’(或者
+									‘dd’),‘m’,’ft’,’km’,’mi’,’inches’。</div>
+							</td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes attributesEvts">
+								<div class="fixedFont">
+									<b>resolutions</b>
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description">{Array(Float)} 降序排列的地图分辨率数组
+									(地图上每个像素代表的尺寸) 如果在构造图层时没有设置该属性， 可通过比例尺相关的属 性（例如：maxExtent,
+									maxResolution, maxScale等）计算获得。</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="attributes attributesEvts">
+								<div class="fixedFont">
+									<b>maxResolution</b>
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description">{Float}
+									用于地图实例化的时候设置最大分辨率（设置该值可以使地图在分辨率达到某个值的时候无法 再缩小）。 当不想将整张地图都展示在通过
+									tileSize 指定大小的一张瓦 片上的时候设置该值。设置为auto的时候地图会自适应视口大小。</div>
+							</td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes attributesEvts">
+								<div class="fixedFont">
+									<b>minResolution</b>
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description">{Float}
+									用于地图实例化的时候设置最小分辨率（设置该值可以使地图在分辨率达到某个值的时候无法 再放大）。</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="attributes attributesEvts">
+								<div class="fixedFont">
+									<b>maxScale</b>
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description">{Float}
+									用于地图实例化的时候设置最大比例（设置该值可以使地图在比例达到某个值的时候无法 再放大）。</div>
+							</td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes attributesEvts">
+								<div class="fixedFont">
+									<b>minScale</b>
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description">{Float}
+									用于地图实例化的时候设置最小比例（设置该值可以使地图在比例达到某个值的时候无法 再缩小）。</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="attributes attributesEvts">
+								<div class="fixedFont">
+									<b>maxExtent</b>
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description">{FMap.Bounds}
+									用于地图实例化的时候设置地图的最大范围。默认是(-180, -90, 180, 90)。</div>
+							</td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes attributesEvts">
+								<div class="fixedFont">
+									<b>minExtent</b>
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description">{MapLib.Bounds}
+									用于地图实例化的时候设置地图的最小范围。 默认值是null。</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="attributes attributesEvts">
+								<div class="fixedFont">
+									<b>restrictedExtent</b>
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description">{FMap.Bounds} 限定地图缩放范围。
+									如果设置了restrictedExtent, 平移将会被限制在指定的边界内。</div>
+							</td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes attributesEvts">
+								<div class="fixedFont">
+									<b>numZoomLevels</b>
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description">{Integer}
+									用于地图实例化的时候设置地图缩放级别的数量。默认值16，当需要的时候可以在地图选项中设置 其他的值。</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="attributes attributesEvts">
+								<div class="fixedFont">
+									<b>theme</b>
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description">{String}
+									要加载的主题风格的CSS文件的相对路径。如果想通过直接在页 面添加层叠样式表链接或样式声明来设置样式， 那就应该在地图属
+									（options）对象中指定为null（例如：{theme: null}）。</div>
+							</td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes attributesEvts">
+								<div class="fixedFont">
+									<b>displayProjection</b>
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description">{FMap.Projection}
+									将投影设置为除EPSG:4326 或 EPSG:900913/EPSG:3857以外的投影，需要proj4js的支持。该投影用
+									于通过控件（controls）向用户展示数据。如果设置了该属性， 它就会
+									被设置到任何一个在添加到地图上的时候displayProjection属性为null的 控件上。</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="attributes attributesEvts">
+								<div class="fixedFont">
+									<b>fallThrough</b>
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description">{Boolean}
+									用来设置页面元素是否会接收地图触发的事件，默认是 true.</div>
+							</td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes attributesEvts">
+								<div class="fixedFont">
+									<b>eventListeners</b>
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description">{Object} 如果在构造方法中设置此选项，事件监听对象将注册。</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="attributes attributesEvts">
+								<div class="fixedFont">
+									<b>panMethod</b>
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description">{Function}
+									作用于平移时的动画效果方法，设置为null时，动画平移将关闭。</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<!-- ============================== constructor details ==================== -->
+
+				<div class="details">
+					<a name="constructor"> </a>
+					<div class="sectionTitle">类</div>
+
+					<div class="fixedFont">
+						<b>FMapLib.FMap</b>(id)
+					</div>
+					<div class="description">FMap类的构造函数</div>
+					<pre class="code">
+								<b>参考示例：</b><br />
+   function onPageLoad() {<br />
+    var map = new FMapLib.FMap("map");<br />
+}
+</pre>
+					<dl class="detailList">
+						<dt class="heading">参数:</dt>
+						<dt>
+							<span class="light fixedFont">string</span> <b>map</b>
+						</dt>
+						<dd>地图显示窗口的id</dd>
+					</dl>
+				</div>
+				</div>
+				</div>
+</body>
+</html>

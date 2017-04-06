@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="http://localhost:8090/gis/FMapLib/FMapLib.Include-1.0.4.js"></script>
+<script type="text/javascript">
+var map,drawLineInst;
+function onPageLoad(){
+	 map = new FMapLib.FMap("map");
+}
+/**
+ * 距离测量
+ */
+function distanceMeasure(){
+	drawLineInst = new FMapLib.DistanceMeasureTool(map);
+	drawLineInst.setMapAlert(false);
+	drawLineInst.open();
+}
+//测量结果
+function diatancealert(){
+	var distance=drawLineInst.getDistance();
+	alert(distance);
+}
+//弹出提示框 
+function mapalert(){
+	drawLineInst.doMapAlert();
+}
+</script>
+</head>
+<body onLoad="onPageLoad()">
+<div>
+<input type="button" onclick="javascript:distanceMeasure()" value="测距"/>
+<input type="button" onclick="javascript:diatancealert()" value="显示查询结果"/>
+<input type="button" onclick="javascript:mapalert()" value="显示提示框"/>
+</div>
+<div id="map" style="position:absolute;left:0px;right:0px;width:100%;height:100%;" visibility="visible">
+</div> 
+</body>
+</html>

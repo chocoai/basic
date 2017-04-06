@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="datacenter">
+	<typeAlias alias="ycDatacenterServiceParams" type="com.originsys.datacenter.domain.YcDatacenterServiceParams"/>
+	<typeAlias alias="ycDatacenterServiceRegister" type="com.originsys.datacenter.domain.YcDatacenterServiceRegister"/>
+	<typeAlias alias="ycDatacenterResources" type="com.originsys.datacenter.domain.YcDatacenterResources"/>
+	<typeAlias alias="ycDatacenterResourcesColumns" type="com.originsys.datacenter.domain.YcDatacenterResourcesColumns"/>
+	<typeAlias alias="ycDatacenterResourcesIndex" type="com.originsys.datacenter.domain.YcDatacenterResourcesIndex"/>
+	<typeAlias alias="surverProject" type="com.originsys.datacenter.domain.YcDatacenterSurverProject"/>
+	<typeAlias alias="surverBasic" type="com.originsys.datacenter.domain.YcDatacenterSurverBasic"/>
+			
+	<!--   服务参数表(ycDatacenterServiceParams)插入新记录    -->
+	<insert id="addYcDatacenterServiceParams" parameterClass="ycDatacenterServiceParams">
+		insert into yc_datacenter_service_params 
+		(param_id,service_id,param_code,param_desc,param_type,is_required,field_type)
+		values (#param_id#,#service_id#,#param_code#,#param_desc#,#param_type:VARCHAR#,#is_required:VARCHAR#,#field_type:VARCHAR#)
+	</insert>
+	<!--   服务注册表(ycDatacenterServiceRegister)插入新记录    -->
+	<insert id="addYcDatacenterServiceRegister" parameterClass="ycDatacenterServiceRegister">
+		insert into yc_datacenter_service_register 
+		(service_id,service_name,service_desc,service_provide,is_check,service_version,proxy_type,service_type,
+		service_state,create_date,creator,request_url,example_image,is_authorize,authorize_mode)
+		values (#service_id#,#service_name#,#service_desc#,#service_provide#,#is_check#,#service_version#,
+		#proxy_type#,#service_type#,#service_state#,#create_date#,#creator#,#request_url#,#example_image#,
+		#is_authorize#,#authorize_mode#)
+	</insert>
+	
+	<!--   服务注册表(ycDatacenterServiceRegister)查询总记录数    -->
+	<select id="getYcDatacenterServiceRegisterCount" parameterClass="ycDatacenterServiceRegister" resultClass="int">
+	select count(service_id) from yc_datacenter_service_register
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="service_id">
+				service_id=#service_id#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND"  property="service_name"> service_name=#service_name# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="service_type"> service_type=#service_type# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="service_state"> service_state=#service_state# </isNotEmpty>
+		</dynamic>
+	</select>
+	<!--   服务注册表(ycDatacenterServiceRegister)分页查询返回列表     -->
+	<select id="getYcDatacenterServiceRegisterList" parameterClass="map" resultClass="ycDatacenterServiceRegister">
+	select   service_id,service_name,service_desc,service_provide,is_check,service_version,proxy_type,service_type,service_state,create_date,creator,checkor,check_date,request_url,example_image,is_authorize,authorize_mode   from yc_datacenter_service_register
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="ycDatacenterServiceRegister.service_id">
+				service_id=#ycDatacenterServiceRegister.service_id#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND"  property="ycDatacenterServiceRegister.service_name"> service_name=#ycDatacenterServiceRegister.service_name# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="ycDatacenterServiceRegister.service_type"> service_type=#ycDatacenterServiceRegister.service_type# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="ycDatacenterServiceRegister.service_state"> service_state=#ycDatacenterServiceRegister.service_state# </isNotEmpty>
+		</dynamic>
+		<isNotEmpty prepend="order by " property="_sortname">
+			$_sortname$ $_sortorder$
+		</isNotEmpty>
+		<isNotEmpty prepend="limit " property="_page_start">
+			#_page_start#,#_page_nums#
+		</isNotEmpty>
+	</select>
+	<!--   服务注册表(ycDatacenterServiceRegister)根据主键返回单条记录    -->
+	<select id="getYcDatacenterServiceRegister" parameterClass="java.lang.String"  resultClass="ycDatacenterServiceRegister">
+		select  service_id,service_name,service_desc,service_provide,is_check,service_version,proxy_type,
+		service_type,service_state,create_date,creator,checkor,check_date,request_url,
+		example_image,is_authorize,authorize_mode  from yc_datacenter_service_register where service_id=#value#
+	</select>
+	<select id="getYcDatacenterServiceParamsList" parameterClass="java.lang.String" resultClass="ycDatacenterServiceParams">
+		select param_id,service_id,param_code,param_desc,param_type,is_required,field_type  from yc_datacenter_service_params 
+		where service_id=#value#
+	</select>
+	
+	<!--   资源注册表(ycDatacenterResources)插入新记录    -->
+	<insert id="addYcDatacenterResources" parameterClass="ycDatacenterResources">
+		insert into yc_datacenter_resources 
+		(resources_id,resources_name,resources_desc,source_business_systems,resources_state,resources_tablename,resources_type,reg_date,reg_memid,resources_datasource)
+		values (#resources_id#,#resources_name#,#resources_desc#,#source_business_systems#,#resources_state#,#resources_tablename#,#resources_type#,#reg_date#,#reg_memid#,#resources_datasource#)
+	</insert>
+	
+	<!--   资源字段信息(ycDatacenterResourcesColumns)插入新记录    -->
+	<insert id="addYcDatacenterResourcesColumns" parameterClass="ycDatacenterResourcesColumns">
+		insert into yc_datacenter_resources_cols 
+		(resources_id,column_id,column_ename,column_name,column_desc,column_type,column_length,is_empty,column_enum)
+		values (#resources_id#,#column_id#,#column_ename#,#column_name#,#column_desc#,#column_type#,#column_length#,#is_empty#,#column_enum#)
+	</insert>
+	
+	<!--   资源索引表(ycDatacenterResourcesIndex)插入新记录    -->
+	<insert id="addYcDatacenterResourcesIndex" parameterClass="ycDatacenterResourcesIndex">
+		insert into yc_datacenter_resources_index 
+		(resources_id,index_id,index_type,index_column,index_separate,index_desc)
+		values (#resources_id#,#index_id#,#index_type#,#index_column#,#index_separate#,#index_desc#)
+	</insert>
+	
+	<!--   资源注册表(ycDatacenterResources)根据主键返回单条记录    -->
+	<select id="getYcDatacenterResources" parameterClass="java.lang.String"  resultClass="ycDatacenterResources">
+		select  resources_id,resources_name,resources_desc,source_business_systems,
+		resources_state,resources_tablename,resources_type,reg_date,reg_memid,resources_datasource
+		  from yc_datacenter_resources where resources_id=#value#
+	</select>
+	<!--   资源字段信息(ycDatacenterResourcesColumns)分页查询返回列表     -->
+	<select id="getYcDatacenterResourcesColumnsList" parameterClass="java.lang.String" resultClass="ycDatacenterResourcesColumns">
+		select   resources_id,column_id,column_ename,column_name,column_desc,
+		column_type,column_length,is_empty,column_enum  
+		 from yc_datacenter_resources_cols
+			where resources_id=#resources_id# 
+	</select>
+	
+	<select id="getIndex" parameterClass="java.lang.String" resultClass="ycDatacenterResourcesIndex">
+		select * from yc_datacenter_resources_index where resources_id=#value# and index_type='rowkey'
+	</select>
+	
+	<select id="getServicemenu" resultClass="java.util.HashMap">
+		select count(*) as NUM,SERVICE_STATE from yc_datacenter_service_register 
+		group by service_state order by service_state 
+	</select>
+	
+	<select id="getResourcesmenu" resultClass="java.util.HashMap">
+		select count(*) as NUM,RESOURCES_STATE from yc_datacenter_resources
+		 group by resources_state order by resources_state
+	</select>
+	
+	<select id="getServiceListCount" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(*) from yc_datacenter_service_register where service_state=#value#
+	</select>
+	
+	<select id="getServiceList" parameterClass="java.util.Map" resultClass="ycDatacenterServiceRegister">
+		select * from yc_datacenter_service_register where service_state=#service_state#  
+		<isNotEmpty prepend="order by " property="_sortname">
+			$_sortname$ $_sortorder$
+		</isNotEmpty>
+		<isNotEmpty prepend="limit " property="_page_start">
+			#_page_start#,#_page_nums#
+		</isNotEmpty>		
+	</select>
+	
+	<select id="getResourcesListCount" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(*) from yc_datacenter_resources where resources_state=#value#
+	</select>
+	
+	<select id="getResourcesList" parameterClass="java.util.Map" resultClass="ycDatacenterResources">
+		select * from yc_datacenter_resources where resources_state=#resources_state#  
+		<isNotEmpty prepend="order by " property="_sortname">
+			$_sortname$ $_sortorder$
+		</isNotEmpty>
+		<isNotEmpty prepend="limit " property="_page_start">
+			#_page_start#,#_page_nums#
+		</isNotEmpty>		
+	</select>
+	
+	<update id="changeServiceState" parameterClass="ycDatacenterServiceRegister">
+		update yc_datacenter_service_register
+		 set service_state=#service_state#,checkor=#checkor#,check_date=#check_date#
+		  where service_id=#service_id#
+	</update>
+	
+	<update id="changeResourcesState" parameterClass="ycDatacenterResources">
+		update yc_datacenter_resources
+		 set resources_state=#resources_state# 
+		  where resources_id=#resources_id#
+	</update>
+	
+	<select id="getResourcesColsList"  parameterClass="java.lang.String"  resultClass="ycDatacenterResourcesColumns">
+		select * from yc_datacenter_resources_cols where resources_id=#value#
+	</select>
+	
+	<select id="getResourceIndexList" parameterClass="java.lang.String" resultClass="ycDatacenterResourcesIndex">
+		select * from yc_datacenter_resources_index where resources_id=#value#
+	</select>
+	
+	<update id="updateYcDatacenterResources" parameterClass="ycDatacenterResources">
+		update yc_datacenter_resources set resources_name=#resources_name#,resources_desc=#resources_desc#,
+		 source_business_systems=#source_business_systems#,resources_state=#resources_state#,
+		 resources_tablename=#resources_tablename#,resources_type=#resources_type#,
+		 resources_datasource=#resources_datasource# where resources_id=#resources_id#
+	</update>
+	
+	<delete id="deleteDataSources" parameterClass="java.lang.String">
+		delete from yc_datacenter_resources_cols where resources_id=#value#
+	</delete>
+	
+	<delete id="deleteDataIndex" parameterClass="java.lang.String">
+		delete from yc_datacenter_resources_index where resources_id=#value#
+	</delete>
+	
+	<delete id="deleteDataResources" parameterClass="java.lang.String">
+		delete from yc_datacenter_resources where resources_id=#value#
+	</delete>
+	
+	<delete id="deleteService" parameterClass="java.lang.String">
+		delete from yc_datacenter_service_register where service_id=#value#
+	</delete>
+	
+	<delete id="deleteServiceParam" parameterClass="java.lang.String">
+		delete from yc_datacenter_service_params where service_id=#value#
+	</delete>
+	
+	<update id="updateDatacenterService" parameterClass="ycDatacenterServiceRegister">
+		update yc_datacenter_service_register 
+		set service_name=#service_name#,service_desc=#service_desc#,service_provide=#service_provide#,
+		is_check=#is_check#,service_version=#service_version#,proxy_type=#proxy_type#,
+		service_type=#service_type#,service_state=#service_state#,request_url=#request_url#
+		,example_image=#example_image#,is_authorize=#is_authorize#,authorize_mode=#authorize_mode# 
+		where service_id=#service_id#
+	</update>
+	
+	<!-- 数据同步开始   -->
+	<select id="getDCHouseListNum" resultClass="java.lang.Integer">
+		select count(*) from syn_t_house 
+	</select>
+	
+	<select id="getDCBuildingListNum" resultClass="java.lang.Integer">
+		select count(*) from syn_t_building 
+	</select>
+	
+	<select id="getDCProjectListNum" resultClass="java.lang.Integer">
+		select count(*) from syn_t_surverproject 
+	</select>
+	
+	<select id="getDCBasicListNum" resultClass="java.lang.Integer">
+		select count(*) from syn_t_surverbasic 
+	</select>
+	
+	<select id="getDCHouseList" resultClass="housesurvey" parameterClass="java.util.Map">
+		select * from syn_t_house order by synch_time limit #_page_start#,#_page_nums#
+	</select>
+	
+	<select id="getDCBuildingList" resultClass="com.originsys.datacenter.domain.Building" parameterClass="java.util.Map">
+		select * from syn_t_building order by synch_time limit #_page_start#,#_page_nums#
+	</select>
+	
+	<select id="getDCProjectList" resultClass="surverProject" parameterClass="java.util.Map">
+		select * from syn_t_surverproject order by synch_time limit #_page_start#,#_page_nums#
+	</select>
+	
+	<select id="getDCBasicList" resultClass="surverBasic" parameterClass="java.util.Map">
+		select * from syn_t_surverbasic order by synch_time limit #_page_start#,#_page_nums#
+	</select>
+	
+	<delete id="deleteHouseSyn" parameterClass="java.lang.Integer">
+		delete from syn_t_house where sid=#value#
+	</delete>
+	
+	<delete id="deleteBuildingSyn" parameterClass="java.lang.Integer">
+		delete from syn_t_building where sid=#value#
+	</delete>
+	
+	<delete id="deleteSurverProjectSyn" parameterClass="java.lang.Integer">
+		delete from syn_t_surverproject where sid=#value#
+	</delete>
+	
+	<delete id="deleteSurverBasicSyn" parameterClass="java.lang.Integer">
+		delete from syn_t_surverbasic where sid=#value#
+	</delete>
+	
+	<!-- 数据同步结束    -->
+	
+	<!-- 数据初始化开始select t.smuserid as smuserid,TRUNC(t.smx) as smx,TRUNC(t.smy) as smy,t.address as address from fcch.ST_RIDRGN_P t -->
+	<select id="getInitList" resultClass="java.util.HashMap" parameterClass="java.util.Map">
+		select trunc(t.smsdriw) as smx,trunc(t.smsdris) as smy,t.smuserid as smuserid,t.address as address from ST_RIDRGN t
+	</select>
+	
+	<select id="getInitNum" resultClass="java.lang.Integer">
+		select count(t.smuserid) as num from fcch.ST_RIDRGN t
+	</select>
+
+</sqlMap>

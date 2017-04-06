@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component xmlns="http://www.eap2.net" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.eap2.net http://www.eap2.net/eap2/component.xsd "
+name="安全检查" id="safecheck" instance-scope="SINGLE"> 
+	<description>安全检查</description>
+	<actions>
+		<get id="block" name="安全管理后台" class="">
+			<view type="html" id="safeblock1" name="默认后台">com/originsys/safemanage/safecheck/view/safeblock1.ftl</view>
+			<view type="html" id="safeblock_auth" name="统一用户认证后台">com/originsys/safemanage/safecheck/view/safeblock_auth.ftl</view>
+		</get>
+		<get id="moduletree" name="左菜单" class="">
+			<view type="XML">com/originsys/safemanage/safecheck/view/moduletree.ftl</view>
+		</get>
+		<!-- 楼幢月检开始 -->
+		<get id="building.editlist" name="楼幢月检列表-安全检查员" class="">
+			<view type="html">com/originsys/safemanage/safecheck/view/buildingeditlist.ftl</view>
+		</get>
+		<get id="building.editlistdata" name="楼幢月检列表-安全检查员" class="com.originsys.safemanage.safecheck.action.BuildingEditList">
+			<view type="plain">com/originsys/safemanage/safecheck/view/buildingeditlistjson.ftl</view>
+		</get>
+		<get id="" name="楼幢月检列表-管理员" class="">
+			<view type="html"></view>
+		</get>
+		<get id="building.detail" name="楼幢检查详细信息" class="com.originsys.safemanage.safecheck.action.BuildingSafeDetail">
+			<view type="html">com/originsys/safemanage/safecheck/view/buildingsafecheckdetail.ftl</view>
+		</get>
+		<get id="building.forupdate" name="楼幢检查修改" class="com.originsys.safemanage.safecheck.action.BuildingSafeDetail">
+			<view type="html">com/originsys/safemanage/safecheck/view/buildingsafecheckupdate.ftl</view>
+		</get>
+		<get id="" name="楼幢月检预修改" class="">
+			<view type="html"></view>
+		</get>
+		<get id="building.forinsert" name="楼幢检查预增加" class="com.originsys.safemanage.safecheck.action.BuildingSafeForInsert">
+			<view type="html">com/originsys/safemanage/safecheck/view/buildingsafecheckinsert.ftl</view>
+		</get>
+		<get id="building.forinsert1" name="楼幢检查预增加(初始化t_building)" class="com.originsys.safemanage.safecheck.action.BuildingSafeForInsert1">
+			<view type="html">com/originsys/safemanage/safecheck/view/buildingsafecheckinsert.ftl</view>
+		</get>
+		<data id="building.insert" name="楼幢检查新增" class="com.originsys.safemanage.safecheck.action.BuildingSafeInsert"  is-audit="true"/>
+		<data id="building.save" name="楼幢检查修改" class="com.originsys.safemanage.safecheck.action.BuildingSafeUpdate"  is-audit="true"/>
+		<data id="building.delete" name="楼幢检查删除" class="com.originsys.safemanage.safecheck.action.BuildingSafeDelete"  is-audit="true"/>
+		<data id="" name="楼幢月检审核" class="" />
+		<get id="building.managelist" name="楼幢检查管理员列表" class="">
+			<view type="html">com/originsys/safemanage/safecheck/view/buildingsafecheckmanagelist.ftl</view>
+		</get>
+		<get id="building.managelistjson" name="楼幢检查管理员列表数据" class="com.originsys.safemanage.safecheck.action.BuildingSafeManageList">
+			<view type="plain">com/originsys/safemanage/safecheck/view/buildingsafecheckmanagelistjson.ftl</view>
+		</get>
+		<data id="building.check" name="楼幢检查审核" class="com.originsys.safemanage.safecheck.action.BuildingSafeCheck"  is-audit="true"/>
+		<data id="building.pop" name="pop窗口(区县管理员)" class="com.originsys.safemanage.safecheck.action.BuildingSafePop"/>
+		<data id="building.pop1" name="pop窗口（超级管理员）" class="com.originsys.safemanage.safecheck.action.BuildingSafePop1"/>
+		<get id="building.poplist" name="pop窗口列表" class="com.originsys.safemanage.safecheck.action.BuildingSafeForPop">
+			<view type="html">com/originsys/safemanage/safecheck/view/buildingsafepoplist.ftl</view>
+		</get>
+		<get id="building.poplistjson" name="pop窗口列表数据（区县管理员）" class="com.originsys.safemanage.safecheck.action.BuildingSafePopList">
+			<view type="plain">com/originsys/safemanage/safecheck/view/buildingsafepoplistjson.ftl</view>
+		</get>
+		<get id="building.poplistjson1" name="pop窗口列表数据（超级管理员）" class="com.originsys.safemanage.safecheck.action.BuildingSafePopList1">
+			<view type="plain">com/originsys/safemanage/safecheck/view/buildingsafepoplistjson.ftl</view>
+		</get>
+		<get id="bctrack.insert" name="隐患楼幢跟踪预增加" class="com.originsys.safemanage.safecheck.action.BuildingCtrackForInsert">
+			<view type="html">com/originsys/safemanage/safecheck/view/buildingctrackinsert.ftl</view>
+		</get>
+		<data id="bctrack.insertsave" name="隐患楼幢跟踪增加" class="com.originsys.safemanage.safecheck.action.BuildingCtrackInsert" />
+		<data id="bctrack.updatesave" name="隐患楼幢跟踪修改" class="com.originsys.safemanage.safecheck.action.BuildingCtrackUpdate" />
+		<get id="bctrack.managelist" name="隐患楼幢跟踪列表" class="">
+			<view type="html">com/originsys/safemanage/safecheck/view/buildingctrackmanagelist.ftl</view>
+		</get>
+		<get id="bctrack.managelistjson" name="楼隐患楼幢跟踪列表数据" class="com.originsys.safemanage.safecheck.action.BuildingCtrackManageList">
+			<view type="plain">com/originsys/safemanage/safecheck/view/buildingctrackmanagelistjson.ftl</view>
+		</get>
+		<get id="bctrack.detail" name="楼隐患楼幢跟踪详细信息" class="com.originsys.safemanage.safecheck.action.BuildingCtrackDetail">
+			<view type="html">com/originsys/safemanage/safecheck/view/buildingctrackdetail.ftl</view>
+		</get>
+		<get id="bctrack.forupdate" name="楼隐患楼幢跟踪修改" class="com.originsys.safemanage.safecheck.action.BuildingCtrackDetail">
+			<view type="html">com/originsys/safemanage/safecheck/view/buildingctrackupdate.ftl</view>
+		</get>
+		<data id="bctrack.delete" name="楼隐患楼幢跟踪删除" class="com.originsys.safemanage.safecheck.action.BuildingCtrackDelete" />
+		<!-- 房屋年检信息开始 -->
+		<get id="house.editlist" name="房屋年检列表-安全检查员" class="">
+			<view type="html">com/originsys/safemanage/safecheck/view/houseeditlist.ftl</view>
+		</get>
+		<get id="" name="房屋年检列表-管理员" class="">
+			<view type="html"></view>
+		</get>
+		<get id="" name="房屋年检详细信息" class="">
+			<view type="html"></view>
+		</get>
+		<get id="" name="房屋年检预修改" class="">
+			<view type="html"></view>
+		</get>
+		<data id="" name="房屋年检保存" class="" />
+		<data id="" name="房屋年检审核" class="" />
+		
+		<!-- 点选房屋 -->
+		<get id="building.choosehouse" name="楼幢检查点选房屋" class="com.originsys.safemanage.safecheck.action.BuildingMapProperty">
+			<view type="html">com/originsys/safemanage/safecheck/view/choosehouse.ftl</view>
+		</get>
+		<!-- 点选房屋 -->
+		<get id="bctrack.choosehouse" name="隐患房屋检查点选房屋" class="com.originsys.safemanage.safecheck.action.BuildingMapProperty">
+			<view type="html">com/originsys/safemanage/safecheck/view/ctrackchoosehouse.ftl</view>
+		</get>
+		<get id="tj1" name="楼幢检查等级统计列表" class="">
+			<view type="html">com/originsys/safemanage/statistics/view/tjlist.ftl</view>
+		</get>
+		
+		<!-- 第一次安全普查  -->
+		<!-- 房屋poi点查询及详细信息查看 -->
+		<get id="survey.housepoicheck" name="楼幢普查房屋Poi点条件查询" class="com.originsys.safemanage.safecheck.action.BuildingMapProperty">
+			<view type="html">com/originsys/safemanage/safecheck/view/housepoicheck.ftl</view>
+		</get>
+		<!-- 点选房屋 -->
+		<get id="survey.choosehouse" name="楼幢普查点选房屋" class="com.originsys.safemanage.safecheck.action.BuildingMapProperty">
+			<view type="html" id="default" name="默认">com/originsys/safemanage/safecheck/view/surveychoosehouse.ftl</view>
+		</get>
+		<get id="survey.padchoosehouse" name="pad楼幢普查点选房屋" class="com.originsys.safemanage.safecheck.action.BuildingMapProperty">
+			<view type="html" id="pad" name="pad">com/originsys/safemanage/safecheck/view/surveychoosehouse-pad.ftl</view>
+		</get>
+		<get id="survey.insert" name="楼幢普查预增加" class="com.originsys.safemanage.safecheck.action.SurveyForInsert">
+			<view type="html">com/originsys/safemanage/safecheck/view/surveyinsert.ftl</view>
+		</get>
+		<get id="survey.insert1" name="楼幢普查预增加(初始化t_building)" class="com.originsys.safemanage.safecheck.action.SurveyForInsert1">
+			<view type="html">com/originsys/safemanage/safecheck/view/surveyinsert.ftl</view>
+		</get>
+		<data id="survey.save" name="楼幢普查增加" class="com.originsys.safemanage.safecheck.action.SurveyInsert" is-audit="true"/>
+		<get id="survey.editlist" name="楼幢普查列表-安全检查员" class="">
+			<view type="html" id="default" name="默认">com/originsys/safemanage/safecheck/view/surveyeditlist.ftl</view>
+		</get>
+		<get id="survey.padeditlist" name="pad楼幢普查列表-安全检查员" class="">
+			<view type="html" id="pad" name="pad">com/originsys/safemanage/safecheck/view/surveyeditlist-pad.ftl</view>
+		</get>
+		<get id="survey.editlistjson" name="楼幢普查列表-安全检查员" class="com.originsys.safemanage.safecheck.action.SurveyEditList">
+			<view type="plain" id="default" name="默认">com/originsys/safemanage/safecheck/view/surveyeditlistjson.ftl</view>
+		</get>
+		<get id="survey.padeditlistjson" name="pad楼幢普查列表-安全检查员" class="com.originsys.safemanage.safecheck.action.SurveyEditList">
+			<view type="plain" id="pad" name="pad">com/originsys/safemanage/safecheck/view/surveyeditlistjson-pad.ftl</view>
+		</get>
+		<get id="survey.managelist" name="楼幢普查管理员列表" class="">
+			<view type="html" id="default" name="默认">com/originsys/safemanage/safecheck/view/surveymanagelist.ftl</view>
+		</get>
+		<get id="survey.padmanagelist" name="pad楼幢普查管理员列表" class="">
+			<view type="html" id="pad" name="pad">com/originsys/safemanage/safecheck/view/surveymanagelist-pad.ftl</view>
+		</get>
+		<get id="survey.managelistjson" name="楼幢普查管理员列表数据" class="com.originsys.safemanage.safecheck.action.SurveyManageList">
+			<view type="plain" id="default" name="默认">com/originsys/safemanage/safecheck/view/surveymanagelistjson.ftl</view>
+		</get>
+		<get id="survey.padmanagelistjson" name="pad楼幢普查管理员列表数据" class="com.originsys.safemanage.safecheck.action.SurveyManageList">
+			<view type="plain" id="pad" name="pad">com/originsys/safemanage/safecheck/view/surveymanagelistjson-pad.ftl</view>
+		</get>
+		<get id="survey.forupdate" name="楼幢普查修改" class="com.originsys.safemanage.safecheck.action.SurveyDetail">
+			<view type="html">com/originsys/safemanage/safecheck/view/surveyupdate.ftl</view>
+		</get>
+		<get id="survey.detail" name="楼幢普查详细信息" class="com.originsys.safemanage.safecheck.action.SurveyDetail">
+			<view type="html">com/originsys/safemanage/safecheck/view/surveydetail1.ftl</view>
+			<view type="doc" id="doc">com/originsys/safemanage/safecheck/view/surveytable.ftl</view>
+		</get>
+		<data id="survey.delete" name="楼幢普查删除" class="com.originsys.safemanage.safecheck.action.SurveyDelete"  is-audit="true"/>
+		<get id="survey.forcheck" name="楼幢普查信息审核" class="com.originsys.safemanage.safecheck.action.SurveyDetail">
+			<view type="html">com/originsys/safemanage/safecheck/view/surveydetail.ftl</view>
+		</get>
+		<data id="survey.check" name="楼幢普查审核" class="com.originsys.safemanage.safecheck.action.SurveyCheck"  is-audit="true"/>
+		<!-- 隐患房屋综合统计 -->
+		<get id="safeauth.dangeroustj" name="隐患房屋综合统计" class="com.originsys.safemanage.statistics.action.DangerousTj">
+			<view type="html" id="dangeroustj" name="隐患房屋综合统计">com/originsys/safemanage/statistics/view/dangeroustj.ftl</view>
+			<view type="excel" id="excel" name="输出excel">com/originsys/safemanage/statistics/view/dangeroustjxls.ftl</view>
+		</get>
+		<!-- 安全鉴定统计 -->
+		<get id="auth.authmx" name="安全鉴定明细列表" class="">
+			<view type="html">com/originsys/safemanage/statistics/view/authmx.ftl</view>
+		</get>
+		<get id="auth.authmxjson" name="安全鉴定明细列表json" class="com.originsys.safemanage.statistics.action.AuthMxList">
+			<view type="plain">com/originsys/safemanage/statistics/view/authmxjson.ftl</view>
+		</get>
+		<get id="auth.detaillist" name="安全鉴定明细" class="com.originsys.safemanage.statistics.action.AuthMx">
+			<view type="html">com/originsys/safemanage/statistics/view/authmx1.ftl</view>
+			<view type="excel" id="excel" name="输出excel">com/originsys/safemanage/statistics/view/authmxxls.ftl</view>
+		</get>
+		<get id="auth.housecounttj" name="安全鉴定按区县楼幢数统计" class="com.originsys.safemanage.statistics.action.AuthHouseCountTj">
+			<view type="html">com/originsys/safemanage/statistics/view/authhousecounttj.ftl</view>
+		</get>
+		<get id="auth.buildareatj" name="安全鉴定按区县建筑面积统计" class="com.originsys.safemanage.statistics.action.AuthBuildAreaTj">
+			<view type="html">com/originsys/safemanage/statistics/view/authbuildareatj.ftl</view>
+		</get>
+		<get id="auth.safegradetj" name="安全鉴定按区县安全等级统计" class="com.originsys.safemanage.statistics.action.AuthSafeGradeTj">
+			<view type="html">com/originsys/safemanage/statistics/view/authsafegradetj.ftl</view>
+		</get>
+		<get id="auth.housecounthz" name="安全鉴定按区县楼幢数汇总" class="com.originsys.safemanage.statistics.action.AuthHouseCountHz">
+			<view type="html" id="housecounthz" name="安全鉴定按区县楼幢数汇总">com/originsys/safemanage/statistics/view/authhousecounthz.ftl</view>
+			<view type="excel" id="excel" name="输出excel">com/originsys/safemanage/statistics/view/authhousecounthzxls.ftl</view>
+		</get>
+		<get id="auth.buildareahz" name="安全鉴定按区县建筑面积汇总" class="com.originsys.safemanage.statistics.action.AuthBuildAreaHz">
+			<view type="html" id="buildareahz" name="安全鉴定按区县建筑面积汇总">com/originsys/safemanage/statistics/view/authbuildareahz.ftl</view>
+			<view type="excel" id="excel" name="输出excel">com/originsys/safemanage/statistics/view/authbuildareahzxls.ftl</view>
+		</get>
+		<get id="auth.workloadtj" name="安全鉴定工作量统计" class="com.originsys.safemanage.statistics.action.AuthWorkLoadTj">
+			<view type="html">com/originsys/safemanage/statistics/view/authworkloadtj.ftl</view>
+			<view type="excel" id="excel" name="输出excel">com/originsys/safemanage/statistics/view/authworkloadtjxls.ftl</view>
+		</get>
+		<!-- 安全检查统计 -->
+		<get id="building.buildingmx" name="安全检查明细列表" class="">
+			<view type="html">com/originsys/safemanage/statistics/view/buildingmx.ftl</view>
+		</get>
+		<get id="building.buildingmxjson" name="安全检查明细列表json" class="com.originsys.safemanage.statistics.action.BuildingMxList">
+			<view type="plain">com/originsys/safemanage/statistics/view/buildingmxjson.ftl</view>
+		</get>
+		<get id="building.detaillist" name="安全检查明细" class="com.originsys.safemanage.statistics.action.BuildingMx">
+			<view type="html">com/originsys/safemanage/statistics/view/buildingmx1.ftl</view>
+			<view type="excel" id="excel" name="输出excel">com/originsys/safemanage/statistics/view/buildingmxxls.ftl</view>
+		</get>
+		<get id="building.housecounttj" name="安全检查按区县楼幢数统计" class="com.originsys.safemanage.statistics.action.BuildingHouseCountTj">
+			<view type="html">com/originsys/safemanage/statistics/view/buildinghousecounttj.ftl</view>
+		</get>
+		<get id="building.buildareatj" name="安全检查按区县建筑面积统计" class="com.originsys.safemanage.statistics.action.BuildingBuildAreaTj">
+			<view type="html">com/originsys/safemanage/statistics/view/buildingbuildareatj.ftl</view>
+		</get>
+		<get id="building.safegradetj" name="安全检查按区县安全等级统计" class="com.originsys.safemanage.statistics.action.BuildingSafeGradeTj">
+			<view type="html">com/originsys/safemanage/statistics/view/buildingsafegradetj.ftl</view>
+		</get>
+		<get id="building.housecounthz" name="安全检查按区县楼幢数汇总" class="com.originsys.safemanage.statistics.action.BuildingHouseCountHz">
+			<view type="html" id="housecounthz" name="安全检查按区县楼幢数汇总">com/originsys/safemanage/statistics/view/buildinghousecounthz.ftl</view>
+			<view type="excel" id="excel" name="输出excel">com/originsys/safemanage/statistics/view/buildinghousecounthzxls.ftl</view>
+		</get>
+		<get id="building.buildareahz" name="安全检查按区县建筑面积汇总" class="com.originsys.safemanage.statistics.action.BuildingBuildAreaHz">
+			<view type="html" id="buildareahz" name="安全检查按区县建筑面积汇总">com/originsys/safemanage/statistics/view/buildingbuildareahz.ftl</view>
+			<view type="excel" id="excel" name="输出excel">com/originsys/safemanage/statistics/view/buildingbuildareahzxls.ftl</view>
+		</get>
+		<get id="building.workloadtj" name="安全检查工作量统计" class="com.originsys.safemanage.statistics.action.BuildingWorkLoadTj">
+			<view type="html">com/originsys/safemanage/statistics/view/buildingworkloadtj.ftl</view>
+			<view type="excel" id="excel" name="输出excel">com/originsys/safemanage/statistics/view/buildingworkloadtjxls.ftl</view>
+		</get>
+		<!-- 安全普查统计 -->
+		<get id="survey.surveymx" name="楼幢普查明细列表" class="">
+			<view type="html">com/originsys/safemanage/safecheck/view/surveymx.ftl</view>
+		</get>
+		<get id="survey.surveymxjson" name="楼楼幢普查明细列表数据" class="com.originsys.safemanage.safecheck.action.SurveyMxList">
+			<view type="plain" id="default" name="默认">com/originsys/safemanage/safecheck/view/surveymxjson.ftl</view>
+		</get>
+		<get id="survey.housecounttj" name="楼幢普查按区县楼幢数统计" class="com.originsys.safemanage.safecheck.action.SurveyHouseCountTj">
+			<view type="html">com/originsys/safemanage/safecheck/view/surveyhousecounttj.ftl</view>
+		</get>
+		<get id="survey.buildareatj" name="楼幢普查按区县建筑面积统计" class="com.originsys.safemanage.safecheck.action.SurveyBuildAreaTj">
+			<view type="html">com/originsys/safemanage/safecheck/view/surveybuildareatj.ftl</view>
+		</get>
+		<get id="survey.safegradetj" name="楼幢普查按区县安全等级统计" class="com.originsys.safemanage.safecheck.action.SurveySafeGradeTj">
+			<view type="html">com/originsys/safemanage/safecheck/view/surveysafegradetj.ftl</view>
+		</get>
+		
+		<get id="survey.housecounthz" name="楼幢普查按区县楼幢数汇总" class="com.originsys.safemanage.safecheck.action.SurveyHouseCountHz">
+			<view type="html" id="housecounthz" name="楼幢普查按区县楼幢数汇总">com/originsys/safemanage/safecheck/view/surveyhousecounthz.ftl</view>
+			<view type="excel" id="excel" name="输出excel">com/originsys/safemanage/safecheck/view/surveyhousecounthzxls.ftl</view>
+		</get>
+		<get id="survey.buildareahz" name="楼幢普查按区县建筑面积汇总" class="com.originsys.safemanage.safecheck.action.SurveyBuildAreaHz">
+			<view type="html">com/originsys/safemanage/safecheck/view/surveybuildareahz.ftl</view>
+			<view type="excel" id="excel" name="输出excel">com/originsys/safemanage/safecheck/view/surveybuildareahzxls.ftl</view>
+		</get>
+		
+		<get id="survey.detaillist" name="楼幢普查明细" class="com.originsys.safemanage.safecheck.action.SurveyDetailList">
+			<view type="html">com/originsys/safemanage/safecheck/view/surveydetaillist.ftl</view>
+			<view type="excel" id="excel" name="输出excel">com/originsys/safemanage/safecheck/view/surveydetaillistxls.ftl</view>
+		</get>
+		<get id="survey.mxexcel" name="楼幢普查明细excel导出" class="com.originsys.safemanage.safecheck.action.SurveyMxExcel">
+			<view type="html">com/originsys/safemanage/safecheck/view/surveydetaillist.ftl</view>
+			<view type="excel" id="excel" name="输出excel">com/originsys/safemanage/safecheck/view/surveydetaillistxls.ftl</view>
+		</get>
+		
+		<!-- 安全检查员属性维护  -->
+		<get id="safecensor.forupdate" name="修改安全检查员信息" class="com.originsys.safemanage.safecheck.action.SafeCensorUserDetail">
+			<view type="html">com/originsys/safemanage/safecheck/view/safecensorupdate.ftl</view>
+		</get>
+		<data id="safecensor.update" name="保存安全检查员信息" class="com.originsys.safemanage.safecheck.action.SafeCensorUserSave" />
+		<get id="safecensor.detail" name="安全检查员信息详细" class="com.originsys.safemanage.safecheck.action.SafeCensorUserDetail">
+			<view type="html">com/originsys/safemanage/safecheck/view/safecensordetail.ftl</view>
+		</get>
+		<get id="safecensor.list" name="安全检查员列表" class="">
+			<view type="html">com/originsys/safemanage/safecheck/view/safecensorlist.ftl</view>
+		</get>
+		<get id="safecensor.listjson" name="安全检查员列表数据" class="com.originsys.safemanage.safecheck.action.SafeCensorUserList">
+			<view type="plain">com/originsys/safemanage/safecheck/view/safecensorlistjson.ftl</view>
+		</get>
+		<data id="enableuser" name="启用/禁用用户" class="com.originsys.safemanage.safecheck.action.EnableUser" />
+		<get id="safecensor.forinsert" name="增加安全检查员信息" class="">
+			<view type="html">com/originsys/safemanage/safecheck/view/safecensorinsert.ftl</view>
+		</get>
+		<data id="safecensor.insert" name="安全检查员信息增加" class="com.originsys.safemanage.safecheck.action.SafeCensorUserInsert" />
+		<data id="safecensor.delete" name="安全检查员信息删除" class="com.originsys.safemanage.safecheck.action.SafeCensorUserDelete" />
+		<get id="safecensor.forupdate1" name="安全检查员信息预修改" class="com.originsys.safemanage.safecheck.action.SafeCensorUserDetail">
+			<view type="plain">com/originsys/safemanage/safecheck/view/safecensorupdate1.ftl</view>
+		</get>
+		<data id="safecensor.update1" name="安全检查员信息修改" class="com.originsys.safemanage.safecheck.action.SafeCensorUserUpdate" />
+		
+		<!-- 安全管理员属性维护  -->
+		<get id="safemanager.forupdate" name="修改安全管理员信息" class="com.originsys.safemanage.safecheck.action.SafeManagerUserDetail">
+			<view type="html">com/originsys/safemanage/safecheck/view/safemanagerupdate.ftl</view>
+		</get>
+		<get id="safemanager.list" name="安全管理员列表" class="">
+			<view type="html">com/originsys/safemanage/safecheck/view/safemanagerlist.ftl</view>
+		</get>
+		<get id="safemanager.listjson" name="安全管理员列表数据" class="com.originsys.safemanage.safecheck.action.SafeManagerUserList">
+			<view type="plain">com/originsys/safemanage/safecheck/view/safemanagerlistjson.ftl</view>
+		</get>
+		<data id="safemanager.insert" name="安全管理员信息增加" class="com.originsys.safemanage.safecheck.action.SafeManagerUserInsert" />
+		<get id="safemanager.forupdate1" name="安全管理员信息预修改" class="com.originsys.safemanage.safecheck.action.SafeManagerUserDetail">
+			<view type="plain">com/originsys/safemanage/safecheck/view/safemanagerupdate1.ftl</view>
+		</get>
+		<data id="safemanager.update1" name="安全管理员信息修改" class="com.originsys.safemanage.safecheck.action.SafeManagerUserUpdate" />
+		<data id="safemanager.delete" name="安全管理员信息删除" class="com.originsys.safemanage.safecheck.action.SafeManagerUserDelete" />
+		<get id="safemanager.detail" name="安全管理员信息详细" class="com.originsys.safemanage.safecheck.action.SafeManagerUserDetail">
+			<view type="html">com/originsys/safemanage/safecheck/view/safemanagerdetail.ftl</view>
+		</get>
+		
+		<!-- 安全鉴定员属性维护  -->
+		<get id="safeassessors.forupdate" name="修改安全鉴定员信息" class="com.originsys.safemanage.safecheck.action.SafeAssessorsUserDetail">
+			<view type="html">com/originsys/safemanage/safecheck/view/safeassessorsupdate.ftl</view>
+		</get>
+		<get id="safeassessors.list" name="安全鉴定员列表" class="">
+			<view type="html">com/originsys/safemanage/safecheck/view/safeassessorslist.ftl</view>
+		</get>
+		<get id="safeassessors.listjson" name="安全鉴定员列表数据" class="com.originsys.safemanage.safecheck.action.SafeAssessorsUserList">
+			<view type="plain">com/originsys/safemanage/safecheck/view/safeassessorslistjson.ftl</view>
+		</get>
+		<data id="safeassessors.insert" name="安全鉴定员信息增加" class="com.originsys.safemanage.safecheck.action.SafeAssessorsUserInsert" />
+		<get id="safeassessors.forupdate1" name="安全鉴定员信息预修改" class="com.originsys.safemanage.safecheck.action.SafeAssessorsUserDetail">
+			<view type="plain">com/originsys/safemanage/safecheck/view/safeassessorsupdate1.ftl</view>
+		</get>
+		<data id="safeassessors.update1" name="安全鉴定员信息修改" class="com.originsys.safemanage.safecheck.action.SafeAssessorsUserUpdate" />
+		<data id="safeassessors.delete" name="安全鉴定员信息删除" class="com.originsys.safemanage.safecheck.action.SafeAssessorsUserDelete" />
+		<get id="safeassessors.detail" name="安全鉴定员信息详细" class="com.originsys.safemanage.safecheck.action.SafeAssessorsUserDetail">
+			<view type="html">com/originsys/safemanage/safecheck/view/safeassessorsdetail.ftl</view>
+		</get>
+		<!-- 房屋普查通用查询请求   start -->
+		<get id="buildingcommonsurvey" name="房屋普查表根据building_id查询" class="com.originsys.safemanage.safecheck.action.BuildingCommonSurvey" >
+		<view type="plain">com/originsys/safemanage/safecheck/view/buildingcommomsurvey.ftl</view>
+		</get>
+		<get id="buildingcommontabdialog" name="房屋普查表根据building_id查询" class="com.originsys.safemanage.safecheck.action.BuildingCommonSurvey" >
+		<view type="html">com/originsys/safemanage/safecheck/view/buildingcommontabdialog.ftl</view>
+		</get>
+		<get id="buildingcommonquery" name="房屋普查通用查询请求 " class="com.originsys.safemanage.safecheck.action.BuildingCommonQuery">
+		  <view type="plain">com/originsys/safemanage/safecheck/view/buildingcommonquery.ftl</view> 
+		</get>
+		<!-- 房屋普查通用查询请求   end -->
+		<get id="buildingbase.detail" name="楼幢基本信息详细" class="com.originsys.safemanage.dangeroushouse.action.DangerousDetail">
+			<view type="html">com/originsys/safemanage/dangeroushouse/view/buildingbasedetail.ftl</view>
+		</get>
+		
+		<!--   隐患房屋上报列表         -->
+		<get id="tHdangerBuildinglist" name="隐患房屋上报列表"  class="">
+			<view id="tHdangerBuildinglist" name="隐患房屋上报列表" type="html">com/originsys/safemanage/hiddendanger/view/tHdangerBuildinglist.ftl</view>
+		</get>
+		<!--   隐患房屋上报列表数据    -->
+		<get id="tHdangerBuildinglistdata" name="隐患房屋上报列表数据"  class="com.originsys.safemanage.hiddendanger.action.THdangerBuildingList">
+			<view id="tHdangerBuildinglistdata" name="隐患房屋上报列表数据" type="plain">com/originsys/safemanage/hiddendanger/view/tHdangerBuildinglistdata.ftl</view>
+		</get>
+		<!--   隐患房屋上报查看详细    -->
+		<get id="tHdangerBuildingdetail" name="隐患房屋上报详细"  class="com.originsys.safemanage.hiddendanger.action.THdangerBuildingDetail">
+			<view id="tHdangerBuildingdetail" name="隐患房屋上报详细" type="html">com/originsys/safemanage/hiddendanger/view/tHdangerBuildingdetail.ftl</view>
+		</get>
+		<!--   隐患房屋上报增加操作    -->
+		<get id="tHdangerBuilding.forinsert" name="隐患房屋上报"  class="">
+			<view name="隐患房屋上报预增加" type="html">com/originsys/safemanage/hiddendanger/view/tHdangerBuildingforinsert.ftl</view>
+		</get>
+		<data id="tHdangerBuildingadd" name="隐患房屋上报增加" class="com.originsys.safemanage.hiddendanger.action.THdangerBuildingAdd"/>
+		<!--   隐患房屋上报更新操作用    -->
+		<data id="tHdangerBuildingupdate" name="隐患房屋上报修改保存" class="com.originsys.safemanage.hiddendanger.action.THdangerBuildingUpdate"/>
+		<!--安全等级专题图  -->
+		<get id="survey.safegradetheme" name="安全等级专题图" class="com.originsys.safemanage.safecheck.action.BuildingMapProperty">
+		    <view type="html">com/originsys/safemanage/safecheck/view/safegradetheme.ftl</view>
+		</get>
+		<!-- 安全检查专题图 -->
+		<get id="survey.checkgradetheme" name="安全检查专题图" class="com.originsys.safemanage.safecheck.action.BuildingMapProperty">
+		     <view type="html">com/originsys/safemanage/safecheck/view/checkgradetheme.ftl</view>
+		</get>
+		<!-- 房屋鉴定等级专题图 -->
+		<get id="survey.testgradetheme" name="房屋鉴定等级专题图" class="com.originsys.safemanage.safecheck.action.BuildingMapProperty">
+		     <view type="html">com/originsys/safemanage/safecheck/view/testgradetheme.ftl</view>
+		</get>
+		<get id="survey.complexcount" name="楼幢普查自定义统计" class="com.originsys.safemanage.statistics.action.SurveyComplexCount">
+		     <view type="html">com/originsys/safemanage/statistics/view/surveycomplexcount.ftl</view>
+			 <view type="excel" id="excel" name="输出excel">com/originsys/safemanage/statistics/view/surveycomplexcountxls.ftl</view>
+		</get>
+		<!-- 危房预警 -->
+		<get id="survey.dangeroushousewarn" name="危房预警查询" class="com.originsys.safemanage.safecheck.action.BuildingMapProperty">
+		     <view type="html">com/originsys/safemanage/safecheck/view/dangeroushousewarn.ftl</view>
+		</get>
+		<!-- 安全鉴定表 t_appraisal_report查询-->
+		<get id="survey.testbuilding" name="安全鉴定表根据building_id查询" class="com.originsys.safemanage.safecheck.action.BuildingTestSurvey" >
+		<view type="plain">com/originsys/safemanage/safecheck/view/buildingtestsurvey.ftl</view>
+		</get>
+		
+		<get id="buildingmapidenty" name="楼栋地图定位" class="com.originsys.safemanage.safecheck.action.BuildingMapIdenty">
+	 	 <view type="html">com/originsys/safemanage/safecheck/view/buildingmapidenty.ftl</view>
+	 	</get>
+	 	
+	 	<!--   危房通知逾期预警列表         -->
+		<get id="noticewarnlist" name="危房通知逾期预警列表"  class="">
+			<view id="noticewarnlist" name="危房通知逾期预警列表" type="html">com/originsys/safemanage/warning/view/noticewarnlist.ftl</view>
+		</get>
+		<!--   危房通知逾期预警列表数据    -->
+		<get id="noticewarnlistjson" name="危房通知逾期预警列表数据"  class="com.originsys.safemanage.warning.action.NoticeWarnList">
+			<view id="noticewarnlistjson" name="危房通知逾期预警列表数据" type="plain">com/originsys/safemanage/warning/view/noticewarnlistjson.ftl</view>
+		</get>
+		
+		<!--   危房跟踪预警列表         -->
+		<get id="trackwarnlist" name="危房跟踪预警列表"  class="">
+			<view id="trackwarnlist" name="危房跟踪预警列表" type="html">com/originsys/safemanage/warning/view/trackwarnlist.ftl</view>
+		</get>
+		<!--   危房跟踪预警列表数据    -->
+		<get id="trackwarnlistjson" name="危房跟踪预警列表数据"  class="com.originsys.safemanage.warning.action.TrackWarnList">
+			<view id="trackwarnlistjson" name="危房跟踪预警列表数据" type="plain">com/originsys/safemanage/warning/view/trackwarnlistjson.ftl</view>
+		</get>
+		
+	 	<!--   房屋使用超限预警列表         -->
+		<get id="usewarnlist" name="房屋使用超限预警列表"  class="">
+			<view id="usewarnlist" name="房屋使用超限预警列表" type="html">com/originsys/safemanage/warning/view/usewarnlist.ftl</view>
+		</get>
+		<!--   房屋使用超限预警列表数据    -->
+		<get id="usewarnlistjson" name="房屋使用超限预警列表数据"  class="com.originsys.safemanage.warning.action.UseWarnList">
+			<view id="usewarnlistjson" name="房屋使用超限预警列表数据" type="plain">com/originsys/safemanage/warning/view/usewarnlistjson.ftl</view>
+		</get>
+		<!-- 突发事件预警GIS页面 -->
+		<get id="disasterwarn.gis" name="突发事件预警GIS"  class="com.originsys.safemanage.safecheck.action.BuildingMapProperty">
+			<view  name="突发事件预警GIS" type="html">com/originsys/safemanage/warning/view/disasterwarnGis.ftl</view>
+		</get>
+		<!--   突发事件预警列表         -->
+		<get id="disasterwarnlist" name="突发事件预警列表"  class="">
+			<view id="disasterwarnlist" name="突发事件预警列表" type="html">com/originsys/safemanage/warning/view/disasterwarnlist.ftl</view>
+		</get>
+		<!--   突发事件预警列表数据    -->
+		<get id="disasterwarnlistjson" name="突发事件预警列表数据"  class="com.originsys.safemanage.warning.action.DisasterWarnList">
+			<view id="disasterwarnlistjson" name="突发事件预警列表数据" type="plain">com/originsys/safemanage/warning/view/disasterwarnlistjson.ftl</view>
+		</get>
+		<!--   突发事件预警管理员列表         -->
+		<get id="disasterwarnmanagerlist" name="突发事件预警管理员列表"  class="">
+			<view id="disasterwarnmanagerlist" name="突发事件预警管理员列表" type="html">com/originsys/safemanage/warning/view/disasterwarnmanagerlist.ftl</view>
+		</get>
+		<!--   突发事件预警列表数据    -->
+		<get id="disasterwarnmanagerlistjson" name="突发事件预警管理员列表数据"  class="com.originsys.safemanage.warning.action.DisasterWarnList">
+			<view id="disasterwarnmanagerlistjson" name="突发事件预警管理员列表数据" type="plain">com/originsys/safemanage/warning/view/disasterwarnmanagerlistjson.ftl</view>
+		</get>
+		<get id="disasterwarn.forinsert" name="突发事件预增加" class="com.originsys.safemanage.warning.action.DisasterWarnForInsert">
+			<view type="html">com/originsys/safemanage/warning/view/disasterwarninsert.ftl</view>
+		</get>
+		<data id="disasterwarn.insert" name="突发事件增加" class="com.originsys.safemanage.warning.action.DisasterWarnInsert" is-audit="true"/>
+		<get id="disasterwarn.forupdate" name="突发事件预修改" class="com.originsys.safemanage.warning.action.DisasterWarnDetail">
+			<view type="html">com/originsys/safemanage/warning/view/disasterwarnupdate.ftl</view>
+		</get>
+		<data id="disasterwarn.update" name="突发事件修改" class="com.originsys.safemanage.warning.action.DisasterWarnUpdate" is-audit="true"/>
+		<data id="disasterwarn.delete" name="突发事件删除" class="com.originsys.safemanage.warning.action.DisasterWarnDelete" is-audit="true"/>
+		<get id="disasterwarn.detail" name="突发事件详细信息" class="com.originsys.safemanage.warning.action.DisasterWarnDetail">
+			<view type="html">com/originsys/safemanage/warning/view/disasterwarndetail.ftl</view>
+		</get>
+		<get id="disasterwarn.forcheck" name="突发事件信息预审核" class="com.originsys.safemanage.warning.action.DisasterWarnDetail">
+			<view type="html">com/originsys/safemanage/warning/view/disasterwarncheck.ftl</view>
+		</get>
+		<data id="disasterwarn.check" name="突发事件审核" class="com.originsys.safemanage.warning.action.DisasterWarnCheck" is-audit="true"/>
+		<data id="disasterwarn.cancel" name="突发事件取消" class="com.originsys.safemanage.warning.action.DisasterWarnCancel" is-audit="true"/>
+		<get id="disasterwarn.detaillist" name="突发事件excel导出" class="com.originsys.safemanage.warning.action.DisasterWarnList">
+			<view type="html">com/originsys/safemanage/warning/view/disasterwarndetaillist.ftl</view>
+			<view type="excel" id="excel" name="输出excel">com/originsys/safemanage/warning/view/disasterwarndetaillistxls.ftl</view>
+		</get>
+		
+		<data id="uploadimage" class="com.originsys.safemanage.safecheck.action.UploadImage" name="图片上传"/>
+		<data id="uploadfile" class="com.originsys.safemanage.safecheck.action.UploadAnnexFile" name="文件上传"/>
+		
+		<data id="survey.importdata" name="普查数据导入" class="com.originsys.safemanage.safecheck.action.ImportSurveyData" />
+		<data id="survey.importdata1" name="普查数据导入(标准模板)" class="com.originsys.safemanage.safecheck.action.ImportSurveyData1" />
+	
+		<get id="survey.buildingprotj" name="楼幢普查按权属状况统计" class="com.originsys.safemanage.safecheck.action.SurveyBuildingPropertiesTj">
+			<view type="html">com/originsys/safemanage/safecheck/view/surveybuildingprotj.ftl</view>
+		</get>
+		<get id="survey.usedesgintj" name="楼幢普查按设计用途统计" class="com.originsys.safemanage.safecheck.action.SurveyUseDesginTJ">
+			<view type="html">com/originsys/safemanage/safecheck/view/surveyusedesgintj.ftl</view>
+		</get>
+		<get id="survey.buildstructtj" name="楼幢普查按建筑结构统计" class="com.originsys.safemanage.safecheck.action.SurveyBuildStructTJ">
+			<view type="html">com/originsys/safemanage/safecheck/view/surveybuildstructtj.ftl</view>
+		</get>
+		<get id="survey.floorupcounttj" name="楼幢普查按层数统计" class="com.originsys.safemanage.safecheck.action.SurveyFloorupCountTJ">
+			<view type="html">com/originsys/safemanage/safecheck/view/surveyfloorupcounttj.ftl</view>
+		</get>
+		<get id="safetheme" name="房屋安全等级专题图" class="com.originsys.safemanage.authenticate.action.HouseSafeTheme">
+			<view type="html">com/originsys/safemanage/authenticate/view/housesafetheme.ftl</view>
+		</get>
+		<!-- 日志查询 -->
+		<get id="system.loglist" name="日志查询" class="">
+			<view type="html">com/originsys/safemanage/safecheck/view/loglist.ftl</view>
+		</get>
+		<get id="whing" name="维护中" class="">
+			<view type="html">com/originsys/safemanage/safecheck/view/whing.ftl</view>
+		</get>
+		<get id="qj" name="全景" class="com.originsys.safemanage.safecheck.action.BuildingSceneProperty">
+			<view type="html">com/originsys/safemanage/safecheck/view/hdscene.ftl</view>
+		</get>		
+		<data id="jkda.dataimport" name="健康档案数据导入" class="com.originsys.safemanage.safecheck.action.JKDADataImport"/>
+		<data id="surver.tohbase" name="普查数据导入大数据中" class="com.originsys.safemanage.safecheck.action.ImportSurverToHbase"/>
+		<get id="multi.uploadimage" name="批量上传图片" class="">
+			<view type="html">com/originsys/safemanage/safecheck/view/multiuploadimage.ftl</view>
+		</get>
+		<data id="image.list" name="已传图片列表" class="com.originsys.safemanage.safecheck.action.ImageList" />
+		<get id="repair.foradd" name="楼幢维修记录表增加" class="com.originsys.safemanage.safecheck.action.TBuildingRepairAddParam">
+			<view type="html">com/originsys/safemanage/safecheck/view/TBuildingRepairAdd.ftl</view>
+		</get>
+		<data id="repair.add" name="楼幢维修记录表增加保存" class="com.originsys.safemanage.safecheck.action.TBuildingRepairAdd"/>
+		<get id="repair.list" name="楼幢事故记录列表"  class="">
+			<view name="楼幢事故记录表列表" type="html">com/originsys/safemanage/safecheck/view/tbuildingrepairlist.ftl</view>
+		</get>
+		<get id="repair.listjson" name="楼幢事故记录列表数据"  class="com.originsys.safemanage.safecheck.action.TBuildingRepairList">
+			<view name="楼幢事故记录表列表数据" type="plain">com/originsys/safemanage/safecheck/view/tbuildingrepairlistjson.ftl</view>
+		</get>
+		<get id="repair.forupdate" name="楼幢事故记录预修改" class="com.originsys.safemanage.safecheck.action.TBuildingRepairDetail">
+			<view type="html">com/originsys/safemanage/safecheck/view/tbuildingrepairupdate.ftl</view>
+		</get>
+		<data id="repair.update" name="楼幢事故记录修改" class="com.originsys.safemanage.safecheck.action.TBuildingRepairUpdate" />
+		<data id="repair.delete" name="楼幢事故记录删除" class="com.originsys.safemanage.safecheck.action.TBuildingRepairDelete" />
+		<get id="repair.detail" name="楼幢事故记录详细信息" class="com.originsys.safemanage.safecheck.action.TBuildingRepairDetail">
+			<view type="html">com/originsys/safemanage/safecheck/view/tbuildingrepairdetail.ftl</view>
+		</get>
+		<!--天气预报  -->
+		<get id="weatherforcast" name="天气预报" class="com.originsys.safemanage.safecheck.action.WeatherForcast">
+		    <view type="html">com/originsys/safemanage/safecheck/view/weatherforcast.ftl</view>
+		</get>
+		
+		<get id="accident.foradd" name="楼幢事故记录增加" class="com.originsys.safemanage.safecheck.action.TBuildingAccidentAddParam">
+			<view type="html">com/originsys/safemanage/safecheck/view/tbuildingaccidentadd.ftl</view>
+		</get>
+		<data id="accident.add" name="楼幢事故记录增加保存" class="com.originsys.safemanage.safecheck.action.TBuildingAccidentAdd"/>
+		<get id="accident.list" name="楼幢事故记录列表"  class="">
+			<view name="楼幢事故记录表列表" type="html">com/originsys/safemanage/safecheck/view/tbuildingaccidentlist.ftl</view>
+		</get>
+		<get id="accident.listjson" name="楼幢事故记录列表数据"  class="com.originsys.safemanage.safecheck.action.TBuildingAccidentList">
+			<view name="楼幢事故记录表列表数据" type="plain">com/originsys/safemanage/safecheck/view/tbuildingaccidentlistjson.ftl</view>
+		</get>
+		<get id="accident.forupdate" name="楼幢事故记录预修改" class="com.originsys.safemanage.safecheck.action.TBuildingAccidentDetail">
+			<view type="html">com/originsys/safemanage/safecheck/view/tbuildingaccidentupdate.ftl</view>
+		</get>
+		<data id="accident.update" name="楼幢事故记录修改" class="com.originsys.safemanage.safecheck.action.TBuildingAccidentUpdate" />
+		<data id="accident.delete" name="楼幢事故记录删除" class="com.originsys.safemanage.safecheck.action.TBuildingAccidentDelete" />
+		<get id="accident.detail" name="楼幢事故记录详细信息" class="com.originsys.safemanage.safecheck.action.TBuildingAccidentDetail">
+			<view type="html">com/originsys/safemanage/safecheck/view/tbuildingaccidentdetail.ftl</view>
+		</get>
+		<get id="saferecorddetail" name="楼幢安全详细" class="com.originsys.safemanage.safecheck.action.SafeRecordDetail">
+ 	    	<view type="html">com/originsys/safemanage/safecheck/view/saferecorddetail.ftl</view>
+ 	    </get>
+ 	    <get id="healthrecorddetail" name="房屋健康档案" class="com.originsys.safemanage.safecheck.action.HealthRecordDetail">
+ 	    	<view type="html">com/originsys/safemanage/safecheck/view/healthrecorddetail.ftl</view>
+ 	    </get>
+	</actions>
+	
+	<!--  user-types>
+		<user-type id="safecensor" name="安全检查员"
+		 setting-action="safecheck.safecensor.forupdate" 
+		 list-action="safecheck.safecensor.list" 
+		 show-action="safecheck.safecensor.detail">
+			<implement-class>com.originsys.safemanage.safecheck.action.SafeCensorUserTypeIm</implement-class>
+		</user-type>
+		<user-type id="safemanager" name="安全管理员"
+		 setting-action="safecheck.safemanager.forupdate" 
+		 list-action="safecheck.safemanager.list" 
+		 show-action="safecheck.safemanager.detail">
+			<implement-class>com.originsys.safemanage.safecheck.action.SafeManagerUserTypeIm</implement-class>
+		</user-type>
+		<user-type id="safeassessors" name="安全鉴定员"
+		 setting-action="safecheck.safeassessors.forupdate" 
+		 list-action="safecheck.safeassessors.list" 
+		 show-action="safecheck.safeassessors.detail">
+			<implement-class>com.originsys.safemanage.safecheck.action.SafeAssessorsUserTypeIm</implement-class>
+		</user-type>
+	</user-types -->
+	
+</component>
+

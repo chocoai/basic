@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>类参考</title>
+<link rel="stylesheet" href="./style.css"/>
+<script type="text/javascript">
+function onPageLoad(){
+	var a=window.location.href;
+	var args = a.split("?");
+	var parames=args[1];
+	//alert(parames);
+	var dom=document.getElementById("map");
+	var doma=document.getElementById("classname");
+	var domb=document.getElementById("mapfiles");
+	var domc=document.getElementById("classinstructions");
+	var domd=document.getElementById("libclass");
+	dom.href="./mapfiles.html"+parames;
+	domb.href="mapfiles.html?"+parames;
+	domd.href="./FMapLib.html?"+parames;
+	if(parames=="qs"){
+	doma.href="./qsclassreference.html"
+	doma.innerHTML="FMapLib.Querysurrounding";
+	domc.innerHTML='<h2>'+
+	'<a id="classinstructions" href="./qsclassreference.html">FMapLib.QuerySurrounding</a>'
+	+'</h2>'+
+	'周边查询功能类，通过查询的位置和距离确定查询的范围，查找在该范围内的房屋，统计房屋的数量和信息，并以marker的形式在地图上展现。';
+	}
+	if(parames=="map"){
+		doma.href="./mapclassreference.html"
+		doma.innerHTML="FMapLib.FMap";
+		domc.innerHTML='<h2>'+
+		'<a id="classinstructions" href="./mapclassreference.html">FMapLib.FMap</a>'
+		+'</h2>'+
+		'地图API的核心类，用于实例化创建一个新的地图，实现地图在客户端的交互操作。可以通过给创建的地图添加图层和控件，可以扩展地图的使用。';
+		}
+	if(parames=="mw"){
+		doma.href="./mwclassreference.html"
+		doma.innerHTML="FMapLib.MouseWheelListener";
+		domc.innerHTML='<h2>'+
+		'<a id="classinstructions" href="./mwclassreference.html">FMapLib.MouseWheelListener</a>'
+		+'</h2>'+
+		'实现鼠标在地图窗口滚动时地图的放大缩小功能。实现地图与鼠标的交互操作，可以扩展地图的使用。';
+		}
+	if(parames=="mp"){
+		    doma.href="./cmclassreference.html"
+			doma.innerHTML="FMapLib.AreaMeasureTool";
+			domc.innerHTML='<h2>'+
+			'<a id="classinstructions" href="./cmclassreference.html">FMapLib.AreaMeasureTool</a>'
+			+'</h2>'+
+			'实现多边形面积测量功能 。';
+	}
+	if(parames=="bq"){
+	    doma.href="./bqclassreference.html"
+		doma.innerHTML="FMapLib.BuildingQueryByDate";
+		domc.innerHTML='<h2>'+
+		'<a id="classinstructions" href="./bqclassreference.html">FMapLib.BuildingQueryByDate</a>'
+		+'</h2>'+
+		'实现房屋按建成年代查询的功能 。';
+}
+	if(parames=="ml"){
+	    doma.href="./cjclassreference.html"
+		doma.innerHTML="FMapLib.DistanceMeasureTool";
+		domc.innerHTML='<h2>'+
+		'<a id="classinstructions" href="./cjclassreference.html">FMapLib.DistanceMeasureTool</a>'
+		+'</h2>'+
+		'实现地图窗口中线段长度的测量功能 。';
+}
+	if(parames=="sv"){
+	    doma.href="./surveyqueryreference.html"
+		doma.innerHTML="FMapLib.BuildingsFromSurvey";
+		domc.innerHTML='<h2>'+
+		'<a id="classinstructions" href="./surveyqueryreference.html">FMapLib.BuildingsFromSurvey</a>'
+		+'</h2>'+
+		'实现项目测绘建筑查询 。';
+}
+	if(parames=="hn"){
+	    doma.href="./hnclassreference.html"
+		doma.innerHTML="FMapLib.HouseQueryByName";
+		domc.innerHTML='<h2>'+
+		'<a id="classinstructions" href="./bnclassreference.html">FMapLib.HouseQueryByName</a>'
+		+'</h2>'+
+		'实现房屋按照地址或地址中的一部分查询，属模糊查询的一种。';
+}
+	if(parames=="pm"){
+	    doma.href="./pmclassreference.html"
+		doma.innerHTML="FMapLib.PrintMap";
+		domc.innerHTML='<h2>'+
+		'<a id="classinstructions" href="./pmclassreference.html">FMapLib.PrintMap</a>'
+		+'</h2>'+
+		'实现地图打印功能，属于地图基本功能。';
+}
+	if(parames=="zh"){
+	    doma.href="./bmqclassreference.html"
+		doma.innerHTML="FMapLib.BuildingMiltyQuery";
+		domc.innerHTML='<h2>'+
+		'<a id="classinstructions" href="./bmqclassreference.html">FMapLib.BuildingMiltyQuery</a>'
+		+'</h2>'+
+		'实现地图空间数据和属性数据的查询功能，属于地图的扩展功能。';
+}
+	if(parames=="rd"){
+	    doma.href="./renderclassreference.html"
+		doma.innerHTML="FMapLib.Render";
+		domc.innerHTML='<h2>'+
+		'<a id="classinstructions" href="./renderclassreference.html">FMapLib.Render</a>'
+		+'</h2>'+
+		'实现地图图层的渲染功能，使地图的展示更具有多样化和随机性 。';
+}
+	if(parames=="tb"){
+	    doma.href="./tbclassreference.html"
+		doma.innerHTML="FMapLib.ToolBar";
+		domc.innerHTML='<h2>'+
+		'<a id="classinstructions" href="./tbclassreference.html">FMapLib.ToolBar</a>'
+		+'</h2>'+
+		'实现添加工具条的功能，属于地图的基本操作 。';
+}
+	if(parames=="sm"){
+	    doma.href="./smclassreference.html"
+		doma.innerHTML="FMapLib.SatelliteMapSwitcher";
+		domc.innerHTML='<h2>'+
+		'<a id="classinstructions" href="./smclassreference.html">FMapLib.SatelliteMapSwitcher</a>'
+		+'</h2>'+
+		'实现添加地图影像切换器的功能 。';
+}
+}
+</script>
+</head>
+<body onLoad="onPageLoad()">
+	<div id="main_content" class="main_content">
+		<div id="index">
+			<div align="center" class="class_index">
+				<a id="map">参考类</a> | <a id="mapfiles">文件</a>
+			</div>
+			<div class="class_index1">
+				<h2>Classes</h2>
+				<ul class="classList">
+					<li><a id="libclass">FMapLib</a></li>
+					<li><a id="classname"></a></li>
+
+				</ul>
+			</div>
+		</div>
+		<div id="content">
+			<h1 class="classTitle">参考类</h1>
+			<div>
+				<h2>
+					<a href="./FMapLib.html">FMapLib</a>
+				</h2>
+				FMap的所有library类均放在FMapLib命名空间下
+			</div>
+			<hr />
+			<div id="classinstructions">
+				
+			</div>
+			<hr />
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,766 @@
+<script src="${_share_file_url!''}/resource/js/frame/frame.js" type="text/javascript"></script>
+<script src="${_share_file_url!''}/resource/js/jquery.pop.js" type="text/javascript"></script>
+<link href="${_share_file_url!''}/resource/themes/${_globel_skin_name}/origin-ui.css" rel="stylesheet" type="text/css" / >
+<link href="${_share_file_url!''}/resource/themes/${_globel_skin_name}/jnfc-ui.css" rel="stylesheet" type="text/css" / >
+<style>
+#tabs li .ui-icon-close { float: left; margin: 0.4em 0.2em 0 0; cursor: hand; }
+#tabs li a {cursor: hand;}
+.ui-accordion .ui-accordion-content{
+	padding:  0px;
+}
+.ui-accordion-content a{
+	display:block;
+	height:30px;
+	padding-left:30px;
+	line-height:30px;
+	text-decoration:none;
+}
+.ui-accordion-content a:hover{
+	background:#FEF8CF;
+}
+.ui-accordion-header a{
+	//padding-left:1.8em;
+}
+#td_left{
+background:#377fd3;}
+
+#td_left ul{
+	display:block;
+	
+}
+#nav a{
+	cursor:pointer;
+}
+</style>
+<script type="text/JavaScript">
+var $tabs,tab_counter;
+var tag = false;
+var current_menu="login";
+$(document).ready(function(){ 
+	tab_counter = 1;
+	var $tab_content_input = $( "#actionUrl" );
+	var templateString="<li><a href='#"+"{href}'>#"+"{label}</a> <span class='ui-icon ui-icon-close'>关闭</span></li>"
+	$tabs = $("#tabs").tabs();
+    $("#tabs" ).on( "click","span.ui-icon-close", function() {
+            var _size = $( "#tabs span.ui-icon-close" ).size();
+            if(_size>1){
+            	var index = $("li",$tabs).index($(this).parent());
+				var tab = $("#tabs").find(".ui-tabs-nav li:eq("+index+")").remove();
+				var panelId = tab.attr("aria-controls");
+				$("#" + panelId ).remove();
+				$("#tabs").tabs("refresh");
+            }
+	});
+	$("#tabs").find("iframe").css("height",document.documentElement.clientHeight - 70);
+	
+	$(window).resize(function(){
+		resetWorkset();
+	});
+	//自适应窗口边框
+	var t=document.documentElement.clientWidth; 
+	window.onresize = function(){ 
+		if(t != document.documentElement.clientWidth){
+			t = document.documentElement.clientWidth;
+			//doResize();
+		}
+	}
+	
+	function getPageSize() {
+	var winW, winH;
+	if(window.innerHeight) {// all except IE
+		winW = window.innerWidth;
+		winH = window.innerHeight;
+	} else if (document.documentElement && document.documentElement.clientHeight) {// IE 6 Strict Mode
+		winW = document.documentElement.clientWidth;
+		winH = document.documentElement.clientHeight;
+	} else if (document.body) { // other
+		winW = document.body.clientWidth;
+		winH = document.body.clientHeight;
+	}  // for small pages with total size less then the viewport 
+		return {WinW:winW, WinH:winH};
+ 	} 
+
+	$("#main").css("height",getPageSize().WinH - 165); //document.documentElement.clientHeight - 128
+	$("#menu_login").accordion({heightStyle: "content",clearStyle: true ,collapsible: true });
+	$("#menu_info").accordion({heightStyle: "content",clearStyle: true ,collapsible: true });
+	$("#menu_system").accordion({heightStyle: "content",clearStyle: true,collapsible: true  });
+	$("#menu_common").accordion({heightStyle: "content",clearStyle: true ,collapsible: true });
+	$("#menu_member").accordion({heightStyle: "content",clearStyle: true ,collapsible: true });
+	$("#menu_workflow").accordion({heightStyle: "content",clearStyle: true ,collapsible: true });
+	$("#menu_system1").accordion({heightStyle: "content",clearStyle: true,collapsible: true  });
+	$("#menu_dangerhousewarn").accordion({heightStyle: "content",clearStyle: true,collapsible: true  });
+	$("#menu_healthrecord").accordion({heightStyle: "content",clearStyle: true,collapsible: true  });
+	//隐藏菜单
+	$("#hidemenu").click(function(){
+		var str=$(this).text();
+		if(str=="隐藏菜单"){
+			$(this).text("显示菜单");
+			$("#td_left").css("width","0px");
+			$("#td_left div[id^='menu']").each(function(){
+				$(this).css("display","none");
+			});
+		}else if(str=="显示菜单"){
+			$(this).text("隐藏菜单");
+			$("#td_left").css("width","210px");
+			$("#menu_m_"+current_menu).show();
+			$("#menu_"+current_menu).show();
+		}
+	});
+	[#assign caidan="login"]
+	[#if access.canDo(user,'safecheck.survey.editlist')||access.canDo(user,'safecheck.survey.managelist')||access.canDo(user,'safecheck.survey.housecounthz')||access.canDo(user,'safecheck.survey.housepoicheck')]
+      	[#assign caidan="common"]
+      	[#elseif access.canDo(user,'safecheck.building.editlist')||access.canDo(user,'safecheck.building.managelist')||access.canDo(user,'safecheck.building.housecounthz')]
+        [#assign caidan="workflow"]
+        [#elseif access.canDo(user,'safeauth.report.list')||access.canDo(user,'safeauth.report.managelist')||access.canDo(user,'safecheck.auth.housecounthz')||access.canDo(user,'safecheck.survey.testgradetheme')]
+        [#assign caidan="system"]
+        [#elseif access.canDo(user,'safeauth.dangerous.list')||access.canDo(user,'safeauth.dangerous.managelist')||access.canDo(user,'safecheck.building.poplist')||access.canDo(user,'safecheck.tHdangerBuildinglist')]
+        [#assign caidan="system1"]
+        [#elseif access.canDo(user,'safecheck.usewarnlist')||access.canDo(user,'safecheck.survey.dangeroushousewarn')]
+        [#assign caidan="dangerhousewarn"]  
+        [#elseif access.canDo(user,'71.news.editlist')||access.canDo(user,'72.news.editlist')||access.canDo(user,'73.news.editlist')||access.canDo(user,'74.news.editlist')||access.canDo(user,'75.news.editlist')]
+        [#assign caidan="info"]  
+        [#elseif access.canDo(user,'authclient.userInfolist')||access.canDo(user,'safemanage.tBuildingProjectlist')]
+        [#assign caidan="member"]    
+        [/#if]
+	$("#${caidan!''}").attr("class","thisclass");
+	$("#${caidan!''}").click();
+	function openpop(){
+ 		var url="";
+ 		[#if access.canDo(user,'safecheck.building.pop')]
+ 			url='${_servlet_url!''}/safecheck.building.pop';
+ 		[#elseif access.canDo(user,'safecheck.building.pop1')] 
+ 			url='${_servlet_url!''}/safecheck.building.pop1';
+ 		[/#if]
+ 		$.post(url,
+				"",
+				function(data, textStatus){
+					var jdata=jQuery.parseJSON(data);
+					if(jdata.success=="true"){
+						var pop=new Pop("${user.family_name!''}${user.firstname!''}您好：",
+						"#",jdata.message);
+					}
+				}
+			); 		
+	}
+	//setInterval这个函数会根据后面定义的1000既每隔1秒执行一次前面那个函数	
+	openpop();
+	setInterval(openpop,5*60*1000);
+}); 
+	function resetWorkset() {
+		$("#tabs").find("iframe").css("height",getPageSize().WinH - 165);
+	}
+
+	function changeTab(id,title){	
+	   var  idstr=id+"";   
+	        if(idstr.indexOf("http")!=-1){	
+	        $("#actionUrl").val("<iframe name='main' src='"+id+"' frameborder='0' style='width:100%'></iframe>");	
+	        }else{
+			$("#actionUrl").val("<iframe name='main' src='${_server_url!''}/portal/"+id+"' frameborder='0' style='width:100%'></iframe>");
+			}
+			var tab_title = title;
+			var currentIndex;
+			var currentId;
+			var num=0;
+			$("#tabs ul li a").each(function(i){
+				if($(this).text()==tab_title){
+					currentIndex=i;
+					currentId=$(this).attr("href");
+				}
+				num++;
+			});
+			if(currentIndex==undefined){
+				if(num==8){
+					num=7;
+					var tab = $("#tabs").find(".ui-tabs-nav li:eq(0)").remove();
+					var panelId = tab.attr("aria-controls");
+					$("#" + panelId ).remove();
+					$("#tabs").tabs("refresh");
+				}
+				$tabs.find(".ui-tabs-nav").append($('<li><a href="#tabs-'+ tab_counter+'">'+title+'</a><span class="ui-icon ui-icon-close">关闭</span></li>'));
+				$tabs.append("<div class='main' id='tabs-" + tab_counter + "' style='padding:0px;margin:0px;overflow:hidden;'>"+$("#actionUrl").val()+"</div>");
+				$tabs.tabs('option',"collapsible",false);
+				$tabs.tabs("refresh");
+				$("#tabs").tabs("option","active", num);
+				$("#tabs-"+tab_counter).find("iframe").css("height",getPageSize().WinH - 160);
+				tab_counter++;
+			}else{
+				var tab = $("#tabs").find(".ui-tabs-nav li:eq("+currentIndex+")")
+				var panelId = tab.attr("aria-controls");
+				$("#" + panelId ).find("iframe").attr("src","${_server_url!''}/portal/"+id);
+				$("#tabs").tabs("option","active", currentIndex);
+			}
+	} 
+	//改变左边栏目显示的div
+	function changeLeftMenu(obj){
+		current_menu=obj.id;
+		var str=$("#hidemenu").text();
+		if(str=="显示菜单"){
+			$("#hidemenu").text("隐藏菜单");
+			$("#td_left").css("width","210px");
+		}
+	    var _for = "#menu_"+obj.id;
+	    var _divTree = "#div_menu_"+obj.id;
+		$("#td_left div[id^='menu']").each(function(){
+			$(this).css("display","none");
+		});
+		
+		$("#td_left div[id^='div_menu']").each(function(){
+			$(this).css("display","none");
+		});
+	    $(_for).show();
+		$("#menu_m_"+obj.id).show();
+	}
+function logout(){
+	$("#logform").submit();
+	return false;
+}
+</script>
+<div class="head">
+	<div class="top">
+		<div class="top_logo" style="background-image:url(${_share_file_url!''}/safemanage/resource/images/origin-logo.jpg);"></div>
+	</div>
+    
+    <div class="nav" id="nav"  style="width:800px;">
+      <ul>
+      	[#if access.canDo(user,'safecheck.survey.editlist')||access.canDo(user,'safecheck.survey.managelist')||access.canDo(user,'safecheck.survey.housecounthz')||access.canDo(user,'safecheck.survey.housepoicheck')]
+      	<li><a  _for="common" id="common" target="main" onClick="changeLeftMenu(this);">安全普查</a></li>
+      	[/#if]
+      	[#if access.canDo(user,'safecheck.building.editlist')||access.canDo(user,'safecheck.building.managelist')||access.canDo(user,'safecheck.building.housecounthz')]
+        <li><a  _for="workflow" id="workflow" target="main" onClick="changeLeftMenu(this);">安全检查</a></li>
+        [/#if]
+        [#if access.canDo(user,'safeauth.report.list')||access.canDo(user,'safeauth.report.managelist')||access.canDo(user,'safecheck.auth.housecounthz')||access.canDo(user,'safecheck.survey.testgradetheme')]
+        <li><a  _for="system" id="system" target="main" onClick="changeLeftMenu(this);">安全鉴定</a></li>
+        [/#if]
+        [#if access.canDo(user,'safeauth.dangerous.list')||access.canDo(user,'safeauth.dangerous.managelist')||access.canDo(user,'safecheck.building.poplist')||access.canDo(user,'safecheck.tHdangerBuildinglist')]
+        <li><a  _for="system1" id="system1" target="main" onClick="changeLeftMenu(this);">危房管理</a></li>
+        [/#if]
+        [#if access.canDo(user,'safecheck.usewarnlist')||access.canDo(user,'safecheck.survey.dangeroushousewarn')]
+        <li><a  _for="dangerhousewarn" id="dangerhousewarn" target="main" onClick="changeLeftMenu(this);">安全预警</a></li>
+        [/#if]
+       <!-- [#if access.canDo(user,'safecheck.healthrecorddetail')||access.canDo(user,'safecheck.survey.poihealthrecord')]
+        <li><a  _for="healthrecord" id="healthrecord" target="main" onClick="changeLeftMenu(this);">健康手册</a></li>
+        [/#if]-->
+        [#if access.canDo(user,'71.news.editlist')||access.canDo(user,'72.news.editlist')||access.canDo(user,'73.news.editlist')||access.canDo(user,'74.news.editlist')||access.canDo(user,'75.news.editlist')]
+       	<li><a  _for="info" id="info" target="main" onClick="changeLeftMenu(this);">信息发布</a></li>       
+        [/#if]
+        [#if access.canDo(user,'authclient.userInfolist')||access.canDo(user,'safemanage.tBuildingProjectlist')]
+        <li><a  _for="member" id="member" target="main" onClick="changeLeftMenu(this);">人员机构备案</a></li>
+        [/#if]
+       	<li><a  _for="login" id="login" target="main" onClick="changeLeftMenu(this);">用户中心</a></li>
+      </ul>
+    </div>
+    
+    <div class="sitebar">
+    	<div class="hidemap">
+    		<ul>
+    			<li class="menu_hide"><a href="javascript:void(0)" id="hidemenu">隐藏菜单</a></li>
+    		</ul>
+    	</div>
+    	
+    	<div class="siteinf">
+	<table border="0" cellspacing="0" cellpadding="0">
+  	<tr>
+	    <td height="31">
+	    	<form id="logform" method="post" action="${_servlet_url!''}/commonservice.login.logout">
+			<input type="hidden" name="reDirectURL" value="${_server_url!''}/eap/">
+	    	<table  border="0" cellspacing="0" cellpadding="0">
+		      	<tr>
+			        <td class="usrinf" height="31" valign="top">
+			             			              	您好：<span class="usr_color">${user.fullname!''}</span>！
+			        </td>
+			        <td width="11"></td>
+			        <td width="50"><a href="${_server_url!''}/portal/safecheck.block" target="_blank" title="首页">【首页】</a></td>
+			        <td width="7"></td>
+			        <td width="60"><a  href="#" onclick="logout()" title="退出">【退出】</a></td>
+			        <td>&nbsp;</td>
+		      	</tr>
+	    	</table>
+	    	</form>
+	    </td>
+    </tr>
+	</table>
+	</div>
+    </div>
+ 
+
+<!-- header end -->
+</div>
+<div onmousemove="DragMouseMove()" onmouseup="DragMouseUp()">
+<table class="frame_main" cellpadding="0" cellspacing="0">
+	<tr>
+	<td id="td_left" class="bg_color" width="210" heigth="300" style="overflow:auto;" algin="top" valign="top">
+			<div id="menu_m_common" style="display:none;">
+			<div style="padding-left:10px;font-weight:bold;font-size:14px;padding-right:5px;line-height:36px;height:36px;background-image:url(../resource/images/rebg.jpg);background-repeat:repeat-x;">
+		 	安全普查
+		 	</div>
+			<div id="menu_common" style="padding:8px;"> 
+					[#if access.canDo(user,'safecheck.survey.editlist')||access.canDo(user,'safecheck.survey.managelist')]
+					<h2><a>安全普查管理</a></h2>
+						<div>
+							<ul>
+								[#if access.canDo(user,'safecheck.survey.editlist')]
+								<li><a id="safecheck.survey.choosehouse" onclick="changeTab('safecheck.survey.choosehouse','普查数据录入')" title="普查数据录入" target="main">普查数据录入</a></li>
+								<li><a id="safecheck.survey.editlist" onclick="changeTab('safecheck.survey.editlist','普查数据列表')" title="普查数据列表" target="main">普查数据列表</a></li>
+								[/#if]
+								[#if access.canDo(user,'safecheck.survey.managelist')]
+								<li><a id="safecheck.survey.managelist" onclick="changeTab('safecheck.survey.managelist','普查数据审核')" title="普查数据审核" target="main">普查数据审核</a></li>	
+								[/#if]
+							</ul>
+						</div>
+					[/#if]
+					[#if access.canDo(user,'safecheck.survey.housepoicheck')||access.canDo(user,'safecheck.survey.surveymx')]
+					<h2><a>普查查询</a></h2>
+						<div>
+							<ul>
+								[#if access.canDo(user,'safecheck.survey.surveymx')]
+								<li><a id="safecheck.survey.surveymx" onclick="changeTab('safecheck.survey.surveymx','自定义查询')" title="自定义查询" target="main">自定义查询</a></li>					
+								[/#if]
+								[#if access.canDo(user,'safecheck.survey.housepoicheck')]
+								<li><a id="safecheck.survey.housepoicheck" onclick="changeTab('safecheck.survey.housepoicheck','地图查询')" title="地图查询" target="main">地图查询</a></li>
+								[/#if]
+							</ul>
+						</div>
+					[/#if]
+					[#if access.canDo(user,'safecheck.survey.housecounthz')]
+					<h2><a>统计分析</a></h2>
+						<div>
+							<ul>
+								<li><a id="safecheck.survey.housecounthz" onclick="changeTab('safecheck.survey.housecounthz','普查楼幢汇总表')" title="普查楼幢汇总表" target="main">普查楼幢汇总表</a></li>
+								<li><a id="safecheck.survey.buildareahz" onclick="changeTab('safecheck.survey.buildareahz','普查面积汇总表')" title="普查面积汇总表" target="main">普查面积汇总表</a></li>
+								<li><a id="safecheck.survey.complexcount" onclick="changeTab('safecheck.survey.complexcount','自定义统计')" title="自定义统计" target="main">自定义统计</a></li>
+								<!--<li><a id="safecheck.survey.housecounttj" onclick="changeTab('safecheck.survey.housecounttj','普查楼幢统计')" title="普查楼幢统计" target="main">普查楼幢统计</a></li>
+								<li><a id="safecheck.survey.buildareatj" onclick="changeTab('safecheck.survey.buildareatj','普查面积统计')" title="普查面积统计" target="main">普查面积统计</a></li>-->
+								<li><a id="safecheck.survey.safegradetj" onclick="changeTab('safecheck.survey.safegradetj','各区县普查楼幢统计')" title="各区县普查楼幢统计" target="main">各区县普查楼幢统计</a></li>		
+								<li><a id="safecheck.whing" onclick="changeTab('safecheck.whing','建成年代统计')" title="建成年代统计" target="main">建成年代统计</a></li>	
+								<li><a id="safecheck.survey.usedesgintj" onclick="changeTab('safecheck.survey.usedesgintj','房屋用途统计')" title="房屋用途统计" target="main">房屋用途统计</a></li>							
+								<li><a id="safecheck.survey.floorupcounttj" onclick="changeTab('safecheck.survey.floorupcounttj','房屋楼层统计')" title="房屋楼层统计" target="main">房屋楼层统计</a></li>
+								<li><a id="safecheck.survey.buildstructtj" onclick="changeTab('safecheck.survey.buildstructtj','结构类型统计')" title="结构类型统计" target="main">结构类型统计</a></li>
+								<li><a id="safecheck.survey.buildingprotj" onclick="changeTab('safecheck.survey.buildingprotj','房屋权属状况统计')" title="房屋权属状况统计" target="main">房屋权属状况统计</a></li>
+							</ul>
+						</div>
+					[/#if]
+					[#if access.canDo(user,'safecheck.survey.safegradetheme')]
+					<h2><a>GIS专题</a></h2>
+					<div>
+						<ul>
+							<li><a id="safecheck.survey.safegradetheme" onclick="changeTab('safecheck.survey.safegradetheme','安全等级专题图')" title="安全等级专题图" target="main">安全等级专题图</a></li>
+						</ul>
+					</div>
+					[/#if]
+					<h2><a>全景专题</a></h2>
+					<div>
+						<ul>
+							<li><a id="safecheck.qj" onclick="changeTab('safecheck.qj','全景漫游')" title="全景漫游" target="main">全景漫游</a></li>
+						</ul>
+					</div>
+					
+					<h2><a>天气预报</a></h2>
+					<div>
+						<ul>
+							<li><a id="safecheck.qj" onclick="changeTab('safecheck.weatherforcast','天气预报')" title="天气预报" target="main">天气预报</a></li>
+						</ul>
+					</div>
+					<h2><a>健康手册</a></h2>
+					<div>
+						<ul>
+							<li><a id="safecheck.poihealthrecord" onclick="changeTab('safecheck.poihealthrecord','房屋健康手册')" title="房屋健康手册" target="main">房屋健康手册</a></li>
+						</ul>
+					</div>
+			</div>
+		</div>
+		<div id="menu_m_workflow" style="display:none;">
+		<div style="padding-left:10px;font-weight:bold;font-size:14px;padding-right:5px;line-height:36px;height:36px;background-image:url(../resource/images/rebg.jpg);background-repeat:repeat-x;">
+		 	安全检查管理
+		 	</div>
+			<div id="menu_workflow" style="padding:8px;">
+					[#if access.canDo(user,'safecheck.building.editlist')||access.canDo(user,'safecheck.building.managelist')]
+					<h2><a>安全检查管理</a></h2>
+					<div>
+						<ul>
+							[#if access.canDo(user,'safecheck.building.editlist')]
+							<li class="header"><a id="safecheck.building.choosehouse" onclick="changeTab('safecheck.building.choosehouse','安全检查录入')" title="安全检查录入" target="main">安全检查录入</a></li>
+							<li class="header"><a id="safecheck.building.editlist" onclick="changeTab('safecheck.building.editlist','日常检查列表')" title="日常检查列表" target="main">日常检查列表</a></li>
+							[/#if]							
+							[#if access.canDo(user,'safecheck.building.managelist')]
+							<li class="header"><a id="safecheck.building.managelist" onclick="changeTab('safecheck.building.managelist','日常检查审核')" title="楼幢检查审核" target="main">日常检查审核</a></li>
+							[/#if]
+							[#if access.canDo(user,'safecheck.accident.list')]
+							<li class="header"><a id="safecheck.accident.list" onclick="changeTab('safecheck.accident.list','事故记录列表')" title="事故记录列表" target="main">事故记录列表</a></li>
+							[/#if]
+							[#if access.canDo(user,'safecheck.repair.list')]
+							<li class="header"><a id="safecheck.repair.list" onclick="changeTab('safecheck.repair.list','维修记录列表')" title="维修记录列表" target="main">维修记录列表</a></li>
+							[/#if]
+							<li><a id="safecheck.whing" onclick="changeTab('safecheck.whing','特殊事件上报绿色通道')" title="特殊事件上报绿色通道" target="main">特殊事件上报绿色通道</a></li>	
+							<li><a id="safecheck.whing" onclick="changeTab('safecheck.whing','装修改造管理')" title="装修改造管理" target="main">装修改造管理</a></li>	
+						</ul>
+					</div>
+					[/#if]
+				  [#if access.canDo(user,'safecheck.building.buildingmx')]
+				  <h2><a>检查查询</a></h2>
+				  <div>		
+					 <ul>
+						<li><a id="safecheck.building.buildingmx" onclick="changeTab('safecheck.building.buildingmx','安全检查查询')" title="安全检查查询" target="main">安全检查查询</a></li>
+					  </ul>
+				  </div>
+				  [/#if]
+				  [#if access.canDo(user,'safecheck.building.housecounthz')]
+				  <h2><a>统计分析</a></h2>
+				  <div>		
+					 <ul>
+					 	[#if access.canDo(user,'safecheck.building.housecounthz')]
+						<li><a id="safecheck.building.housecounthz" onclick="changeTab('safecheck.building.housecounthz','检查楼幢汇总表')"title="检查楼幢汇总表"  target="main">检查楼幢汇总表</a></li>
+						<li><a id="safecheck.building.buildareahz" onclick="changeTab('safecheck.building.buildareahz','检查面积汇总表')" title="检查面积汇总表" target="main">检查面积汇总表</a></li>
+					  	<li><a id="safeauth.dangerouscount.list?ctype=pc" onclick="changeTab('safeauth.dangerouscount.list?ctype=pc','检查综合统计')"title="检查综合统计"  target="main">检查综合统计</a></li>
+						<li><a id="safecheck.building.housecounttj" onclick="changeTab('safecheck.building.housecounttj','检查楼幢统计')" title="检查楼幢统计" target="main">检查楼幢统计</a></li>
+						<li><a id="safecheck.building.buildareatj" onclick="changeTab('safecheck.building.buildareatj','检查面积统计')" title="检查面积统计" target="main">检查面积统计</a></li>
+					  	<li><a id="safecheck.building.safegradetj" onclick="changeTab('safecheck.building.safegradetj','检查等级统计')"title="检查等级统计"  target="main">检查等级统计</a></li>
+					  	<li><a id="safecheck.building.workloadtj" onclick="changeTab('safecheck.building.workloadtj','检查工作量统计')"title="检查工作量统计"  target="main">检查工作量统计</a></li>
+					  	[/#if]
+					  </ul>
+				  </div>
+				  [/#if]
+				  [#if access.canDo(user,'safecheck.survey.checkgradetheme')]
+				  <h2><a>GIS专题</a></h2>
+				  <div>		
+					 <ul>
+					  	<li><a id="safecheck.survey.checkgradetheme" onclick="changeTab('safecheck.survey.checkgradetheme','安全检查专题图')"title="安全检查专题图"  target="main">安全检查专题图</a></li>
+					  </ul>
+				  </div>
+				  [/#if]
+				  
+				  <h2><a>天气预报</a></h2>
+					<div>
+						<ul>
+							<li><a id="safecheck.qj" onclick="changeTab('safecheck.weatherforcast','天气预报')" title="天气预报" target="main">天气预报</a></li>
+						</ul>
+					</div>
+					<h2><a>健康手册</a></h2>
+					<div>
+						<ul>
+							<li><a id="safecheck.poihealthrecord" onclick="changeTab('safecheck.poihealthrecord','房屋健康手册')" title="房屋健康手册" target="main">房屋健康手册</a></li>
+						</ul>
+					</div>
+			</div>
+			</div>
+		<div id="menu_m_system" style="display:none;">
+			<div style="padding-left:10px;font-weight:bold;font-size:14px;padding-right:5px;line-height:36px;height:36px;background-image:url(../resource/images/rebg.jpg);background-repeat:repeat-x;">
+		 	安全鉴定管理
+		 	</div>
+			<div id="menu_system" style="padding:8px;">
+				  [#if access.canDo(user,'safeauth.report.list')||access.canDo(user,'safeauth.report.managelist')]
+				  <h2><a>安全鉴定管理</a></h2>
+				  <div>		
+					 <ul>
+					 	[#if access.canDo(user,'safeauth.report.list')]
+						<li><a id="safeauth.report.choosehouse" onclick="changeTab('safeauth.report.choosehouse','鉴定报告录入')"title="鉴定报告录入"  target="main">鉴定报告录入</a></li>
+						<li><a id="safeauth.report.list" onclick="changeTab('safeauth.report.list','鉴定报告列表')" title="鉴定报告列表" target="main">鉴定报告列表</a></li>
+						[/#if]
+						[#if access.canDo(user,'safeauth.report.managelist')]
+						<li><a id="safeauth.report.managelist" onclick="changeTab('safeauth.report.managelist','鉴定报告审核')" title="鉴定报告审核" target="main">鉴定报告审核</a></li>
+					  	[/#if]
+					  	[#if access.canDo(user,'safeauth.jdtask.list')]
+						<li><a id="safeauth.jdtask.list" onclick="changeTab('safeauth.jdtask.list','鉴定任务单')" title="鉴定任务单" target="main">鉴定任务单</a></li>
+					  	[/#if]
+					  </ul>
+				  </div>
+				  [/#if]
+				  [#if access.canDo(user,'safecheck.auth.authmx')]
+				  <h2><a>鉴定查询</a></h2>
+				  <div>		
+					 <ul>
+						<li><a id="safecheck.auth.authmx" onclick="changeTab('safecheck.auth.authmx','安全鉴定查询')" title="安全鉴定查询" target="main">安全鉴定查询</a></li>
+					  </ul>
+				  </div>
+				  [/#if]
+				  [#if access.canDo(user,'safecheck.building.poplist')||access.canDo(user,'safecheck.tHdangerBuildinglist')]
+				  <h2><a>隐患房屋管理</a></h2>
+				  <div>		
+					 <ul>
+					 	[#if access.canDo(user,'safecheck.building.poplist')]
+						<li><a id="safecheck.building.poplist" onclick="changeTab('safecheck.building.poplist','隐患房屋查询')"title="隐患房屋查询"  target="main">隐患房屋查询</a></li>
+						[/#if]
+						[#if access.canDo(user,'safecheck.tHdangerBuildinglist')]
+						<li><a id="safecheck.tHdangerBuildinglist" onclick="changeTab('safecheck.tHdangerBuildinglist','网站隐患房屋上报管理')" title="网站隐患房屋上报管理" target="main">网站隐患房屋上报管理</a></li>
+						[/#if]
+					</ul>
+				  </div>
+				  [/#if]
+				  [#if access.canDo(user,'safecheck.auth.housecounthz')]
+				  <h2><a>统计分析</a></h2>
+				  <div>		
+					 <ul>
+					 	[#if access.canDo(user,'safecheck.auth.housecounthz')]
+						<li><a id="safecheck.auth.housecounthz" onclick="changeTab('safecheck.auth.housecounthz','鉴定楼幢汇总表')"title="鉴定楼幢汇总表"  target="main">鉴定楼幢汇总表</a></li>
+						<li><a id="safecheck.auth.buildareahz" onclick="changeTab('safecheck.auth.buildareahz','鉴定面积汇总表')" title="鉴定面积汇总表" target="main">鉴定面积汇总表</a></li>
+					  	<li><a id="safeauth.dangerouscount.list?ctype=jd" onclick="changeTab('safeauth.dangerouscount.list?ctype=jd','鉴定综合统计')"title="鉴定综合统计"  target="main">鉴定综合统计</a></li>
+						<li><a id="safecheck.auth.housecounttj" onclick="changeTab('safecheck.auth.housecounttj','鉴定楼幢统计')" title="鉴定楼幢统计" target="main">鉴定楼幢统计</a></li>
+						<li><a id="safecheck.auth.buildareatj" onclick="changeTab('safecheck.auth.buildareatj','鉴定面积统计')" title="鉴定面积统计" target="main">鉴定面积统计</a></li>
+					  	<li><a id="safecheck.auth.safegradetj" onclick="changeTab('safecheck.auth.safegradetj','鉴定等级统计')"title="鉴定等级统计"  target="main">鉴定等级统计</a></li>
+					  	<li><a id="safecheck.auth.workloadtj" onclick="changeTab('safecheck.auth.workloadtj','鉴定工作量统计')"title="鉴定工作量统计"  target="main">鉴定工作量统计</a></li>
+					  	[/#if]
+					  </ul>
+				  </div>
+				  [/#if]
+				 [#if access.canDo(user,'safecheck.survey.testgradetheme')]
+				  <h2><a>GIS专题</a></h2>
+				  <div>		
+					 <ul>
+					  	<li><a id="safecheck.survey.testgradetheme" onclick="changeTab('safecheck.survey.testgradetheme','安全鉴定专题图')"title="安全鉴定专题图"  target="main">安全鉴定专题图</a></li>
+					  </ul>
+				  </div>
+				  [/#if]
+				  <h2><a>天气预报</a></h2>
+					<div>
+						<ul>
+							<li><a id="safecheck.qj" onclick="changeTab('safecheck.weatherforcast','天气预报')" title="天气预报" target="main">天气预报</a></li>
+						</ul>
+					</div>
+					<h2><a>健康手册</a></h2>
+					<div>
+						<ul>
+							<li><a id="safecheck.poihealthrecord" onclick="changeTab('safecheck.poihealthrecord','房屋健康手册')" title="房屋健康手册" target="main">房屋健康手册</a></li>
+						</ul>
+					</div>
+			</div>		
+		</div>
+		
+		<div id="menu_m_system1" style="display:none;">
+			<div style="padding-left:10px;font-weight:bold;font-size:14px;padding-right:5px;line-height:36px;height:36px;background-image:url(../resource/images/rebg.jpg);background-repeat:repeat-x;">
+		 	危房管理
+		 	</div>
+			<div id="menu_system1" style="padding:8px;">
+				 [#if access.canDo(user,'safeauth.dangerous.list')||access.canDo(user,'safeauth.dangerous.managelist')]
+				  <h2><a>危房管理</a></h2>
+				  <div>		
+					 <ul>
+					 	[#if access.canDo(user,'safeauth.dangerous.list')]
+						<li><a id="safeauth.dangerous.list" onclick="changeTab('safeauth.dangerous.list','区县危房管理')"title="区县危房管理"  target="main">区县危房管理</a></li>
+						[/#if]
+						[#if access.canDo(user,'safeauth.dangerous.managelist')]
+						<li><a id="safeauth.dangerous.managelist" onclick="changeTab('safeauth.dangerous.managelist','危房管理')" title="危房管理" target="main">危房管理</a></li>
+						[/#if]
+					</ul>
+				  </div>
+				  [/#if]
+				  [#if access.canDo(user,'safecheck.survey.testgradetheme')]
+				  <h2><a>GIS专题</a></h2>
+				  <div>		
+					 <ul>
+					  	<li><a id="safecheck.survey.testgradetheme" onclick="changeTab('safecheck.survey.testgradetheme','危房分布专题图')"title="危房分布专题图"  target="main">危房分布专题图</a></li>
+					  </ul>
+				  </div>
+				  [/#if]
+				  <h2><a>全景专题</a></h2>
+					<div>
+						<ul>
+							<li><a id="safecheck.hdscene" onclick="changeTab('safecheck.hdscene','全景漫游')" title="全景漫游" target="main">全景漫游</a></li>
+						</ul>
+					</div>
+				<h2><a>天气预报</a></h2>
+					<div>
+						<ul>
+							<li><a id="safecheck.qj" onclick="changeTab('safecheck.weatherforcast','天气预报')" title="天气预报" target="main">天气预报</a></li>
+						</ul>
+					</div>
+					<h2><a>健康手册</a></h2>
+					<div>
+						<ul>
+							<li><a id="safecheck.poihealthrecord" onclick="changeTab('safecheck.poihealthrecord','房屋健康手册')" title="房屋健康手册" target="main">房屋健康手册</a></li>
+						</ul>
+					</div>
+			</div>		
+		</div>
+				<div id="menu_m_dangerhousewarn" style="display:none;">
+			<div style="padding-left:10px;font-weight:bold;font-size:14px;padding-right:5px;line-height:36px;height:36px;background-image:url(../resource/images/rebg.jpg);background-repeat:repeat-x;">
+		 	危房预警
+		 	</div>
+			<div id="menu_dangerhousewarn" style="padding:8px;">
+				  [#if access.canDo(user,'safecheck.usewarnlist')]
+				  <h2><a>房屋使用超限预警</a></h2>
+				  <div>		
+					 <ul>
+						<li><a id="safecheck.usewarnlist" onclick="changeTab('safecheck.usewarnlist','房屋使用超限情况列表')" title="房屋使用超限情况列表" target="main">房屋使用超限情况列表</a></li>
+					</ul>
+				  </div>
+				  [/#if]
+				  [#if access.canDo(user,'safecheck.noticewarnlist')]
+				  <h2><a>危房通知逾期预警</a></h2>
+				  <div>		
+					 <ul>
+						<li><a id="safecheck.noticewarnlist" onclick="changeTab('safecheck.noticewarnlist','危房通知逾期情况列表')" title="危房通知逾期情况列表" target="main">危房通知逾期情况列表</a></li>
+					</ul>
+				  </div>
+				  [/#if]
+				  [#if access.canDo(user,'safecheck.trackwarnlist')]
+				  <h2><a>危房跟踪预警</a></h2>
+				  <div>		
+					 <ul>
+						<li><a id="safecheck.trackwarnlist" onclick="changeTab('safecheck.trackwarnlist','危房跟踪列表')" title="危房跟踪列表" target="main">危房跟踪列表</a></li>
+					</ul>
+				  </div>
+				  [/#if]
+				  [#if access.canDo(user,'safecheck.disasterwarnlist')||access.canDo(user,'safecheck.disasterwarnmanagerlist')]
+				  <h2><a>突发事件预警</a></h2>
+				  <div>		
+					 <ul>
+					    
+					 	[#if access.canDo(user,'safecheck.disasterwarn.forinsert')]
+						<!--<li><a id="safecheck.disasterwarn.forinsert" onclick="changeTab('safecheck.disasterwarn.forinsert','突发事件增加')" title="突发事件增加" target="main">突发事件增加</a></li>-->
+						<li><a id="safecheck.disasterwarn.forinsert" onclick="changeTab('safecheck.disasterwarn.gis','突发事件增加')" title="突发事件增加" target="main">突发事件增加</a></li>
+						[/#if]
+						[#if access.canDo(user,'safecheck.disasterwarnlist')]
+						<li><a id="safecheck.disasterwarnlist" onclick="changeTab('safecheck.disasterwarnlist','突发事件列表')" title="突发事件列表" target="main">突发事件列表</a></li>
+						[/#if]
+						[#if access.canDo(user,'safecheck.disasterwarnmanagerlist')]
+						<li><a id="safecheck.disasterwarnmanagerlist" onclick="changeTab('safecheck.disasterwarnmanagerlist','突发事件管理员列表')" title="突发事件管理员列表" target="main">突发事件管理员列表</a></li>
+						[/#if]
+					</ul>
+				  </div>
+				  [/#if]
+				  [#if access.canDo(user,'safecheck.survey.dangeroushousewarn')]
+				  <h2><a>安全预警</a></h2>
+				  <div>		
+					 <ul>
+					 	<li><a id="safecheck.survey.dangeroushousewarn" onclick="changeTab('safecheck.survey.dangeroushousewarn','危房预警')"title="危房预警"  target="main">危房预警</a></li>
+					</ul>
+				  </div>
+				  [/#if]
+				  <h2><a>天气预报</a></h2>
+					<div>
+						<ul>
+							<li><a id="safecheck.qj" onclick="changeTab('safecheck.weatherforcast','天气预报')" title="天气预报" target="main">天气预报</a></li>
+						</ul>
+					</div>
+			</div>		
+		</div>
+		<div id="menu_m_healthrecord" style="display:none;">
+			<div style="padding-left:10px;font-weight:bold;font-size:14px;padding-right:5px;line-height:36px;height:36px;background-image:url(../resource/images/rebg.jpg);background-repeat:repeat-x;">
+		 	健康手册
+		 	</div>
+			<div id="menu_healthrecord" style="padding:8px;">
+				  [#if access.canDo(user,'safecheck.poihealthrecord')]
+				  <h2><a>房屋健康手册</a></h2>
+				  <div>		
+					 <ul>
+						<li><a id="safecheck.poihealthrecord" onclick="changeTab('safecheck.poihealthrecord','房屋健康手册地图')" title="房屋健康手册地图" target="main">房屋健康手册地图</a></li>
+					</ul>
+				  </div>
+				  [/#if]
+		   </div>
+		</div> 
+		<div id="menu_m_info"  style="display:none;">
+			<div style="padding-left:10px;font-weight:bold;font-size:14px;padding-right:5px;line-height:36px;height:36px;background-image:url(../resource/images/rebg.jpg);background-repeat:repeat-x;">
+		 	信息发布
+		 	</div>
+			<div id="menu_info" style="padding:8px;">
+				  <h3><a>信息发布</a></h3>
+				  <div>
+				  	<ul>
+					  <li><a id="71.news.editlist" onclick="changeTab('71.news.editlist','危房信息公示')" title="危房信息公示" target="main"><span>危房信息公示</span></a></li>
+					  <li><a id="72.news.editlist" onclick="changeTab('72.news.editlist','工作动态')" title="工作动态" target="main"><span>工作动态</span></a></li>
+					  <li><a id="73.news.editlist" onclick="changeTab('73.news.editlist','办事指南')" title="办事指南" target="main"><span>办事指南</span></a></li>
+					  <li><a id="74.news.editlist" onclick="changeTab('74.news.editlist','安全知识')" title="安全知识" target="main"><span>安全知识</span></a></li>
+					  <li><a id="75.news.editlist" onclick="changeTab('75.news.editlist','行业标准')" title="行业标准" target="main"><span>行业标准</span></a></li>
+					</ul>
+				  </div>
+			</div>
+		</div>
+		<div id="menu_m_member" style="display:none;">
+		<div style="padding-left:10px;font-weight:bold;font-size:14px;padding-right:5px;line-height:36px;height:36px;background-image:url(../resource/images/rebg.jpg);background-repeat:repeat-x;">
+		 	人员机构备案管理
+		 	</div>
+			<div id="menu_member" style="padding:8px;"> 
+					[#if access.canDo(user,'authclient.userInfolist')||access.canDo(user,'safemanage.tBuildingProjectlist')]
+					<h2><a>人员机构备案管理</a></h2>
+						<div>
+							<ul>
+								[#if access.canDo(user,'authclient.userInfolist')]
+								<li><a id="authclient.userInfolist" onclick="changeTab('authclient.userInfolist','企业用户管理')" title="企业用户管理" target="main">企业用户管理</a></li>
+								[/#if]
+							</ul>							
+							<!--<ul>
+								[#if access.canDo(user,'safemanage.tBuildingUnitlist')]
+								<li><a id="safemanage.tBuildingUnitlist" onclick="changeTab('safemanage.tBuildingUnitlist','管理单位备案')" title="管理单位备案" target="main">管理单位备案</a></li>
+								[/#if]
+							</ul>-->
+							<ul>
+								[#if access.canDo(user,'safemanage.tBuildingProjectlist')]
+								<li><a id="safemanage.tBuildingProjectlist" onclick="changeTab('safemanage.tBuildingProjectlist','项目备案')" title="项目备案" target="main">项目备案</a></li>
+								[/#if]
+							</ul>
+						</div>
+					[/#if]
+									
+					[#if access.canDo(user,'authclient.role.list')]
+					<h2><a>权限和角色</a></h2>
+						<div>
+							<ul>
+								[#if access.canDo(user,'authclient.role.list')]
+								<li><a id="authclient.role.list" onclick="changeTab('authclient.role.list','本站角色维护')" title="本站角色维护" target="main">本站角色维护</a></li>		
+								<li><a id="authclient.role.quotelist" onclick="changeTab('authclient.role.quotelist','引用角色维护')" title="引用角色维护" target="main">引用角色维护</a></li>	
+								<li><a id="authclient.admin.userlist" onclick="changeTab('authclient.admin.userlist','用户维护')" title="用户维护" target="main">用户维护</a></li>
+								[/#if]
+							</ul>
+						</div>
+					[/#if]
+			</div>
+		</div>
+		<div id="menu_m_login" style="display:none;">
+			<div style="padding-left:10px;font-weight:bold;font-size:14px;padding-right:5px;line-height:36px;height:36px;background-image:url(../resource/images/rebg.jpg);background-repeat:repeat-x;">
+		 	用户中心
+		 	</div>
+			<div id="menu_login" style="padding:8px;">
+				  <h3><a>用户中心</a></h3>
+				  <div>
+				  		<ul>
+					    	<li><a id="auth.person.userinfo" onclick="changeTab('${property.auth_server_url!''}/portal/auth.person.userinfo','个人中心')" title="个人中心" target="main"><span>个人中心</span></a></li>
+					    </ul>
+				  </div>
+			</div>
+		</div>
+		</td>
+		<!-- left menu end -->
+		
+		<!-- center scroll bar start -->
+		<td id="td_fold" width="1" style="cursor:w-resize; background-color:#CECECE;" onmousedown="DragMouseDown()" style="background:#000000">
+			<script type="text/JavaScript">
+			    var tag = false;
+				function DragMouseDown(){
+					tag = true;
+				}
+				function DragMouseUp(){
+					tag = false;
+					if($("#td_fold").get(0).releaseCapture){
+						$("#td_fold").get(0).releaseCapture();
+					}
+				}
+				function DragMouseMove(){
+					if (tag) {
+						//捕获事件
+						if($("#td_fold").get(0).setCapture){  
+							$("#td_fold").get(0).setCapture();  
+						} 
+						$("#td_left").css("width", (event.clientX-7) + "px");//(event.clientX-7)保持鼠标始终在折叠栏的中间
+					}
+				}
+			</script>
+		</td>
+		<!-- cnter scroll bar end-->
+		
+		<!-- right content start -->	
+		<input type="hidden" id="actionUrl">
+		<td algin="top" valign="top">
+			<div class="right" id="tabs" style="padding:5px;border:none">
+				<ul style="padding:0;border-left:0;border-right:0;border-top:0">
+					<li><a href="#tabs-0">欢迎!</a><span class="ui-icon ui-icon-close">关闭</span></li>
+				</ul>
+			  <div class="main" id="tabs-0" style="padding:0px;margin:0px;">
+			    <iframe id="main"  name="main" frameborder="0" src="${_server_url!''}/eap/welcome" ></iframe>
+			  </div>
+			</div>
+	    </td>
+	</tr>
+</table>
+</div>
+		<!-- 消息提示框  -->
+	[#include "/WEB-INF/commonftl/messagebox.ftl"]

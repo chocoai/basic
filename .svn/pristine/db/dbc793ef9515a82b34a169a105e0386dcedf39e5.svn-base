@@ -1,0 +1,681 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Safecheck">
+	<typeAlias alias="tSafeCensor" type="com.originsys.safemanage.domain.TSafeCensor"/>
+	<typeAlias alias="tSafeManager" type="com.originsys.safemanage.domain.TSafeManager"/>
+	<typeAlias alias="tSafeAssessors" type="com.originsys.safemanage.domain.TSafeAssessors"/>
+	<typeAlias alias="tInvmBase" type="com.originsys.safemanage.domain.TInvmBase"/>
+	<typeAlias alias="tInvmEnclosur" type="com.originsys.safemanage.domain.TInvmEnclosur"/>
+	<typeAlias alias="tInvmEquipment" type="com.originsys.safemanage.domain.TInvmEquipment"/>
+	<typeAlias alias="tInvmField" type="com.originsys.safemanage.domain.TInvmField"/>
+	<typeAlias alias="tInvmHistory" type="com.originsys.safemanage.domain.TInvmHistory"/>
+	<typeAlias alias="tInvmUponPole" type="com.originsys.safemanage.domain.TInvmUponPole"/>
+	<typeAlias alias="tInvmUponRoofbean" type="com.originsys.safemanage.domain.TInvmUponRoofbean"/>
+	<typeAlias alias="tInvmUponWall" type="com.originsys.safemanage.domain.TInvmUponWall"/>
+	<typeAlias alias="tBuilding" type="com.originsys.safemanage.domain.TBuilding"/>
+	<typeAlias alias="tBuildingCtrack" type="com.originsys.safemanage.domain.TBuildingCtrack"/>
+	<typeAlias alias="tBuildingSafe" type="com.originsys.safemanage.domain.TBuildingSafe"/>
+	<typeAlias alias="tBuildingSurvey" type="com.originsys.safemanage.domain.TBuildingSurvey"/>
+	<typeAlias alias="tHouse" type="com.originsys.safemanage.domain.THouse"/>
+	<typeAlias alias="tHouseCtrack" type="com.originsys.safemanage.domain.THouseCtrack"/>
+	<typeAlias alias="tHouseSafe" type="com.originsys.safemanage.domain.THouseSafe"/>
+	<typeAlias alias="tHdangerBuilding" type="com.originsys.safemanage.domain.THdangerBuilding"/>
+	
+	
+	<!-- 楼幢普查安全管理员管理区域 -->
+	<select id="getBuildingSafeManageRegion" parameterClass="java.lang.String" resultClass="java.lang.String">
+		select region from t_safe_manager where mem_id = #mem_id# 
+	</select>
+	
+	<!-- 楼幢普查安全管理员列表 -->
+	<select id="getBuildingSafeManageList" parameterClass="java.util.Map" resultClass="tBuilding">
+		
+				select t.building_id,t.building_address,t.builiding_region,t.real_type,t.use_desgin,
+				t.building_date,t.build_struct,t.health_grade_pc,t.dangerous_type_pc from t_building t 
+				where t.health_grade_pc is not null 
+				<isNotNull property="tBuilding.building_address" prepend="and"> t.building_address like '%$tBuilding.building_address$%' </isNotNull> 
+				<isNotNull property="tBuilding.builiding_region" prepend="and"> t.builiding_region = #tBuilding.builiding_region# </isNotNull> 
+				<isNotNull property="tBuilding.real_type" prepend="and"> t.real_type = #tBuilding.real_type# </isNotNull> 
+				<isNotNull property="tBuilding.use_desgin" prepend="and"> t.use_desgin = #tBuilding.use_desgin# </isNotNull> 
+				<isNotNull property="tBuilding.building_date" prepend="and"> t.building_date = #tBuilding.building_date# </isNotNull> 
+				<isNotNull property="tBuilding.build_struct" prepend="and"> t.build_struct = #tBuilding.build_struct# </isNotNull> 
+				<isNotNull property="tBuilding.health_grade_pc" prepend="and"> t.health_grade_pc = #tBuilding.health_grade_pc# </isNotNull> 
+				<isNotNull property="tBuilding.dangerous_type_pc" prepend="and"> t.dangerous_type_pc = #tBuilding.dangerous_type_pc# </isNotNull> 
+				<isNotEmpty prepend="order by " property="_sortname">
+					$_sortname$ $_sortorder$
+				</isNotEmpty>
+				 
+	</select>
+
+	<select id="getBuildingSafeManageListCount" parameterClass="tBuilding" resultClass="java.lang.Integer">
+		select count(t.building_id) from t_building t where t.health_grade_pc is not null 
+		<isNotNull property="building_address" prepend="and"> t.building_address like '%$building_address$%' </isNotNull> 
+		<isNotNull property="builiding_region" prepend="and"> t.builiding_region = #builiding_region# </isNotNull> 
+		<isNotNull property="real_type" prepend="and"> t.real_type = #real_type# </isNotNull> 
+		<isNotNull property="use_desgin" prepend="and"> t.use_desgin = #use_desgin# </isNotNull> 
+		<isNotNull property="building_date" prepend="and"> t.building_date = #building_date# </isNotNull> 
+		<isNotNull property="build_struct" prepend="and"> t.build_struct = #build_struct# </isNotNull> 
+		<isNotNull property="health_grade_pc" prepend="and"> t.health_grade_pc = #health_grade_pc# </isNotNull> 
+		<isNotNull property="dangerous_type_pc" prepend="and"> t.dangerous_type_pc = #dangerous_type_pc# </isNotNull> 
+	</select>
+	<!-- 楼幢普查安全检查员列表 -->
+	<select id="getBuildingEditList" parameterClass="java.util.Map" resultClass="tBuilding">
+		
+				select t.building_id,t.building_address,t.builiding_region,t.real_type,t.use_desgin,
+				t.building_date,t.build_struct,t.health_grade_pc,t.dangerous_type_pc,ts.info_state  
+				from t_building t,t_building_safe ts  
+				where  t.building_id = ts.building_id  and  t.health_grade_pc is not null and  ts.check_userid = #tBuilding.check_userid# 
+				<isNotNull property="tBuilding.building_address" prepend="and"> t.building_address like '%$tBuilding.building_address$%' </isNotNull> 
+				<isNotNull property="tBuilding.builiding_region" prepend="and"> t.builiding_region = #tBuilding.builiding_region# </isNotNull> 
+				<isNotNull property="tBuilding.real_type" prepend="and"> t.real_type = #tBuilding.real_type# </isNotNull> 
+				<isNotNull property="tBuilding.use_desgin" prepend="and"> t.use_desgin = #tBuilding.use_desgin# </isNotNull> 
+				<isNotNull property="tBuilding.building_date" prepend="and"> t.building_date = #tBuilding.building_date# </isNotNull> 
+				<isNotNull property="tBuilding.build_struct" prepend="and"> t.build_struct = #tBuilding.build_struct# </isNotNull> 
+				<isNotNull property="tBuilding.health_grade_pc" prepend="and"> t.health_grade_pc = #tBuilding.health_grade_pc# </isNotNull> 
+				<isNotNull property="tBuilding.dangerous_type_pc" prepend="and"> t.dangerous_type_pc = #tBuilding.dangerous_type_pc# </isNotNull> 
+				<isNotEmpty prepend="order by " property="_sortname">
+					$_sortname$ $_sortorder$
+				</isNotEmpty>
+					 
+	</select>
+	
+	<select id="getBuildingEditListCount" parameterClass="tBuilding" resultClass="java.lang.Integer">
+		select count(t.building_id) from t_building t,t_building_safe ts   where  t.building_id = ts.building_id  and  t.health_grade_pc is not null and ts.check_userid = #check_userid#  
+		<isNotNull property="building_address" prepend="and"> t.building_address like '%$building_address$%' </isNotNull> 
+		<isNotNull property="builiding_region" prepend="and"> t.builiding_region = #builiding_region# </isNotNull> 
+		<isNotNull property="real_type" prepend="and"> t.real_type = #real_type# </isNotNull> 
+		<isNotNull property="use_desgin" prepend="and"> t.use_desgin = #use_desgin# </isNotNull> 
+		<isNotNull property="building_date" prepend="and"> t.building_date = #building_date# </isNotNull> 
+		<isNotNull property="build_struct" prepend="and"> t.build_struct = #build_struct# </isNotNull> 
+		<isNotNull property="health_grade_pc" prepend="and"> t.health_grade_pc = #health_grade_pc# </isNotNull> 
+		<isNotNull property="dangerous_type_pc" prepend="and"> t.dangerous_type_pc = #dangerous_type_pc# </isNotNull> 
+	</select>
+	
+	<!-- 隐患房屋检查列表 -->
+	<select id="getBuildingCtrackList" parameterClass="java.util.Map" resultClass="tBuilding">
+		
+				select t.building_id,t.building_address,t.builiding_region,t.real_type,t.use_desgin,
+				t.building_date,t.build_struct,t.health_grade_pc,t.dangerous_type_pc,tc.info_state,tc.info_id   
+				from t_building t,t_building_ctrack tc  
+				where  t.building_id = tc.building_id and  t.health_grade_pc is not null  and  tc.check_userid = #tBuilding.check_userid# 
+				<isNotNull property="tBuilding.building_address" prepend="and"> t.building_address like '%$tBuilding.building_address$%' </isNotNull> 
+				<isNotNull property="tBuilding.builiding_region" prepend="and"> t.builiding_region = #tBuilding.builiding_region# </isNotNull> 
+				<isNotNull property="tBuilding.real_type" prepend="and"> t.real_type = #tBuilding.real_type# </isNotNull> 
+				<isNotNull property="tBuilding.use_desgin" prepend="and"> t.use_desgin = #tBuilding.use_desgin# </isNotNull> 
+				<isNotNull property="tBuilding.building_date" prepend="and"> t.building_date = #tBuilding.building_date# </isNotNull> 
+				<isNotNull property="tBuilding.build_struct" prepend="and"> t.build_struct = #tBuilding.build_struct# </isNotNull> 
+				<isNotNull property="tBuilding.health_grade_pc" prepend="and"> t.health_grade_pc = #tBuilding.health_grade_pc# </isNotNull> 
+				<isNotNull property="tBuilding.dangerous_type_pc" prepend="and"> t.dangerous_type_pc = #tBuilding.dangerous_type_pc# </isNotNull> 
+				<isNotEmpty prepend="order by " property="_sortname">
+					$_sortname$ $_sortorder$
+				</isNotEmpty>
+					 
+	</select>
+	
+	<select id="getBuildingCtrackListCount" parameterClass="tBuilding" resultClass="java.lang.Integer">
+		select count(t.building_id) from t_building t,t_building_ctrack tc where  t.building_id = tc.building_id  and  t.health_grade_pc is not null  and tc.check_userid = #check_userid#  
+		<isNotNull property="building_address" prepend="and"> t.building_address like '%$building_address$%' </isNotNull> 
+		<isNotNull property="builiding_region" prepend="and"> t.builiding_region = #builiding_region# </isNotNull> 
+		<isNotNull property="real_type" prepend="and"> t.real_type = #real_type# </isNotNull> 
+		<isNotNull property="use_desgin" prepend="and"> t.use_desgin = #use_desgin# </isNotNull> 
+		<isNotNull property="building_date" prepend="and"> t.building_date = #building_date# </isNotNull> 
+		<isNotNull property="build_struct" prepend="and"> t.build_struct = #build_struct# </isNotNull> 
+		<isNotNull property="health_grade_pc" prepend="and"> t.health_grade_pc = #health_grade_pc# </isNotNull> 
+		<isNotNull property="dangerous_type_pc" prepend="and"> t.dangerous_type_pc = #dangerous_type_pc# </isNotNull> 
+	</select>
+	
+	<!--   楼幢基本信息(tBuilding)根据主键返回单条记录    -->
+	<select id="getTBuilding" parameterClass="java.lang.String"  resultClass="tBuilding">
+		select * from t_building where building_id=#value#
+	</select>
+	<!--   楼幢月检结果表(tBuildingSafe)根据主键返回单条记录    -->
+	<select id="getTBuildingSafe" parameterClass="java.lang.String"  resultClass="tBuildingSafe">
+		select * from t_building_safe where building_id=#value#
+	</select>
+	
+	<!--   隐患房屋跟踪表(tBuildingCtrack)根据主键返回单条记录    -->
+	<select id="getTBuildingCtrack" parameterClass="java.lang.String"  resultClass="tBuildingCtrack">
+		select * from t_building_ctrack where info_id=#value#
+	</select>
+	
+	<!--   地基基础(tInvmBase)根据主键返回单条记录    -->
+	<select id="getTInvmBase" parameterClass="java.lang.String"  resultClass="tInvmBase">
+		select * from t_invm_base where building_id=#value#
+	</select>
+	
+	<!--   现场调查场地环境(tInvmField)根据主键返回单条记录    -->
+	<select id="getTInvmField" parameterClass="java.lang.String"  resultClass="tInvmField">
+		select * from t_invm_field where building_id=#value#
+	</select>
+	
+	<!--   楼幢普查信息(tBuildingSurvey)根据主键返回单条记录    -->
+	<select id="getTBuildingSurvey" parameterClass="java.lang.String"  resultClass="tBuildingSurvey">
+		select * from t_building_survey where building_id=#value#
+	</select>
+	
+	<!--   地基基础(tInvmBase)修改记录    -->
+	<update id="updateTInvmBase"  parameterClass="tInvmBase">
+		update t_invm_base 
+		<dynamic  prepend="set">
+				<isNotNull prepend=","  property="benormal"> benormal=#benormal# </isNotNull>
+				<isNotNull prepend=","  property="sedi_crack"> sedi_crack=#sedi_crack# </isNotNull>
+				<isNotNull prepend=","  property="obv_incline"> obv_incline=#obv_incline# </isNotNull>
+				<isNotNull prepend=","  property="low_water"> low_water=#low_water# </isNotNull>
+				<isNotNull prepend=","  property="elseitem"> elseitem=#elseitem# </isNotNull>
+				<isNotNull prepend=","  property="b_grading"> b_grading=#b_grading# </isNotNull>
+				<isNotNull prepend=","  property="b_secritygrading"> b_secritygrading=#b_secritygrading# </isNotNull>
+				<isNotNull prepend=","  property="b_tdesc"> b_tdesc=#b_tdesc# </isNotNull>
+				<isNotNull prepend=","  property="b_peotected_grage"> b_peotected_grage=#b_peotected_grage# </isNotNull>
+		</dynamic>
+		where building_id=#building_id#
+	</update>
+	
+	<!--   现场调查场地环境(tInvmField)修改记录    -->
+	<update id="updateTInvmField"  parameterClass="tInvmField">
+		update t_invm_field 
+		<dynamic  prepend="set">
+				<isNotNull prepend=","  property="field_flat"> field_flat=#field_flat# </isNotNull>
+				<isNotNull prepend=","  property="field_hillfoot"> field_hillfoot=#field_hillfoot# </isNotNull>
+				<isNotNull prepend=","  property="field_cliff"> field_cliff=#field_cliff# </isNotNull>
+				<isNotNull prepend=","  property="field_margin"> field_margin=#field_margin# </isNotNull>
+				<isNotNull prepend=","  property="field_low"> field_low=#field_low# </isNotNull>
+				<isNotNull prepend=","  property="field_sink"> field_sink=#field_sink# </isNotNull>
+				<isNotNull prepend=","  property="field_earthtype"> field_earthtype=#field_earthtype# </isNotNull>
+				<isNotNull prepend=","  property="neighbor_normal"> neighbor_normal=#neighbor_normal# </isNotNull>
+				<isNotNull prepend=","  property="neighbor_shook"> neighbor_shook=#neighbor_shook# </isNotNull>
+				<isNotNull prepend=","  property="neighbor_rain"> neighbor_rain=#neighbor_rain# </isNotNull>
+				<isNotNull prepend=","  property="neighbor_interfere"> neighbor_interfere=#neighbor_interfere# </isNotNull>
+				<isNotNull prepend=","  property="chemic_normal"> chemic_normal=#chemic_normal# </isNotNull>
+				<isNotNull prepend=","  property="chemic_hcl"> chemic_hcl=#chemic_hcl# </isNotNull>
+				<isNotNull prepend=","  property="chemic_h2so4"> chemic_h2so4=#chemic_h2so4# </isNotNull>
+				<isNotNull prepend=","  property="chemic_seewater"> chemic_seewater=#chemic_seewater# </isNotNull>
+				<isNotNull prepend=","  property="chemic_else"> chemic_else=#chemic_else# </isNotNull>
+				<isNotNull prepend=","  property="field_grading"> field_grading=#field_grading# </isNotNull>
+				<isNotNull prepend=","  property="field_tdesc"> field_tdesc=#field_tdesc# </isNotNull>
+		</dynamic>
+		where building_id=#building_id#
+	</update>
+	
+	<!--   楼幢月检结果表(tBuildingSafe)修改记录    -->
+	<update id="updateTBuildingSafe"  parameterClass="tBuildingSafe">
+		update t_building_safe 
+		<dynamic  prepend="set">
+				<isNotNull prepend=","  property="dt_tdesc"> dt_tdesc=#dt_tdesc# </isNotNull>
+				<isNotNull prepend=","  property="struct_desc"> struct_desc=#struct_desc# </isNotNull>
+				<isNotNull prepend=","  property="bz_desc"> bz_desc=#bz_desc# </isNotNull>
+				<isNotNull prepend=","  property="dere_desc"> dere_desc=#dere_desc# </isNotNull>
+				<isNotNull prepend=","  property="check_time"> check_time=#check_time# </isNotNull>
+				<isNotNull prepend=","  property="check_user"> check_user=#check_user# </isNotNull>
+				<isNotNull prepend=","  property="check_userid"> check_userid=#check_userid# </isNotNull>
+				<isNotNull prepend=","  property="info_state"> info_state=#info_state# </isNotNull>
+				<isNotNull prepend=","  property="verify_userid"> verify_userid=#verify_userid# </isNotNull>
+				<isNotNull prepend=","  property="verify_time"> verify_time=#verify_time# </isNotNull>
+				<isNotNull prepend=","  property="verify_comment"> verify_comment=#verify_comment# </isNotNull>
+				<isNotNull prepend=","  property="structure_grade"> structure_grade=#structure_grade# </isNotNull>
+				<isNotNull prepend=","  property="used_grade"> used_grade=#used_grade# </isNotNull>
+				<isNotNull prepend=","  property="kz_grade"> kz_grade=#kz_grade# </isNotNull>
+				<isNotNull prepend=","  property="fl_grade"> fl_grade=#fl_grade# </isNotNull>
+				<isNotNull prepend=","  property="xf_grade"> xf_grade=#xf_grade# </isNotNull>
+				<isNotNull prepend=","  property="other_grade"> other_grade=#other_grade# </isNotNull>
+				<isNotNull prepend=","  property="all_grade"> all_grade=#all_grade# </isNotNull>
+				<isNotNull prepend=","  property="health_savegrade"> health_savegrade=#health_savegrade# </isNotNull>
+				<isNotNull prepend=","  property="clresult"> clresult=#clresult# </isNotNull>
+				<isNotNull prepend=","  property="health_gradetdesc"> health_gradetdesc=#health_gradetdesc# </isNotNull>
+				<isNotNull prepend=","  property="lose_grade"> lose_grade=#lose_grade# </isNotNull>
+				<isNotNull prepend=","  property="check_type"> check_type=#check_type# </isNotNull>
+				<isNotNull prepend=","  property="pc_num"> pc_num=#pc_num# </isNotNull>
+				<isNotNull prepend=","  property="usefunction"> usefunction=#usefunction# </isNotNull>
+				<isNotNull prepend=","  property="wq_type"> wq_type=#wq_type# </isNotNull>
+		</dynamic>
+		where building_id=#building_id#
+	</update>
+	
+	<!--   楼幢基本信息(tBuilding)修改记录    -->
+	<update id="updateTBuilding"  parameterClass="tBuilding">
+		update t_building 
+		<dynamic  prepend="set">
+				<isNotNull prepend=","  property="building_address"> building_address=#building_address# </isNotNull>
+				<isNotNull prepend=","  property="builiding_region"> builiding_region=#builiding_region# </isNotNull>
+				<isNotNull prepend=","  property="building_number"> building_number=#building_number# </isNotNull>
+				<isNotNull prepend=","  property="floor_count"> floor_count=#floor_count# </isNotNull>
+				<isNotNull prepend=","  property="house_count"> house_count=#house_count# </isNotNull>
+				<isNotNull prepend=","  property="floorup_count"> floorup_count=#floorup_count# </isNotNull>
+				<isNotNull prepend=","  property="floordown_count"> floordown_count=#floordown_count# </isNotNull>
+				<isNotNull prepend=","  property="build_area"> build_area=#build_area# </isNotNull>
+				<isNotNull prepend=","  property="real_type"> real_type=#real_type# </isNotNull>
+				<isNotNull prepend=","  property="use_desgin"> use_desgin=#use_desgin# </isNotNull>
+				<isNotNull prepend=","  property="building_date"> building_date=#building_date# </isNotNull>
+				<isNotNull prepend=","  property="build_struct"> build_struct=#build_struct# </isNotNull>
+				<isNotNull prepend=","  property="building_mapid"> building_mapid=#building_mapid# </isNotNull>
+				<isNotNull prepend=","  property="health_grade_pc"> health_grade_pc=#health_grade_pc# </isNotNull>
+				<isNotNull prepend=","  property="dangerous_type_pc"> dangerous_type_pc=#dangerous_type_pc# </isNotNull>
+				<isNotNull prepend=","  property="health_grade_jd"> health_grade_jd=#health_grade_jd# </isNotNull>
+				<isNotNull prepend=","  property="dangerous_type_jd"> dangerous_type_jd=#dangerous_type_jd# </isNotNull>
+				<isNotNull prepend=","  property="is_die"> is_die=#is_die# </isNotNull>
+				<isNotNull prepend=","  property="fw_type"> fw_type=#fw_type# </isNotNull>
+				<isNotNull prepend=","  property="usefunction"> usefunction=#usefunction# </isNotNull>
+				<isNotNull prepend=","  property="base_type"> base_type=#base_type# </isNotNull>
+				<isNotNull prepend=","  property="upon_type"> upon_type=#upon_type# </isNotNull>
+				<isNotNull prepend=","  property="wm_type"> wm_type=#wm_type# </isNotNull>
+				<isNotNull prepend=","  property="wairang_type"> wairang_type=#wairang_type# </isNotNull>
+				<isNotNull prepend=","  property="lt_number"> lt_number=#lt_number# </isNotNull>
+				<isNotNull prepend=","  property="lt_type"> lt_type=#lt_type# </isNotNull>
+				<isNotNull prepend=","  property="dt_number"> dt_number=#dt_number# </isNotNull>
+				<isNotNull prepend=","  property="wq_type"> wq_type=#wq_type# </isNotNull>
+		</dynamic>
+		where building_id=#building_id#
+	</update>
+	
+	
+	
+			
+	<!--   安全检查员用户类型属性表(tSafeCensor)查询总记录数    -->
+	<select id="getTSafeCensorCount" parameterClass="tSafeCensor" resultClass="java.lang.Integer">
+		select count(b.mem_id)  from t_safe_censor b,yc_member a where a.mem_id=b.mem_id and b.region= #region#
+		<isNotEmpty prepend="and"  property="mem_name"> a.mem_name=#mem_name# </isNotEmpty>
+		<isNotEmpty prepend="and"  property="firstname"> a.fullname like '%$firstname$%' </isNotEmpty>
+	</select>
+	<!--   安全检查员用户类型属性表(tSafeCensor)分页查询返回列表     -->
+	<select id="getTSafeCensorList" parameterClass="java.util.Map" resultClass="tSafeCensor">
+		
+				select a.mem_id,a.mem_name,fullname,a.isenable,a.register_time,a.last_time,
+				b.manage_scope,b.work_years  from t_safe_censor b,yc_member a where a.mem_id=b.mem_id  and b.region= #tSafeCensor.region# 
+				<isNotEmpty prepend="and"  property="tSafeCensor.mem_name"> a.mem_name=#tSafeCensor.mem_name# </isNotEmpty>
+				<isNotEmpty prepend="and"  property="tSafeCensor.firstname"> a.fullname like '%$tSafeCensor.firstname$%' </isNotEmpty>
+				<isNotEmpty prepend="order by " property="_sortname">
+					$_sortname$ $_sortorder$
+				</isNotEmpty>
+					 
+	</select>
+	<!--   安全检查员用户类型属性表(tSafeCensor)根据主键返回单条记录    -->
+	<select id="getTSafeCensor" parameterClass="java.lang.String"  resultClass="tSafeCensor">
+		select  mem_id,manage_scope,certificate_number,certificate_date,certificate,professional_titles,
+		work_years,professional,region  from t_safe_censor where mem_id=#value#
+	</select>
+	
+	<insert id="addTSafeCensor" parameterClass="tSafeCensor">
+		insert into t_safe_censor 
+		(mem_id,manage_scope,certificate_number,certificate_date,certificate,
+		professional_titles,work_years,professional,region)
+		values (#mem_id#,#manage_scope:VARCHAR#,#certificate_number:VARCHAR#,
+		#certificate_date:DATE#,#certificate:VARCHAR#,#professional_titles:VARCHAR#,
+		#work_years:INTEGER#,#professional:VARCHAR#,#region:VARCHAR#)
+	</insert>
+	<!--   安全检查员用户类型属性表(tSafeCensor)修改记录    -->
+	<update id="updateTSafeCensor"  parameterClass="tSafeCensor">
+		update t_safe_censor 
+		<dynamic  prepend="set">
+				<isNotNull prepend=","  property="manage_scope"> manage_scope=#manage_scope# </isNotNull>
+				<isNotNull prepend=","  property="certificate_number"> certificate_number=#certificate_number# </isNotNull>
+				<isNotNull prepend=","  property="certificate_date"> certificate_date=#certificate_date# </isNotNull>
+				<isNotNull prepend=","  property="certificate"> certificate=#certificate# </isNotNull>
+				<isNotNull prepend=","  property="professional_titles"> professional_titles=#professional_titles# </isNotNull>
+				<isNotNull prepend=","  property="work_years"> work_years=#work_years# </isNotNull>
+				<isNotNull prepend=","  property="professional"> professional=#professional# </isNotNull>
+				<isNotNull prepend=","  property="region"> region=#region# </isNotNull>
+		</dynamic>
+		where mem_id=#mem_id#
+	</update>		
+	<!--   安全检查员用户类型属性表(tSafeCensor)按主键删除记录    -->
+	<delete id="deleteTSafeCensor" parameterClass="java.lang.String">
+		delete from t_safe_censor where mem_id=#value#
+	</delete>
+	
+	<select id="getCountByMemid" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(*) from t_safe_censor where mem_id=#value#
+	</select>
+	<select id="getCountByMemid1" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(*) from t_safe_manager where mem_id=#value#
+	</select>
+	
+	<!--   安全管理员用户类型属性表(tSafeManager)根据主键返回单条记录    -->
+	<select id="getTSafeManager" parameterClass="java.lang.String"  resultClass="tSafeManager">
+		select mem_id,region  from t_safe_manager where mem_id=#value#
+	</select>
+	<!--   安全管理员用户类型属性表(tSafeManager)查询总记录数    -->
+	<select id="getTSafeManagerCount" parameterClass="tSafeManager" resultClass="java.lang.Integer">
+		select count(b.mem_id)  from t_safe_manager b,yc_member a where a.mem_id=b.mem_id 
+		<isNotEmpty prepend="and"  property="mem_name"> a.mem_name=#mem_name# </isNotEmpty>
+		<isNotEmpty prepend="and"  property="firstname"> a.fullname like '%$firstname$%' </isNotEmpty>
+	</select>
+	<!--   安全管理员用户类型属性表(tSafeManager)分页查询返回列表     -->
+	<select id="getTSafeManagerList" parameterClass="java.util.Map" resultClass="tSafeManager">
+		
+				select a.mem_id,a.mem_name,fullname,a.isenable,a.register_time,a.last_time,
+				b.region  from t_safe_manager b,yc_member a where a.mem_id=b.mem_id  
+				<isNotEmpty prepend="and"  property="tSafeManager.mem_name"> a.mem_name=#tSafeManager.mem_name# </isNotEmpty>
+				<isNotEmpty prepend="and"  property="tSafeManager.firstname"> a.fullname like '%$tSafeManager.firstname$%' </isNotEmpty>
+				<isNotEmpty prepend="order by " property="_sortname">
+					$_sortname$ $_sortorder$
+				</isNotEmpty>
+					 
+	</select>
+	<insert id="addTSafeManager" parameterClass="tSafeManager">
+		insert into t_safe_manager (mem_id,region) values (#mem_id#,#region:VARCHAR#)
+	</insert>
+	<!--   安全管理员用户类型属性表(tSafeManager)修改记录    -->
+	<update id="updateTSafeManager"  parameterClass="tSafeManager">
+		update t_safe_manager 
+		<dynamic  prepend="set">
+				<isNotNull prepend=","  property="region"> region=#region# </isNotNull>
+		</dynamic>
+		where mem_id=#mem_id#
+	</update>	
+	<delete id="deleteTSafeManager" parameterClass="java.lang.String">
+		delete from t_safe_manager where mem_id=#value#
+	</delete>	
+	
+	<!--   安全鉴定员用户类型属性表(tSafeAssessors)根据主键返回单条记录    -->
+	<select id="getTSafeAssessors" parameterClass="java.lang.String"  resultClass="tSafeAssessors">
+		select  mem_id,certificate_number,certificate_date,certificate,professional_titles,
+		work_years,professional  from t_safe_assessors where mem_id=#value#
+	</select>
+	<!--   安全鉴定员用户类型属性表(tSafeAssessors)查询总记录数    -->
+	<select id="getTSafeAssessorsCount" parameterClass="tSafeAssessors" resultClass="java.lang.Integer">
+		select count(b.mem_id)  from t_safe_assessors b,yc_member a where a.mem_id=b.mem_id 
+		<isNotEmpty prepend="and"  property="mem_name"> a.mem_name=#mem_name# </isNotEmpty>
+		<isNotEmpty prepend="and"  property="firstname"> a.fullname like '%$firstname$%' </isNotEmpty>
+	</select>
+	<!--   安全鉴定员用户类型属性表(tSafeAssessors)分页查询返回列表     -->
+	<select id="getTSafeAssessorsList" parameterClass="java.util.Map" resultClass="tSafeAssessors">
+		
+				select a.mem_id,a.mem_name,fullname,a.isenable,a.register_time,a.last_time,
+				b.work_years  from t_safe_assessors b,yc_member a where a.mem_id=b.mem_id  
+				<isNotEmpty prepend="and"  property="tSafeAssessors.mem_name"> a.mem_name=#tSafeAssessors.mem_name# </isNotEmpty>
+				<isNotEmpty prepend="and"  property="tSafeAssessors.firstname"> a.fullname like '%$tSafeAssessors.firstname$%' </isNotEmpty>
+				<isNotEmpty prepend="order by " property="_sortname">
+					$_sortname$ $_sortorder$
+				</isNotEmpty>
+					 
+	</select>
+	<insert id="addTSafeAssessors" parameterClass="tSafeAssessors">
+		insert into t_safe_assessors 
+		(mem_id,certificate_number,certificate_date,certificate,
+		professional_titles,work_years,professional)
+		values (#mem_id#,#certificate_number:VARCHAR#,#certificate_date:DATE#,#certificate:VARCHAR#,
+		#professional_titles:VARCHAR#,#work_years:INTEGER#,#professional:VARCHAR#)
+	</insert>
+	<!--   安全鉴定员用户类型属性表(tSafeAssessors)修改记录    -->
+	<update id="updateTSafeAssessors"  parameterClass="tSafeAssessors">
+		update t_safe_assessors 
+		<dynamic  prepend="set">
+				<isNotNull prepend=","  property="certificate_number"> certificate_number=#certificate_number# </isNotNull>
+				<isNotNull prepend=","  property="certificate_date"> certificate_date=#certificate_date# </isNotNull>
+				<isNotNull prepend=","  property="certificate"> certificate=#certificate# </isNotNull>
+				<isNotNull prepend=","  property="professional_titles"> professional_titles=#professional_titles# </isNotNull>
+				<isNotNull prepend=","  property="work_years"> work_years=#work_years# </isNotNull>
+				<isNotNull prepend=","  property="professional"> professional=#professional# </isNotNull>
+				<isNotNull prepend=","  property="signature"> signature=#signature# </isNotNull>
+		</dynamic>
+		where mem_id=#mem_id#
+	</update>	
+	<delete id="deleteTSafeAssessors" parameterClass="java.lang.String">
+		delete from t_safe_assessors where mem_id=#value#
+	</delete>		
+	<select id="getCountByMemid2" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(*) from t_safe_assessors where mem_id=#value#
+	</select>
+	
+	<!--   楼幢检查跟踪表(tBuildingCtrack)插入新记录    -->
+	<insert id="addTBuildingCtrack" parameterClass="tBuildingCtrack">
+		insert into t_building_ctrack 
+		(info_id,building_id,dt_tdesc,struct_desc,bz_desc,dere_desc,
+		check_time,check_user,check_userid,info_state,verify_userid,
+		verify_time,verify_comment,structure_grade,used_grade,kz_grade,
+		fl_grade,xf_grade,other_grade,all_grade,health_savegrade,clresult,
+		health_gradetdesc,lose_grade,usefunction,wq_type)
+		values (#info_id:VARCHAR#,#building_id:VARCHAR#,#dt_tdesc:VARCHAR#,#struct_desc:VARCHAR#,
+		#bz_desc:VARCHAR#,#dere_desc:VARCHAR#,#check_time:DATE#,#check_user:VARCHAR#,#check_userid:VARCHAR#,
+		#info_state:VARCHAR#,#verify_userid:VARCHAR#,#verify_time:DATE#,#verify_comment:VARCHAR#,
+		#structure_grade:VARCHAR#,#used_grade:VARCHAR#,#kz_grade:VARCHAR#,#fl_grade:VARCHAR#,#xf_grade:VARCHAR#,
+		#other_grade:VARCHAR#,#all_grade:VARCHAR#,#health_savegrade:VARCHAR#,#clresult:VARCHAR#,
+		#health_gradetdesc:VARCHAR#,#lose_grade:VARCHAR#,#usefunction:VARCHAR#,#wq_type:VARCHAR#)
+	</insert>
+	<!--   楼幢检查跟踪表(tBuildingCtrack)修改记录    -->
+	<update id="updateTBuildingCtrack"  parameterClass="tBuildingCtrack">
+		update t_building_ctrack 
+		<dynamic  prepend="set">
+				<isNotNull prepend=","  property="building_id"> building_id=#building_id# </isNotNull>
+				<isNotNull prepend=","  property="dt_tdesc"> dt_tdesc=#dt_tdesc# </isNotNull>
+				<isNotNull prepend=","  property="struct_desc"> struct_desc=#struct_desc# </isNotNull>
+				<isNotNull prepend=","  property="bz_desc"> bz_desc=#bz_desc# </isNotNull>
+				<isNotNull prepend=","  property="dere_desc"> dere_desc=#dere_desc# </isNotNull>
+				<isNotNull prepend=","  property="check_time"> check_time=#check_time# </isNotNull>
+				<isNotNull prepend=","  property="check_user"> check_user=#check_user# </isNotNull>
+				<isNotNull prepend=","  property="check_userid"> check_userid=#check_userid# </isNotNull>
+				<isNotNull prepend=","  property="info_state"> info_state=#info_state# </isNotNull>
+				<isNotNull prepend=","  property="verify_userid"> verify_userid=#verify_userid# </isNotNull>
+				<isNotNull prepend=","  property="verify_time"> verify_time=#verify_time# </isNotNull>
+				<isNotNull prepend=","  property="verify_comment"> verify_comment=#verify_comment# </isNotNull>
+				<isNotNull prepend=","  property="structure_grade"> structure_grade=#structure_grade# </isNotNull>
+				<isNotNull prepend=","  property="used_grade"> used_grade=#used_grade# </isNotNull>
+				<isNotNull prepend=","  property="kz_grade"> kz_grade=#kz_grade# </isNotNull>
+				<isNotNull prepend=","  property="fl_grade"> fl_grade=#fl_grade# </isNotNull>
+				<isNotNull prepend=","  property="xf_grade"> xf_grade=#xf_grade# </isNotNull>
+				<isNotNull prepend=","  property="other_grade"> other_grade=#other_grade# </isNotNull>
+				<isNotNull prepend=","  property="all_grade"> all_grade=#all_grade# </isNotNull>
+				<isNotNull prepend=","  property="health_savegrade"> health_savegrade=#health_savegrade# </isNotNull>
+				<isNotNull prepend=","  property="clresult"> clresult=#clresult# </isNotNull>
+				<isNotNull prepend=","  property="health_gradetdesc"> health_gradetdesc=#health_gradetdesc# </isNotNull>
+				<isNotNull prepend=","  property="lose_grade"> lose_grade=#lose_grade# </isNotNull>
+				<isNotNull prepend=","  property="usefunction"> usefunction=#usefunction# </isNotNull>
+				<isNotNull prepend=","  property="wq_type"> wq_type=#wq_type# </isNotNull>
+		</dynamic>
+		where info_id=#info_id#
+	</update>
+	
+	<!-- 删除楼幢检查结果 -->
+	<delete id="deleteTBuildingSafe" parameterClass="java.lang.String">
+		delete from t_building_safe where building_id=#building_id#
+	</delete>
+	<!-- 删除隐患房屋跟踪信息 -->
+	<delete id="deleteTBuildingCtrack" parameterClass="java.lang.String">
+		delete from t_building_ctrack where info_id=#info_id#
+	</delete>
+	<!-- 删除楼幢普查结果 -->
+	<delete id="deleteTBuildingSurvey" parameterClass="java.lang.String">
+		delete from t_building_survey where building_id=#building_id#
+	</delete>
+	
+	<select id="getSurveyCount" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(*) from t_building_survey where building_id=#value#
+	</select>
+	<!-- 第一期楼幢普查新增 -->
+	<insert id="addTBuildingSurvey" parameterClass="tBuildingSurvey">
+		insert into t_building_survey 
+		(building_id,building_holder,building_manager_name,building_manager_phone,building_material, manage_type, 
+		build_dept, design_dept, building_properties, construct_dept, local_survey, building_safecondition,
+		manager_name,survey_name,survey_date,check_userid,info_state)
+		values (#building_id:VARCHAR#,#building_holder:VARCHAR#,#building_manager_name:VARCHAR#,#building_manager_phone:VARCHAR#,
+		#building_material:VARCHAR#,#manage_type:VARCHAR#,#build_dept:VARCHAR#,#design_dept:VARCHAR#,
+		#building_properties:VARCHAR#,#construct_dept:VARCHAR#,#local_survey:DATE#,#building_safecondition:VARCHAR#,
+		#manager_name:VARCHAR#,#survey_name:VARCHAR#,#survey_date:DATE#,#check_userid:VARCHAR#,#info_state:VARCHAR#)
+	</insert>
+	<!--   楼幢普查修改记录    -->
+	<update id="updateTBuildingSurvey"  parameterClass="tBuildingSurvey">
+		update t_building_survey 
+		<dynamic  prepend="set">
+				<isNotNull prepend=","  property="building_holder"> building_holder=#building_holder# </isNotNull>
+				<isNotNull prepend=","  property="building_manager_name"> building_manager_name=#building_manager_name# </isNotNull>
+				<isNotNull prepend=","  property="building_manager_phone"> building_manager_phone=#building_manager_phone# </isNotNull>
+				<isNotNull prepend=","  property="building_material"> building_material=#building_material# </isNotNull>
+				<isNotNull prepend=","  property="manage_type"> manage_type=#manage_type# </isNotNull>
+				<isNotNull prepend=","  property="build_dept"> build_dept=#build_dept# </isNotNull>
+				<isNotNull prepend=","  property="design_dept"> design_dept=#design_dept# </isNotNull>
+				<isNotNull prepend=","  property="building_properties"> building_properties=#building_properties# </isNotNull>
+				<isNotNull prepend=","  property="construct_dept"> construct_dept=#construct_dept# </isNotNull>
+				<isNotNull prepend=","  property="local_survey"> local_survey=#local_survey# </isNotNull>
+				<isNotNull prepend=","  property="building_safecondition"> building_safecondition=#building_safecondition# </isNotNull>
+				<isNotNull prepend=","  property="manager_name"> manager_name=#manager_name# </isNotNull>
+				<isNotNull prepend=","  property="survey_name"> survey_name=#survey_name# </isNotNull>
+				<isNotNull prepend=","  property="survey_date"> survey_date=#survey_date# </isNotNull>
+				<isNotNull prepend=","  property="check_userid"> check_userid=#check_userid# </isNotNull>
+				<isNotNull prepend=","  property="info_state"> info_state=#info_state# </isNotNull>
+		</dynamic>
+		where building_id=#building_id#
+	</update>
+	<select id="getSurveyEditListCount" parameterClass="tBuilding" resultClass="java.lang.Integer">
+		select count(t.building_id) from t_building t,t_building_survey ts   where  t.building_id = ts.building_id  and  t.health_grade_pc is not null  
+		<isNotNull property="building_address" prepend="and"> t.building_address like '%$building_address$%' </isNotNull> 
+		<isNotNull property="builiding_region" prepend="and"> t.builiding_region = #builiding_region# </isNotNull> 
+		<isNotNull property="real_type" prepend="and"> t.real_type = #real_type# </isNotNull> 
+		<isNotNull property="use_desgin" prepend="and"> t.use_desgin = #use_desgin# </isNotNull> 
+		<isNotNull property="building_date" prepend="and"> t.building_date = #building_date# </isNotNull> 
+		<isNotNull property="build_struct" prepend="and"> t.build_struct = #build_struct# </isNotNull> 
+		<isNotNull property="health_grade_pc" prepend="and"> t.health_grade_pc = #health_grade_pc# </isNotNull> 
+		<isNotNull property="dangerous_type_pc" prepend="and"> t.dangerous_type_pc = #dangerous_type_pc# </isNotNull> 
+	</select>
+	<!-- 楼幢普查安全检查员列表 -->
+	<select id="getSurveyEditList" parameterClass="java.util.Map" resultClass="tBuilding">
+		select t.building_id,t.building_address,t.builiding_region,t.real_type,t.use_desgin,
+				t.building_date,t.build_struct,t.health_grade_pc,t.dangerous_type_pc,ts.info_state  
+				from t_building t,t_building_survey ts  
+				where  t.building_id = ts.building_id  and  t.health_grade_pc is not null 
+				<isNotNull property="tBuilding.building_address" prepend="and"> t.building_address like '%$tBuilding.building_address$%' </isNotNull> 
+				<isNotNull property="tBuilding.builiding_region" prepend="and"> t.builiding_region = #tBuilding.builiding_region# </isNotNull> 
+				<isNotNull property="tBuilding.real_type" prepend="and"> t.real_type = #tBuilding.real_type# </isNotNull> 
+				<isNotNull property="tBuilding.use_desgin" prepend="and"> t.use_desgin = #tBuilding.use_desgin# </isNotNull> 
+				<isNotNull property="tBuilding.building_date" prepend="and"> t.building_date = #tBuilding.building_date# </isNotNull> 
+				<isNotNull property="tBuilding.build_struct" prepend="and"> t.build_struct = #tBuilding.build_struct# </isNotNull> 
+				<isNotNull property="tBuilding.health_grade_pc" prepend="and"> t.health_grade_pc = #tBuilding.health_grade_pc# </isNotNull> 
+				<isNotNull property="tBuilding.dangerous_type_pc" prepend="and"> t.dangerous_type_pc = #tBuilding.dangerous_type_pc# </isNotNull> 
+				<isNotEmpty prepend="order by " property="_sortname">
+					$_sortname$ $_sortorder$
+				</isNotEmpty>
+					 
+	</select>
+	<select id="getSurveyManagerListCount" parameterClass="tBuilding" resultClass="java.lang.Integer">
+		select count(t.building_id) from t_building t,t_building_survey ts   where  t.building_id = ts.building_id  and  t.health_grade_pc is not null   
+		<isNotNull property="building_address" prepend="and"> t.building_address like '%$building_address$%' </isNotNull> 
+		<isNotNull property="builiding_region" prepend="and"> t.builiding_region = #builiding_region# </isNotNull> 
+		<isNotNull property="real_type" prepend="and"> t.real_type = #real_type# </isNotNull> 
+		<isNotNull property="use_desgin" prepend="and"> t.use_desgin = #use_desgin# </isNotNull> 
+		<isNotNull property="building_date" prepend="and"> t.building_date = #building_date# </isNotNull> 
+		<isNotNull property="build_struct" prepend="and"> t.build_struct = #build_struct# </isNotNull> 
+		<isNotNull property="health_grade_pc" prepend="and"> t.health_grade_pc = #health_grade_pc# </isNotNull> 
+		<isNotNull property="dangerous_type_pc" prepend="and"> t.dangerous_type_pc = #dangerous_type_pc# </isNotNull> 
+	</select>
+	<!-- 楼幢普查安全检查员列表 -->
+	<select id="getSurveyManagerList" parameterClass="java.util.Map" resultClass="tBuilding">
+		
+				select t.building_id,t.building_address,t.builiding_region,t.real_type,t.use_desgin,
+				t.building_date,t.build_struct,t.health_grade_pc,t.dangerous_type_pc,ts.info_state  
+				from t_building t,t_building_survey ts  
+				where  t.building_id = ts.building_id  and  t.health_grade_pc is not null 
+				<isNotNull property="tBuilding.building_address" prepend="and"> t.building_address like '%$tBuilding.building_address$%' </isNotNull> 
+				<isNotNull property="tBuilding.builiding_region" prepend="and"> t.builiding_region = #tBuilding.builiding_region# </isNotNull> 
+				<isNotNull property="tBuilding.real_type" prepend="and"> t.real_type = #tBuilding.real_type# </isNotNull> 
+				<isNotNull property="tBuilding.use_desgin" prepend="and"> t.use_desgin = #tBuilding.use_desgin# </isNotNull> 
+				<isNotNull property="tBuilding.building_date" prepend="and"> t.building_date = #tBuilding.building_date# </isNotNull> 
+				<isNotNull property="tBuilding.build_struct" prepend="and"> t.build_struct = #tBuilding.build_struct# </isNotNull> 
+				<isNotNull property="tBuilding.health_grade_pc" prepend="and"> t.health_grade_pc = #tBuilding.health_grade_pc# </isNotNull> 
+				<isNotNull property="tBuilding.dangerous_type_pc" prepend="and"> t.dangerous_type_pc = #tBuilding.dangerous_type_pc# </isNotNull> 
+				<isNotEmpty prepend="order by " property="_sortname">
+					$_sortname$ $_sortorder$
+				</isNotEmpty>
+					 
+	</select>
+	<!-- 房屋普查通用查询SQL   start -->
+  <select id="buildingcommonlist" parameterClass="com.originsys.safemanage.domain.BuildingSurvey" resultClass="com.originsys.safemanage.domain.BuildingSurvey">
+    select * from (select * from t_building_survey where building_id=#building_id#) where rownum=1
+  </select>
+  <select id="BuildingCommonMultiQuery" parameterClass="java.util.Map" resultClass="com.originsys.safemanage.domain.BuildingSurvey">
+		select t.building_id 
+			from t_building_survey t   where 1=1  
+		  <isNotNull property="building.building_address" prepend="and"> building_address like '%$building.building_address$%' </isNotNull> 
+		  <isNotNull property="building.building_holder" prepend="and"> building_holder like '%$building.building_holder$%' </isNotNull> 
+		  <isNotNull property="building.building_manager_name" prepend="and"> building_manager_name like '%$building.building_manager_name$%' </isNotNull> 
+		  <isNotNull property="building.build_dept" prepend="and"> build_dept like '%$building.build_dept$%' </isNotNull> 
+		  <isNotNull property="building.design_dept" prepend="and"> design_dept like '%$building.design_dept$%' </isNotNull> 
+		  <isNotNull property="building.construct_dept" prepend="and"> construct_dept like '%$building.construct_dept$%' </isNotNull> 
+		  <isNotNull property="building.build_struct" prepend="and"> build_struct=#building.build_struct#  </isNotNull> 
+		  <isNotNull property="building.upon_type" prepend="and"> upon_type=#building.upon_type#</isNotNull> 
+		  <isNotNull property="building.wm_type" prepend="and"> wm_type=#building.wm_type#</isNotNull> 
+		  <isNotNull property="building.building_properties" prepend="and"> building_properties=#building.building_properties#</isNotNull> 
+		  <isNotNull property="building.building_safecondition" prepend="and"> building_safecondition=#building.building_safecondition#</isNotNull> 
+		  <isNotNull property="building.build_areamin" prepend="and"> build_area&gt;=#building.build_areamin#</isNotNull> 
+		  <isNotNull property="building.build_areamax" prepend="and"> build_area&lt;=#building.build_areamax#</isNotNull> 
+		 <isNotNull property="building.building_datestart" prepend="and" > building_date&gt;= #building.building_datestart# </isNotNull>
+		 <isNotNull property="building.building_dateend" prepend="and" > building_date&lt;= #building.building_dateend# </isNotNull>
+		
+		
+	</select>
+  <!-- 房屋普查通用查询SQL    end -->
+  
+  
+  <!--   隐患房屋上报(tHdangerBuilding)查询总记录数    -->
+	<select id="getTHdangerBuildingCount" parameterClass="tHdangerBuilding" resultClass="java.lang.Integer">
+	select count(info_id) from t_hdanger_building
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND"  property="building_address"> building_address like '%$building_address$%' </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="building_region"> building_region=#building_region# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="link_man"> link_man=#link_man# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="entry_time"> entry_time=#entry_time# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="info_state"> info_state=#info_state# </isNotEmpty>
+		</dynamic>
+	</select>
+	<!--   隐患房屋上报(tHdangerBuilding)分页查询返回列表     -->
+	<select id="getTHdangerBuildingList" parameterClass="java.util.Map" resultClass="tHdangerBuilding">
+	select   info_id,building_address,building_region,house_count,floor_count,
+	annex_file,annex_image,
+	link_man,link_tel,entry_time,info_state,accept_opinion,acceptor,accept_date   from t_hdanger_building
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND"  property="tHdangerBuilding.building_address"> building_address like '%$tHdangerBuilding.building_address$%' </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tHdangerBuilding.building_region"> building_region=#tHdangerBuilding.building_region# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tHdangerBuilding.link_man"> link_man=#tHdangerBuilding.link_man# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tHdangerBuilding.entry_time"> entry_time=#tHdangerBuilding.entry_time# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tHdangerBuilding.info_state"> info_state=#tHdangerBuilding.info_state# </isNotEmpty>
+		</dynamic>
+		<isNotEmpty prepend="order by " property="_sortname">
+			$_sortname$ $_sortorder$
+		</isNotEmpty>
+		<isNotEmpty prepend="limit " property="_page_start">
+			#_page_start#,#_page_nums#
+		</isNotEmpty>
+	</select>
+	<!--   隐患房屋上报(tHdangerBuilding)根据主键返回单条记录    -->
+	<select id="getTHdangerBuilding" parameterClass="java.lang.String"  resultClass="tHdangerBuilding">
+		select * from t_hdanger_building where info_id=#value#
+	</select>
+	<!--   隐患房屋上报(tHdangerBuilding)插入新记录    -->
+	<insert id="addTHdangerBuilding" parameterClass="tHdangerBuilding">
+		insert into t_hdanger_building 
+		(info_id,building_address,building_region,house_count,floor_count,
+		dangerous_desc,annex_file,annex_image,link_man,link_tel,entry_time,info_state)
+		values (#info_id#,#building_address#,#building_region#,#house_count:INTEGER#,#floor_count:INTEGER#,
+		#dangerous_desc#,#annex_file:VARCHAR#,#annex_image:VARCHAR#,#link_man:VARCHAR#,#link_tel:VARCHARl#,
+		#entry_time#,#info_state#)
+	</insert>
+	<!--   隐患房屋上报(tHdangerBuilding)修改记录    -->
+	<update id="updateTHdangerBuilding"  parameterClass="tHdangerBuilding">
+		update t_hdanger_building 
+		<dynamic  prepend="set">
+			<isNotNull prepend=","  property="info_state"> info_state=#info_state# </isNotNull>
+			<isNotNull prepend=","  property="accept_opinion"> accept_opinion=#accept_opinion# </isNotNull>
+			<isNotNull prepend=","  property="acceptor"> acceptor=#acceptor# </isNotNull>
+			<isNotNull prepend=","  property="accept_date"> accept_date=#accept_date# </isNotNull>
+		</dynamic>
+		where info_id=#info_id#
+	</update>
+	
+	<select id="getBSafeList" parameterClass="java.lang.String" resultClass="tBuildingSafe">
+		select check_time,check_user,health_savegrade from t_building_safe where building_id=#value# and info_state='8' order by check_time desc
+	</select>
+	
+	<select id="getCensorMemids" resultClass="java.lang.String">
+		select mem_id from t_safe_censor
+	</select>
+	
+	<select id="getAssessorsMemids" resultClass="java.lang.String">
+		select mem_id from t_safe_assessors
+	</select>
+	
+	<select id="getManagerMemids" resultClass="java.lang.String">
+		select mem_id from t_safe_manager
+	</select>
+	
+	<select id="getBuildingSafeImgs" resultClass="java.lang.String" parameterClass="java.lang.String">
+		select annex_pic from t_building_safe where info_id=#value#
+	</select>
+</sqlMap>

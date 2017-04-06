@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+	<property>  
+    <name>hbase.zookeeper.quorum</name>  
+    <value>172.22.14.38</value>  
+  </property> 
+  <property>
+    <name>hbase.coprocessor.region.classes</name>
+    <value>org.apache.hadoop.hbase.coprocessor.AggregateImplementation</value>    
+  </property>
+  <property>
+    <name>zookeeper.session.timeout</name>
+    <value>1200000</value>
+  </property>
+  <property>
+    <name>hbase.zookeeper.property.tickTime</name>
+    <value>6000</value>
+  </property>
+</configuration>

@@ -1,0 +1,89 @@
+package com.originsys.realtygis.action;
+
+import java.util.HashMap;
+import java.util.Map;
+import com.originsys.eap.action.BaseAction;
+import com.originsys.eap.domain.DataAndView;
+import com.originsys.eap.iservice.IGet;
+import com.originsys.eap.util.RequestAction;
+
+
+public class SimpleBuildingQuery  extends BaseAction implements IGet{
+	/**
+	 * 类说明：房屋单一条件查询结果jqGrid列表类
+	 * @创建时间：2014-3-25
+	 * @作者：洛佳明
+	 */
+	private static final long serialVersionUID = 1L;
+	@SuppressWarnings("rawtypes")
+	public DataAndView<Map> execute(RequestAction ra)
+			throws Exception {	
+		Map<String, String> map=new HashMap<String, String>();
+		if(ra.getParameter("entrust_unit")==""||ra.getParameter("entrust_unit")==null){
+			String entrust_unit="";
+			map.put("entrust_unit", entrust_unit);
+		}
+		else{
+			String entrust_unit =ra.getParameter("entrust_unit");
+			map.put("entrust_unit", entrust_unit);
+		}
+		if(ra.getParameter("building_address")==""||ra.getParameter("building_address")==null){
+			String building_address="";
+			map.put("building_address", building_address);
+		}
+		else{
+			String building_address = ra.getParameter("building_address").trim();			
+			map.put("building_address", building_address);
+		}
+		if(ra.getParameter("graphics_code")==""||ra.getParameter("graphics_code")==null){
+			String graphics_code=null;
+			map.put("graphics_code",graphics_code);
+		}
+		else{
+			String graphics_code=ra.getParameter("graphics_code");
+			map.put("graphics_code",graphics_code);
+		}
+		if(ra.getParameter("use_desgin")==""||ra.getParameter("use_desgin")==null){
+			String use_desgin=null;
+			map.put("use_desgin",use_desgin);
+		}
+		else{
+			String use_desgin=ra.getParameter("use_desgin");
+			map.put("use_desgin",use_desgin);
+		}
+		if(ra.getParameter("real_type")==""||ra.getParameter("real_type")==null){
+			String real_type=null;
+			map.put("real_type",real_type);
+		}
+		else{
+			String real_type=ra.getParameter("real_type");
+			map.put("real_type",real_type);
+		}
+		if(ra.getParameter("building_datestart")==""||ra.getParameter("building_datestart")==null){
+			String building_datestart=null;
+			map.put("building_datestart",building_datestart);
+		}
+		else{
+			String building_datestart=ra.getParameter("building_datestart");
+			map.put("building_datestart",building_datestart);
+		}
+		if(ra.getParameter("building_dateend")==""||ra.getParameter("building_dateend")==null){
+			String building_dateend=null;
+			map.put("building_dateend",building_dateend);
+		}
+		else{
+			String building_dateend=ra.getParameter("building_dateend");
+			map.put("building_dateend",building_dateend);
+		}
+		if(ra.getParameter("build_struct")==""||ra.getParameter("build_struct")==null){
+			String build_struct=null;
+			map.put("build_struct",build_struct);
+		}
+		else{
+			String build_struct=ra.getParameter("build_struct");
+			map.put("build_struct",build_struct);
+		}
+		return new DataAndView<Map>(map, "map");
+		
+	}
+}

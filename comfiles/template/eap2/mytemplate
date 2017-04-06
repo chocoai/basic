@@ -1,0 +1,45 @@
+ [#include "/WEB-INF/commonftl/include.html"]
+
+
+	<title></title>
+	<script type="text/javascript" src="../resource/mbtool/showads.js"></script>
+	<script type="text/javascript">showads();</script>
+</head>
+<body bgcolor="" background="" style="">
+			<div style="">
+<table class="eap_table" width="600" bgcolor="#ffffff">
+	<col />
+	<col />
+	<col />
+	<tbody>
+	<tr>
+		<td valign="top">
+		</td>
+		<td valign="top">
+		</td>
+		<td valign="top">
+		</td>
+	</tr>
+	<tr>
+		<td valign="top">
+		</td>
+		<td valign="top">
+[@web.block block_name="thismynews" component_name="新闻类" component_id="news" block_id="92" action_name="新闻首页" action_id="news.block" params="" site_id="eap2" block_style="block_style" cache_type="none" param="param" skin_name="orange_04" skin_sequence="1" view_name="图片轮播" view_id="_system_imageflash" /]
+		</td>
+		<td valign="top">
+		</td>
+	</tr>
+	<tr>
+		<td valign="top">
+		</td>
+		<td valign="top">
+[@web.block block_name="thismynews" component_name="新闻类" component_id="news" block_id="92" action_name="新闻列表" action_id="news.list" params="" site_id="eap2" /]
+		</td>
+		<td valign="top">
+		</td>
+	</tr>
+	</tbody>
+</table>
+			</div>
+</body>
+</html>

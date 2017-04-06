@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="safeauth">
+	<typeAlias alias="tAppraisalReport" type="com.originsys.safemanage.domain.TAppraisalReport"/>
+	<typeAlias alias="tDangerousLog" type="com.originsys.safemanage.domain.TDangerousLog"/>
+	<typeAlias alias="tDangerousNotice" type="com.originsys.safemanage.domain.TDangerousNotice"/>
+	
+	<!--   鉴定报告表(tAppraisalReport)根据主键返回单条记录    -->
+	<select id="getTAppraisalReport" parameterClass="object"  resultClass="tAppraisalReport">
+		select  jdinfo_id,building_id,building_address,building_region,entrust_user,
+		linkman,linktel,jz_overview,identify_conclusion,dangerous_level,identify_content,
+		struct_aging,is_transform,facility_aging,is_kzperfect,is_transform_seriousness,
+		jd_date,jd_department_id,jdmember,jd_report,jd_image,info_state,entry_mem_id,
+		entry_date,jd_result,checker_memid,check_date,check_opinion  
+		from t_appraisal_report where jdinfo_id=#value#
+	</select>
+	<!--   鉴定报告表(tAppraisalReport)插入新记录    -->
+	<insert id="addTAppraisalReport" parameterClass="tAppraisalReport">
+		insert into t_appraisal_report 
+		(jdinfo_id,building_id,building_address,building_region,entrust_user,
+		linkman,linktel,jz_overview,identify_conclusion,dangerous_level,
+		identify_content,struct_aging,is_transform,facility_aging,is_kzperfect,
+		is_transform_seriousness,jd_date,jd_department_id,jd_department,jdmember,jd_report,
+		jd_image,info_state,entry_mem_id,entry_date,jd_result,notice_state)
+		values (#jdinfo_id#,#building_id#,#building_address:VARCHAR#,#building_region:VARCHAR#,#entrust_user:VARCHAR#,
+		#linkman:VARCHAR#,#linktel:VARCHAR#,#jz_overview:VARCHAR#,#identify_conclusion:VARCHAR#,#dangerous_level:VARCHAR#,
+		#identify_content:VARCHAR#,#struct_aging:VARCHAR#,#is_transform:VARCHAR#,#facility_aging:VARCHAR#,#is_kzperfect:VARCHAR#,
+		#is_transform_seriousness:VARCHAR#,#jd_date:VARCHAR#,#jd_department_id:VARCHAR#,#jd_department:VARCHAR#,#jdmember:VARCHAR#,#jd_report:VARCHAR#,
+		#jd_image:VARCHAR#,#info_state:VARCHAR#,#entry_mem_id:VARCHAR#,#entry_date:VARCHAR#,#jd_result:VARCHAR#,#notice_state#)
+	</insert>
+	<!--   鉴定报告表(tAppraisalReport)修改记录    -->
+	<update id="updateTAppraisalReport"  parameterClass="tAppraisalReport">
+		update t_appraisal_report 
+		<dynamic  prepend="set">
+				<isNotNull prepend=","  property="building_id"> building_id=#building_id# </isNotNull>
+				<isNotNull prepend=","  property="building_address"> building_address=#building_address# </isNotNull>
+				<isNotNull prepend=","  property="building_region"> building_region=#building_region# </isNotNull>
+				<isNotNull prepend=","  property="entrust_user"> entrust_user=#entrust_user# </isNotNull>
+				<isNotNull prepend=","  property="linkman"> linkman=#linkman# </isNotNull>
+				<isNotNull prepend=","  property="linktel"> linktel=#linktel# </isNotNull>
+				<isNotNull prepend=","  property="jz_overview"> jz_overview=#jz_overview# </isNotNull>
+				<isNotNull prepend=","  property="identify_conclusion"> identify_conclusion=#identify_conclusion# </isNotNull>
+				<isNotNull prepend=","  property="dangerous_level"> dangerous_level=#dangerous_level# </isNotNull>
+				<isNotNull prepend=","  property="identify_content"> identify_content=#identify_content# </isNotNull>
+				<isNotNull prepend=","  property="struct_aging"> struct_aging=#struct_aging# </isNotNull>
+				<isNotNull prepend=","  property="is_transform"> is_transform=#is_transform# </isNotNull>
+				<isNotNull prepend=","  property="facility_aging"> facility_aging=#facility_aging# </isNotNull>
+				<isNotNull prepend=","  property="is_kzperfect"> is_kzperfect=#is_kzperfect# </isNotNull>
+				<isNotNull prepend=","  property="is_transform_seriousness"> is_transform_seriousness=#is_transform_seriousness# </isNotNull>
+				<isNotNull prepend=","  property="jd_date"> jd_date=#jd_date# </isNotNull>
+				<isNotNull prepend=","  property="jd_department_id"> jd_department_id=#jd_department_id# </isNotNull>
+				<isNotNull prepend=","  property="jdmember"> jdmember=#jdmember# </isNotNull>
+				<isNotNull prepend=","  property="jd_report"> jd_report=#jd_report# </isNotNull>
+				<isNotNull prepend=","  property="jd_image"> jd_image=#jd_image# </isNotNull>
+				<isNotNull prepend=","  property="info_state"> info_state=#info_state# </isNotNull>
+				<isNotNull prepend=","  property="entry_mem_id"> entry_mem_id=#entry_mem_id# </isNotNull>
+				<isNotNull prepend=","  property="entry_date"> entry_date=#entry_date# </isNotNull>
+				<isNotNull prepend=","  property="jd_result"> jd_result=#jd_result# </isNotNull>
+				<isNotNull prepend=","  property="checker_memid"> checker_memid=#checker_memid# </isNotNull>
+				<isNotNull prepend=","  property="check_date"> check_date=#check_date# </isNotNull>
+				<isNotNull prepend=","  property="check_opinion"> check_opinion=#check_opinion# </isNotNull>
+		</dynamic>
+		where jdinfo_id=#jdinfo_id#
+	</update>
+	
+	<!--   鉴定报告表(tAppraisalReport)按主键删除记录    -->
+	<delete id="deleteTAppraisalReport" parameterClass="java.lang.String">
+		delete from t_appraisal_report where jdinfo_id=#value# 
+	</delete>
+	<!--   危房处置表(tDangerousLog)插入新记录    -->
+	<insert id="addTDangerousLog" parameterClass="tDangerousLog">
+		insert into t_dangerous_log 
+		(info_id,building_id,op_content,op_date,building_state)
+		values (#info_id#,#building_id#,#op_content:VARCHAR#,#op_date:DATE#,#building_state:VARCHAR#)
+	</insert>
+	<!--   危房通知表(tDangerousNotice)插入新记录    -->
+	<insert id="addTDangerousNotice" parameterClass="tDangerousNotice">
+		insert into t_dangerous_notice 
+		(info_id,building_id,jdinfo_id,notice_date,notice_content,sender_mem_id,notice_file
+		,notice_title,sender_department)
+		values (#info_id#,#building_id#,#jdinfo_id#,#notice_date:DATE#,#notice_content:VARCHAR#,
+		#sender_mem_id:VARCHAR#,#notice_file:VARCHAR#,#notice_title:VARCHAR#,#sender_department:VARCHAR#)
+	</insert>
+	
+	<!--   鉴定报告表(tAppraisalReport)查询总记录数    -->
+	<select id="getTAppraisalReportCount" parameterClass="tAppraisalReport" resultClass="int">
+	select count(jdinfo_id) from t_appraisal_report
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="jdinfo_id">
+				jdinfo_id=#jdinfo_id#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND"  property="building_id"> building_id=#building_id# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="building_address"> building_address like '%$building_address$%' </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="building_region"> building_region=#building_region# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="entrust_user"> entrust_user like '%$entrust_user$%' </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="linkman"> linkman=#linkman# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="linktel"> linktel=#linktel# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="jz_overview"> jz_overview=#jz_overview# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="identify_conclusion"> identify_conclusion=#identify_conclusion# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="dangerous_level"> dangerous_level=#dangerous_level# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="identify_content"> identify_content=#identify_content# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="struct_aging"> struct_aging=#struct_aging# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="is_transform"> is_transform=#is_transform# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="facility_aging"> facility_aging=#facility_aging# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="is_kzperfect"> is_kzperfect=#is_kzperfect# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="is_transform_seriousness"> is_transform_seriousness=#is_transform_seriousness# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="jd_date"> jd_date=#jd_date# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="jd_department_id"> jd_department_id=#jd_department_id# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="jdmember"> jdmember=#jdmember# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="jd_report"> jd_report=#jd_report# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="jd_image"> jd_image=#jd_image# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="info_state"> info_state=#info_state# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="entry_mem_id"> entry_mem_id=#entry_mem_id# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="entry_date"> entry_date=#entry_date# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="jd_result"> jd_result=#jd_result# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="checker_memid"> checker_memid=#checker_memid# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="check_date"> check_date=#check_date# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="check_opinion"> check_opinion=#check_opinion# </isNotEmpty>
+		</dynamic>
+	</select>
+	<!--   鉴定报告表(tAppraisalReport)分页查询返回列表     -->
+	<select id="getTAppraisalReportList" parameterClass="java.util.Map" resultClass="tAppraisalReport">
+	select jdinfo_id,building_id,building_address,building_region,entrust_user,linkman,linktel,
+	dangerous_level,struct_aging,is_transform,facility_aging,is_kzperfect,
+	is_transform_seriousness,jd_date,jd_department_id,jdmember,info_state,notice_state,
+	entry_mem_id,entry_date   from t_appraisal_report
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="tAppraisalReport.jdinfo_id">
+				jdinfo_id=#tAppraisalReport.jdinfo_id#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.building_id"> building_id=#tAppraisalReport.building_id# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.building_address"> building_address like '%$tAppraisalReport.building_address$%' </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.building_region"> building_region=#tAppraisalReport.building_region# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.entrust_user"> entrust_user like '%$tAppraisalReport.entrust_user$%' </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.linkman"> linkman=#tAppraisalReport.linkman# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.linktel"> linktel=#tAppraisalReport.linktel# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.jz_overview"> jz_overview=#tAppraisalReport.jz_overview# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.identify_conclusion"> identify_conclusion=#tAppraisalReport.identify_conclusion# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.dangerous_level"> dangerous_level=#tAppraisalReport.dangerous_level# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.identify_content"> identify_content=#tAppraisalReport.identify_content# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.struct_aging"> struct_aging=#tAppraisalReport.struct_aging# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.is_transform"> is_transform=#tAppraisalReport.is_transform# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.facility_aging"> facility_aging=#tAppraisalReport.facility_aging# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.is_kzperfect"> is_kzperfect=#tAppraisalReport.is_kzperfect# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.is_transform_seriousness"> is_transform_seriousness=#tAppraisalReport.is_transform_seriousness# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.jd_date"> jd_date=#tAppraisalReport.jd_date# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.jd_department_id"> jd_department_id=#tAppraisalReport.jd_department_id# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.jdmember"> jdmember=#tAppraisalReport.jdmember# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.jd_report"> jd_report=#tAppraisalReport.jd_report# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.jd_image"> jd_image=#tAppraisalReport.jd_image# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.info_state"> info_state=#tAppraisalReport.info_state# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.entry_mem_id"> entry_mem_id=#tAppraisalReport.entry_mem_id# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.entry_date"> entry_date=#tAppraisalReport.entry_date# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.jd_result"> jd_result=#tAppraisalReport.jd_result# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.checker_memid"> checker_memid=#tAppraisalReport.checker_memid# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.check_date"> check_date=#tAppraisalReport.check_date# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.check_opinion"> check_opinion=#tAppraisalReport.check_opinion# </isNotEmpty>
+		</dynamic>
+		<isNotEmpty prepend="order by " property="_sortname">
+			$_sortname$ $_sortorder$
+		</isNotEmpty>
+		<isNotEmpty prepend="limit " property="_page_start">
+			#_page_start#,#_page_nums#
+		</isNotEmpty>
+	</select>
+	
+	<!--   鉴定报告表(tAppraisalReport)查询总记录数    -->
+	<select id="getTAppraisalReportCount1" parameterClass="tAppraisalReport" resultClass="int">
+	select count(jdinfo_id) from t_appraisal_report
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND"  property="building_id"> building_id=#building_id# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="building_address"> building_address like '%$building_address$%' </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="building_region"> building_region=#building_region# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="entrust_user"> entrust_user like '%$entrust_user$%' </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="linkman"> linkman=#linkman# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="linktel"> linktel=#linktel# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="dangerous_level"> dangerous_level=#dangerous_level# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="jd_date"> jd_date=#jd_date# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="jd_department_id"> jd_department_id=#jd_department_id# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="jd_department"> jd_department=#jd_department# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="jdmember"> jdmember=#jdmember# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="info_state"> info_state=#info_state# </isNotEmpty>
+			<isEmpty prepend="AND"  property="info_state"> info_state='1' or info_state='8'</isEmpty>
+		</dynamic>
+	</select>
+	<!--   鉴定报告表(tAppraisalReport)分页查询返回列表     -->
+	<select id="getTAppraisalReportList1" parameterClass="java.util.Map" resultClass="tAppraisalReport">
+	select jdinfo_id,building_id,building_address,building_region,entrust_user,linkman,linktel,
+	dangerous_level,struct_aging,is_transform,facility_aging,is_kzperfect,jd_department,
+	is_transform_seriousness,jd_date,jd_department_id,jdmember,info_state,notice_state,
+	entry_mem_id,entry_date   from t_appraisal_report
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.building_id"> building_id=#tAppraisalReport.building_id# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.building_address"> building_address like '%$tAppraisalReport.building_address$%' </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.building_region"> building_region=#tAppraisalReport.building_region# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.entrust_user"> entrust_user like '%$tAppraisalReport.entrust_user$%' </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.linkman"> linkman=#tAppraisalReport.linkman# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.linktel"> linktel=#tAppraisalReport.linktel# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.dangerous_level"> dangerous_level=#tAppraisalReport.dangerous_level# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.jd_date"> jd_date=#tAppraisalReport.jd_date# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.jd_department_id"> jd_department_id=#tAppraisalReport.jd_department_id# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.jd_department_id"> jd_department like '%$tAppraisalReport.jd_department$%' </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.jdmember"> jdmember=#tAppraisalReport.jdmember# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tAppraisalReport.info_state"> info_state=#tAppraisalReport.info_state# </isNotEmpty>
+			<isEmpty prepend="AND"  property="info_state"> info_state='1' or info_state='8'</isEmpty>
+		</dynamic>
+		<isNotEmpty prepend="order by " property="_sortname">
+			$_sortname$ $_sortorder$
+		</isNotEmpty>
+		<isNotEmpty prepend="limit " property="_page_start">
+			#_page_start#,#_page_nums#
+		</isNotEmpty>
+	</select>
+	
+	<update id="updateReportNoticeState"  parameterClass="java.lang.String">
+		update t_appraisal_report set notice_state='1' where jdinfo_id=#jdinfo_id# 		
+	</update>
+	
+	<!--   危房通知表(tDangerousNotice)根据主键返回单条记录    -->
+	<select id="getTDangerousNotice" parameterClass="java.lang.String"  resultClass="tDangerousNotice">
+		select  *  from t_dangerous_notice where jdinfo_id=#value#
+	</select>
+	
+	<!-- 危房列表 -->
+	<select id="getDangerousList" parameterClass="java.util.Map" resultClass="tBuilding">
+		select t.building_id,t.building_address,t.builiding_region,t.floor_count,t.house_count
+		,t.build_area,t.real_type,t.use_desgin,t.building_date,t.build_struct,
+		t.health_grade_jd,t.is_die from t_building t 
+		where health_grade_jd is not null and health_grade_jd <![CDATA[<>]]> '1' 
+			<isNotEmpty prepend="AND"  property="tBuilding.building_address"> building_address like '%$tBuilding.building_address$%' </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tBuilding.builiding_region"> builiding_region=#tBuilding.builiding_region# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tBuilding.real_type"> real_type=#tBuilding.real_type# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tBuilding.use_desgin"> use_desgin=#tBuilding.use_desgin# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tBuilding.build_struct"> build_struct=#tBuilding.build_struct# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tBuilding.health_grade_jd"> health_grade_jd=#tBuilding.health_grade_jd# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="tBuilding.is_die"> is_die=#tBuilding.is_die# </isNotEmpty>
+		<isNotEmpty prepend="order by " property="_sortname">
+			$_sortname$ $_sortorder$
+		</isNotEmpty>
+		<isNotEmpty prepend="limit " property="_page_start">
+			#_page_start#,#_page_nums#
+		</isNotEmpty>
+	</select>
+	
+	<select id="getDangerousListCount" parameterClass="tBuilding" resultClass="java.lang.Integer">
+		select count(t.building_id) from t_building t 
+		where health_grade_jd is not null and health_grade_jd <![CDATA[<>]]> '1' 
+			<isNotEmpty prepend="AND"  property="building_address"> building_address like '%$building_address$%' </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="builiding_region"> builiding_region=#builiding_region# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="real_type"> real_type=#real_type# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="use_desgin"> use_desgin=#use_desgin# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="build_struct"> build_struct=#build_struct# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="health_grade_jd"> health_grade_jd=#health_grade_jd# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="is_die"> is_die=#is_die# </isNotEmpty>
+	</select>
+	
+	<update id="changeBuildingState" parameterClass="tDangerousLog">
+		update  t_building  set is_die=#building_state# where building_id=#building_id#
+	</update>
+	
+	<select id="getTDangerousLogList" parameterClass="java.lang.String" resultClass="tDangerousLog">
+		select   info_id,building_id,op_content,op_date,building_state  
+		from t_dangerous_log where building_id=#value#  order by op_date
+	</select>
+	
+	<select id="getReportListByBid" parameterClass="java.lang.String" resultClass="tAppraisalReport">
+		select * from t_appraisal_report where building_id=#value# order by jd_date desc
+	</select>
+	
+	<delete id="deleteDangerousCount">
+		delete from t_dangerous_count 
+	</delete>
+	
+	<insert id="addDangerouseCount" parameterClass="java.util.Map">
+		insert into t_dangerous_count (enum_id,enum_value,building_region,ctype,b1,b2,c1,c2,d1,d2,h1,h2) 
+		select '$enum_id$','$enum_value$','$building_region$','jd',a1.b1,a1.b2,a2.c1,a2.c2,a3.d1,a3.d2,a4.h1,a4.h2 from 
+		(select count(building_id) as b1,sum(build_area) as b2 from t_building 
+			where health_grade_jd='2' and use_desgin=#enum_value# and builiding_region=#building_region#) a1,
+		(select count(building_id) as c1,sum(build_area) as c2 from t_building 
+			where health_grade_jd='3' and use_desgin=#enum_value# and builiding_region=#building_region#) a2,
+		(select count(building_id) as d1,sum(build_area) as d2 from t_building 
+			where health_grade_jd='4' and use_desgin=#enum_value# and builiding_region=#building_region#) a3,
+		(select count(building_id) as h1,sum(build_area) as h2 from t_building
+			 where (health_grade_jd='2' or health_grade_jd='3' or health_grade_jd='4') 
+			and use_desgin=#enum_value# and builiding_region=#building_region#) a4
+	</insert>
+	
+	 <insert id="addDangerouseCountjc" parameterClass="java.util.Map">
+		insert into t_dangerous_count (enum_id,enum_value,building_region,ctype,b1,b2,c1,c2,d1,d2,h1,h2) 
+		select '$enum_id$','$enum_value$','$building_region$','pc',a1.b1,a1.b2,a2.c1,a2.c2,a3.d1,a3.d2,a4.h1,a4.h2 from 
+		(select count(building_id) as b1,sum(build_area) as b2 from t_building 
+			where health_grade_pc='2' and use_desgin=#enum_value# and builiding_region=#building_region#) a1,
+		(select count(building_id) as c1,sum(build_area) as c2 from t_building 
+			where health_grade_pc='3' and use_desgin=#enum_value# and builiding_region=#building_region#) a2,
+		(select count(building_id) as d1,sum(build_area) as d2 from t_building 
+			where health_grade_pc='4' and use_desgin=#enum_value# and builiding_region=#building_region#) a3,
+		(select count(building_id) as h1,sum(build_area) as h2 from t_building
+			 where (health_grade_pc='2' or health_grade_pc='3' or health_grade_pc='4') 
+			and use_desgin=#enum_value# and builiding_region=#building_region#) a4
+	</insert>
+	
+	<select id="getDangerousCountList" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select t2.ENUM_NAME,t1.ENUM_VALUE,
+		sum(case when b1 is null then 0 else b1 end) as B1,
+		sum(case when b2 is null then 0 else b2 end) as B2,
+		sum(case when c1 is null then 0 else c1 end) as C1,
+		sum(case when c2 is null then 0 else c2 end) as C2,
+		sum(case when d1 is null then 0 else d1 end) as D1,
+		sum(case when d2 is null then 0 else d2 end) as D2,
+		sum(case when h1 is null then 0 else h1 end) as H1,
+		sum(case when h2 is null then 0 else h2 end) as H2
+		 from t_dangerous_count t1,yc_enum_value t2  
+		where t1.enum_id=#enum_id# and t2.enum_id=t1.enum_id and t2.enum_value=t1.enum_value
+		 and t1.ctype=#ctype# 
+		<isNotEmpty prepend="AND"  property="building_region"> t1.building_region=#building_region# </isNotEmpty>
+		group by t1.enum_value 
+		union 
+		select '合计','',
+		sum(case when b1 is null then 0 else b1 end) as B1,
+		sum(case when b2 is null then 0 else b2 end) as B2,
+		sum(case when c1 is null then 0 else c1 end) as C1,
+		sum(case when c2 is null then 0 else c2 end) as C2,
+		sum(case when d1 is null then 0 else d1 end) as D1,
+		sum(case when d2 is null then 0 else d2 end) as D2,
+		sum(case when h1 is null then 0 else h1 end) as H1,
+		sum(case when h2 is null then 0 else h2 end) as H2
+		 from t_dangerous_count where enum_id=#enum_id# and ctype=#ctype# 
+		 <isNotEmpty prepend="AND"  property="building_region"> building_region=#building_region# </isNotEmpty>
+	</select>
+</sqlMap>

@@ -1,0 +1,93 @@
+ [#include "/WEB-INF/commonftl/include.html"]
+
+
+
+	
+	<title>晨光集团公司党委</title>
+
+	<script type="text/javascript" src="../resource/mbtool/showads.js"></script>
+	<script type="text/javascript">showads();</script>
+</head>
+
+<body bgcolor="" background="" style="margin:0px;repeat-x;background: url(${_share_file_url!''}/resource/images/bg3.jpg);font-family:&quot;微软雅黑&quot;,&quot;宋体&quot;">
+
+			<div style="">
+
+<table style="" class="eap_table" align="center" bgcolor="#ffffff" cellpadding="" cellspacing="" width="1024">
+	<col width="12"/>
+	<col width="300"/>
+	<col width="50"/>
+	<col width="400"/>
+	<col width=""/>
+	<col width="12"/>
+	<tbody>
+	<tr>
+		<td valign="top"/>
+		<td colspan="4" rowspan="1" valign="top">
+[@web.block component_id="snipet" block_id="1" component_name="页面片断" block_name="banner" site_id="eap2" action_id="snipet.block" action_name="单页栏目" params=""/]
+		</td>
+		<td valign="top"/>
+	</tr>
+	<tr>
+		<td valign="top"/>
+		<td style="padding-top: 1px;" colspan="4" rowspan="1" bgcolor="" valign="top">
+[@web.block block_style="" cache_type="none" param="" view_name="水平导航条" view_id="_system_horizontal_nav" component_id="location" block_id="2" component_name="链接类" block_name="首页导航" site_id="eap2" action_id="location.block" action_name="链接列表" params=""/]
+		</td>
+		<td valign="top"/>
+	</tr>
+	<tr>
+		<td valign="top"/>
+		<td valign="top"/>
+		<td valign="top"/>
+		<td valign="top"/>
+		<td valign="top"/>
+		<td valign="top"/>
+	</tr>
+	<tr>
+		<td valign="top"/>
+		<td valign="top"/>
+		<td valign="top"/>
+		<td valign="top"/>
+		<td valign="top"/>
+		<td valign="top"/>
+	</tr>
+	<tr>
+		<td valign="top"/>
+		<td valign="top"/>
+		<td valign="top"/>
+		<td valign="top"/>
+		<td valign="top"/>
+		<td valign="top"/>
+	</tr>
+	<tr>
+		<td valign="top"/>
+		<td valign="top"/>
+		<td valign="top"/>
+		<td valign="top"/>
+		<td valign="top"/>
+		<td valign="top"/>
+	</tr>
+	<tr>
+		<td valign="top"/>
+		<td valign="top"/>
+		<td valign="top"/>
+		<td valign="top"/>
+		<td valign="top"/>
+		<td valign="top"/>
+	</tr>
+	<tr>
+		<td valign="top"/>
+		<td valign="top"/>
+		<td valign="top"/>
+		<td valign="top"/>
+		<td valign="top"/>
+		<td valign="top"/>
+	</tr>
+	</tbody>
+</table>
+
+			</div>
+
+</body>
+
+</html>

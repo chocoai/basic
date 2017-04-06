@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component xmlns="http://www.eap2.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eap2.net http://www.eap2.net/eap2/component.xsd "
+name="数据中心" id="datacenter" instance-scope="SINGLE">
+	<description>数据中心</description>
+	<actions>
+		<!-- API -->
+ 	    <get id="buildingapi" name="根据楼幢id获得楼幢信息的api" class="com.originsys.datacenter.api.action.BuildingApi">
+ 	    	<view type="plain">com/originsys/datacenter/api/view/buildingapi.ftl</view>
+ 	    </get>
+ 	    <get id="buildingapi1" name="根据楼幢id获得楼幢测绘面积信息的api" class="com.originsys.datacenter.api.action.BuildingApi1">
+ 	    	<view type="plain">com/originsys/datacenter/api/view/buildingapi1.ftl</view>
+ 	    </get>
+ 	    <get id="buildingapi2" name="根据楼幢id获得楼幢用途产别结构的api" class="com.originsys.datacenter.api.action.BuildingApi2">
+ 	    	<view type="plain">com/originsys/datacenter/api/view/buildingapi2.ftl</view>
+ 	    </get>
+ 	    <get id="buildingapi3" name="根据楼幢id获得楼幢楼层数量的api" class="com.originsys.datacenter.api.action.BuildingApi3">
+ 	    	<view type="plain">com/originsys/datacenter/api/view/buildingapi3.ftl</view>
+ 	    </get>
+ 	    <get id="buildingapi4" name="根据楼幢id获得楼幢所在楼盘内码及幢地址的api" class="com.originsys.datacenter.api.action.BuildingApi4">
+ 	    	<view type="plain">com/originsys/datacenter/api/view/buildingapi4.ftl</view>
+ 	    </get>
+ 	    <get id="houseapi" name="根据房屋id获得房屋信息的api" class="com.originsys.datacenter.api.action.HouseApi">
+ 	    	<view type="plain">com/originsys/datacenter/api/view/houseapi.ftl</view>
+ 	    </get>
+ 	    <get id="houseapi1" name="根据房屋id获得房屋面积信息的api" class="com.originsys.datacenter.api.action.HouseApi1">
+ 	    	<view type="plain">com/originsys/datacenter/api/view/houseapi1.ftl</view>
+ 	    </get>
+ 	    <get id="houseapi2" name="根据房屋id获得房屋用途产别结构的api" class="com.originsys.datacenter.api.action.HouseApi2">
+ 	    	<view type="plain">com/originsys/datacenter/api/view/houseapi2.ftl</view>
+ 	    </get>
+ 	    <get id="houseapi3" name="根据房屋id获得房屋所在层数单元房号的api" class="com.originsys.datacenter.api.action.HouseApi3">
+ 	    	<view type="plain">com/originsys/datacenter/api/view/houseapi3.ftl</view>
+ 	    </get>
+ 	    <get id="houseapi4" name="根据房屋id获得楼幢内码和户室图形内码的api" class="com.originsys.datacenter.api.action.HouseApi4">
+ 	    	<view type="plain">com/originsys/datacenter/api/view/houseapi4.ftl</view>
+ 	    </get>
+ 	    <get id="commonapi" name="公共写数据api" class="com.originsys.datacenter.api.action.CommonApi">
+ 	    	<view type="plain">com/originsys/datacenter/api/view/commonapi.ftl</view>
+ 	    </get>
+ 	    <data id="help" name="Api调用示例" class="com.originsys.datacenter.api.action.CallExample1" />
+ 	    <get id="buildingsafeapi" name="楼幢安全管理api" class="com.originsys.datacenter.api.action.BuildingSafeApi">
+ 	    	<view type="plain">com/originsys/datacenter/api/view/buildingsafeapi.ftl</view>
+ 	    </get>
+ 	    <!-- 服务注册及服务列表 -->
+ 	    <get id="service.reg" name="服务注册" class="">
+ 	    	<view type="html">com/originsys/datacenter/view/serviceregister.ftl</view>
+ 	    </get>
+ 	    <get id="service.menu" name="服务左侧菜单" class="com.originsys.datacenter.action.ServiceMenu">
+ 	    	<view type="html">com/originsys/datacenter/view/servicemenu.ftl</view>
+ 	    </get>
+ 	    <data id="service.add" name="服务注册保存" class="com.originsys.datacenter.action.ServiceRegister"/>
+ 	    <get id="service.list" name="服务列表" class="com.originsys.datacenter.action.ServiceList">
+ 	    	<view type="html">com/originsys/datacenter/view/servicelist.ftl</view>
+ 	    </get>
+ 	    <get id="api.detail" name="api详细" class="com.originsys.datacenter.action.ServiceApiDetail">
+ 	    	<view type="html">com/originsys/datacenter/view/apidetail.ftl</view>
+ 	    </get>
+ 	    <get id="service.editlist" name="服务管理列表" class="com.originsys.datacenter.action.ServiceEditList">
+ 	    	<view type="html">com/originsys/datacenter/view/serviceeditlist.ftl</view>
+ 	    </get>
+ 	    <data id="service.changestate" name="修改服务状态" class="com.originsys.datacenter.action.ServiceChangeState" />
+ 	    <get id="service.forupdate" name="服务预修改" class="com.originsys.datacenter.action.ServiceApiDetail">
+ 	    	<view type="html">com/originsys/datacenter/view/serviceupdate.ftl</view>
+ 	    </get>
+ 	    <data id="service.update" name="服务修改" class="com.originsys.datacenter.action.ServiceUpdate" />
+ 	    <data id="service.delete" name="服务删除" class="com.originsys.datacenter.action.ServiceDelete" />
+ 	    
+ 	    <!-- 资源注册及资源列表 -->
+ 	    <get id="resources.reg" name="资源注册" class="">
+ 	    	<view type="html">com/originsys/datacenter/view/resourcesregister.ftl</view>
+ 	    </get>
+ 	    <get id="resources.editlist" name="资源编辑列表" class="com.originsys.datacenter.action.ResourcesEditList">
+ 	    	<view type="html">com/originsys/datacenter/view/resourceseditlist.ftl</view>
+ 	    </get>
+ 	    <get id="resources.menu" name="资源左侧菜单" class="com.originsys.datacenter.action.ResourcesMenu">
+ 	    	<view type="html">com/originsys/datacenter/view/resourcesmenu.ftl</view>
+ 	    </get>
+ 	    <data id="resources.add" name="资源注册保存" class="com.originsys.datacenter.action.ResourcesRegister" />
+ 	    <data id="resources.changestate" name="修改资源状态" class="com.originsys.datacenter.action.ResourcesChangeState" />
+ 	    <get id="resources.list" name="资源列表" class="com.originsys.datacenter.action.ResourcesEditList">
+ 	    	<view type="html">com/originsys/datacenter/view/resourceslist.ftl</view>
+ 	    </get>
+ 	    <get id="resources.detail" name="资源详细" class="com.originsys.datacenter.action.ResourcesDetail">
+ 	    	<view type="html">com/originsys/datacenter/view/resourcesdetail.ftl</view>
+ 	    </get>
+ 	    <get id="resources.forupdate" name="资源预修改" class="com.originsys.datacenter.action.ResourcesDetail">
+ 	    	<view type="html">com/originsys/datacenter/view/resourcesupdate.ftl</view>
+ 	    </get>
+ 	    <data id="resources.update" name="修改资源" class="com.originsys.datacenter.action.ResourcesUpdate" />
+ 	    <data id="resources.delete" name="删除资源" class="com.originsys.datacenter.action.ResourcesDelete" />
+ 	    
+ 	    <!-- 千度   -->
+ 	    <get id="qd" name="千度首页" class="">
+ 	    	<view type="html">com/originsys/datacenter/qd/view/qdblock.ftl</view>
+ 	    </get>
+ 	    <get id="qdserch" name="千度查询" class="com.originsys.datacenter.qd.action.Search">
+ 	    	<view type="html">com/originsys/datacenter/qd/view/searchlist.ftl</view>
+ 	    </get>
+ 	    <get id="qddetail" name="千度查询详细" class="com.originsys.datacenter.qd.action.SearchDetail">
+ 	    	<view type="html">com/originsys/datacenter/qd/view/searchdetail.ftl</view>
+ 	    </get>
+	</actions>
+</component>

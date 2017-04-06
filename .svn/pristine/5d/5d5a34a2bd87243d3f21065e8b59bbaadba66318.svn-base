@@ -1,0 +1,9 @@
+{
+	"building_id":"${block.building_id!''}",
+	"house_id":"${block.house_id!''}",
+	"tnjz_area":"${block.tnjz_area!''}",
+	"ft_area":"${block.ft_area!''}",
+	"jz_area":"${block.jz_area!''}",
+	"yt_area":"${block.yt_area!''}",
+	"sy_area":"${block.sy_area!''}"		
+}

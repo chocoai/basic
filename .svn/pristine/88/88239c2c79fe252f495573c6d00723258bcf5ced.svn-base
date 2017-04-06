@@ -1,0 +1,416 @@
+<script src="${_share_file_url!''}/resource/js/i18n/grid.locale-cn.js" type="text/javascript"></script>
+<script src="${_share_file_url!''}/resource/js/jquery.jqGrid.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="${_share_file_url!''}/resource/js/jquery.form.js"></script>
+﻿<script type="text/javascript" src="${_share_file_url!''}/resource/js/jquery.validate.js"></script>
+<script type="text/javascript" src="${_share_file_url!''}/resource/js/ajaxfileupload.js"></script>
+<script type="text/javascript" language="javascript">
+$(function(){
+	$("#notice_date").attr("readonly", "true").datepicker({dateFormat:"yy-mm-dd"});
+	//表格
+	jQuery("#clist1").jqGrid({
+	   	url:'${_servlet_url!''}/safeauth.report.listjson',
+		datatype: "json",
+		width:600,
+		height:270,
+	   	colNames:[
+				"jdinfo_id"
+			,"楼幢编号"
+			,"楼幢地址"
+			,"楼幢地址1"
+			,"所属区域"
+			,"委托人或单位"
+			,"联系人"
+			,"联系电话"
+			,"鉴定人"
+			,"鉴定时间"
+			,"危险等级"
+			,"房屋结构老化程度"
+			,"是否有改造"
+			,"设施老化程度"
+			,"抗震结构是否完善"
+			,"拆改结构是否严重"			
+			,"鉴定单位"			
+			,"鉴定信息状态id"
+			,"信息状态"
+			,"定位"
+			,"录入人"
+			,"录入时间"
+			
+	   	],
+	   	colModel:[
+			{name:'jdinfo_id',index:'jdinfo_id',sortable:true,hidden:true}
+			,{name:'building_id',index:'building_id',sortable:true,hidden:true}
+			,{name:'building_address',index:'building_address',sortable:true}
+			,{name:'building_address1',index:'building_address1',hidden:true}
+			,{name:'building_region',index:'building_region',sortable:true,width:40}
+			,{name:'entrust_user',index:'entrust_user',sortable:true}
+			,{name:'linkman',index:'linkman',sortable:true,width:50}
+			,{name:'linktel',index:'linktel',sortable:true,width:50}
+			,{name:'jdmember',index:'jdmember',sortable:true,width:50}
+			,{name:'jd_date',index:'jd_date',sortable:true,width:40}
+			,{name:'dangerous_level',index:'dangerous_level',sortable:true,width:70}
+			,{name:'struct_aging',index:'struct_aging',hidden:true}
+			,{name:'is_transform',index:'is_transform',hidden:true}
+			,{name:'facility_aging',index:'facility_aging',hidden:true}
+			,{name:'is_kzperfect',index:'is_kzperfect',hidden:true}
+			,{name:'is_transform_seriousness',index:'is_transform_seriousness',hidden:true}			
+			,{name:'jd_department_id',index:'jd_department_id',hidden:true}			
+			,{name:'info_state_id',index:'info_state_id',hidden:true}
+			,{name:'info_state',index:'info_state',sortable:true,width:40}
+			,{name:'dw',index:'dw',width:40}
+			,{name:'entry_mem_id',index:'entry_mem_id',hidden:true}
+			,{name:'entry_date',index:'entry_date',sortable:true,hidden:true}	
+					
+	   	],
+	   	rowNum:10,
+	   	autowidth: true,
+	   	rowList:[10,20,30],
+	   	pager: '#pager1',
+	   	sortname:'info_state asc,jdinfo_id',
+	    viewrecords: true,
+	    sortorder: "asc",
+	    rownumbers:true,
+	    caption:"鉴定报告表列表"
+	});
+	jQuery("#clist1").jqGrid('navGrid','#pager1',{edit:false,add:false,del:false,search:false,refreshtext:'刷新'});
+	//查看详细
+	$("#selectInfo").click(function(){
+		var id = jQuery("#clist1").jqGrid('getGridParam','selrow');
+		if (id) { 
+			var ret = jQuery("#clist1").jqGrid('getRowData',id);
+			window.location="${_servlet_url!''}/safeauth.report.detail?jdinfo_id="+ret.jdinfo_id;	
+		}else{
+			alert("请选择一条记录！");
+		}
+	});
+	//更新
+	$("#updateInfo").click(function(){
+		var id = jQuery("#clist1").jqGrid('getGridParam','selrow');
+		if (id) { 
+			var ret = jQuery("#clist1").jqGrid('getRowData',id);
+			if(ret.info_state_id=="8"){
+				alert("此鉴定信息已审核通过，不能修改！");
+				return false;
+			}else{
+				var url="${_servlet_url!''}/safeauth.report.forupdate?jdinfo_id="+ret.jdinfo_id;
+				window.showModalDialog(url,"","dialogWidth:1100px;dialogHeight:600px;center:1;");
+				jQuery("#clist1").trigger('reloadGrid');
+			}
+		}else{
+			alert("请选择一条记录！");
+		}
+	});
+	//删除
+	$("#deleteInfo").click(function(){
+		var id = jQuery("#clist1").jqGrid('getGridParam','selrow');
+		if (id) {
+			var id = jQuery("#clist1").jqGrid('getGridParam','selrow');
+			var ret = jQuery("#clist1").jqGrid('getRowData',id);
+			if(ret.info_state_id=='8'){
+				alert("审核通过的不能删除！");
+			}else{
+				var flag=window.confirm("删除不可恢复，确认删除吗？");
+				if(flag){
+					$.post("${_servlet_url!''}/safeauth.report.delete?jdinfo_id="+ret.jdinfo_id+"&building_id="+ret.building_id,"",
+					function(data,textStatus){
+						var jdata=jQuery.parseJSON(data);
+						if(jdata.success==1){
+							jQuery("#clist1").trigger('reloadGrid');
+						}else{
+							jQuery("#clist1").trigger('reloadGrid');
+							alert("删除失败!!");
+						}
+					});
+				}
+			}
+		}else{
+			alert("请选择一条记录！");
+		}
+	});
+	//模糊查询
+	jQuery("#gridReload").click(function() {
+		var url="${_servlet_url!''}/safeauth.report.listjson"
+						+"?building_address="+$("#building_address").val()
+						+"&building_region="+$("#building_region").val()
+						+"&entrust_user="+$("#entrust_user").val()
+						+"&linkman="+$("#linkman").val()
+						+"&dangerous_level="+$("#dangerous_level").val()
+						+"&jd_date="+$("#jd_date").val()
+						+"&jdmember="+$("#jdmember").val()
+						+"&info_state="+$("#info_state").val()
+						;
+		var url2 = encodeURI(url);
+		jQuery("#clist1").jqGrid('setGridParam',{url:url2,page:1}).trigger("reloadGrid");
+	});
+	$("#excelInfo").click(function(){
+		var url="${_server_url!''}/exportexcel/safeauth.report.listjson"
+						+"?building_address="+$("#building_address").val()
+						+"&building_region="+$("#building_region").val()
+						+"&entrust_user="+$("#entrust_user").val()
+						+"&linkman="+$("#linkman").val()
+						+"&dangerous_level="+$("#dangerous_level").val()
+						+"&jd_date="+$("#jd_date").val()
+						+"&jdmember="+$("#jdmember").val()
+						+"&info_state="+$("#info_state").val();
+		var url2 = encodeURI(url);
+		window.location=url2;	
+	});	
+	//日期选择:
+	$("#jd_date").attr("readonly", "true").datepicker({dateFormat:"yy-mm-dd"});
+	//增加按钮
+	$("#addInfo").click(function(){
+		var id = jQuery("#clist1").jqGrid('getGridParam','selrow');
+		if (id) { 
+			var ret = jQuery("#clist1").jqGrid('getRowData',id);
+			if(ret.notice_state_id=="1"){
+				alert("此鉴定信息已发送危房通知，不能重复操作！");
+				return false;
+			}else{
+				$("#jdinfo_id").val(ret.jdinfo_id);
+				$("#building_id").val(ret.building_id);
+				$("#notice_content").val("");
+				$("#notice_file").val("");
+				$("#notice_title").val(ret.building_address1+"${user.organ_name!''}危房通知");
+				$("#notice_date").val("");
+				$("#dialog").dialog('open');
+			}
+		}else{
+			alert("请选择一条记录！");
+		}		
+	});
+	$("#dialog").dialog({
+		resizable:false,
+		height:380,
+		width:650,
+		autoOpen:false,
+		modal:true,
+		buttons:{
+			'取消':function(){
+				$(this).dialog('close');
+			},
+			'确定':function(){
+				$("#addForm").submit();
+			}
+		}
+	});
+	//对增加的内容进行验证
+	$("#addForm").validate({
+		submitHandler:function(form){
+			var queryString=$("#addForm").formSerialize();
+			$.post($("#addForm").attr("action"),queryString,
+					function(data,textStatus){
+					var jdata=jQuery.parseJSON(data);
+					if(jdata.success=="0"){
+						alert("危房通知增加失败！");
+					}else{
+						alert("危房通知增加成功！");
+						jQuery("#clist1").trigger("reloadGrid");
+						$("#dialog").dialog('close');
+					}
+			});
+		}
+	});
+	doResize();
+});
+//自适应窗口边框
+var t=document.documentElement.clientWidth; 
+window.onresize = function(){ 
+	if(t != document.documentElement.clientWidth){
+		t = document.documentElement.clientWidth;
+		doResize();
+	}
+}
+function doResize() {
+	var ss = getPageSize();
+	$("#clist1").jqGrid('setGridWidth', ss.WinW-20);
+	$("#clist1").jqGrid('setGridHeight', ss.WinH-180);
+}
+function getPageSize() {
+	var winW, winH;
+	if(window.innerHeight) {// all except IE
+		winW = window.innerWidth;
+		winH = window.innerHeight;
+	} else if (document.documentElement && document.documentElement.clientHeight) {// IE 6 Strict Mode
+		winW = document.documentElement.clientWidth;
+		winH = document.documentElement.clientHeight;
+	} else if (document.body) { // other
+		winW = document.body.clientWidth;
+		winH = document.body.clientHeight;
+	}  // for small pages with total size less then the viewport 
+		return {WinW:winW, WinH:winH};
+}
+//清空查询条件
+function emptiedAndSubmit(){
+	$("#building_address").val("");
+	$("#building_region").val("");
+	$("#dangerous_level").val("");
+	$("#info_state").val("");
+	$("#entrust_user").val("");
+	$("#linkman").val("");
+	$("#jd_date").val("");
+	$("#jdmember").val("");
+    jQuery("#clist1").jqGrid('setGridParam',{url:encodeURI("${_servlet_url!''}/safeauth.report.listjson"),page:1}).trigger("reloadGrid");
+}
+function noticedetial(jdinfo_id){
+	window.showModalDialog("${_servlet_url!''}/safeauth.notice.detail?jdinfo_id="+jdinfo_id);
+}
+function fileUpload()
+	{
+		if($("#fileToUpload1").val()==''||$("#fileToUpload1").val()==null){
+			alert("请先选择要上传的文件！");
+			return false;
+		}else{
+			$.ajaxFileUpload
+		(
+			{
+				url:'${_server_url!''}/eap/safecheck.uploadfile',
+				secureuri:false,
+				fileElementId:'fileToUpload1',
+				dataType: 'json',
+				data:{savepath:'files/survey/'},
+				success: function (data, status)
+				{
+					if(data.success=='0'){
+						alert("上传成功！");
+						$("#notice_file").val("/eap/commonservice.download?file_id="+data.file_id);
+						$("#notice_file1").val("/eap/commonservice.download?file_id="+data.file_id);
+						//$("#jd_report").val(data.save_name);
+						//$("#returnval1").attr("href",data.save_name);
+						//$("#returnval1").text("点击下载");
+						$("#returnval1").attr("style","display:inline-block");
+					}else if(data.success=='1'){
+						alert("请检查上传文件的类型！");
+					}else{
+						alert("没有上传权限！");
+					}
+				},
+				error: function (data, status, e)
+				{
+					alert(e);
+				}
+			}
+		)
+		
+		return false;
+			
+		}
+		
+	}
+function fileDownload(){
+	window.location.href=$("#notice_file").val();
+}
+</script>
+<style>
+.td12{text-align:right;padding-right:12px;background-color:#E1F1FE;color:#2a51a4;}
+.td13{padding-left:12px;background-color:#F1F8FF;color:#4D4D4D;}
+.rightpad{text-align:right;padding-right:12px;background-color:#E1F1FE;color:#2a51a4;}
+.leftpad{padding-left:12px;background-color:#F1F8FF;color:#4D4D4D;}
+.file-box input{ vertical-align:middle; margin:0; padding:0}
+.file-box{ position:relative;width:440px;WHITE-SPACE:nowrap;}
+.file-box .txt{ height:22px; border:1px solid #cdcdcd; width:195px;}
+.file-box .btn{ background-color:#FFF; border:1px solid #CDCDCD;height:24px; width:60px;}
+.file-box .file{ position:absolute; top:3px; right:180px; height:24px; filter:alpha(opacity:0);opacity: 0;width:260px }
+</style>
+<div class="skin_search ui-widget-content" style="padding:.2em;margin-bottom:8px;">
+	<form name="dic_form" id="dic_form" action="${_servlet_url!''}/safeauth.report.listjson" method="post">
+		<table width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#dee2e3" style="line-height:30px;">
+		<tr>
+		<td class="td12">楼幢地址:</td>
+		<td class="td13"><input type="text" name="building_address" id="building_address"/></td>
+		<td class="td12">所属区域:</td>
+		<td class="td13">
+			<select id="building_region" name="building_region">
+			<option value="">------请选择------</option>
+			[#list EnumService.getEnum('xzqh') as enum]
+			<option value="${enum.enum_value!''}">${enum.enum_name!''}</option>
+			[/#list]
+			</select>
+		</td>
+		<td class="td12">危险等级:</td>
+		<td class="td13">
+			<select name="dangerous_level" id="dangerous_level">
+			<option value="">------请选择------</option>
+			<option value="1">A级</option>
+			<option value="2">B级</option>
+			<option value="3">C级</option>
+			<option value="4">D级</option>
+			</select>
+		</td>
+		<td class="td12">鉴定信息状态:</td>
+		<td class="td13">
+			<select name="info_state" id="info_state">
+			<option value="">------请选择------</option>
+			<option value="0">暂存</option>
+			<option value="1">待审核</option>
+			<option value="2">审核驳回</option>
+			<option value="8">审核通过</option>
+			</select>
+		</td>		
+		</tr>
+		<tr>
+		<td class="td12">委托人或单位:</td>
+		<td class="td13"><input type="text" name="entrust_user" id="entrust_user"/></td>
+		<td class="td12">联系人:</td>
+		<td class="td13"><input type="text" size="14" name="linkman" id="linkman"/></td>		
+		<td class="td12">鉴定时间:</td>
+		<td class="td13"><input type="text" size="14" name="jd_date" id="jd_date"/></td>
+		<td class="td12">鉴定人:</td>
+		<td class="td13"><input type="text" size="14" name="jdmember" id="jdmember"/></td>
+		</tr>
+		<tr>
+		<td class="td13" colspan="8" align="right">
+		<button type="button" id="gridReload">查询</button>
+		<button onclick="emptiedAndSubmit()" style="margin-left:10px;"  type="button">清空查询条件</button>
+		</td>		
+		</tr>
+		</table>
+	</form>
+</div>
+<div  id="buttons" style="text-align:right;margin-bottom:8px;">
+	<button type="button" id="updateInfo" align="right">修改</button>
+	<button type="button" id="deleteInfo" align="right">删除</button>
+	<button type="button" id="excelInfo" align="right">导出列表明细excel</button>
+	<!--<button type="button" id="addInfo" align="right">发送危房通知</button>-->
+	<!--button type="button" id="selectInfo" align="right">查看</button-->
+</div>
+<div id="pager1"></div>
+<table id="clist1"></table>
+<div id="dialog" title="发送危房通知书" style="display:none">
+	<form class="cmxform" style="margin:0" action="${_servlet_url!''}/safeauth.notice.add" method="post" id="addForm">
+		<input type="hidden" name="building_id" id="building_id" value="">
+		<input type="hidden" name="jdinfo_id" id="jdinfo_id" value="">
+		<table width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#dee2e3" style="line-height:30px;table-layout:fixed;">
+			<tr>
+				<td width="100px" class="rightpad">通知标题：</td>
+				<td class="leftpad" colspan="3">
+				<input type="text" id="notice_title" name="notice_title" size="60">
+				</td>
+			</tr>
+			<tr>
+				<td width="100px" class="rightpad">通知内容：</td>
+				<td class="leftpad" colspan="3">
+				<textarea cols="80" rows="10" id="notice_content" name="notice_content"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td width="100px" class="rightpad">通知附件：</td>
+				<td class="leftpad" colspan="3">
+				<div class="file-box">
+					<input type="hidden" name="notice_file" id="notice_file" value=""/>
+					<input type="text" name="notice_file1" id="notice_file1" class='txt' value="">
+					<input type='button' class="btn" value='浏览...' />
+					<input id="fileToUpload1" type="file" size="28" name="fileToUpload1" class="file" onchange="document.getElementById('notice_file1').value=this.value" >
+					<input type='button' onclick="return fileUpload();" class="btn" value='点击上传' />
+					<input type='button' onclick="fileDownload()" id="returnval1" name="returnval1"  class="btn"  style="margin-left:5px;display:none;" value="报告下载"/>
+				</div>
+				</td>
+			</tr>
+			<tr>
+				<td width="100px" class="rightpad">发送时间：</td>
+				<td class="leftpad" colspan="3">
+				<input type="text" name="notice_date" id="notice_date" value=""/>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>

@@ -1,0 +1,451 @@
+body {
+	font-family: "Lucida Grande", Tahoma, Arial, Helvetica, sans-serif;
+	color: #555555;
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+	background: #F4F4F4;
+	width: 100%
+}
+
+a {
+	background: none repeat scroll 0 0 transparent;
+	text-decoration: none;
+}
+
+a:link,a:visited {
+	color: #0082CB;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+.header {
+	clear: both;
+	background-color: #ccc;
+	padding: 8px;
+}
+
+h1 {
+	font-size: 150%;
+	font-weight: bold;
+	padding: 0;
+	margin: 1em 0 0 .3em;
+}
+
+hr {
+	border: none 0;
+	border-top: 1px solid #BFD2E1;
+	height: 1px;
+}
+
+pre.code {
+	display: block;
+	padding: 8px;
+	border: 1px dashed #ccc;
+	background-color: #F0F0F0;
+	color: #0A8021;
+}
+
+pre.code b {
+	color: #555555;
+}
+
+#index {
+	float: left;
+	width: 170px;
+	position: absolute;
+	left: 0;
+	background-color: #FFFFFF;
+	padding: 0px;
+	border: 1px solid #BFD2E1;
+	overflow-x: hidden;
+}
+
+#content {
+	margin-left: 184px;
+	width: 740px;
+	background-color: #FFFFFF;
+	border: 1px solid #BFD2E1;
+	padding: 0 16px;
+}
+
+.main_content {
+	position: relative;
+	width: 960px;
+	margin: 10px auto;
+	padding: 0;
+	zoom: 1;
+}
+
+.classList {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	font-family: arial, sans-serif;
+	font-size: 1em;
+	overflow: hidden;
+}
+
+.classList li {
+	padding: 0;
+	margin: 0 0 8px 0;
+}
+
+.summaryTable {
+	width: 100%;
+}
+
+h1.classTitle {
+	font-size: 14px;
+	line-height: 37px;
+	background-color: #E7F0F5;
+	padding-left: 12px;
+	color: #000
+}
+
+h2 {
+	font-size: 110%;
+}
+
+h1.classTitle2 {
+	font-size: 14px;
+	line-height: 37px;
+	background-color: #F0F0F0;
+	padding: 0 0 0 15px;
+	color: #333333;
+	font-weight: bold;
+	margin: 16px 0 8px;
+}
+
+caption,div.sectionTitle {
+	background-color: #E5EFFB;
+	color: #333333;
+	font-size: 14px;
+	font-weight: bold;
+	text-align: left;
+	padding: 5px 10px;
+	border: 1px #C8CCD1 solid;
+	margin-top: 18px;
+}
+
+div.sectionTitle {
+	margin-bottom: 8px;
+}
+
+.summaryTable thead {
+	display: none;
+}
+
+.summaryTable td {
+	vertical-align: top;
+	padding: 4px;
+	border-bottom: 1px #C8CCD1 solid;
+	border-right: 1px #C8CCD1 solid;
+}
+
+/*col#summaryAttributes {}*/
+.summaryTable td.attributes {
+	border-left: 1px #C8CCD1 solid;
+	width: 230px;
+	text-align: left;
+	padding: 6px 10px;
+}
+
+.summaryTable td.attributesCstor {
+	width: 306px;
+}
+
+.summaryTable td.attributesEvts {
+	width: 180px;
+}
+
+.darkBgdTr td {
+	background-color: #F5F9FC;
+}
+
+td.returns,td.attributes,.fixedFont {
+	line-height: 15px;
+	color: #0A8021;
+	font-family: consolas, "courier new", monospace font-size :   12px;
+}
+
+.summaryTable td.nameDescription {
+	text-align: left;
+	font-size: 12px;
+	line-height: 16px;
+	padding: 6px 10px;
+}
+
+.summaryTable td.description {
+	line-height: 16px;
+}
+
+.summaryTable td.returns {
+	width: 55px;
+	padding: 6px 10px;
+}
+
+.summaryTable td.returnsEvts {
+	width: 105px;
+}
+
+.summaryTable .title {
+	background-color: #E5EFFB;
+	font-size: 12px;
+	line-height: 18px;
+}
+
+.summaryTable .title td {
+	color: #555;
+	padding: 5px 10px;
+	text-align: left;
+	font-weight: bold;
+	border-top: 1px solid #C8CCD1;
+}
+
+.summaryTable {
+	margin-bottom: 8px;
+}
+
+ul.inheritsList {
+	list-style: square;
+	margin-left: 20px;
+	padding-left: 0;
+}
+
+.detailList {
+	margin-left: 20px;
+	line-height: 15px;
+}
+
+.detailList dt {
+	margin-left: 20px;
+}
+
+.detailList .heading {
+	font-weight: bold;
+	padding-bottom: 6px;
+	margin-left: 0;
+}
+
+.light a:link,.light a:visited {
+	color: #0A8021;
+	font-style: italic;
+}
+
+.fineprint {
+	text-align: center;
+	font-size: 12px;
+}
+
+.class_index {
+	background-color: #e7f0f5;
+	padding-top: 5px;
+	height: 22px;
+	height: 20px \9;
+	padding-top: 7px \9;
+	border-bottom: none; #
+	text-transform: lowercase;
+	font-weight: bold;
+	white-space: nowrap;
+	color: #000000;
+	font-size: 120%;
+}
+
+.class_index1 {
+	margin: 8px;
+}
+</style>
+</head>
+
+<body>
+	<style type="text/css">
+.wikiClear {
+	clear: both;
+	height: 0;
+	overflow: hidden;
+}
+
+#wiki_header {
+	position: relative;
+	margin: 0 auto;
+	height: 124px;
+	overflow: hidden;
+	background: #ffffff;
+}
+
+#wiki_login {
+	position: absolute;
+	right: 10px;
+	top: 5px;
+}
+
+#wiki_login a {
+	line-height: 20px;
+	font-size: 12px;
+}
+
+#wiki_login span.line {
+	margin: 0 4px;
+	line-height: 20px;
+	color: #999;
+	font-size: 12px;
+}
+
+#wiki_nav ul {
+	margin: 0;
+}
+
+#wiki_nav {
+	height: 42px;
+	padding-bottom: 3px;
+}
+
+#wiki_nav li {
+	float: left;
+	height: 42px;
+	font-size: 14px;
+	text-align: center;
+	margin: 0 1px;
+}
+
+#wiki_nav li a {
+	color: #fff;
+	line-height: 40px;
+	text-decoration: none;
+	float: left;
+	cursor: pointer;
+}
+
+#wiki_nav li .down {
+	font-size: 7px;
+	vertical-align: 3px;
+}
+
+#wiki_nav li.nav_sel .bg_l {
+	float: left;
+}
+
+#wiki_nav li .bg_l {
+	height: 42px;
+	float: left;
+}
+
+#wiki_nav li.nav_sel .bg_r {
+	float: left;
+}
+
+#wiki_nav li span span {
+	margin-left: 9px;
+	padding-left: 4px;
+	padding-right: 13px;
+	float: left;
+}
+
+#wiki_nav li .bg_r {
+	height: 38px;
+	text-align: center;
+	line-height: 38px;
+	padding-top: 5px;
+	color: #fff;
+	float: left;
+}
+
+#wiki_logo {
+	width: 960px;
+	height: 52px;
+	padding: 14px 0;
+	margin: 0 auto;
+	position: relative;
+}
+
+#otherApi {
+	position: absolute;
+	left: 280px;
+	top: 40px;
+	font-size: 13px;
+}
+
+#otherApi .down {
+	font-size: 7px;
+	margin-left: 3px;
+	vertical-align: 1px;
+	-webkit-text-size-adjust: none;
+}
+
+#wiki_nav_c {
+	width: 960px;
+	margin: 0 auto;
+}
+
+#otherApiBox {
+	width: 152px;
+	height: 178px;
+	position: absolute;
+	display: none;
+	z-index: 99999;
+}
+
+#otherApiBox .bg {
+	border: 1px solid #c9d1d6;
+	background: #fff;
+	filter: alpha(opacity = 96);
+	opacity: .9;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 150px;
+	height: 176px;
+}
+
+#otherApiBox .conn {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 15px;
+}
+
+#otherApiBox .conn .tit {
+	font-weight: bold;
+	color: #005baa;
+	margin: 5px 0 8px;
+}
+
+#otherApiBox .more {
+	font-family: "ËÎÌו";
+	margin-left: 2px;
+}
+
+#otherApiBox .conn .tit .down {
+	font-size: 7px;
+	margin-left: 3px;
+	vertical-align: 1px;
+	-webkit-text-size-adjust: none;
+}
+
+#otherApiBox .conn td,#otherApiBox .conn th {
+	line-height: 18px;
+	vertical-align: top;
+}
+
+#otherApiBox .conn th {
+	font-weight: bold;
+	color: #005baa
+}
+
+ul {
+	line-height: 1.5em;
+	list-style-type: none;
+	margin: 0 0 0 1.5em;
+	padding: 0;
+}
+
+ol {
+	line-height: 1.5em;
+	margin: .3em 0 0 0 !important;
+	padding: 0;
+	list-style-image: none;
+	list-style: lower-roman;
+}

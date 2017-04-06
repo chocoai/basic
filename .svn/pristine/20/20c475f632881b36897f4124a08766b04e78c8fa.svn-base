@@ -1,0 +1,204 @@
+<link rel="stylesheet" type="text/css" href="${_share_file_url!''}/gis/resource/css/all.css">
+<script type="text/javascript" src="${_share_file_url!''}/resource/js/jquery.opendialog.js"></script>
+<script src="${_share_file_url!''}/resource/js/jquery.jqGrid.min.js" type="text/javascript"></script>
+<style>
+.ui-widget-header td{border-bottom:1px solid gray}
+.ui-dialog-titlebar-btn { width: 19px; padding: 1px; height: 18px; }
+</style>
+<script type="text/javascript">
+//var entrust_unit=${map.entrust_unit!''};
+//var building_address=${map.building_address!''};
+//var graphics_code=${map.graphics_code!''};
+//var use_desgin=${map.use_desgin!''};
+//var real_type=${map.real_type!''};
+//var building_datestart=${map.building_datestart!''};
+//var building_dateend=${map.building_dateend!''};
+//var build_struct=${map.build_struct!''};
+var allbuilding_mapid = '';
+ $(function(){
+	$.ajax({ 
+	          type : "post", 
+	          url :encodeURI('${_servlet_url!''}/realtygis.simplebuildingqueryjsonforall?entrust_unit='+'${map.entrust_unit!''}'+'&building_address='+'${map.building_address!''}'+'&graphics_code='+'${map.graphics_code!''}'+'&use_desgin='+'${map.use_desgin!''}'+'&real_type='+'${map.real_type!''}'+'&building_datestart='+'${map.building_datestart!''}'+'&building_dateend='+'${map.building_dateend!''}'+'&build_struct='+'${map.build_struct!''}'), 
+	          data : "" , 
+	          async : false, 
+	          success : function(data){ 
+	      		var jdata = jQuery.parseJSON(data);
+				var len = jdata.root.length;
+				for (i = 0; i < len; i++) {
+					if (jdata.root[i].building_mapid!=null&&jdata.root[i].building_mapid!=-1) {
+					if(i<500)
+						allbuilding_mapid=allbuilding_mapid+jdata.root[i].building_mapid+',';	
+					else
+					     break;						     
+					}
+					
+				}
+	     FMapLib.MarkerAllShow(allbuilding_mapid);
+	    }
+	          }); 
+
+	jQuery("#clist1").jqGrid({
+	   	url:encodeURI('${_servlet_url!''}/realtygis.simplebuildingqueryjson?entrust_unit='+'${map.entrust_unit!''}'+'&building_address='+'${map.building_address!''}'+'&graphics_code='+'${map.graphics_code!''}'+'&use_desgin='+'${map.use_desgin!''}'+'&real_type='+'${map.real_type!''}'+'&building_datestart='+'${map.building_datestart!''}'+'&building_dateend='+'${map.building_dateend!''}'+'&build_struct='+'${map.build_struct!''}'),
+		datatype: "json",
+		width:400,
+		height:350,
+	   	colNames:['幢号内码','所在楼盘内码', '地址','楼幢号','建成时间','楼层数'],
+	   	colModel:[
+	   		{name:'building_id',index:'building_id',align:'center'},
+	   		{name:'building_mapid',index:'building_mapid',align:'center'},
+	   		{name:'building_address',index:'building_address', width:650},
+	   		{name:'building_number',index:'building_number',align:'center'},
+	   		{name:'building_date',index:'building_date',align:'center'},
+	   		{name:'floor_count',index:'floor_count',align:'center'},
+	   	//	{name:'identy',index:'identy',align:'center'}
+	   	//	{name:'houselist',index:'houselist',align:'center'},
+	   	//	{name:'layerhouseholdfigure',index:'layerhouseholdfigure',align:'center'}
+	   	],
+	   	rowNum:10,
+	   	autowidth: true, 
+	   	rowList:[10,20,30],
+	   	pager: '#pager1',
+	   	 sortable:true,
+	   	sortname: 'building_mapid',
+	    viewrecords: true,
+	    sortorder: "asc", 
+	    rownumbers:true,
+	    caption:"房屋查询列表",
+	    onCellSelect:function(rowid,iCol,cellcontent){
+	       var bid=jQuery("#clist1").getCell(rowid,'building_id');
+	       if(iCol==9){
+	                window.open('realtygis.LayeredHouseholdFigure?building_id='+bid,'_blank','depended=yes,width=900,height=500,menubar=no,toolbar=no,location=no,directories=no,status=no,scrollbars=yes');
+	               }
+	     
+	           if(iCol==8){
+	           if(bid!=""||bid!=null){
+	              window.open('realtygis.housejson?building_id='+bid+'&method=houseQue','_blank','depended=yes,width=900,height=500,menubar=no,toolbar=no,location=no,directories=no,status=no,scrollbars=yes');
+	             }
+	           }
+	            
+	             if(iCol==7){
+	              var b_ids = jQuery("#clist1").getCell(rowid,'building_mapid');
+              if (b_ids != ""&&b_ids!="-1"){ 
+               //parent.document.getElementById("identy").innerHTML=b_ids; 
+              // FMapLib.MapIdenty(b_ids);
+              FMapLib.MarkerIdenty(b_ids);
+               showSmallFr(); 
+              } else{
+              alert("缺少地理位置标识！");
+               }             
+	             }   
+	                  
+	       },
+	       onSelectRow:function(rowid){
+          var b_ids = jQuery("#clist1").getCell(rowid,'building_mapid');
+              if (b_ids != ""&&b_ids!="-1"){ 
+              FMapLib.MarkerIdenty(b_ids);
+               showSmallFr(); 
+              } else{
+              alert("缺少地理位置标识！");
+               }        
+           
+   },
+   gridComplete:function testJqfrid(){	 
+	var  building_mapid="";    
+    var obj = $("#clist1").jqGrid("getRowData");
+    jQuery(obj).each(function(){
+        //alert(this.building_mapid);
+        if(this.building_mapid!="-1"){
+        building_mapid=building_mapid+this.building_mapid+",";
+        }
+    });
+  
+    if(building_mapid==""){
+		//	alert("暂无数据！");
+		}
+		else{
+    FMapLib.MarkerShow(building_mapid);
+  
+   // showSmallFr(); 
+    }
+   // var ret = $("#clist1").jqGrid("getRowData", 0);   //获得第一行的数据
+}
+	    
+	});
+	//自适应窗口边框
+	var t=document.documentElement.clientWidth; 
+	window.onresize = function(){ 
+		if(t != document.documentElement.clientWidth){
+			t = document.documentElement.clientWidth;
+			doResize();
+		}
+	}
+	function doResize() {
+		var ss = getPageSize();
+		$("#clist1").jqGrid('setGridWidth', ss.WinW-15);
+	} 	
+	
+});
+function gridReload(){
+	var building_address = $("#building_address").val();
+	jQuery("#clist1").jqGrid('setGridParam',{url:encodeURI('${_servlet_url!''}/realtygis.simplebuildingqueryjson'),page:1}).trigger("reloadGrid");
+}
+  //列表模式浏览
+	function showBigFr(){
+	 $('#bigScreen').hide();
+	 $('#smallScreen').show();
+	 if(parent.MAP_VISION){		 
+	  parent.sizePane('south',700,"in");
+	  parent.openPane('south',"in"); 	
+	  }	
+	}
+	//首页模式浏览
+	function showSmallFr(){
+	 $('#bigScreen').show();
+	 $('#smallScreen').hide();
+	 if(parent.MAP_VISION){	 	
+	  parent.sizePane('south',100,"in"); 	
+	  parent.openPane('south',"in");
+	  }	
+	}  
+//地图展示
+	function mshow(){
+	FMapLib.MapShow(min,max,floormin,floormax,buildingdate,buildingdate2);
+	 showSmallFr();
+	}
+	//生成专题图
+	function tshow(){
+	//parent.document.getElementById("themeStatus").innerHTML=$("#showTheme").val();
+	 FMapLib.HouseHoldsTheme(min, max);
+     showSmallFr();  
+	}	
+	//获取当前页building_mapid地图marker展示
+	function testJqfrid(){	 
+	var  building_mapid="";    
+    var obj = $("#clist1").jqGrid("getRowData");
+    jQuery(obj).each(function(){        
+        if(this.building_mapid!="-1"){
+        building_mapid=building_mapid+this.building_mapid+",";
+        }
+    });
+    if(building_mapid==""){
+		//	alert("暂无数据！");
+		}
+		else{
+    FMapLib.MarkerShow(building_mapid);
+  
+    showSmallFr(); 
+    }
+   // var ret = $("#clist1").jqGrid("getRowData", 0);   //获得第一行的数据
+}
+ </script>
+ <div style="padding:5px">
+	<div class="skin_search ui-widget-content" style="padding:.2em;">	
+		 <p  width="100" align="right" style="bottom:400px;display:block;"> 
+   <!--<input type="button" align="right" id="showMap" value="地图专题"  onclick="javascript:testJqfrid()" style="cursor: pointer; right:5px;"/>-->
+   <!-- <input type="button" align="right" id="showTheme" value="分析报告"  onclick="javascript:tshow()" style="cursor: pointer; right:5px;"/>  -->
+    <input type="button" align="right" id="bigScreen" value="列表模式"  onclick="javascript:showBigFr()" style="cursor: hand; right:5px;"/>
+    <input type="button" align="right" id="smallScreen" value="首页模式"  onclick="javascript:showSmallFr()" style="cursor: hand; right:5px;display:none"/> 
+    </p>
+    </span>  
+	</div>
+	<div id="pager1"></div>
+	<table id="clist1" ></table>	
+</div>
+

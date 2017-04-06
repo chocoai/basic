@@ -1,0 +1,16 @@
+/* .ztree li ul{ margin:0; padding:0} */
+.ztree li {line-height:30px;}
+
+.ztree li a.level0 {width:150x;height: 25px; text-align: center; display:block; background-image: url('../images/menu-lan-bj.jpg'); border:1px silver solid;}  
+.ztree li a.level1 {width:150x;height: 25px; text-align: left; display:block; background-image: url('../images/anniu-bj.jpg'); border:1px silver solid;}
+.ztree li a.level0.cur {background-color: #66A3D2; }
+.ztree li a.level0 span {display: block; color: white; padding-top:3px; font-size:14px;font-weight: bold;word-spacing: 2px;}
+.ztree li a.level0 span.button {	float:right; margin-left: 10px; visibility: visible;display:none;}
+.ztree li span.button.switch.level0 {display:none;}	
+.ztree li span.button.switch.level1 {display:none;}
+.ztree li span.button.switch.level2 {display:none;}
+.ztree li a.level1.curSelectedNode {padding-top:0px; background-color:#99CC00; color:black; height:18px; border:0px  solid; opacity:0.8;}
+.ztree li a.level1:hover {color:#4d4d4d;background-color:#dceefc;}
+
+.ztree li a.level2.curSelectedNode {padding-top:0px; background-color:#99CC00; color:black; height:16px; border:0px  solid; opacity:0.8;}
+.ztree li a.level2:hover {color:#4d4d4d;background-color:#dceefc;} 

@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>周边查询类参考</title>
+<link rel="stylesheet" href="./style.css"/>
+</head>
+<body >
+<div class="classTitle">类参考</div>
+	<div id="main_content" class="main_content">
+		<div id="index">
+			<!-- begin publish.classesIndex -->
+			<div align="center" class="class_index">
+				<a href="./maphelp.html?qs">参考类</a> | <a href="./mapfiles.html?qs">文件</a>
+			</div>
+			<div class="class_index1">
+				<h2>Classes</h2>
+				<ul class="classList">
+					<li><a href="./FMapLib.html?qs">FMapLib</a></li>
+					<li><a href="./qsclassreference.html">FMapLib.QuerySurrounding</a></li>
+				</ul>
+			</div>
+		</div>
+		<div id="content">
+			<!-- ============================== class title ============================ -->
+			<h1 class="classTitle">类 FMapLib.QuerySurrounding</h1>
+
+			<!-- ============================== class summary ========================== -->
+			<p class="description">
+				周边查询功能类，通过查询的位置和距离确定查询的范围，查找在该范围内的房屋，统计房屋的数量和信息，并以marker的形式在地图上展现。 <br/>
+			</p>
+
+			<!-- ============================== constructor summary ==================== -->
+
+			<h1 class="classTitle2">
+				类
+				</h1>
+				<table class="summaryTable" cellspacing="0"
+					summary="A summary of the constructor documented in the class BMapLib.DrawingManager.">
+					<tr class="title">
+						<td style="border-left: 1px solid #C8CCD1;">类</td>
+						<td>描述</td>
+					</tr>
+					<tbody>
+						<tr>
+							<td class="attributes attributesCstor">
+								<div class="fixedFont">
+									<b>FMap.QuerySurrounding</b>(map)
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description">QuerySurrounding类的构造函数</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<h1 class="classTitle2">方法</h1>
+				<table class="summaryTable" cellspacing="0">
+					<tr class="title">
+						<td style="border-left: 1px solid #C8CCD1;">方法</td>
+						<td>返回值</td>
+						<td>描述</td>
+					</tr>
+					<tbody>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>open</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">None</div></td>
+							<td class="nameDescription"><div class="description">开启地图标记功能.</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes "><div class="fixedFont">
+									<b>close</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">None</div></td>
+							<td class="nameDescription"><div class="description">停止地图标记功能，并清除地图上产生的点、面和marker。</div></td>
+						</tr>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>getCenterPoint</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">Point</div></td>
+							<td class="nameDescription"><div class="description">获得查询范围的中心点.</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes "><div class="fixedFont">
+									<b>getArea</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">Int</div></td>
+							<td class="nameDescription"><div class="description">获得查询范围的面积。</div></td>
+						</tr>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>setDistance</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">None</div></td>
+							<td class="nameDescription"><div class="description">设置查询距离。</div></td>
+						</tr>
+						</tbody>
+						</table>
+						<h1 class="classTitle2">属性</h1>
+				<table class="summaryTable" cellspacing="0"
+					summary="A summary of the events documented in the class BMapLib.DrawingManager.">
+					<tr class="title">
+						<td style="border-left: 1px solid #C8CCD1;">属性</td>
+						<td>描述</td>
+					</tr>
+					<tbody>
+						<tr>
+							<td class="attributes attributesEvts"><div class="fixedFont">
+									<b></b>
+								</div></td>
+							<td class="nameDescription"><div class="description">
+									</div></td>
+						</tr>
+						</tbody>
+						</table>
+						<div class="details">
+					<a name="constructor"> </a>
+					<div class="sectionTitle">类</div>
+
+					<div class="fixedFont">
+						<b>FMapLib.QuerySurrounding</b>(map)
+					</div>
+					<div class="description">QuerySurrounding类的构造函数</div>
+					<pre class="code">
+								<b>参考示例：</b><br />
+  function querySurrounding(){<br>
+	 	query=new FMapLib.QuerySurrounding(map);<br>
+	 	//query.setDistance(100);//设定查询距离<br>
+	 	query.open();<br>
+	 } 
+</pre>
+					<dl class="detailList">
+						<dt class="heading">参数:</dt>
+						<dt>
+							<span class="light fixedFont">string</span> <b>map</b>
+						</dt>
+						<dd>已初始化的地图名称。</dd>
+					</dl>
+				</div>
+				</div>
+				</div>
+</body>
+</html>

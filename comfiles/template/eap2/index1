@@ -1,0 +1,108 @@
+ [#include "/WEB-INF/commonftl/include.html"]
+
+
+
+	
+	<title>南京晨光先锋网</title>
+
+	<script type="text/javascript" src="../resource/mbtool/showads.js"></script>
+	<script type="text/javascript">showads();</script>
+</head>
+
+<body bgcolor="#ecf7ff" background="" style="margin:0px;repeat-x;background: url(${_share_file_url!''}/resource/images/bg3.jpg);font-family:&quot;微软雅黑&quot;,&quot;宋体&quot;">
+
+			<div style="">
+
+<table style="table-layout: fixed;" align="center" bgcolor="#ffffff" cellpadding="0" cellspacing="0" width="1024">
+	<col width="12"/>
+	<col width="300"/>
+	<col width="50"/>
+	<col width="400"/>
+	<col width=""/>
+	<col width="12"/>
+	<tbody>																																																	
+	<tr>																																																																																																		
+		<td colspan="1" rowspan="1" valign="top">																																																																																
+		</td>																																																																																							
+		<td rowspan="1" colspan="4" valign="top">				
+[@web.block component_id="snipet" block_id="1" component_name="页面片断" block_name="banner" site_id="eap2" action_id="snipet.block" action_name="单页栏目" params=""/]																																																												
+		</td>																																																																									
+		<td valign="top"/>																											
+	</tr>																																																	
+	<tr>																																																																																																		
+		<td style="padding-left: 3px; padding-top: 2px;" rowspan="4" colspan="1" bgcolor="" valign="top">																																																																																
+		</td>																																																																																																		
+		<td rowspan="1" colspan="4" style="padding-top: 1px;" bgcolor="" valign="top">																										
+[@web.block params="" action_name="链接列表" action_id="location.block" site_id="eap2" block_name="首页导航" component_name="链接类" block_id="2" component_id="location" view_id="_system_horizontal_nav" view_name="水平导航条" skin_sequence="2" skin_name="red_07" param="" cache_type="none" block_style=""/]																																																										
+		</td>																																																																																																														
+		<td valign="top"/>																											
+	</tr>																																																	
+	<tr>																																																																																																														
+		<td style="" rowspan="1" colspan="4" bgcolor="" valign="top">																																																																																																			
+[@web.block params="" action_name="单页栏目" action_id="snipet.block" site_id="eap2" block_name="用户信息" component_name="页面片断" block_id="3" component_id="snipet" view_id="usrinf" view_name="用户信息" param="" cache_type="none" block_style=""/]																																																										
+		</td>																																																																																																																																																																						
+		<td valign="top"/>																											
+	</tr>																																																	
+	<tr>																																																																																						
+		<td style="padding-top: 6px;" colspan="3" rowspan="1" bgcolor="" valign="top">																																				
+[@web.block block_style="" cache_type="none" param="" view_name="图片新闻" view_id="imgnews-1" component_id="news" block_id="11" component_name="新闻类" block_name="图片新闻" site_id="eap2" action_id="news.block" action_name="新闻首页" params=""/]																																																																																										
+		</td>																																																																																																																															
+		<td colspan="1" rowspan="4" style="padding-top: 6px; padding-left: 6px;" bgcolor="" valign="top">
+[@web.block view_name="成员照片7人" view_id="photonews" params="" action_name="新闻首页" action_id="news.block" site_id="eap2" block_name="党委成员" component_name="新闻类" block_id="6" component_id="news" skin_sequence="3" skin_name="red_08" param="" cache_type="none" block_style=""/]																										
+[@web.block view_name="无时间新闻" view_id="newsnotime" params="" action_name="新闻首页" action_id="news.block" site_id="eap2" block_name="通知公告" component_name="新闻类" block_id="8" component_id="news" skin_sequence="2" skin_name="red_07" param="" cache_type="none" block_style="background:#f5f5f5;margin-top:6px;"/]
+[@web.block view_name="图片链接" view_id="imglocation" block_style="padding-top:6px;" cache_type="none" param="" component_id="location" block_id="39" component_name="链接类" block_name="网上党校" site_id="eap2" action_id="location.block" action_name="链接列表" params=""/]
+[@web.block view_name="无时间新闻" view_id="newsnotime" params="" action_name="新闻首页" action_id="news.block" site_id="eap2" block_name="党员风采" component_name="新闻类" block_id="9" component_id="news" skin_sequence="2" skin_name="red_07" param="" cache_type="none" block_style="background:#f5f5f5;margin-top:6px;"/]																																																																																
+		</td>																																																											
+		<td valign="top"/>																											
+	</tr>																																											
+	<tr>																																																																																							
+		<td style="padding-top: 6px;" rowspan="1" colspan="2" bgcolor="" valign="top">																																																																				
+[@web.block params="" action_name="新闻首页" action_id="news.block" site_id="eap2" block_name="党建新闻" component_name="新闻类" block_id="5" component_id="news" skin_sequence="5" skin_name="red_04" param="" cache_type="none" block_style=""/]																								
+		</td>																																																																																																																																											
+		<td style="padding-top: 6px;" bgcolor="" valign="top">
+[@web.block params="" action_name="虚拟类首页" action_id="virtual.block" site_id="eap2" block_name="纪检监察" component_name="新闻组合类" block_id="50" component_id="virtual" skin_sequence="5" skin_name="red_04" param="" cache_type="none" block_style="" view_id="vblock" view_name="新闻组合block"/]		
+		</td>		
+		<td valign="top"/>																											
+	</tr>																																											
+	<tr>																																																																																				
+		<td colspan="1" rowspan="1" valign="top">																																																																								
+		</td>																																																																										
+		<td colspan="3" rowspan="1" style="" bgcolor="" valign="top">																																														
+[@web.block block_style="" cache_type="none" param="" view_name="图片链接" view_id="imglocation" component_id="location" block_id="40" component_name="链接类" block_name="横幅" site_id="eap2" action_id="location.block" action_name="链接列表" params=""/]																						
+		</td>																																																																																																																																																											
+		<td valign="top"/>																											
+	</tr>																																																												
+	<tr>																																																						
+		<td valign="top"/>																																																						
+		<td rowspan="1" colspan="2" style="padding-top: 6px;" bgcolor="" valign="top">
+[@web.block params="" action_name="虚拟类首页" action_id="virtual.block" site_id="eap2" block_name="共会之家" component_name="新闻组合类" block_id="42" component_id="virtual" skin_sequence="5" skin_name="red_04" param="" cache_type="none" block_style="" view_id="vblock" view_name="新闻组合block"/]														
+		</td>																																																																																										
+		<td style="padding-top: 6px; padding-left: 6px;" bgcolor="" valign="top">
+[@web.block params="" action_name="虚拟类首页" action_id="virtual.block" site_id="eap2" block_name="共青园地" component_name="新闻组合类" block_id="51" component_id="virtual" skin_sequence="5" skin_name="red_04" param="" cache_type="none" block_style="" view_id="vblock" view_name="新闻组合block"/]														
+		</td>																																																																																														
+		<td valign="top"/>																											
+	</tr>																											
+	<tr>																																																						
+		<td valign="top"/>																																																						
+		<td style="padding-top: 6px;" colspan="4" rowspan="1" bgcolor="" valign="top">																
+[@web.block component_id="snipet" block_id="10" component_name="页面片断" block_name="版权信息" site_id="eap2" action_id="snipet.block" action_name="单页栏目" params=""/]																																				
+		</td>																																																												
+		<td valign="top"/>																											
+	</tr>																											
+	<tr>																																																						
+		<td valign="top"/>																																																						
+		<td valign="top"/>																																																						
+		<td valign="top"/>																																																						
+		<td valign="top">																																																						
+		</td>																																																						
+		<td valign="top"/>																																																						
+		<td valign="top"/>																											
+	</tr>																											
+	</tbody>
+</table>
+
+			</div>
+
+</body>
+
+</html>

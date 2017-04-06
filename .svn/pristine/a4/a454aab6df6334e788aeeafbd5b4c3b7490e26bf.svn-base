@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component xmlns="http://www.eap2.net" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.eap2.net http://www.eap2.net/eap2/component.xsd "
+name="安全管理" id="safemanage" instance-scope="SINGLE"> 
+	<description>安全管理</description>
+	<actions>
+		<!-- 安全检查员属性维护  -->
+		<get id="safecensor.forupdate" name="修改安全检查员信息" class="com.originsys.safemanage.usertype.action.SafeCensorUserDetail">
+			<view type="html">com/originsys/safemanage/usertype/view/safecensorupdate.ftl</view>
+		</get>
+		<get id="safecensor.detail" name="安全检查员信息详细" class="com.originsys.safemanage.usertype.action.SafeCensorUserDetail">
+			<view type="html">com/originsys/safemanage/usertype/view/safecensordetail.ftl</view>
+		</get>
+		<get id="safecensor.list" name="安全检查员列表" class="">
+			<view type="html">com/originsys/safemanage/usertype/view/safecensorlist.ftl</view>
+		</get>
+		<get id="safecensor.listjson" name="安全检查员列表数据" class="com.originsys.safemanage.usertype.action.SafeCensorUserList">
+			<view type="plain">com/originsys/safemanage/usertype/view/safecensorlistjson.ftl</view>
+		</get>
+		<data id="safecensor.update1" name="安全检查员信息修改" class="com.originsys.safemanage.usertype.action.SafeCensorUserUpdate" />
+		
+		<!-- 安全管理员属性维护  -->
+		<get id="safemanager.forupdate" name="修改安全管理员信息" class="com.originsys.safemanage.usertype.action.SafeManagerUserDetail">
+			<view type="html">com/originsys/safemanage/usertype/view/safemanagerupdate.ftl</view>
+		</get>
+		<get id="safemanager.list" name="安全管理员列表" class="">
+			<view type="html">com/originsys/safemanage/usertype/view/safemanagerlist.ftl</view>
+		</get>
+		<get id="safemanager.listjson" name="安全管理员列表数据" class="com.originsys.safemanage.usertype.action.SafeManagerUserList">
+			<view type="plain">com/originsys/safemanage/usertype/view/safemanagerlistjson.ftl</view>
+		</get>
+		<data id="safemanager.update1" name="安全管理员信息修改" class="com.originsys.safemanage.usertype.action.SafeManagerUserUpdate" />
+		<get id="safemanager.detail" name="安全管理员信息详细" class="com.originsys.safemanage.usertype.action.SafeManagerUserDetail">
+			<view type="html">com/originsys/safemanage/usertype/view/safemanagerdetail.ftl</view>
+		</get>
+		
+		<!-- 安全鉴定员属性维护  -->
+		<get id="safeassessors.forupdate" name="修改安全鉴定员信息" class="com.originsys.safemanage.usertype.action.SafeAssessorsUserDetail">
+			<view type="html">com/originsys/safemanage/usertype/view/safeassessorsupdate.ftl</view>
+		</get>
+		<get id="safeassessors.list" name="安全鉴定员列表" class="">
+			<view type="html">com/originsys/safemanage/usertype/view/safeassessorslist.ftl</view>
+		</get>
+		<get id="safeassessors.listjson" name="安全鉴定员列表数据" class="com.originsys.safemanage.usertype.action.SafeAssessorsUserList">
+			<view type="plain">com/originsys/safemanage/usertype/view/safeassessorslistjson.ftl</view>
+		</get>
+		<data id="safeassessors.update1" name="安全鉴定员信息修改" class="com.originsys.safemanage.usertype.action.SafeAssessorsUserUpdate" />
+		<get id="safeassessors.detail" name="安全鉴定员信息详细" class="com.originsys.safemanage.usertype.action.SafeAssessorsUserDetail">
+			<view type="html">com/originsys/safemanage/usertype/view/safeassessorsdetail.ftl</view>
+		</get>
+		
+	</actions>
+	
+	<user-types>
+		<user-type id="safecensor" name="安全检查员"
+		 setting-action="safemanage.safecensor.forupdate" 
+		 list-action="safemanage.safecensor.list" 
+		 show-action="safemanage.safecensor.detail">
+			<implement-class>com.originsys.safemanage.usertype.action.SafeCensorUserTypeIm</implement-class>
+		</user-type>
+		<user-type id="safemanager" name="安全管理员"
+		 setting-action="safemanage.safemanager.forupdate" 
+		 list-action="safemanage.safemanager.list" 
+		 show-action="safemanage.safemanager.detail">
+			<implement-class>com.originsys.safemanage.usertype.action.SafeManagerUserTypeIm</implement-class>
+		</user-type>
+		<user-type id="safeassessors" name="安全鉴定员"
+		 setting-action="safemanage.safeassessors.forupdate" 
+		 list-action="safemanage.safeassessors.list" 
+		 show-action="safemanage.safeassessors.detail">
+			<implement-class>com.originsys.safemanage.usertype.action.SafeAssessorsUserTypeIm</implement-class>
+		</user-type>
+	</user-types>
+	
+</component>
+

@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./style.css"/>
+<script type="text/javascript">
+function onPageLoad(){
+	var a=window.location.href;
+	var args = a.split("?");
+	var parames=args[1];
+	//alert(parames);
+	var suffix;
+	var dom=document.getElementById("map");
+	var doma=document.getElementById("libclass");
+	var domb=document.getElementById("classname");
+	var domd=document.getElementById("mapfiles");
+	dom.href="./maphelp.html?"+parames;
+	doma.href="./FMapLib.html?"+parames;
+	domd.href="mapfiles.html?"+parames;
+	if(parames=="qs"){
+	domb.href="./qsclassreference.html";
+	domb.innerHTML="FMapLib.QuerySurrounding";
+	
+	}
+	if(parames=="map"){
+		domb.href="./mapclassreference.html";
+		domb.innerHTML="FMapLib.FMap";
+	}
+	if(parames=="mw"){
+		domb.href="./mwclassreference.html";
+		domb.innerHTML="FMapLib.MouseWheelListener";
+	}
+	if(parames=="mp"){
+		domb.href="./cmclassreference.html";
+		domb.innerHTML="FMapLib.AreaMeasureTool";
+	}
+	if(parames=="bq"){
+		domb.href="./bqclassreference.html";
+		domb.innerHTML="FMapLib.BuildingQueryByDate";
+	}
+	if(parames=="ml"){
+		domb.href="./cjclassreference.html";
+		domb.innerHTML="FMapLib.DistanceMeasureTool";
+	}
+	if(parames=="sv"){
+		domb.href="./surveyqueryreference.html";
+		domb.innerHTML="FMapLib.BuildingsFromSurvey";
+	}
+	if(parames=="hn"){
+		domb.href="./hnclassreference.html";
+		domb.innerHTML="FMapLib.HouseQueryByName";
+	}
+	if(parames=="pm"){
+		domb.href="./pmclassreference.html";
+		domb.innerHTML="FMapLib.PrintMap";
+	}
+	if(parames=="zh"){
+		domb.href="./bmqclassreference.html";
+		domb.innerHTML="FMapLib.BuildingMiltyQuery";
+	}
+	if(parames=="rd"){
+		domb.href="./renderclassreference.html";
+		domb.innerHTML="FMapLib.Render";
+	}
+	if(parames=="tb"){
+		domb.href="./tbclassreference.html";
+		domb.innerHTML="FMapLib.ToolBar";
+	}
+	if(parames=="sm"){
+		domb.href="./smclassreference.html";
+		domb.innerHTML="FMapLib.SatelliteMapSwitcher";
+	}
+}
+</script>
+</head>
+<body onLoad="onPageLoad()">
+	<div id="main_content" class="main_content">
+		<div id="index">
+			<!-- begin publish.classesIndex -->
+			<div align="center" class="class_index">
+				<a id="map" >参考类</a> | <a id="mapfiles" >文件</a>
+			</div>
+			<div class="class_index1">
+				<h2>Classes</h2>
+				<ul class="classList">
+					<li><a id="libclass">FMapLib</a></li>
+					<li><a id="classname"></a></li>
+				</ul>
+			</div>
+			<!-- end publish.classesIndex -->
+		</div>
+		<div id="content">
+			<h1 class="classTitle">命名空间 FMapLib</h1>
+			<p class="description">
+				FMap的所有library类均放在FMapLib命名空间下。 <br/>
+			</p>
+			<h1 class="classTitle2">
+				类
+				</h1>
+				<table class="summaryTable" cellspacing="0"
+					summary="A summary of the constructor documented in the class BMapLib.">
+					<tr class="title">
+						<td style="border-left: 1px solid #C8CCD1;">类</td>
+						<td>描述</td>
+					</tr>
+					<tbody>
+						<tr>
+							<td class="attributes attributesCstor">
+								<div class="fixedFont">
+									<b>FMapLib</b>()
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description"></div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="details">
+					<a name="constructor"> </a>
+					<div class="sectionTitle">类</div>
+					<div class="fixedFont">
+						<b>FMapLib</b>()
+					</div>
+					<div class="description"></div>
+				</div>
+				<hr/>
+		</div>
+	</div>
+</body>
+</html>

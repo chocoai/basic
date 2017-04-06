@@ -1,0 +1,9 @@
+{
+	"building_id":"${block.sb_id!''}",
+	"tn_area":"${block.tn_area!''}",
+	"ft_area":"${block.ft_area!''}",
+	"build_area":"${block.build_area!''}",
+	"noft_area":"${block.noft_area!''}",
+	"no_area":"${block.no_area!''}",
+	"discrepant_area":"${block.discrepant_area!''}"
+}

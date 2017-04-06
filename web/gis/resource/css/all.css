@@ -1,0 +1,67 @@
+@charset "utf-8";
+/* CSS Document */
+.baizi {
+	font-family: "微软雅黑";
+	font-size: 12px;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+/*全局样式
+ *{ margin:0px; padding:0px; font-size:12px; font-family:"宋体";}
+ a{ text-decoration:none}*/
+body{
+  font-family: "微软雅黑",Helvetica, Arial, sans-serif;
+  font-size: 14px;
+}
+。map_tool{
+	font-size:10px;
+	margin:0px; padding:0px;
+}
+.map_tool a{
+    text-decoration:none;
+}
+/*一级菜单样式开始*/
+.widget-title-active,
+.widget-title-normal2,
+.widget-title-light2,
+.widget-title-active  .child,
+.widget-title-normal2  .child,
+.widget-title-light2  .child
+{
+background-image: url(../images/widget.png);background-repeat:no-repeat;
+}
+.widget-tab-ul{list-style-type:none;margin:0px;padding:0px; padding-right:20px;}
+ .widget-tab-ul:after{display: block;clear: both;}
+
+ .widget-tab-ul li{float: left;margin:0;margin-right:8px;z-index:200;position:relative;cursor: pointer}
+ .widget-tab-ul li span{float: left;font-family: "微软雅黑";font-size: 15px;}
+
+ .widget-tab-ul .widget-title-normal2  .child {
+display:inline-block;}
+ .widget-tab-ul .widget-title-light2  .child {
+display:inline-block;}
+ .widget-tab-ul .widget-title-active2  .child {
+display:inline-block;}
+.widget-title-normal2 span {
+
+}
+.lineheight{ line-height:26px;}
+/*普通标题默认状态*/
+.widget-title-normal2{background-position:100% -50px;padding-right:10px;height:26px;display:block;margin:0px;overflow:hidden; }
+.widget-title-normal2  .child{color:#003198!important;height:26px;padding-left:10px;display:block}
+/*普通标题高亮状态*/
+.widget-title-light2{background-position:100% -150px;padding-right:10px;margin:0px; height:26px;overflow:hidden}
+.widget-title-light2  .child{color:#003198!important;background-position:0 -100px;display:block;padding-left:10px;height:26px;}
+
+
+/*普通标题激活状态*/
+.widget-title-active2{background-position:100% -250px;padding-right:10px;height:26px;display:block;overflow:hidden}
+.widget-title-active2  .child{color:#fff!important;background-position:0 -200px;padding-left:10px;display:block;height:26px;overflow:hidden}
+
+/*一级菜单样式结束*/
+/*--地图工具条样式-----*/
+.right_top{ height:37px; background:url(../images/rightRepeat.jpg) repeat-x}
+.weather{ height:37px; line-height:37px; margin-left:10px; color:#858585; float:left; width:200px;}
+.map_tool{ float:right; width:350px; height:37px;}
+.tool_title a{ color:#616161}
+.map_tl{ float:left;width:255px; height:27px;padding-top:8px}

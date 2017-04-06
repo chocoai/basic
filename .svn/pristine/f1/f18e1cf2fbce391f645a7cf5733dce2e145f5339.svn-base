@@ -1,0 +1,1066 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Auth">
+	<typeAlias alias="loginBind" type="com.originsys.auth.domain.LoginBind"/>
+	<typeAlias alias="orgcom" type="com.originsys.auth.domain.Orgcom"/>
+	<typeAlias alias="orgcomMember" type="com.originsys.auth.domain.OrgcomMember"/>
+	<typeAlias alias="orgcomRole" type="com.originsys.auth.domain.OrgcomRole"/>
+	<typeAlias alias="orgcomType" type="com.originsys.auth.domain.OrgcomType"/>
+	<typeAlias alias="orgcomtypeOrgcom" type="com.originsys.auth.domain.OrgcomtypeOrgcom"/>
+	<typeAlias alias="roleRegister" type="com.originsys.auth.domain.RoleRegister"/>
+	<typeAlias alias="authsite" type="com.originsys.auth.domain.Site"/>
+	<typeAlias alias="userInfo" type="com.originsys.auth.domain.UserInfo"/>
+	<typeAlias alias="userRegister" type="com.originsys.auth.domain.UserRegister"/>
+	<typeAlias alias="userRole" type="com.originsys.auth.domain.UserRole"/>
+	<typeAlias alias="otptoken" type="com.originsys.auth.domain.OTPToken"/>
+	<typeAlias alias="eadmin" type="com.originsys.auth.domain.YcEadminProperty"/>
+	<typeAlias alias="accesstoken" type="com.originsys.auth.domain.AccessToken"/>
+	<typeAlias alias="accessapp" type="com.originsys.auth.domain.AccessApp"/>
+	<typeAlias alias="memberRole" type="com.originsys.eap.domain.MemberRole"/>
+	<!--   用户注册表(userInfo)根据主键返回单条记录    -->
+	<select id="getUserInfo" parameterClass="object"  resultClass="userInfo">
+		select  mem_id,family_name,first_name,mem_sex,mem_born,mem_mail,register_time,last_time,
+		mem_state,mem_name,mem_integrality,mem_mphone,mem_region,mem_addr,secure_image,
+		reg_source,mem_image,note_info,ID_num   
+		from user_info where mem_id=#value#
+	</select>
+	
+	<!--   用户注册表(userRegister)插入新记录    -->
+	<insert id="addUserRegister" parameterClass="userRegister">
+		insert into user_register 
+		(mem_id,mem_name,mem_pass,mem_question,mem_answer,token_id)
+		values (#mem_id#,#mem_name:VARCHAR#,#mem_pass:VARCHAR#,#mem_question:VARCHAR#,
+		#mem_answer:VARCHAR#,#token_id:VARCHAR#)
+	</insert>
+	<!--   用户注册表(userInfo)插入新记录 初始化    -->
+	<insert id="addUserInfo" parameterClass="userInfo">
+		insert into user_info (mem_id,mem_state,mem_mail,mem_mphone,mem_name)
+		 values (#mem_id#,#mem_state:VARCHAR#,#mem_mail:VARCHAR#,#mem_mphone:VARCHAR#,#mem_name:VARCHAR#)
+	</insert>
+	
+	<!--   用户注册表(userInfo)插入新记录    -->
+	<insert id="addUserInfo1" parameterClass="userInfo">
+		insert into user_info 
+		(mem_id,family_name,first_name,mem_sex,mem_born,mem_mail,register_time,last_time,
+		mem_state,mem_name,mem_integrality,mem_mphone,mem_region,mem_addr,secure_image,
+		reg_source,mem_image,note_info,ID_num,secret)
+		values (#mem_id#,#family_name:VARCHAR#,#first_name:VARCHAR#,#mem_sex:VARCHAR#,
+		#mem_born:DATE#,#mem_mail:VARCHAR#,#register_time:DATE#,
+		#last_time:DATE#,#mem_state:VARCHAR#,#mem_name:VARCHAR#,#mem_integrality:VARCHAR#,
+		#mem_mphone:VARCHAR#,#mem_region:VARCHAR#,#mem_addr:VARCHAR#,
+		#secure_image:VARCHAR#,#reg_source:VARCHAR#,#mem_image:VARCHAR#,#note_info:VARCHAR#,
+		#ID_num:VARCHAR#,#secret:VARCHAR#)
+	</insert>
+	
+	<!--   用户注册表(userInfo)插入新记录    -->
+	<insert id="addUserInfoadmin" parameterClass="userInfo">
+		insert into user_info 
+		(mem_id,family_name,first_name,mem_sex,mem_born,mem_mail,register_time,last_time,
+		mem_state,mem_name,mem_integrality,mem_mphone,mem_region,mem_addr,secure_image,
+		reg_source,mem_image,note_info,ID_num,secret)
+		values (#mem_id#,#family_name:VARCHAR#,#first_name:VARCHAR#,#mem_sex:VARCHAR#,
+		#mem_born:DATE#,#mem_mail:VARCHAR#,#register_time:DATE#,
+		#last_time:DATE#,#mem_state:VARCHAR#,#mem_name:VARCHAR#,#mem_integrality:VARCHAR#,
+		#mem_mphone:VARCHAR#,#mem_region:VARCHAR#,
+		#mem_addr:VARCHAR#,#secure_image:VARCHAR#,#reg_source:VARCHAR#,
+		#mem_image:VARCHAR#,#note_info:VARCHAR#,#ID_num:VARCHAR#,#secret:VARCHAR#)
+	</insert>
+	
+	<!--   用户注册表(userInfo)修改记录    -->
+	<update id="updateUserInfo"  parameterClass="userInfo">
+		update user_info 
+		<dynamic  prepend="set">
+				<isNotEmpty prepend=","  property="family_name"> family_name=#family_name# </isNotEmpty>
+				<isNotEmpty prepend=","  property="first_name"> first_name=#first_name# </isNotEmpty>
+				<isNotEmpty prepend=","  property="mem_sex"> mem_sex=#mem_sex# </isNotEmpty>
+				<isNotEmpty prepend=","  property="mem_born"> mem_born=#mem_born# </isNotEmpty>
+				<isNotEmpty prepend=","  property="mem_mail"> mem_mail=#mem_mail# </isNotEmpty>
+				<isNotEmpty prepend=","  property="register_time"> register_time=#register_time# </isNotEmpty>
+				<isNotEmpty prepend=","  property="last_time"> last_time=#last_time# </isNotEmpty>
+				<isNotEmpty prepend=","  property="mem_state"> mem_state=#mem_state# </isNotEmpty>
+				<isNotEmpty prepend=","  property="mem_name"> mem_name=#mem_name# </isNotEmpty>
+				<isNotEmpty prepend=","  property="mem_integrality"> mem_integrality=#mem_integrality# </isNotEmpty>
+				<isNotEmpty prepend=","  property="mem_mphone"> mem_mphone=#mem_mphone# </isNotEmpty>
+				<isNotEmpty prepend=","  property="mem_region"> mem_region=#mem_region# </isNotEmpty>
+				<isNotEmpty prepend=","  property="mem_addr"> mem_addr=#mem_addr# </isNotEmpty>
+				<isNotEmpty prepend=","  property="secure_image"> secure_image=#secure_image# </isNotEmpty>
+				<isNotEmpty prepend=","  property="reg_source"> reg_source=#reg_source# </isNotEmpty>
+				<isNotEmpty prepend=","  property="mem_image"> mem_image=#mem_image# </isNotEmpty>
+				<isNotEmpty prepend=","  property="note_info"> note_info=#note_info# </isNotEmpty>
+				<isNotEmpty prepend=","  property="ID_num"> ID_num=#ID_num# </isNotEmpty>
+		</dynamic>
+		where mem_id=#mem_id#
+	</update>
+	
+	<!--   用户注册表(userInfo)按主键删除记录    -->
+	<delete id="deleteUserInfo" parameterClass="userInfo">
+	delete from user_info
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="mem_id">
+				mem_id=#mem_id#
+			</isNotEmpty>
+		</dynamic>
+	</delete>
+	<!-- 查询全部的公司(组织)表 -->
+	<select id="getAllOrgcom" resultClass="orgcom">
+		select * from orgcom
+	</select>
+	<!--   公司（组织）表(orgcom)分页查询返回列表     -->
+	<select id="getOrgcomList1" parameterClass="orgcom" resultClass="orgcom">
+	select  *  from orgcom
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND"  property="organ_name"> organ_name like '%$organ_name$%' </isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 根据id查询联系人和联系电话 -->
+	<select id="getManPhoneById" parameterClass="String" resultClass="orgcom">
+		select * from orgcom where organ_id=#orgcomId#
+	</select>
+	<!--   公司（组织）表(orgcom)插入新记录    -->
+	<insert id="addOrgcom" parameterClass="orgcom">
+		insert into orgcom 
+		(organ_id,organ_name,organ_region,organ_address,organ_linkman,organ_phone,organ_postcode,
+		organ_domainname,organ_trade,com_type,organ_desc,organ_type,organ_staff_number,organ_code,
+		organ_cred_type,organ_cred_code,authentication_state,organ_domainname2,token_id,
+		organ_code_image,business_license_image,tax_reg_certificate,use_token,reg_date,organ_pass)
+		values (#organ_id#,#organ_name:VARCHAR#,#organ_region:VARCHAR#,#organ_address:VARCHAR#,
+		#organ_linkman:VARCHAR#,#organ_phone:VARCHAR#,#organ_postcode:VARCHAR#,#organ_domainname:VARCHAR#,
+		#organ_trade:VARCHAR#,#com_type:VARCHAR#,#organ_desc:VARCHAR#,#organ_type:VARCHAR#,
+		#organ_staff_number:VARCHAR#,#organ_code:VARCHAR#,#organ_cred_type:VARCHAR#,
+		#organ_cred_code:VARCHAR#,#authentication_state:VARCHAR#,#organ_domainname2:VARCHAR#,
+		#token_id:VARCHAR#,#organ_code_image:VARCHAR#,#business_license_image:VARCHAR#,
+		#tax_reg_certificate:VARCHAR#,#use_token:VARCHAR#,#reg_date:DATETIME#,#organ_pass:VARCHAR#)
+	</insert>
+	<!--   企业－用户对应(orgcomMember)插入新记录    -->
+	<insert id="addOrgcomMember" parameterClass="orgcomMember">
+		insert into orgcom_member 
+		(mem_id,organ_id,join_in_time,note,state,is_manager)
+		values (#mem_id#,#organ_id:VARCHAR#,#join_in_time:DATE#,#note:VARCHAR#,#state:VARCHAR#,#is_manager:VARCHAR#)
+	</insert>
+	<!--   企业－企业类型对应(orgcomtypeOrgcom)插入新记录    -->
+	<insert id="addOrgcomtypeOrgcom" parameterClass="orgcomtypeOrgcom">
+		insert into orgcomtype_orgcom 
+		(organ_type_id,organ_id,organ_type_state)
+		values (#organ_type_id#,#organ_id#,#organ_type_state#)
+	</insert>
+	<!--   企业—角色对应(orgcomRole)插入新记录    -->
+	<insert id="addOrgcomRole" parameterClass="orgcomRole">
+		insert into orgcom_role 
+		(roleid,site_id,organ_type_id,role_register_id,role_organ_type_state)
+		values (#roleid#,#site_id:VARCHAR#,#organ_type_id:VARCHAR#,#role_register_id:VARCHAR#,#role_organ_type_state:VARCHAR#)
+	</insert>
+	<!--   用户角色对应(userRole)插入新记录    -->
+	<insert id="addUserRole" parameterClass="userRole">
+		insert into user_role 
+		(roleid,site_id,mem_id,mem_state,com_id,role_register_id)
+		values (#roleid:VARCHAR#,#site_id:VARCHAR#,#mem_id:VARCHAR#,#mem_state:VARCHAR#,#com_id:VARCHAR#,#role_register_id:VARCHAR#)
+	</insert>
+	
+	<!--   用户注册表(userRegister)根据主键返回单条记录    -->
+	<select id="getUserRegister1" parameterClass="object"  resultClass="userRegister">
+		select  mem_id,mem_name,mem_pass,mem_question,mem_answer,token_id  from user_register where mem_id=#value#
+	</select>
+
+	<!--   用户注册表(userRegister)根据主键返回单条记录    -->
+	<select id="getUserRegister" parameterClass="object"  resultClass="userRegister">
+		select  mem_id,mem_name,mem_pass,mem_question,mem_answer,token_id  from user_register where mem_name=#value#
+	</select>
+	
+	<select id="getUserOrgan" parameterClass="java.lang.String" resultClass="java.util.HashMap">
+		select b.organ_id as ORGAN_ID,b.organ_name as ORGAN_NAME,b.organ_region as ORGAN_REGION,
+		b.organ_linkman as ORGAN_LINKMAN,b.organ_phone as ORGAN_PHONE,b.organ_code as ORGAN_CODE,
+		b.organ_address as ORGAN_ADDRESS,a.join_in_time as JOIN_IN_TIME,a.state as STATE
+    	from orgcom_member a,orgcom b where a.mem_id=#value# and  b.organ_id=a.organ_id  
+	</select>
+	
+	<select id="getUserRole" parameterClass="java.lang.String" resultClass="java.util.HashMap">
+		select b.role_name,b.role_register_id,b.role_id,b.role_description,a.state
+  		from user_role a ,role_register b where a.mem_id=#value# and b.role_register_id=a.role_register_id
+	</select>
+	
+	<!--   公司（组织）表(orgcom)查询总记录数    -->
+	<select id="getOrgcomCount" parameterClass="orgcom" resultClass="int">
+	select count(organ_id) from orgcom
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="organ_id">
+				organ_id=#organ_id#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND"  property="organ_name"> organ_name like '%$organ_name$%' </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="organ_region"> organ_region=#organ_region# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="organ_address"> organ_address=#organ_address# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="organ_linkman"> organ_linkman=#organ_linkman# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="organ_phone"> organ_phone=#organ_phone# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="organ_postcode"> organ_postcode=#organ_postcode# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="organ_domainname"> organ_domainname=#organ_domainname# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="organ_trade"> organ_trade=#organ_trade# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="com_type"> com_type=#com_type# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="organ_desc"> organ_desc=#organ_desc# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="organ_type"> organ_type=#organ_type# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="organ_staff_number"> organ_staff_number=#organ_staff_number# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="organ_code"> organ_code=#organ_code# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="organ_cred_type"> organ_cred_type=#organ_cred_type# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="organ_cred_code"> organ_cred_code=#organ_cred_code# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="authentication_state"> authentication_state=#authentication_state# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="organ_domainname2"> organ_domainname2=#organ_domainname2# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="reg_date"> to_days(reg_date) = to_days(#reg_date#) </isNotEmpty>
+		</dynamic>
+	</select>
+	<!--   公司（组织）表(orgcom)分页查询返回列表     -->
+	<select id="getOrgcomList" parameterClass="map" resultClass="orgcom">
+		SELECT * FROM 
+		(
+			SELECT A.*, ROWNUM RN 
+			FROM (
+		select   organ_id,organ_name,organ_region,organ_address,organ_linkman,organ_phone,organ_postcode,organ_domainname,organ_trade,com_type,organ_desc,organ_type,organ_staff_number,organ_code,organ_cred_type,organ_cred_code,authentication_state,organ_domainname2,reg_date   from orgcom
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="orgcom.organ_id">
+				orgcom.organ_id=#orgcom.organ_id#
+			</isNotEmpty>
+					<isNotEmpty prepend="AND"  property="orgcom.organ_name"> orgcom.organ_name like '%$orgcom.organ_name$%' </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="orgcom.organ_region"> orgcom.organ_region=#orgcom.organ_region# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="orgcom.organ_address"> orgcom.organ_address=#orgcom.organ_address# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="orgcom.organ_linkman"> orgcom.organ_linkman=#orgcom.organ_linkman# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="orgcom.organ_phone"> orgcom.organ_phone=#orgcom.organ_phone# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="orgcom.organ_postcode"> orgcom.organ_postcode=#orgcom.organ_postcode# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="orgcom.organ_domainname"> orgcom.organ_domainname=#orgcom.organ_domainname# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="orgcom.organ_trade"> orgcom.organ_trade=#orgcom.organ_trade# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="orgcom.com_type"> orgcom.com_type=#orgcom.com_type# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="orgcom.organ_desc"> orgcom.organ_desc=#orgcom.organ_desc# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="orgcom.organ_type"> orgcom.organ_type=#orgcom.organ_type# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="orgcom.organ_staff_number"> orgcom.organ_staff_number=#orgcom.organ_staff_number# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="orgcom.organ_code"> orgcom.organ_code=#orgcom.organ_code# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="orgcom.organ_cred_type"> orgcom.organ_cred_type=#orgcom.organ_cred_type# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="orgcom.organ_cred_code"> orgcom.organ_cred_code=#orgcom.organ_cred_code# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="orgcom.authentication_state"> orgcom.authentication_state=#orgcom.authentication_state# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="orgcom.organ_domainname2"> orgcom.organ_domainname2=#orgcom.organ_domainname2# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="orgcom.reg_date"> to_days(reg_date) = to_days(#orgcom.reg_date#) </isNotEmpty>
+		</dynamic>
+		<isNotEmpty prepend="order by " property="_sortname">
+			$_sortname$ $_sortorder$
+		</isNotEmpty>
+		) A 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#
+	</select>
+	<!--   企业－用户对应(orgcomMember)修改记录    -->
+	<update id="updateOrgcomMember"  parameterClass="orgcomMember">
+		update orgcom_member 
+		<dynamic  prepend="set">
+				<isNotEmpty prepend=","  property="join_in_time"> join_in_time=#join_in_time# </isNotEmpty>
+				<isNotEmpty prepend=","  property="note"> note=#note# </isNotEmpty>
+				<isNotEmpty prepend=","  property="state"> state=#state# </isNotEmpty>
+				<isNotEmpty prepend=","  property="is_manager"> is_manager=#is_manager# </isNotEmpty>
+		</dynamic>
+		where mem_id=#mem_id# and organ_id=#organ_id#
+	</update>
+			
+	<!--   公司（组织）表(orgcom)根据主键返回单条记录    -->
+	<select id="getOrgcom" parameterClass="object"  resultClass="orgcom">
+		select *  from orgcom where organ_id=#value#
+	</select>
+	<!--   公司（组织）表(orgcom)修改记录    -->
+	<update id="updateOrgcom"  parameterClass="orgcom">
+		update orgcom 
+		<dynamic  prepend="set">
+				<isNotEmpty prepend=","  property="organ_name"> organ_name=#organ_name# </isNotEmpty>
+				<isNotEmpty prepend=","  property="token_id"> token_id=#token_id# </isNotEmpty>
+				<isNotEmpty prepend=","  property="organ_region"> organ_region=#organ_region# </isNotEmpty>
+				<isNotEmpty prepend=","  property="organ_address"> organ_address=#organ_address# </isNotEmpty>
+				<isNotEmpty prepend=","  property="organ_linkman"> organ_linkman=#organ_linkman# </isNotEmpty>
+				<isNotEmpty prepend=","  property="organ_phone"> organ_phone=#organ_phone# </isNotEmpty>
+				<isNotEmpty prepend=","  property="organ_postcode"> organ_postcode=#organ_postcode# </isNotEmpty>
+				<isNotEmpty prepend=","  property="organ_domainname"> organ_domainname=#organ_domainname# </isNotEmpty>
+				<isNotEmpty prepend=","  property="organ_trade"> organ_trade=#organ_trade# </isNotEmpty>
+				<isNotEmpty prepend=","  property="com_type"> com_type=#com_type# </isNotEmpty>
+				<isNotEmpty prepend=","  property="organ_desc"> organ_desc=#organ_desc# </isNotEmpty>
+				<isNotEmpty prepend=","  property="organ_type"> organ_type=#organ_type# </isNotEmpty>
+				<isNotEmpty prepend=","  property="organ_staff_number"> organ_staff_number=#organ_staff_number# </isNotEmpty>
+				<isNotEmpty prepend=","  property="organ_code"> organ_code=#organ_code# </isNotEmpty>
+				<isNotEmpty prepend=","  property="organ_cred_type"> organ_cred_type=#organ_cred_type# </isNotEmpty>
+				<isNotEmpty prepend=","  property="organ_cred_code"> organ_cred_code=#organ_cred_code# </isNotEmpty>
+				<isNotEmpty prepend=","  property="authentication_state"> authentication_state=#authentication_state# </isNotEmpty>
+				<isNotEmpty prepend=","  property="organ_domainname2"> organ_domainname2=#organ_domainname2# </isNotEmpty>
+				<isNotEmpty prepend=","  property="organ_code_image"> organ_code_image=#organ_code_image# </isNotEmpty>
+				<isNotEmpty prepend=","  property="business_license_image"> business_license_image=#business_license_image# </isNotEmpty>
+				<isNotEmpty prepend=","  property="tax_reg_certificate"> tax_reg_certificate=#tax_reg_certificate# </isNotEmpty>
+				<isNotEmpty prepend=","  property="use_token"> use_token=#use_token# </isNotEmpty>
+		</dynamic>
+		where organ_id=#organ_id#
+	</update>
+	
+	<!--   公司（组织）表(orgcom)按主键删除记录    -->
+	<delete id="deleteOrgcom" parameterClass="java.lang.String">
+	delete from orgcom where  organ_id=#value# 
+	</delete>
+	<!--   用户注册表(userInfo)查询总记录数    -->
+	<select id="getUserInfoCount" parameterClass="userInfo" resultClass="int">
+	select count(a.mem_id) from  orgcom_member a,user_info b 
+		where a.organ_id=#note_info# and b.mem_id=a.mem_id
+		<isNotEmpty prepend="AND" property="mem_id"> b.mem_id=#mem_id# </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="family_name">  concat(family_name,first_name) like '%$family_name$%' </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="first_name"> b.first_name=#first_name# </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="mem_sex"> b.mem_sex=#mem_sex# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="mem_born"> b.mem_born=#mem_born# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="mem_mail"> b.mem_mail=#mem_mail# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="register_time"> b.register_time=#register_time# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="last_time"> b.last_time=#last_time# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="mem_state"> a.state=#mem_state# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="mem_name"> b.mem_name=#mem_name# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="mem_integrality"> b.mem_integrality=#mem_integrality# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="mem_mphone"> b.mem_mphone=#mem_mphone# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="mem_region"> b.mem_region=#mem_region# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="mem_addr"> b.mem_addr=#mem_addr# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="secure_image"> b.secure_image=#secure_image# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="reg_source"> b.reg_source=#reg_source# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="mem_image"> b.mem_image=#mem_image# </isNotEmpty>
+	
+	</select>
+	<!--   用户注册表(userInfo)分页查询返回列表     -->
+	<select id="getUserInfoList" parameterClass="map" resultClass="userInfo">
+		SELECT * FROM 
+		(
+			SELECT A.*, ROWNUM RN 
+			FROM (
+	select   b.mem_id,family_name,first_name,mem_sex,mem_born,mem_mail,register_time,
+	last_time,a.state as mem_state,mem_name,mem_integrality,mem_mphone,mem_region,mem_addr,
+	secure_image,reg_source,mem_image,note_info  from  orgcom_member a,user_info b 
+		where a.organ_id=#userInfo.note_info# and b.mem_id=a.mem_id
+		<isNotEmpty prepend="AND" property="userInfo.mem_id"> b.mem_id=#userInfo.mem_id# </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="userInfo.family_name">
+		 	concat(b.family_name,b.first_name) like '%$userInfo.family_name$%' 
+		 </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="userInfo.first_name"> b.first_name=#userInfo.first_name# </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="userInfo.mem_sex"> b.mem_sex=#userInfo.mem_sex# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userInfo.mem_born"> b.mem_born=#userInfo.mem_born# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userInfo.mem_mail"> b.mem_mail=#userInfo.mem_mail# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userInfo.register_time"> b.register_time=#userInfo.register_time# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userInfo.last_time"> b.last_time=#userInfo.last_time# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userInfo.mem_state"> a.state=#userInfo.mem_state# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userInfo.mem_name"> b.mem_name=#userInfo.mem_name# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userInfo.mem_integrality"> b.mem_integrality=#userInfo.mem_integrality# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userInfo.mem_mphone"> b.mem_mphone=#userInfo.mem_mphone# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userInfo.mem_region"> b.mem_region=#userInfo.mem_region# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userInfo.mem_addr"> b.mem_addr=#userInfo.mem_addr# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userInfo.secure_image"> b.secure_image=#userInfo.secure_image# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userInfo.reg_source"> b.reg_source=#userInfo.reg_source# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userInfo.mem_image"> b.mem_image=#userInfo.mem_image# </isNotEmpty>
+		<isNotEmpty prepend="order by " property="_sortname">
+			$_sortname$ $_sortorder$
+		</isNotEmpty>
+			) A 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#
+	</select>
+	<!--   用户角色对应(userRole)查询总记录数    -->
+	<select id="getUserRoleCount" parameterClass="userRole" resultClass="int">
+	select count(roleid) from user_role
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="roleid">
+				roleid=#roleid#
+			</isNotEmpty>
+					<isNotEmpty prepend="AND"  property="site_id"> site_id=#site_id# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="mem_id"> mem_id=#mem_id# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="mem_state"> mem_state=#mem_state# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="com_id"> com_id=#com_id# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="role_register_id"> role_register_id=#role_register_id# </isNotEmpty>
+		</dynamic>
+	</select>
+	<!--   用户角色对应(userRole)分页查询返回列表     -->
+	<select id="getUserRoleList" parameterClass="map" resultClass="userRole">
+		SELECT * FROM 
+		(
+			SELECT A.*, ROWNUM RN 
+			FROM (
+		select   roleid,site_id,mem_id,mem_state,com_id,role_register_id   from user_role
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="userRole.roleid">
+				userRole.roleid=#userRole.roleid#
+			</isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userRole.site_id"> user_role.site_id=#userRole.site_id# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userRole.mem_id"> user_role.mem_id=#userRole.mem_id# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userRole.mem_state"> user_role.mem_state=#userRole.mem_state# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userRole.com_id"> user_role.com_id=#userRole.com_id# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userRole.role_register_id"> user_role.role_register_id=#userRole.role_register_id# </isNotEmpty>
+		</dynamic>
+		<isNotEmpty prepend="order by " property="_sortname">
+			$_sortname$ $_sortorder$
+		</isNotEmpty>
+			) A 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#
+	</select>
+	
+	<!--   根据用户角色查询用户列表分页查询返回列表     -->
+	<select id="getUserInfoList3" parameterClass="map" resultClass="userInfo">
+		SELECT * FROM 
+		(
+			SELECT A.*, ROWNUM RN 
+			FROM (
+		select a.mem_id,a.family_name,a.first_name,a.mem_sex,a.mem_born,a.mem_mail,
+		a.register_time,a.last_time,a.mem_state,a.mem_name,a.mem_integrality,
+		a.mem_mphone,a.mem_region,a.mem_addr,a.reg_source,a.ID_num,user_role.mem_state as note_info 
+		from user_info a,user_role where a.mem_id=user_role.mem_id 
+			<isNotEmpty prepend="AND" property="userRole.roleid">
+				user_role.roleid=#userRole.roleid#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND"  property="userRole.site_id"> user_role.site_id=#userRole.site_id# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="userRole.mem_id"> user_role.mem_id=#userRole.mem_id# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="userRole.mem_state"> user_role.mem_state=#userRole.mem_state# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="userRole.com_id"> user_role.com_id=#userRole.com_id# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="userRole.role_register_id"> user_role.role_register_id=#userRole.role_register_id# </isNotEmpty>
+		<isNotEmpty prepend="order by " property="_sortname">
+			$_sortname$ $_sortorder$
+		</isNotEmpty>
+		) A 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#
+	</select>
+	
+	<select id="getOrgcomMemberList1" parameterClass="orgcomMember" resultClass="orgcomMember">
+		select a.organ_id,b.organ_name as organ_name  from orgcom_member a,orgcom b
+			 where a.mem_id=#mem_id# and b.organ_id=a.organ_id 
+			 <isNotEmpty prepend="AND" property="state">
+				a.state=#state#
+			</isNotEmpty>
+	</select>
+	<!--   角色注册表(roleRegister)插入新记录    -->
+	<insert id="addRoleRegister" parameterClass="roleRegister">
+		insert into role_register 
+		(role_register_id,role_id,site_id,role_name,role_description,ischeck,preposition_role,check_url)
+		values (#role_register_id:VARCHAR#,#role_id:VARCHAR#,#site_id:VARCHAR#,#role_name:VARCHAR#,
+		#role_description:VARCHAR#,#ischeck:VARCHAR#,#preposition_role:VARCHAR#,#check_url:VARCHAR#)
+	</insert>
+	
+		<!--   角色注册表(roleRegister)修改记录    -->
+	<update id="updateRoleRegister"  parameterClass="roleRegister">
+		update role_register 
+		<dynamic  prepend="set">
+				<isNotEmpty prepend=","  property="role_id"> role_id=#role_id# </isNotEmpty>
+				<isNotEmpty prepend=","  property="site_id"> site_id=#site_id# </isNotEmpty>
+				<isNotEmpty prepend=","  property="role_name"> role_name=#role_name# </isNotEmpty>
+				<isNotEmpty prepend=","  property="role_description"> role_description=#role_description# </isNotEmpty>
+				<isNotEmpty prepend=","  property="ischeck"> ischeck=#ischeck# </isNotEmpty>
+				<isNotEmpty prepend=","  property="preposition_role"> preposition_role=#preposition_role# </isNotEmpty>
+				<isNotEmpty prepend=","  property="check_url"> check_url=#check_url# </isNotEmpty>
+		</dynamic>
+		where role_register_id=#role_register_id#
+	</update>
+	
+	<select id="getOrganid" parameterClass="java.lang.String" resultClass="java.lang.String">
+		select organ_id from orgcom where organ_code=#value#
+	</select>
+	
+	<select id="getMemberOrgCount" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+		select count(mem_id) from orgcom_member where mem_id=#mem_id# and organ_id=#organ_id#
+	</select>
+	
+	<select id="getMemberRoleListBy1" parameterClass="java.util.Map" resultClass="roleRegister">
+		SELECT * FROM 
+		(
+			SELECT A.*, ROWNUM RN 
+			FROM (
+		select b.* from user_role a,role_register b 
+		where a.mem_id=#userRole.mem_id# and b.role_register_id=a.role_register_id 
+		<isNotEmpty prepend="order by " property="_sortname">
+			$_sortname$ $_sortorder$
+		</isNotEmpty>
+		) A 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#
+	</select>
+	
+	<select id="getMemberRoleListCountBy1" parameterClass="userRole" resultClass="java.lang.Integer">
+		select count(a.mem_id) from user_role a 
+		where a.mem_id=#mem_id# 
+	</select>
+	
+	<select id="getRoleListBy1" parameterClass="java.util.Map" resultClass="roleRegister">
+		SELECT * FROM 
+		(
+			SELECT A.*, ROWNUM RN 
+			FROM (
+		select d.* from orgcom_role c,role_register d 
+		 where  c.organ_type_id in 
+		 (select b.organ_type_id from  orgcomtype_orgcom b where b.organ_id=#organ_id#  and b.organ_type_state='1') 
+		 and d.role_register_id=c.role_register_id
+		 <isNotEmpty prepend="order by " property="_sortname">
+			$_sortname$ $_sortorder$
+		</isNotEmpty>
+		) A 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#
+	</select>
+	
+	<select id="getRoleListCountBy1" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(c.roleid) from orgcom_role c
+		 where  c.organ_type_id in 
+		 (select b.organ_type_id from  orgcomtype_orgcom b where b.organ_id=#organ_id#  and b.organ_type_state='1') 
+	</select>
+	
+	<!--   角色注册表(roleRegister)根据主键返回单条记录    -->
+	<select id="getRoleRegister" parameterClass="java.lang.String"  resultClass="roleRegister">
+		select  role_register_id,role_id,site_id,role_name,role_description,ischeck,
+		preposition_role,check_url  from role_register where role_register_id=#value#
+	</select>
+	
+	<select id="getOrgcomTypeList" resultClass="orgcomType">
+		select  organ_type_id,organ_type_name,site_id,organ_type_cname   from orgcom_type
+	</select>
+	<select id="getOrgcomTypeListBySiteid" resultClass="orgcomType" parameterClass="java.lang.String">
+		select  organ_type_id,organ_type_name,site_id,organ_type_cname
+		   from orgcom_type where site_id=#value#
+	</select>
+	<!--   企业类型表(orgcomType)根据主键返回单条记录    -->
+	<select id="getOrgcomType" parameterClass="java.lang.String"  resultClass="orgcomType">
+		select  organ_type_id,organ_type_name,site_id,organ_type_cname  
+		from orgcom_type where organ_type_id=#value#
+	</select>
+	
+	<select id="getRoleBy2" resultClass="roleRegister" parameterClass="roleRegister">
+		select  role_register_id,role_id,site_id,role_name,role_description,ischeck,
+		preposition_role,check_url  from role_register where role_id=#role_id# and site_id=#site_id#
+	</select>
+	
+	<select id="getOrgcomRole2" parameterClass="orgcomRole"  resultClass="orgcomRole">
+		select  roleid,site_id,organ_type_id,role_register_id,role_organ_type_state 
+		 from orgcom_role where organ_type_id=#organ_type_id# and role_register_id=#role_register_id#
+	</select>
+	<!--   用户注册表(userInfo)查询总记录数    -->
+	<select id="getUserInfoCount1" parameterClass="userInfo" resultClass="int">
+	select count(mem_id) from user_info
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="mem_id">
+				mem_id=#mem_id#
+			</isNotEmpty>
+					<isNotEmpty prepend="AND"  property="family_name"> concat(family_name,first_name) like '%$family_name$%' </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="mem_sex"> mem_sex=#mem_sex# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="mem_born"> mem_born=#mem_born# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="mem_mail"> mem_mail=#mem_mail# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="register_time"> register_time=#register_time# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="last_time"> last_time=#last_time# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="mem_state"> mem_state=#mem_state# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="mem_name"> mem_name=#mem_name# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="mem_integrality"> mem_integrality=#mem_integrality# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="mem_mphone"> mem_mphone=#mem_mphone# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="mem_region"> mem_region=#mem_region# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="mem_addr"> mem_addr=#mem_addr# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="secure_image"> secure_image=#secure_image# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="reg_source"> reg_source=#reg_source# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="mem_image"> mem_image=#mem_image# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="note_info"> note_info=#note_info# </isNotEmpty>
+		</dynamic>
+	</select>
+	<!--   用户注册表(userInfo)分页查询返回列表     -->
+	<select id="getUserInfoList1" parameterClass="map" resultClass="userInfo">
+		SELECT * FROM 
+		(
+			SELECT A.*, ROWNUM RN 
+			FROM (
+		select   mem_id,family_name,first_name,mem_sex,mem_born,mem_mail,register_time,last_time,mem_state,mem_name,mem_integrality,mem_mphone,mem_region,mem_addr,secure_image,reg_source,mem_image,note_info   from user_info
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="userInfo.mem_id">
+				userInfo.mem_id=#userInfo.mem_id#
+			</isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userInfo.family_name"> 
+					  concat(user_info.family_name,user_info.first_name) like '%$userInfo.family_name$%' 
+					</isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userInfo.first_name"> user_info.first_name=#userInfo.first_name# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userInfo.mem_sex"> user_info.mem_sex=#userInfo.mem_sex# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userInfo.mem_born"> user_info.mem_born=#userInfo.mem_born# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userInfo.mem_mail"> user_info.mem_mail=#userInfo.mem_mail# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userInfo.register_time"> user_info.register_time=#userInfo.register_time# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userInfo.last_time"> user_info.last_time=#userInfo.last_time# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userInfo.mem_state"> user_info.mem_state=#userInfo.mem_state# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userInfo.mem_name"> user_info.mem_name=#userInfo.mem_name# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userInfo.mem_integrality"> user_info.mem_integrality=#userInfo.mem_integrality# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userInfo.mem_mphone"> user_info.mem_mphone=#userInfo.mem_mphone# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userInfo.mem_region"> user_info.mem_region=#userInfo.mem_region# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userInfo.mem_addr"> user_info.mem_addr=#userInfo.mem_addr# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userInfo.secure_image"> user_info.secure_image=#userInfo.secure_image# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userInfo.reg_source"> user_info.reg_source=#userInfo.reg_source# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userInfo.mem_image"> user_info.mem_image=#userInfo.mem_image# </isNotEmpty>
+					<isNotEmpty prepend="AND"  property="userInfo.note_info"> user_info.note_info=#userInfo.note_info# </isNotEmpty>
+		</dynamic>
+		order by register_time desc 
+		) A 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#
+	</select>
+	
+	<select id="getRoleRegBy2" parameterClass="roleRegister" resultClass="roleRegister">
+		select * from role_register where role_id=#role_id# and site_id=#site_id#
+	</select>
+	
+	<select id="getUserInfoByList" parameterClass="java.util.Map" resultClass="userInfo">
+		SELECT * FROM 
+		(
+			SELECT A.*, ROWNUM RN 
+			FROM (
+		select * from user_info
+		<dynamic prepend="WHERE">
+		 <isNotEmpty prepend="AND" property="username"> 
+		  concat(family_name,first_name) like '%$username$%'
+		 </isNotEmpty>	
+		 <isNotEmpty prepend="AND" property="memidlist">
+		  (<iterate property="memidlist" open="" close="" conjunction="or">
+			mem_id = #memidlist[]# 
+		  </iterate>)
+		  </isNotEmpty>
+		 </dynamic>
+		 ) A 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#
+	</select>
+	<select id="getUserInfoCountByList" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+		select count(*) from user_info
+		<dynamic prepend="WHERE">
+		 <isNotEmpty prepend="AND" property="username"> 
+		  concat(family_name,first_name) like '%$username$%'
+		 </isNotEmpty>
+		 <isNotEmpty prepend="AND" property="memidlist">
+		  (<iterate property="memidlist" open="" close="" conjunction="or">
+			mem_id = #memidlist[]# 
+		  </iterate>)
+		  </isNotEmpty>
+		</dynamic> 
+	</select>
+	<select id="getOrgcomBycode" parameterClass="java.lang.String" resultClass="orgcom">
+		select * from orgcom where organ_code=#value#
+	</select>
+	<!--   企业－用户对应(orgcomMember)按主键删除记录    -->
+	<delete id="deleteOrgcomMember" parameterClass="orgcomMember">
+		delete from orgcom_member where mem_id=#mem_id# and organ_id=#organ_id#
+	</delete>
+	
+	<select id="selectMemNameCount" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(mem_name) from user_register where mem_name=#value#
+	</select>
+	<select id="selectMemPhoneCount" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(mem_name) from user_info where mem_mphone=#value#
+	</select>
+	<select id="selectMemMailCount" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(mem_name) from user_info where mem_mail=#value#
+	</select>
+	<select id="selectID_numCount" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(mem_name) from user_info where ID_num=#value#
+	</select>
+	<select id="selectOrganid_numCount" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(organ_id) from orgcom where organ_id=#value#
+	</select>
+	<select id="selectOrganCode_numCount1" parameterClass="orgcom" resultClass="java.lang.Integer">
+		select count(organ_id) from orgcom where organ_code=#organ_code# and organ_id!=#organ_id#
+	</select>
+	<select id="selectOrganCode_numCount" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(organ_id) from orgcom where organ_code=#organ_code#
+	</select>
+	
+	<update id="orgcomcheck" parameterClass="orgCom">
+		update orgcom set authentication_state=#authentication_state# where organ_id=#organ_id#
+	</update>
+	
+	<delete id="deleteOrgcomMemberByMemid" parameterClass="java.lang.String">
+		delete from orgcom_member where mem_id=#value#
+	</delete>
+	
+	<delete id="deleteUserRoleByMemid" parameterClass="java.lang.String">
+		delete from user_role where mem_id=#value#
+	</delete>
+	
+	<delete id="deleteUserByMemid" parameterClass="java.lang.String">
+		delete from user_info where mem_id=#value#
+	</delete>
+	
+	<delete id="deleteUserRegByMemid" parameterClass="java.lang.String">
+		delete from user_register where mem_id=#value#
+	</delete>
+	
+	<delete id="deleteOrgcomtypeOrgcom" parameterClass="java.lang.String">
+		delete from orgcomtype_orgcom where organ_id=#value#
+	</delete>
+	
+	<select id="getPassByMemid" parameterClass="java.lang.String" resultClass="java.lang.String">
+		select mem_pass from user_register where mem_id=#value#
+	</select>
+	
+	<update id="updatePass"  parameterClass="userRegister" >
+		update user_register set mem_pass=#mem_pass#  where mem_id=#mem_id#
+	</update>
+	
+	<update id="updatePass2"  parameterClass="userInfo" >
+		update user_info set secret=#secret#  where mem_id=#mem_id#
+	</update>
+	
+	<select id="selectUserReg" parameterClass="userRegister" resultClass="userRegister">
+		select * from user_register where mem_name=#mem_name# and mem_question=#mem_question# and mem_answer=#mem_answer#
+	</select>
+	
+	<update id="qycheckuser" parameterClass="orgcomMember">
+		update orgcom_member set state=#state# where mem_id=#mem_id# and organ_id=#organ_id#
+	</update>
+	
+	<update id="updatePassAnswer" parameterClass="userRegister">
+		update user_register set mem_question=#mem_question#,mem_answer=#mem_answer#  where mem_id=#mem_id#
+	</update>
+	
+	<select id="getOTPTokenById" resultClass="otptoken" parameterClass="java.lang.String">
+		select * from otptoken where token_id=#value#
+	</select>
+	
+	<update id="updateToken" parameterClass="otptoken">
+		update otptoken set currsucc=#currsucc#,currdft=#currdft# where token_id=#token_id#
+	</update>
+	
+	<insert id="insertToken" parameterClass="otptoken">
+		insert into otptoken (token_id,authkey,currsucc,currdft) values (#token_id#,#authkey#,#currsucc#,#currdft#)
+	</insert>
+	
+	<select id="getOrgTypeListByOrgID" parameterClass="java.lang.String" resultClass="orgcomtypeOrgcom">
+		select * from orgcomtype_orgcom where organ_id=#value#
+	</select>
+	
+	<select id="getOrgTypeListByOrgID1" parameterClass="java.lang.String" resultClass="orgcomType">
+		select a.organ_type_id,a.organ_type_name,a.organ_type_cname,b.organ_type_state
+		 from orgcom_type a,orgcomtype_orgcom b where b.organ_id=#value#  and b.organ_type_id=a.organ_type_id
+	</select>
+	
+	<update id="orgcomtypecheck" parameterClass="orgcomtypeOrgcom">
+		update orgcomtype_orgcom set organ_type_state=#organ_type_state# 
+		where organ_type_id =#organ_type_id# and organ_id=#organ_id#  
+	</update>
+	
+	<delete id="deleteOrgTypeByOrgId"  parameterClass="java.lang.String">
+		delete from orgcomtype_orgcom where organ_id=#value#
+	</delete>
+	
+	<delete id="deleteUserRole" parameterClass="userRole">
+		delete from user_role where roleid=#roleid# and mem_id=#mem_id#
+	</delete>
+	
+	<update id="updateOrganPass" parameterClass="orgcom">
+		update orgcom set organ_pass=#organ_pass# where organ_id=#organ_id#
+	</update>
+	
+	<select id="getOrgcomduiType" parameterClass="orgcomtypeOrgcom" resultClass="java.lang.Integer">
+		select count(*) from orgcomtype_orgcom where organ_type_id=#organ_type_id# and organ_id=#organ_id#
+	</select>
+	
+	<delete id="deleteOrgTypeBy2"  parameterClass="orgcomtypeOrgcom">
+		delete from orgcomtype_orgcom where organ_id=#organ_id# and organ_type_id=#organ_type_id#
+	</delete>
+		
+	<select id="getWorkerNum" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+		select count(b.mem_id) from user_info b,user_role c 
+		where c.com_id=#organ_id# and c.mem_id=b.mem_id and c.roleid=#role_id#
+	</select>
+	
+	<select id="getWorkerList"  parameterClass="java.util.Map" resultClass="userInfo">
+		select b.* from user_info b,user_role c where c.com_id=#organ_id#
+		and c.mem_id=b.mem_id and c.roleid=#role_id#
+	</select>
+	
+	<select id="getWorkerMemids" parameterClass="java.util.Map" resultClass="java.lang.String">
+		select mem_id from user_role where roleid=#role_id# and com_id=#organ_id#
+	</select>
+	
+	<update id="resetExpertPass1" parameterClass="java.util.Map">
+		update user_register set mem_pass=#mem_pass# where mem_id=#mem_id#
+	</update>
+	
+	<update id="resetExpertPass2" parameterClass="java.util.Map">
+		update user_info set secret=#secret# where mem_id=#mem_id#
+	</update>
+	
+	<select id="workerExport" parameterClass="java.util.Map" resultClass="java.util.HashMap">		
+		select concat(family_name,first_name) as work_name,mem_name,secret from user_role a,user_info b  where roleid=#role_id# and com_id=#organ_id# and b.mem_id=a.mem_id
+	</select>
+	
+	<select id="findMemName" parameterClass="java.lang.String" resultClass="java.lang.String">
+		select mem_name from user_info where ID_num=#value#
+	</select>
+	
+	<select id="selectOrgcomMemberCount" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+		select count(*) from orgcom_member where mem_id=#mem_id# and organ_id=#organ_id#   
+	</select>
+	
+	<delete id="deleteOrgcomRole" parameterClass="java.lang.String">
+		delete from orgcom_role where role_register_id=#value#
+	</delete>
+	
+	<delete id="deleteUserRoleByRoleid" parameterClass="userRole">
+		delete from user_role where roleid=#roleid# and site_id=#site_id#
+	</delete>
+	
+	<delete id="deleteOrgcomRoleByRoleid" parameterClass="userRole">
+		delete from orgcom_role where roleid=#roleid# and site_id=#site_id#
+	</delete>
+	<delete id="deleteRoleRegByRoleid" parameterClass="userRole">
+		delete from role_register where role_id=#roleid# and site_id=#site_id#
+	</delete>
+	
+	<select id="getEadminOrgans" parameterClass="java.lang.String" resultClass="java.util.HashMap">
+		 select organ_id as ORGAN_ID,organ_name as ORGAN_NAME from orgcom where organ_id in ($value$)
+	</select>
+	
+	<select id="getQuoteRoleCount" parameterClass="role" resultClass="java.lang.Integer">
+		select count(role_id) from yc_role
+		 where role_id not in ('nologin','register') 
+		<isNotEmpty prepend="AND"  property="role_name"> role_name like '%$role_name$%' </isNotEmpty>
+	</select>
+	
+	<select id="getQuoteRoleList" parameterClass="java.util.Map" resultClass="role">
+		SELECT * FROM 
+		(
+			SELECT A.*, ROWNUM RN 
+			FROM (
+		select role_id,role_name,role_description from yc_role
+		 where role_id not in ('nologin','register') 
+		<isNotEmpty prepend="AND"  property="role.role_name"> role_name like '%$role.role_name$%' </isNotEmpty>
+		) A 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#
+	</select>
+	
+	<insert id="initEadmin" parameterClass="eadmin">
+		insert into yc_eadmin_property (mem_id,organ_id,current_organ)
+		 values (#mem_id#,#organ_id:VARCHAR#,#current_organ:VARCHAR#)
+	</insert>
+	
+	<update id="updateEadmin" parameterClass="eadmin">
+		update yc_eadmin_property set organ_id=#organ_id# 
+		<isNotNull prepend=","  property="current_organ"> current_organ=#current_organ# </isNotNull>
+		where mem_id=#mem_id#
+	</update>
+	
+	<delete id="deleteEadmin" parameterClass="java.lang.String">
+		delete from yc_eadmin_property where mem_id=#value#
+	</delete>
+	
+	<select id="getEadminCount" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(*) from yc_eadmin_property where mem_id=#value#
+	</select>
+	
+	<select id="getEadminDetail" parameterClass="java.lang.String" resultClass="eadmin"> 
+		select * from yc_eadmin_property where mem_id=#value#
+	</select>
+	
+	<select id="getCurrentEadmin" parameterClass="java.lang.String" resultClass="java.lang.String">
+		select current_organ from yc_eadmin_property where mem_id=#value#
+	</select>
+	
+	<select id="getEadminListCount" parameterClass="userInfo" resultClass="java.lang.Integer">
+		select count(a.mem_id) from user_info a,yc_eadmin_property b where a.mem_id=b.mem_id 
+		<isNotEmpty prepend="AND" property="mem_id">
+				a.mem_id=#mem_id#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND"  property="family_name"> concat(a.family_name,a.first_name) like '%$family_name$%' </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="mem_sex"> a.mem_sex=#mem_sex# </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="mem_state"> a.mem_state=#mem_state# </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="mem_name"> a.mem_name=#mem_name# </isNotEmpty>
+	</select>
+	
+	<select id="getEadminList" parameterClass="java.util.Map" resultClass="userInfo">
+		SELECT * FROM 
+		(
+			SELECT A.*, ROWNUM RN 
+			FROM (
+		select a.* from user_info a,yc_eadmin_property b where a.mem_id=b.mem_id 
+		<isNotEmpty prepend="AND" property="userInfo.mem_id">
+			a.mem_id=#userInfo.mem_id#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND"  property="userInfo.family_name"> 
+			concat(a.family_name,a.first_name) like '%$userInfo.family_name$%' 
+		</isNotEmpty>
+		<isNotEmpty prepend="AND"  property="userInfo.mem_sex"> a.mem_sex=#userInfo.mem_sex# </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="userInfo.mem_state"> a.mem_state=#userInfo.mem_state# </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="userInfo.mem_name"> a.mem_name=#userInfo.mem_name# </isNotEmpty>
+		order by register_time desc
+		) A 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#
+	</select>
+	
+	<select id="getOrganTypeID" parameterClass="java.util.Map" resultClass="java.lang.String">
+		select a.organ_type_id from orgcom_type a, orgcomtype_orgcom b 
+		where a.site_id=#site_id# and b.organ_id=#organ_id# and a.organ_type_id=b.organ_type_id
+	</select>
+	
+	<!-- 返回企业管理员当前管理企业的对应角色，根据对应企业类型在本站点下的相关角色列表  -->
+	<select id="getAllQyRoleList" parameterClass="java.util.Map" resultClass="roleRegister">
+		select *  from role_register a,orgcom_role b 
+		where b.organ_type_id in 
+		(
+		select a.organ_type_id from orgcom_type a, orgcomtype_orgcom b 
+		where a.site_id=#site_id# and b.organ_id=#organ_id# and a.organ_type_id=b.organ_type_id and b.organ_type_state='1' 
+		) 
+		and b.site_id=#site_id# and a.role_register_id=b.role_register_id
+	</select>
+	
+	<!-- 返回指定用户在企业管理员当前管理企业和本站点下的角色列表  -->
+	<select id="getQyRoleListByMemid" parameterClass="java.util.Map" resultClass="roleRegister">
+		select *  from role_register a,orgcom_role b ,user_role c 
+		where b.organ_type_id in 
+		(
+		select a.organ_type_id from orgcom_type a, orgcomtype_orgcom b 
+		where a.site_id=#site_id# and b.organ_id=#organ_id# and a.organ_type_id=b.organ_type_id and b.organ_type_state='1'
+		) 
+		and b.site_id=#site_id# and c.mem_id=#mem_id# 
+		and a.role_register_id=b.role_register_id  and b.role_register_id=c.role_register_id
+	</select>
+	
+	<delete id="deleteQyOrgcomMemberByMemid" parameterClass="java.util.Map">
+		delete from orgcom_member where mem_id=#mem_id# and organ_id=#organ_id#
+	</delete>
+	<delete id="deleteQyUserRole" parameterClass="java.util.Map">
+		select * from user_role where mem_id=#mem_id# 
+		and roleid in (select roleid from orgcom_role where organ_type_id in 
+		(select organ_type_id from orgcomtype_orgcom where organ_id=#organ_id# ))
+	</delete>
+	<delete id="deleteQyOrgcomMemberByOrganid" parameterClass="java.lang.String">
+		delete from orgcom_member where  organ_id=#value#
+	</delete>
+	
+	<select id="getUserRoleCount1" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+		select count(*) from user_role a,user_info b  where a.mem_id=b.mem_id 
+		<isNotEmpty prepend="AND" property="role_id"> a.roleid=#role_id# </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="site_id"> a.site_id=#site_id# </isNotEmpty>
+		<isNotEmpty prepend="AND"  property="username"> concat(b.family_name,b.first_name) like '%$username$%' </isNotEmpty>
+	</select>
+	
+	<select id="getUserInfoList4" parameterClass="java.util.Map" resultClass="userInfo">
+		SELECT * FROM 
+		(
+			SELECT A.*, ROWNUM RN 
+			FROM (
+		select a.mem_id,a.family_name,a.first_name,a.mem_sex,a.mem_born,a.mem_mail,
+		a.register_time,a.last_time,a.mem_state,a.mem_name,a.mem_integrality,
+		a.mem_mphone,a.mem_region,a.mem_addr,a.reg_source,a.ID_num,user_role.mem_state as note_info 
+		from user_info a,user_role where a.mem_id=user_role.mem_id 
+			<isNotEmpty prepend="AND" property="role_id">
+				user_role.roleid=#role_id#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND"  property="site_id"> user_role.site_id=#site_id# </isNotEmpty>
+			<isNotEmpty prepend="AND"  property="username"> concat(a.family_name,a.first_name) like '%$username$%' </isNotEmpty>
+		<isNotEmpty prepend="order by " property="_sortname">
+			$_sortname$ $_sortorder$
+		</isNotEmpty>
+		) A 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#
+	</select>
+	
+	<select id="getMyRoleList" parameterClass="java.lang.String" resultClass="roleRegister">
+		select a.role_id,a.role_name,a.role_description from role_register a,user_role b
+		 where a.role_register_id = b.role_register_id and b.mem_id=#value# 
+		union 
+		select a.role_id,a.role_name,a.role_description from yc_role a,yc_member_role b 
+		 where a.role_id=b.role_id and b.mem_id=#value#
+	</select>
+	
+	<insert id="addAToken" parameterClass="accesstoken">
+		insert into accesstoken 
+		(id, access_token, token_type, expires, refresh_token, username, 
+		client_id, createdtime, modifiedtime) 
+		values(#id#,#access_token#,#token_type#,#expires#,#refresh_token#,
+		#username#,#client_id#,#createdtime#,#modifiedtime#)
+	</insert>
+	
+	<update id="updateAToken" parameterClass="accesstoken">
+		update accesstoken set access_token=#access_token#,
+		 refresh_token=#refresh_token#,  modifiedtime=#modifiedtime# where id=#id#
+	</update>
+	
+	<select id="getATokenByRefreshToken" parameterClass="java.lang.String" resultClass="accesstoken">
+		select * from accesstoken where refresh_token=#value#
+	</select>
+	
+	<select id="getATokenByAccessToken" parameterClass="java.lang.String" resultClass="accesstoken">
+		select * from accesstoken where access_token=#value#
+	</select>
+	
+	<select id="getATokenBy" parameterClass="accesstoken" resultClass="accesstoken">
+		select * from accesstoken where client_id=#client_id# and username=#username#
+	</select>
+	
+	<select id="getMemidByToken" parameterClass="java.lang.String" resultClass="java.lang.String">
+		select username from accesstoken where access_token=#value#
+	</select>
+	
+	<select id="getAccessAppByCID" parameterClass="java.lang.String" resultClass="accessapp">
+		select * from accessapp where client_id=#value#
+	</select>
+	
+	<insert id="addApp" parameterClass="accessapp">
+		insert into accessapp 
+		(client_id, client_secret, redirect_uri, app_url, app_name, app_icon,
+		 app_desc,app_state,reg_date,mem_id) 
+		values(#client_id#,#client_secret#,#redirect_uri#,#app_url#,#app_name#,#app_icon#,
+		#app_desc#,#app_state#,#reg_date#,#mem_id#)
+	</insert>
+	
+	<update id="checkApp" parameterClass="accessapp">
+		update accessapp set app_state=#app_state# where client_id=#client_id#
+	</update>
+	
+	<update id="resetAppSecret" parameterClass="accessapp">
+		update accessapp set client_secret=#client_secret# where client_id=#client_id#
+	</update>
+	
+	<delete id="deleteApp" parameterClass="java.lang.String">
+		delete from accessapp where client_id=#client_id#
+	</delete>
+	
+	<select id="getAppList" parameterClass="java.util.Map" resultClass="accessapp">
+		<isNotEmpty prepend=" " property="_page_end">
+		SELECT * FROM 
+		(
+			SELECT A.*, ROWNUM RN 
+			FROM (
+		</isNotEmpty>
+		select * from accessapp 
+		<dynamic prepend="WHERE">
+		 <isNotEmpty prepend="AND" property="app.app_name"> app_name like '%$app.app_name$%' </isNotEmpty>
+		 <isNotEmpty prepend="AND" property="app.app_state"> app_state=#app.app_state# </isNotEmpty>
+		 </dynamic>
+		<isNotEmpty prepend="order by " property="_sortname">
+			$_sortname$ $_sortorder$
+		</isNotEmpty>
+		<isNotEmpty prepend=" " property="_page_end">
+			) A 
+			WHERE ROWNUM <![CDATA[<=]]> #_page_end#
+		)
+		WHERE RN <![CDATA[>]]> #_page_start#
+		</isNotEmpty>
+	</select>
+	
+	<select id="getAppListCount" parameterClass="accessapp" resultClass="java.lang.Integer">
+		select count(*) from accessapp  
+		<dynamic prepend="WHERE">
+		 <isNotEmpty prepend="AND" property="app_name"> app_name like '%$app_name$%' </isNotEmpty>
+		 <isNotEmpty prepend="AND" property="app_state"> app_state=#app_state# </isNotEmpty>
+		 </dynamic>
+	</select>
+	
+	<select id="getMyAppList" parameterClass="java.lang.String" resultClass="accessapp">
+		select * from accessapp where mem_id=#value#
+	</select>
+	
+	<select id="getAppNameCount" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(*) from accessapp where app_name=#value#
+	</select>
+	<select id="getMemberRole" parameterClass="java.lang.String" resultClass="memberRole">
+	    select t1.* from yc_member_role t1,orgcom_member t2 where t1.mem_id=t2.mem_id and t2.organ_id=#value# and t1.role_id='qyadmin'
+	</select>	
+</sqlMap>

@@ -1,0 +1,4 @@
+hbase_url=http://172.22.14.36:8088/
+map_url=http://localhost:8080/
+scene_url=http://localhost:8000/
+auth_server_url=http://localhost:8080/

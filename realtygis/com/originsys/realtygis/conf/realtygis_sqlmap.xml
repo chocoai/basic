@@ -1,0 +1,1456 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!--   模块：房产GIS工程   -->
+<sqlMap namespace="Realtygis">
+<typeAlias alias="househeightrange" type="com.originsys.realtygis.domain.HouseHeightRange"/>
+<typeAlias alias="housesurvey" type="com.originsys.realtygis.domain.House"/>
+<typeAlias alias="buildingsurvey" type="com.originsys.realtygis.domain.Building"/>
+<typeAlias alias="householdsarea" type="com.originsys.realtygis.domain.HouseHoldsArea"/>
+<resultMap id="houseResult" class="housesurvey">
+ 	    <result property="house_id" column="house_id"/>
+	    <result property="building_id" column="building_id"/>
+	    <result property="projectsddfile_id" column="projectsddfile_id"/>
+	    <result property="floor_id" column="floor_id"/>
+	    <result property="fw_address" column="fw_address"/>
+	    <result property="lay_num" column="lay_num"/>
+	    <result property="floor_start" column="floor_start"/>
+	    <result property="floor_end" column="floor_end"/>
+	    <result property="unit_number" column="unit_number"/>
+	    <result property="unit_alias" column="unit_alias"/>
+	    <result property="room_number" column="room_number"/>
+	    <result property="room_alias" column="room_alias"/>
+	    <result property="zh" column="zh"/>
+	    <result property="fw_layers" column="fw_layers"/>
+	    <result property="struct" column="struct"/>
+	    <result property="tnjz_area" column="tnjz_area"/>
+	    <result property="ft_area" column="ft_area"/>
+	    <result property="jz_area" column="jz_area"/>
+	    <result property="yt_area" column="yt_area"/>
+	    <result property="sy_area" column="sy_area"/>
+	    <result property="design_yt" column="design_yt"/>
+	    <result property="fact_yt" column="fact_yt"/>
+	    <result property="fw_cb" column="fw_cb"/>
+	    <result property="birth_date" column="birth_date"/>
+	    <result property="fw_dh" column="fw_dh"/>
+	    <result property="right_num" column="right_num"/>
+	    <result property="door_type" column="door_type"/>
+	    <result property="ys_address" column="ys_address"/>
+	    <result property="jc_doornum" column="jc_doornum"/>
+	    <result property="floor_num" column="floor_num"/>
+	    <result property="floordown_num" column="floordown_num"/>
+	    <result property="ft_coeff" column="ft_coeff"/>
+	    <result property="yc_area" column="yc_area"/>
+	    <result property="house_code" column="house_code"/>
+	    <result property="building_mapid" column="building_mapid"/>
+	    <result property="map_id" column="map_id"/>
+	    <result property="input_date" column="input_date"/>
+	    <result property="beforhand_mapping" column="beforhand_mapping"/>
+	    <result property="house_stat" column="house_stat"/>
+	    <result property="die_time" column="die_time"/>
+	    <result property="room_number_order" column="room_number_order"/>
+	    
+	
+	</resultMap>
+	<resultMap id="houseResult1" class="housesurvey">
+	<result property="lay_num" column="lay_num"/>
+	</resultMap>
+	<resultMap id="buildingResult" class="buildingsurvey">
+	    <result property="building_id" column="building_id"/>
+	    <result property="surverproject_id" column="surverproject_id"/>
+	    <result property="unit" column="unit"/>
+	    <result property="surver" column="surver"/>
+	    <result property="use_desgin" column="use_desgin"/>
+	    <result property="real_type" column="real_type"/>
+	    <result property="tn_area" column="tn_area"/>
+	    <result property="ft_area" column="ft_area"/>
+	    <result property="build_area" column="build_area"/>
+	    <result property="noft_area" column="noft_area"/>
+	    <result property="no_area" column="no_area"/>
+	    <result property="discrepant_area" column="discrepant_area"/>
+	    <result property="sruver_date" column="sruver_date"/>
+	    <result property="surver_enddate" column="surver_enddate"/>
+	    <result property="building_number" column="building_number"/>
+	    <result property="build_struct" column="build_struct"/>
+	    <result property="graphics_code" column="graphics_code"/>
+	    <result property="graphics_number" column="graphics_number"/>
+	    <result property="input_date" column="input_date"/>
+	    <result property="floorup_count" column="floorup_count"/>
+	    <result property="floordown_count" column="floordown_count"/>
+	    <result property="city_district" column="city_district"/>
+	    <result property="building_mapid" column="building_mapid"/>
+	    <result property="building_address" column="building_address"/>
+	    <result property="building_date" column="building_date"/>
+	    <result property="floor_count" column="floor_count"/>
+	    <result property="house_count" column="house_count"/>
+	   
+	</resultMap>
+<!-- 注释？ -->			
+<select id="househeight" resultClass="househeightrange">
+(select '100' as range_name,count(*) as range_value from st_ridrgn where TOTAL_AREA between 0 and 100 ) 
+union 
+(select '100-1000' as range_name,count(*) as range_value  from st_ridrgn where 1=1 <![CDATA[ and TOTAL_AREA >= 100 and TOTAL_AREA < 1000]]>) 
+union 
+(select '1000-10000' as range_name,count(*) as range_value  from st_ridrgn where 1=1 <![CDATA[ and TOTAL_AREA >= 1000 and TOTAL_AREA < 10000]]>) 
+union 
+(select '10000-100000' as range_name,count(*) as range_value  from st_ridrgn where 1=1 <![CDATA[ and TOTAL_AREA >= 10000 and TOTAL_AREA < 100000]]>) 
+union 
+(select '100000-200000' as range_name,count(*) as range_value  from st_ridrgn where 1=1 <![CDATA[ and TOTAL_AREA >= 100000 and TOTAL_AREA < 200000]]>) 
+union 
+(select '200000' as range_name,count(*) as range_value  from st_ridrgn where 1=1 <![CDATA[ and TOTAL_AREA >= 200000]]>)
+</select>
+<select id="households" parameterClass="householdsarea" resultClass="househeightrange">
+ (select '1' as range_name,count(*) as range_value from t_house where jz_area between #firstnum# and #nextnum# )  
+ union 
+ (select '2' as range_name,count(*) as range_value  from t_house where jz_area is not null) 
+ </select>
+<select id="buildinglist" parameterClass="com.originsys.realtygis.domain.Building" resultClass="com.originsys.realtygis.domain.Building" >
+    select * from T_BUILDING where building_mapid=#building_mapid# 
+  </select>
+  <select id="laylist" parameterClass="java.util.Map" resultMap="houseResult1">
+    select t_House.lay_num from t_House WHERE building_id=#building_id# GROUP BY t_House.lay_num ORDER BY t_House.lay_num DESC
+  </select>
+  <select id="houselist" parameterClass="java.util.Map" resultMap="houseResult">
+    select t_House.* from t_House WHERE building_id=#building_id# 
+    <isNotNull property="unit_number" prepend="AND"> unit_number=#unit_number# </isNotNull>
+	<isNotNull property="lay_start" prepend="AND"> lay_num <![CDATA[>=]]> #lay_start# </isNotNull>
+	<isNotNull property="lay_end" prepend="AND"> lay_num <![CDATA[<=]]> #lay_end# </isNotNull>
+    order by t_House.lay_num,t_House.unit_number,t_House.room_number asc
+  </select>
+  <!-- 查询楼幢对应的分层分户图数量 -->
+  <select id="getGeoCountByBuildingId" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+  select count(*) from st_grid_region where buildingid=#building_id#
+  </select>
+<!-- 查询楼幢分层分户图图层名称 -->
+  <select id="getLayerNameByBuildingId" parameterClass="java.util.Map" resultClass="java.lang.String">
+  select layer from fcfh_buildings where buildingid=#building_id#
+  </select>
+  <select id="buildingquelist" resultClass="com.originsys.realtygis.domain.Building" parameterClass="com.originsys.realtygis.domain.Building" >
+    select * from T_BUILDING where building_mapid in  
+  <iterate  prepend="" property="arrlist"  open="("  close=")"  conjunction="," > 
+               #arrlist[]# 
+  </iterate>
+  </select>
+  <select id="buildingarealist" resultClass="com.originsys.realtygis.domain.House" parameterClass="com.originsys.realtygis.domain.House">
+    select th.building_id,th.building_mapid,count(th.house_id) as properCount,TJ.building_date,TJ.floor_count,TJ.building_number,TJ.building_address,TJ.houseCount from
+ t_house th,t_building_houseCount_tj TJ  where th.building_id=TJ.building_id  
+  <isNotNull property="building_address" prepend="and"> building_address like '%$building_address$%' </isNotNull> 
+ <isNotEqual property="jz_areamin" prepend="and" compareValue="0.0"> th.jz_area&gt;=#jz_areamin# </isNotEqual>
+ <isNotEqual property="jz_areamax" prepend="and" compareValue="0.0"> th.jz_area&lt;=#jz_areamax# </isNotEqual>
+ <isNotEqual property="building_date_start" prepend="and" compareValue="0"> TJ.building_date&gt;=#building_date_start# </isNotEqual>
+ <isNotEqual property="building_date_end" prepend="and" compareValue="0"> TJ.building_date&lt;=#building_date_end# </isNotEqual>
+ <isNotEqual property="floor_countmin" prepend="and" compareValue="0"> TJ.floor_count&gt;=#floor_countmin# </isNotEqual>
+ <isNotEqual property="floor_countmax" prepend="and" compareValue="0"> TJ.floor_count&lt;=#floor_countmax# </isNotEqual>
+ group by th.building_id,th.building_mapid,TJ.building_number,TJ.building_date,TJ.floor_count,TJ.building_address,TJ.houseCount order by properCount desc
+     
+  </select>
+  
+  <select id="housearealist" resultClass="com.originsys.realtygis.domain.House" parameterClass="com.originsys.realtygis.domain.House">
+    select * from t_house th  where th.building_id = #building_id# 
+     <isNotEqual property="jz_areamin" prepend="and" compareValue="0.0"> th.jz_area &gt;= #jz_areamin# </isNotEqual>
+     <isNotEqual property="jz_areamax" prepend="and" compareValue="0.0"> th.jz_area &lt;= #jz_areamax# </isNotEqual>
+  </select>
+  <select id="selectBuildingCount" parameterClass="housesurvey" resultClass="java.lang.Integer">
+	select count(*) from(select th.building_id from
+ t_house th,t_building_houseCount_tj TJ  where th.building_id=TJ.building_id
+  <isNotNull property="building_address" prepend="and"> building_address like '%$building_address$%' </isNotNull> 
+ <isNotEqual property="jz_areamin" prepend="and" compareValue="0"> th.jz_area &gt;= #jz_areamin# </isNotEqual>
+ <isNotEqual property="jz_areamax" prepend="and" compareValue="0"> th.jz_area &lt;= #jz_areamax# </isNotEqual>
+ <isNotEqual property="building_date_start" prepend="and" compareValue="0"> TJ.building_date&gt;=#building_date_start# </isNotEqual>
+ <isNotEqual property="building_date_end" prepend="and" compareValue="0"> TJ.building_date&lt;=#building_date_end# </isNotEqual>
+ <isNotEqual property="floor_countmin" prepend="and" compareValue="0"> TJ.floor_count&gt;=#floor_countmin# </isNotEqual>
+ <isNotEqual property="floor_countmax" prepend="and" compareValue="0"> TJ.floor_count&lt;=#floor_countmax# </isNotEqual>
+ group by th.building_id)T
+	</select>
+	<select id="houseareagrid" resultClass="com.originsys.realtygis.domain.House" parameterClass="com.originsys.realtygis.domain.House">
+	 select * from t_house th  where th.building_id = #building_id#
+	 <isNotNull property="fw_address" prepend="and"> fw_address like '%$fw_address$%' </isNotNull>  
+     <isNotEqual property="jz_areamin" prepend="and" compareValue="0.0"> th.jz_area &gt;= #jz_areamin# </isNotEqual>
+     <isNotEqual property="jz_areamax" prepend="and" compareValue="0.0"> th.jz_area &lt;= #jz_areamax# </isNotEqual>
+	</select>
+	<select id="selectHouseCount" resultClass="java.lang.Integer" parameterClass="com.originsys.realtygis.domain.House">
+	select count(*) from t_house th  where th.building_id = #building_id#
+	 <isNotNull property="fw_address" prepend="and"> fw_address like '%$fw_address$%' </isNotNull>  
+     <isNotEqual property="jz_areamin" prepend="and" compareValue="0.0"> th.jz_area &gt;= #jz_areamin# </isNotEqual>
+     <isNotEqual property="jz_areamax" prepend="and" compareValue="0.0"> th.jz_area &lt;= #jz_areamax# </isNotEqual>
+	</select>
+
+	<!-- 地图服务列表加分页排序  2014年3月28日 start  -->
+	<select id="mapversiongrid" resultClass="com.originsys.realtygis.domain.MapVersion" parameterClass="java.util.Map">
+	 	select * from(select a.*, rownum as rnum from (
+            select * from t_mapversion 
+            <isNotEmpty prepend="order by " property="_sortname">
+				$_sortname$ $_sortorder$
+			</isNotEmpty>
+			) a where rownum &lt;= #_page_end# )where rnum &gt; #_page_start# 
+	</select>
+	
+	<!-- 地图服务列表加分页排序  end  -->
+	
+	
+	<select id="selectVersionCount" resultClass="java.lang.Integer" parameterClass="com.originsys.realtygis.domain.MapVersion">
+	  select count(*) from t_mapversion 
+	</select>
+	<delete id="deleteMapVersion" parameterClass="java.lang.Long">
+  		delete from t_mapversion where version_number=#value#
+  </delete>
+  
+  <update id="updatemapversion" parameterClass="com.originsys.realtygis.domain.MapVersion">
+  		update t_mapversion set version_name=#version_name#,auditor=#auditor#,publisher=#publisher#, 
+  		status=#status#, default_map=#default_map#, message=#message# where version_number=#version_number#
+  </update>
+  <update id="updatedefaultmap" parameterClass="com.originsys.realtygis.domain.MapVersion">
+        update t_mapversion set default_map=1000 
+  </update>
+  <select id="mapversionselect" resultClass="com.originsys.realtygis.domain.MapVersion" >
+  	select * from t_mapversion where version_number=#version_number#
+  </select>
+  <insert id="insertMapVersion" parameterClass="com.originsys.realtygis.domain.MapVersion">
+  	insert into t_mapversion (version_number,version_name,auditor,publisher,status,message,default_map) 
+  	values (#version_number#,#version_name#,#auditor#,#publisher#,#status#,#message#,#default_map#)
+  </insert>
+  <select id="selectIdCount" resultClass="java.lang.Integer" parameterClass="com.originsys.realtygis.domain.MapVersion">
+   select count(*) from t_mapversion  tm where tm.version_number=#version_number#
+  </select>
+  	<select id="buildingdatacount" resultClass="househeightrange">
+	(select '1949' as range_name,count(*) as range_value from st_ridrgn where to_number(to_char(builddate,'yyyy')) between 0 and 1949 ) 
+     union 
+    (select '1949-1989' as range_name,count(*) as range_value  from st_ridrgn where to_number(to_char(builddate,'yyyy')) between 1949 and 1989) 
+     union 
+    (select '1989-2009' as range_name,count(*) as range_value  from st_ridrgn where to_number(to_char(builddate,'yyyy')) between 1980 and 2009) 
+	 union
+	(select '2009' as range_name,count(*) as range_value  from st_ridrgn where to_number(to_char(builddate,'yyyy')) >2009)
+	</select>
+	<select id="buildingtypecount" resultClass="househeightrange">
+	(select '1' as range_name,count(*) as range_value from T_BUILDING where FLOORUP_COUNT=1 ) 
+     union 
+    (select '2' as range_name,count(*) as range_value  from T_BUILDING where FLOORUP_COUNT between 2 and 7) 
+     union 
+    (select '3' as range_name,count(*) as range_value  from T_BUILDING where FLOORUP_COUNT between 7 and 12) 
+	 union
+	(select '4' as range_name,count(*) as range_value  from T_BUILDING where FLOORUP_COUNT >12)
+	</select>
+	<select id="buildingstructurecount" resultClass="househeightrange">
+	(select '0' as range_name,count(*) as range_value from st_ridrgn  where BUILDING_STRUCT =#steel# ) 
+     union 
+    (select '1' as range_name,count(*) as range_value  from st_ridrgn where BUILDING_STRUCT =#mixedsteel# ) 
+     union 
+    (select '2' as range_name,count(*) as range_value  from st_ridrgn where BUILDING_STRUCT =#steelconcrete# ) 
+	 union
+	(select '3' as range_name,count(*) as range_value  from st_ridrgn where BUILDING_STRUCT =#mixed# )
+	union
+	(select '4' as range_name,count(*) as range_value  from st_ridrgn where BUILDING_STRUCT =#brickwood# )
+	union
+	(select '5' as range_name,count(*) as range_value  from st_ridrgn where BUILDING_STRUCT =#brick#  )
+	union
+	(select '6' as range_name,count(*) as range_value  from st_ridrgn where BUILDING_STRUCT =#other#)
+	</select>
+	<select id="buildingnaturecount" resultClass="househeightrange">
+	(select '0' as range_name,count(*) as range_value from T_BUILDING where REAL_TYPE=9500 ) 
+     union 
+    (select '1' as range_name,count(*) as range_value  from T_BUILDING where REAL_TYPE=8200) 
+     union 
+    (select '2' as range_name,count(*) as range_value  from T_BUILDING where REAL_TYPE=8100) 
+	 union
+	(select '3' as range_name,count(*) as range_value  from T_BUILDING where REAL_TYPE=8014)
+	 union
+	(select '4' as range_name,count(*) as range_value  from T_BUILDING where REAL_TYPE=8013)
+	 union
+	(select '5' as range_name,count(*) as range_value  from T_BUILDING where REAL_TYPE=8011)
+	 union
+	(select '6' as range_name,count(*) as range_value  from T_BUILDING where REAL_TYPE=1006)
+	 union
+	(select '7' as range_name,count(*) as range_value  from T_BUILDING where REAL_TYPE=1)
+	</select>
+	<select id="buildingusecount" resultClass="househeightrange">
+	(select '0' as range_name,count(*) as range_value from T_BUILDING where USE_DESGIN=1000 ) 
+     union 
+    (select '1' as range_name,count(*) as range_value  from T_BUILDING where USE_DESGIN=1010) 
+     union 
+    (select '2' as range_name,count(*) as range_value  from T_BUILDING where USE_DESGIN=1011)
+	</select>
+	<select id="regionthemebystructurelx" resultClass="househeightrange">
+	(select '0' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =1 and CITY_DISTRICT=330101 ) 
+     union 
+    (select '1' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =2 and CITY_DISTRICT=330101 ) 
+     union 
+    (select '2' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =3 and CITY_DISTRICT=330101 ) 
+	 union
+	(select '3' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =4 and CITY_DISTRICT=330101 )
+	union
+	(select '4' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =5 and CITY_DISTRICT=330101 )
+	union
+	(select '5' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =6 and CITY_DISTRICT=330101 )
+	union
+	(select '6' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =7 and CITY_DISTRICT=330101 )
+	</select>
+	<select id="regionthemebystructuresz" resultClass="househeightrange">
+	(select '0' as range_name,count(*) as range_value from T_BUILDING  where BUILD_STRUCT =1 and CITY_DISTRICT=330102 ) 
+     union 
+    (select '1' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =2 and CITY_DISTRICT=330102 ) 
+     union 
+    (select '2' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =3 and CITY_DISTRICT=330102 ) 
+	 union
+	(select '3' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =4 and CITY_DISTRICT=330102 )
+	union
+	(select '4' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =5 and CITY_DISTRICT=330102 )
+	union
+	(select '5' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =6 and CITY_DISTRICT=330102 )
+	union
+	(select '6' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =7 and CITY_DISTRICT=330102 )
+	</select>
+	<select id="regionthemebystructurehy" resultClass="househeightrange">
+	(select '0' as range_name,count(*) as range_value from T_BUILDING  where BUILD_STRUCT =1 and CITY_DISTRICT=330103 ) 
+     union 
+    (select '1' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =2 and CITY_DISTRICT=330103 ) 
+     union 
+    (select '2' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =3 and CITY_DISTRICT=330103 ) 
+	 union
+	(select '3' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =4 and CITY_DISTRICT=330103 )
+	union
+	(select '4' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =5 and CITY_DISTRICT=330103 )
+	union
+	(select '5' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =6 and CITY_DISTRICT=330103 )
+	union
+	(select '6' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =7 and CITY_DISTRICT=330103 )
+	</select>
+	<select id="regionthemebystructuretq" resultClass="househeightrange">
+	(select '0' as range_name,count(*) as range_value from T_BUILDING  where BUILD_STRUCT =1 and CITY_DISTRICT=330104 ) 
+     union 
+    (select '1' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =2 and CITY_DISTRICT=330104 ) 
+     union 
+    (select '2' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =3 and CITY_DISTRICT=330104 ) 
+	 union
+	(select '3' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =4 and CITY_DISTRICT=330104 )
+	union
+	(select '4' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =5 and CITY_DISTRICT=330104 )
+	union
+	(select '5' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =6 and CITY_DISTRICT=330104 )
+	union
+	(select '6' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =7 and CITY_DISTRICT=330104 )
+	</select>
+	<select id="regionthemebystructurelc" resultClass="househeightrange">
+	(select '0' as range_name,count(*) as range_value from T_BUILDING  where BUILD_STRUCT =1 and CITY_DISTRICT=330105 ) 
+     union 
+    (select '1' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =2 and CITY_DISTRICT=330105 ) 
+     union 
+    (select '2' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =3 and CITY_DISTRICT=330105 ) 
+	 union
+	(select '3' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =4 and CITY_DISTRICT=330105 )
+	union
+	(select '4' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =5 and CITY_DISTRICT=330105 )
+	union
+	(select '5' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =6 and CITY_DISTRICT=330105 )
+	union
+	(select '6' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =7 and CITY_DISTRICT=330105 )
+	</select>
+	<select id="regionthemebystructuregx" resultClass="househeightrange">
+	(select '0' as range_name,count(*) as range_value from T_BUILDING  where BUILD_STRUCT =1 and CITY_DISTRICT=330106 ) 
+     union 
+    (select '1' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =2 and CITY_DISTRICT=330106 ) 
+     union 
+    (select '2' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =3 and CITY_DISTRICT=330106 ) 
+	 union
+	(select '3' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =4 and CITY_DISTRICT=330106 )
+	union
+	(select '4' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =5 and CITY_DISTRICT=330106 )
+	union
+	(select '5' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =6 and CITY_DISTRICT=330106 )
+	union
+	(select '6' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =7 and CITY_DISTRICT=330106 )
+	</select>
+	<select id="regionthemebystructurecq" resultClass="househeightrange">
+	(select '0' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =1 and CITY_DISTRICT=330107 ) 
+     union 
+    (select '1' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =2 and CITY_DISTRICT=330107 ) 
+     union 
+    (select '2' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =3 and CITY_DISTRICT=330107 ) 
+	 union
+	(select '3' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =4 and CITY_DISTRICT=330107 )
+	union
+	(select '4' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =5 and CITY_DISTRICT=330107 )
+	union
+	(select '5' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =6 and CITY_DISTRICT=330107 )
+	union
+	(select '6' as range_name,count(*) as range_value  from T_BUILDING where BUILD_STRUCT =7 and CITY_DISTRICT=330107 )
+	</select>
+	<select id="extenthouseheight" resultClass="househeightrange">
+(select '100' as range_name,count(*) as range_value from st_ridrgn where TOTAL_AREA between 0 and 100 and ( SMID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+) 
+union 
+(select '100-1000' as range_name,count(*) as range_value  from st_ridrgn where TOTAL_AREA between 100 and 1000 and ( SMUSERID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+  ) 
+union 
+(select '1000-10000' as range_name,count(*) as range_value  from st_ridrgn where TOTAL_AREA between 1000 and 10000 and ( SMUSERID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+  ) 
+union 
+(select '10000-100000' as range_name,count(*) as range_value  from st_ridrgn where TOTAL_AREA between 10000 and 100000 and ( SMUSERID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+  ) 
+union 
+(select '100000-200000' as range_name,count(*) as range_value  from st_ridrgn where TOTAL_AREA between 100000 and 200000 and ( SMUSERID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+  ) 
+union 
+(select '200000' as range_name,count(*) as range_value  from st_ridrgn where TOTAL_AREA > 200000 and ( SMUSERID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+  )
+</select>
+<select id="extentbuildingdatacount" resultClass="househeightrange">
+	(select '1949' as range_name,count(*) as range_value from st_ridrgn where to_number(to_char(builddate,'yyyy')) between 0 and 1949 and ( SMUSERID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+   ) 
+     union 
+    (select '1949-1989' as range_name,count(*) as range_value  from st_ridrgn where to_number(to_char(builddate,'yyyy')) between 1949 and 1989 and ( SMUSERID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+    ) 
+     union 
+    (select '1989-2009' as range_name,count(*) as range_value  from st_ridrgn where to_number(to_char(builddate,'yyyy')) between 1980 and 2009 and ( SMUSERID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+    ) 
+	 union
+	(select '2009' as range_name,count(*) as range_value  from st_ridrgn where to_number(to_char(builddate,'yyyy')) >2009 and ( SMUSERID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+	)
+	</select>
+	<select id="extentbuildingstructurecount" resultClass="househeightrange">
+	(select '0' as range_name,count(*) as range_value from st_ridrgn  where BUILDING_STRUCT =#steel# and ( SMUSERID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+	) 
+     union 
+    (select '1' as range_name,count(*) as range_value  from st_ridrgn where BUILDING_STRUCT =#mixedsteel# and ( SMUSERID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+    ) 
+     union 
+    (select '2' as range_name,count(*) as range_value  from st_ridrgn where BUILDING_STRUCT =#steelconcrete# and ( SMUSERID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+    ) 
+	 union
+	(select '3' as range_name,count(*) as range_value  from st_ridrgn where BUILDING_STRUCT =#mixed# and ( SMUSERID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+	)
+	union
+	(select '4' as range_name,count(*) as range_value  from st_ridrgn where BUILDING_STRUCT =#brickwood# and ( SMUSERID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+	)
+	union
+	(select '5' as range_name,count(*) as range_value  from st_ridrgn where BUILDING_STRUCT =#brick# and ( SMUSERID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+	 )
+	union
+	(select '6' as range_name,count(*) as range_value  from st_ridrgn where BUILDING_STRUCT =#other# and ( SMUSERID in 
+  <iterate prepend="" property="extent0"  open="("  close=")"  conjunction=",">
+        #extent0[]# 
+  </iterate> <isNotNull property="extent1">or SMID in
+  <iterate prepend="" property="extent1"  open="("  close=")"  conjunction=",">
+        #extent1[]# 
+  </iterate></isNotNull><isNotNull property="extent2">or SMID in 
+   <iterate prepend="" property="extent2"  open="("  close=")"  conjunction=",">
+        #extent2[]# 
+  </iterate></isNotNull><isNotNull property="extent3"> or SMID in 
+   <iterate prepend="" property="extent3"  open="("  close=")"  conjunction=",">
+        #extent3[]# 
+  </iterate></isNotNull><isNotNull property="extent4"> or SMID in 
+   <iterate prepend="" property="extent4"  open="("  close=")"  conjunction=",">
+        #extent4[]# 
+  </iterate></isNotNull><isNotNull property="extent5"> or SMID in 
+   <iterate prepend="" property="extent5"  open="("  close=")"  conjunction=",">
+        #extent5[]# 
+  </iterate></isNotNull><isNotNull property="extent6"> or SMID in 
+   <iterate prepend="" property="extent6"  open="("  close=")"  conjunction=",">
+        #extent6[]# 
+  </iterate></isNotNull><isNotNull property="extent7"> or SMID in 
+   <iterate prepend="" property="extent7"  open="("  close=")"  conjunction=",">
+        #extent7[]# 
+  </iterate></isNotNull><isNotNull property="extent8"> or SMID in 
+   <iterate prepend="" property="extent8"  open="("  close=")"  conjunction=",">
+        #extent8[]# 
+  </iterate></isNotNull><isNotNull property="extent9"> or SMID in 
+   <iterate prepend="" property="extent9"  open="("  close=")"  conjunction=",">
+        #extent9[]# 
+  </iterate></isNotNull>)
+	)
+	</select>
+	
+	<select id="getUnitNumberList" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select distinct t.unit_number,t.unit_alias,t.building_id,
+		(select max(count(*)) from t_house t2 where t2.building_id=#building_id#
+		 and t2.unit_number=t.unit_number
+		 <isNotNull property="lay_start" prepend="AND"> t2.lay_num <![CDATA[>=]]> #lay_start# </isNotNull>
+		 <isNotNull property="lay_end" prepend="AND"> t2.lay_num <![CDATA[<=]]> #lay_end# </isNotNull>
+		  group by unit_number,t2.lay_num) as num1 
+		 from T_HOUSE t  where t.building_id=#building_id#
+		 <isNotNull property="unit_number" prepend="AND"> t.unit_number=#unit_number# </isNotNull>
+		  order by t.unit_number 
+	</select>
+	
+	<select id="getALLUnitNumberList" parameterClass="java.lang.String" resultClass="java.util.HashMap">
+		select distinct t.unit_number,t.unit_alias from T_HOUSE t  where t.building_id=#value# order by t.unit_number 
+	</select>
+	
+	<select id="housedetail" parameterClass="java.lang.String" resultClass="housesurvey">
+		select * from T_HOUSE where house_id=#value#
+	</select>
+	<select id="getpropertylist" parameterClass="com.originsys.realtygis.domain.Building" resultClass="com.originsys.realtygis.domain.Building">
+	   select * from T_BUILDING where building_id=#building_id#
+	</select>
+	 <update id="updatebuildingproperty" parameterClass="com.originsys.realtygis.domain.Building">
+	   update  T_BUILDING set cx=#cx#,dissent_state=#dissent_state#,dtlx=#dtlx#,dtsm=#dtsm#,freeze_state=#freeze_state#,general_state=#general_state#,guarantee_state=#guarantee_state#,jzjg=#jzjg#,lg=#lg#,ltlx=#ltlx#,ltsm=#ltsm#,mapping_state=#mapping_state#,ownership_state=#ownership_state#,pgp_state=#pgp_state#,pledge_state=#pledge_state#,sealup_state=#sealup_state#,updatedate=#updatedate# where building_id=#building_id#
+	 </update>
+	 <!-- <select id="buildingbasicsurver" parameterClass="com.originsys.realtygis.domain.BasicSurver" resultClass="com.originsys.realtygis.domain.BasicSurver">
+	   select t.building_id,t.building_mapid,t.surverbasic_id,t.surverbasic_name,t.entrust_unit,t.linkman_tel,t.surverbasic_address,t.city_district,t.surverarea_value,t.surverbasic_desc from BUILDING_BASICSURVER t where t.building_id=#building_id#
+	 </select> -->
+	 <select id="buildingbasicsurver" parameterClass="com.originsys.realtygis.domain.BasicSurver" resultClass="com.originsys.realtygis.domain.BasicSurver">
+	   select ts.projectfile_fileblob,t.building_id,t.building_mapid,t.surverbasic_id,t.surverbasic_name,t.entrust_unit,t.linkman_tel,t.surverbasic_address,t.city_district,t.surverarea_value,t.surverbasic_desc 
+	   from t_surverproject ts,BUILDING_BASICSURVER t ,t_building tb 
+	   where ts.surverproject_id=tb.surverproject_id and t.building_id=tb.building_id and t.building_id=#building_id#
+	 </select>
+	 <!--   <select id="buildingbasicproduct" parameterClass="com.originsys.realtygis.domain.BasicSurver" resultClass="com.originsys.realtygis.domain.BasicSurver">
+	   select t.basicproduct_file,t.basicproduct_filename from BUILDING_BASICSURVER t where t.building_id=#building_id#
+	 </select>-->
+	 <select id="buildingbasicproduct" parameterClass="com.originsys.realtygis.domain.BasicSurver" resultClass="com.originsys.realtygis.domain.BasicSurver">
+	    select ts.projectfile_fileblob,ts.projectfile_filename,tb.building_id from t_surverproject ts,t_building tb 
+  		where ts.surverproject_id=tb.surverproject_id and ts.projectfile_filename is not null and tb.building_id=#building_id#
+	 </select>
+	 <select id="tabbuildingquery" parameterClass="com.originsys.realtygis.domain.Building" resultClass="com.originsys.realtygis.domain.Building">
+	    select * from t_building where building_id=#building_id#
+	 </select>
+	 
+	 <select id="getProjectDoc" parameterClass="java.lang.String" resultClass="com.originsys.realtygis.domain.ProjectSurver">
+	 	select t.projectfile_filename,t.projectfile_fileblob from t_building b,T_SURVERPROJECT t 
+	 	where b.building_id=#value# and t.surverproject_id=b.surverproject_id
+	 </select>
+	 
+	 <!-- 测绘统计 start 2014年3月19日 -->
+	 <!-- <select id="getCityProjectSurveytj" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+	    select sum(house_count) as COUNT,(to_char(sruver_date,'yyyy')) as YEAR from V_T_BUILDING_HOUSECOUNT_TJ where sruver_date is not null
+		and to_char(sruver_date,'yyyy') between #surverStartDate# and #surverEndDate# and surver_type= #surverType#
+		group by (to_char(sruver_date,'yyyy')) order by (to_char(sruver_date,'yyyy'))
+	 </select> -->
+	 <select id="getCityProjectSurveyYeartj" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+	    select sum(house_count) as COUNT,(to_char(sruver_date,'yyyy')) as YEAR,surver_type as SURVERTYPE  
+		from VV_T_BUILDING_HOUSECOUNT_TJ 
+		where sruver_date is not null   and to_char(sruver_date,'yyyy') between #surverStartDate# and #surverEndDate# 
+		group by surver_type,(to_char(sruver_date,'yyyy')) order by surver_type,(to_char(sruver_date,'yyyy'))
+	 </select>
+	 <select id="getCityProjectSurveyJdtj" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+	    select sum(house_count) as COUNT,surver_year as SURVERYEAR, surver_jd as SURVERJD,surver_type as SURVERTYPE    
+		from VV_T_BUILDING_HOUSECOUNT_JDTJ  
+		where surver_date is not null  and surver_year_month between #surverStartDate# and #surverEndDate#   
+		group by surver_type,surver_year,surver_jd order by surver_type,surver_year,surver_jd
+	 </select>
+	<!--   <select id="getDistrictProjectSurveytj" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+	    select sum(house_count) as COUNT,city_district as DISTRICT from V_T_BUILDING_HOUSECOUNT_TJ  
+	    where to_char(sruver_date,'yyyy') = #surverDate# and surver_type = #surverType# 
+	    group by city_district order by city_district
+	 </select>-->
+	 <select id="getDistrictProjectSurveytj" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+	    select sum(house_count) as COUNT,surver_year as SURVERYEAR, city_district as DISTRICT,surver_type as SURVERTYPE    
+		from VV_T_BUILDING_HOUSECOUNT_JDTJ 
+		where surver_date is not null   and surver_year between #surverStartDate# and #surverEndDate# 
+		group by surver_type,surver_year,city_district order by surver_type,surver_year,city_district
+	 </select>
+	 <select id="getDistrictProjectSurveyJdtj" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+	    select sum(house_count) as COUNT,surver_year as SURVERYEAR, city_district as DISTRICT,surver_type as SURVERTYPE,surver_jd as SURVERJD       
+		from VV_T_BUILDING_HOUSECOUNT_JDTJ    where surver_date is not null   
+		and surver_year_month between #surverStartDate# and #surverEndDate#   
+		group by surver_type,surver_year,surver_jd,city_district order by surver_type,surver_year,surver_jd,city_district
+	 </select>
+	 <!-- <select id="getDistrict" resultClass="java.lang.Integer">
+	    select distinct city_district from t_building order by city_district
+	 </select> -->
+	 <select id="getDistrict" resultClass="java.lang.Integer">
+	    select enum_value from yc_enum_value where enum_id='xzqh' order by enum_value
+	 </select>
+	 
+	 <select id="getCitySurveyAreatj" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+	    select sum(surverarea_value) as AREA,(to_char(surverbasic_createdate,'yyyy')) as YEAR  from t_surverbasic 
+		where surverbasic_createdate is not null and (to_char(surverbasic_createdate,'yyyy')) between #surverStartDate# and #surverEndDate#
+		group by (to_char(surverbasic_createdate,'yyyy')) order by (to_char(surverbasic_createdate,'yyyy'))
+	 </select>
+	 
+	 <select id="getAreaDistrict" resultClass="java.lang.Integer">
+	    select distinct city_district from t_surverbasic order by city_district
+	 </select>
+	 
+	 <select id="getDistrictSurveyAreatj" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+	    select sum(surverarea_value) as AREA,city_district as DISTRICT  from t_surverbasic  
+		where to_char(surverbasic_createdate,'yyyy')= #surverbasic_createdate# 
+		group by city_district order by city_district
+	 </select>
+	 
+	  <select id="getUseDesign" resultClass="java.lang.Integer">
+	    select distinct use_desgin from t_building order by use_desgin
+	 </select>
+	 
+	 <select id="getCitySurveyUsedesigntj" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select sum(house_count) as COUNT,(to_char(sruver_date,'yyyy')) as YEAR from V_T_BUILDING_HOUSECOUNT_TJ 
+		where sruver_date is not null and to_char(sruver_date,'yyyy') between  #surverStartDate# and #surverEndDate# and use_desgin = #usedesign#
+		group by (to_char(sruver_date,'yyyy')) order by (to_char(sruver_date,'yyyy'))
+	 </select>
+	 
+	 <select id="getDistrictSurveyUsedesigntj" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+	    select sum(house_count) as COUNT,city_district as DISTRICT from V_T_BUILDING_HOUSECOUNT_TJ  
+		where to_char(sruver_date,'yyyy') = #surverDate# and use_desgin= #usedesign# 
+		group by city_district order by city_district
+	 </select>
+	 
+	 <select id="getCityBuildingAreatj" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+	 	select sum(t1.build_area) as AREA,to_char(t1.sruver_date,'yyyy') as YEAR,t2.surver_type as SURVERTYPE from  t_building t1,t_surverproject t2 
+		where t1.surverproject_id=t2.surverproject_id and t1.sruver_date is not null and t1.build_area is not null 
+		and to_char(t1.sruver_date,'yyyy') between #surverStartDate# and #surverEndDate# 
+		group by t2.surver_type,to_char(t1.sruver_date,'yyyy') order by t2.surver_type,to_char(t1.sruver_date,'yyyy')
+	 </select>
+	 
+	 <select id="getCityBuildingAreaJdtj" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+	 	select sum(building_area) as AREA,surver_year as SURVERYEAR,surver_jd as SURVERJD,surver_type as SURVERTYPE 
+		from  VV_T_BUILDING_AREA_JDTJ  
+		where surver_date is not null and building_area is not null and surver_year_month between #surverStartDate# and #surverEndDate#     
+		group by surver_type,surver_year,surver_jd  order by surver_type,surver_year,surver_jd
+	 </select>
+	 
+	  <select id="getCityBuildingAreatj1" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+	    select sum(t1.build_area) as AREA, to_char(t1.sruver_date,'yyyy') as YEAR from  t_building t1,t_surverproject t2 
+		where t1.surverproject_id=t2.surverproject_id and t1.sruver_date is not null and t1.build_area is not null 
+		and to_char(t1.sruver_date,'yyyy')  between #surverStartDate# and #surverEndDate# and  t2.surver_type ='1002'
+		 group by to_char(t1.sruver_date,'yyyy') order by to_char(t1.sruver_date,'yyyy')
+	 </select>
+	 
+	 <!-- <select id="getCityBuildingSurverType" resultClass="java.lang.Integer">
+	    select distinct surver_type from t_surverproject order by surver_type
+	 </select>-->
+	 <select id="getCityBuildingSurverType" resultClass="java.lang.Integer">
+	    select enum_value from yc_enum_value where enum_id='chtjlx' 
+	 </select>
+	 
+	 <select id="getDistrictBuildingAreatj1" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+	    select sum(t1.build_area) as AREA,t1.city_district as DISTRICT from  t_building t1,t_surverproject t2 where
+		 t1.surverproject_id=t2.surverproject_id and t1.sruver_date is not null and t1.build_area is not null 
+		 and  to_char(t1.sruver_date,'yyyy') between #surverStartDate# and #surverEndDate# and  t2.surver_type ='1002'
+		 group by t1.city_district order by t1.city_district
+	 </select>
+	 
+	 <select id="getDistrictBuildingAreatj" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+	    select sum(t1.build_area) as AREA,t1.city_district as DISTRICT,t2.surver_type as SURVERTYPE from  t_building t1,t_surverproject t2 
+		where  t1.surverproject_id=t2.surverproject_id and t1.sruver_date is not null and t1.build_area is not null     
+		and  to_char(t1.sruver_date,'yyyy') between #surverStartDate# and #surverEndDate# 
+		group by t2.surver_type,t1.city_district order by t2.surver_type,t1.city_district
+	 </select>
+	 
+	 <select id="getDistrictHouseAreatj" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+	    select sum(t1.build_area) as AREA,t1.city_district as DISTRICT,t2.surver_type as SURVERTYPE , to_char(t1.sruver_date,'yyyy') as YEAR
+		from  t_building t1,t_surverproject t2    
+		where  t1.surverproject_id=t2.surverproject_id and t1.sruver_date is not null and t1.build_area is not null        
+		and  to_char(t1.sruver_date,'yyyy') between #surverStartDate# and #surverEndDate#    
+		group by t2.surver_type,to_char(t1.sruver_date,'yyyy'),t1.city_district order by t2.surver_type, to_char(t1.sruver_date,'yyyy'),t1.city_district
+	 </select>
+	 
+	 <select id="getDistrictHouseAreaJdtj" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+	    select sum(building_area) as AREA,surver_year as SURVERYEAR,surver_jd as SURVERJD,surver_type as SURVERTYPE,city_district as DISTRICT  
+		from  VV_T_BUILDING_AREA_JDTJ     
+		where surver_date is not null and building_area is not null and surver_year_month between #surverStartDate# and #surverEndDate#        
+		group by surver_type,surver_year,surver_jd,city_district  order by surver_type,surver_year,surver_jd,city_district
+	 </select>
+	 
+	 <!-- 测绘统计 end -->
+	 
+	  <!--  <select id="selectBasicBuildingCount" parameterClass="com.originsys.realtygis.domain.Building" resultClass="java.lang.Integer">
+	select count(*) from(select tb.building_id from
+ t_building tb,T_SURVERPROJECT ts   where tb.surverproject_id=ts.surverproject_id
+  <isNotNull property="building_address" prepend="and"> tb.building_address like '%$building_address$%' </isNotNull> 
+  <isNotNull property="entrust_unit" prepend="and"> ts.entrust_unit like '%$entrust_unit$%' </isNotNull> 
+  <isNotNull property="surver_enddatemin" prepend="and"> tb.surver_enddate&gt;=#surver_enddatemin#  </isNotNull> 
+  <isNotNull property="surver_enddatemax" prepend="and"> tb.surver_enddate&lt;=#surver_enddatemax#</isNotNull> 
+  <isNotNull property="floor_countmin" prepend="and"> tb.floor_count&gt;=#floor_countmin#</isNotNull> 
+  <isNotNull property="floor_countmax" prepend="and"> tb.floor_count&lt;=#floor_countmax#</isNotNull> 
+  <isNotNull property="tn_areamin" prepend="and"> tb.tn_area&gt;=#tn_areamin#</isNotNull> 
+  <isNotNull property="tn_areamax" prepend="and"> tb.tn_area&lt;=#tn_areamax#</isNotNull> 
+  <isNotNull property="ft_areamin" prepend="and"> tb.ft_area&gt;=#ft_areamin#</isNotNull> 
+  <isNotNull property="ft_areamax" prepend="and"> tb.ft_area&lt;=#ft_areamax#</isNotNull> 
+  <isNotNull property="build_areamin" prepend="and"> tb.build_area&gt;=#build_areamin#</isNotNull> 
+  <isNotNull property="build_areamax" prepend="and"> tb.build_area&lt;=#build_areamax#</isNotNull> 
+ <isNotEqual property="building_datestart" prepend="and" compareValue="0"> tb.building_date&gt;= #building_datestart# </isNotEqual>
+ <isNotEqual property="building_dateend" prepend="and" compareValue="0"> tb.building_date&lt;= #building_dateend# </isNotEqual>
+ <isNotEqual property="use_desgin" prepend="and" compareValue="0"> tb.use_desgin =#use_desgin# </isNotEqual>
+ <isNotEqual property="real_type" prepend="and" compareValue="0"> tb.real_type =#real_type# </isNotEqual>
+ <isNotEqual property="build_struct" prepend="and" compareValue="0"> tb.build_struct =#build_struct# </isNotEqual>
+ <isNotEqual property="surver_type" prepend="and" compareValue="0"> ts.surver_type =#surver_type# </isNotEqual>
+ <isNotEqual property="graphics_code" prepend="and" compareValue="0"> tb.graphics_code=#graphics_code# </isNotEqual>
+ <isNotEqual property="city_district" prepend="and" compareValue="0"> tb.city_district=#city_district# </isNotEqual>
+             )T
+	</select>-->
+	 <select id="selectBasicBuildingCount" parameterClass="com.originsys.realtygis.domain.Building" resultClass="java.lang.Integer">
+	select count(*) from(select tb.building_id from
+ t_building tb left join T_SURVERPROJECT ts   on  tb.surverproject_id=ts.surverproject_id  where 1=1 <![CDATA[and tb.building_mapid <> -1 and tb.building_mapid <> 0 and tb.building_mapid is not null]]>
+  <isNotNull property="building_address" prepend="and"> tb.building_address like '%$building_address$%' </isNotNull> 
+  <isNotNull property="entrust_unit" prepend="and"> ts.entrust_unit like '%$entrust_unit$%' </isNotNull> 
+  <isNotNull property="surver_enddatemin" prepend="and"> tb.surver_enddate&gt;=#surver_enddatemin#  </isNotNull> 
+  <isNotNull property="surver_enddatemax" prepend="and"> tb.surver_enddate&lt;=#surver_enddatemax#</isNotNull> 
+  <isNotNull property="floor_countmin" prepend="and"> tb.floor_count&gt;=#floor_countmin#</isNotNull> 
+  <isNotNull property="floor_countmax" prepend="and"> tb.floor_count&lt;=#floor_countmax#</isNotNull> 
+  <isNotNull property="tn_areamin" prepend="and"> tb.tn_area&gt;=#tn_areamin#</isNotNull> 
+  <isNotNull property="tn_areamax" prepend="and"> tb.tn_area&lt;=#tn_areamax#</isNotNull> 
+  <isNotNull property="ft_areamin" prepend="and"> tb.ft_area&gt;=#ft_areamin#</isNotNull> 
+  <isNotNull property="ft_areamax" prepend="and"> tb.ft_area&lt;=#ft_areamax#</isNotNull> 
+  <isNotNull property="build_areamin" prepend="and"> tb.build_area&gt;=#build_areamin#</isNotNull> 
+  <isNotNull property="build_areamax" prepend="and"> tb.build_area&lt;=#build_areamax#</isNotNull> 
+ <isNotEqual property="building_datestart" prepend="and" compareValue="0"> tb.building_date&gt;= #building_datestart# </isNotEqual>
+ <isNotEqual property="building_dateend" prepend="and" compareValue="0"> tb.building_date&lt;= #building_dateend# </isNotEqual>
+ <isNotEqual property="use_desgin" prepend="and" compareValue="0"> tb.use_desgin =#use_desgin# </isNotEqual>
+ <isNotEqual property="real_type" prepend="and" compareValue="0"> tb.real_type =#real_type# </isNotEqual>
+ <isNotEqual property="build_struct" prepend="and" compareValue="0"> tb.build_struct =#build_struct# </isNotEqual>
+ <isNotEqual property="surver_type" prepend="and" compareValue="0"> ts.surver_type =#surver_type# </isNotEqual>
+ <isNotEqual property="graphics_code" prepend="and" compareValue="0"> tb.graphics_code=#graphics_code# </isNotEqual>
+ <isNotEqual property="city_district" prepend="and" compareValue="0"> tb.city_district=#city_district# </isNotEqual>
+             )T
+	</select>
+	
+	<!-- 查询列表改为可排序，可分页的    2014年3月27日   start-->
+	<!--  <select id="BasicBuildingMultiQuery" parameterClass="java.util.Map" resultClass="com.originsys.realtygis.domain.Building">
+			select * from(select a.*, rownum as rnum 
+          	from (select tb.building_id ,tb.building_mapid ,tb.floor_count,tb.building_address,tb.graphics_code,tb.building_date
+			from t_building tb,T_SURVERPROJECT ts   where tb.surverproject_id=ts.surverproject_id 
+		  <isNotNull property="building.building_address" prepend="and"> tb.building_address like '%$building.building_address$%' </isNotNull> 
+		  <isNotNull property="building.entrust_unit" prepend="and"> ts.entrust_unit like '%$building.entrust_unit$%' </isNotNull> 
+		  <isNotNull property="building.surver_enddatemin" prepend="and"> tb.surver_enddate&gt;=#building.surver_enddatemin#  </isNotNull> 
+		  <isNotNull property="building.surver_enddatemax" prepend="and"> tb.surver_enddate&lt;=#building.surver_enddatemax#</isNotNull> 
+		  <isNotNull property="building.floor_countmin" prepend="and"> tb.floor_count&gt;=#building.floor_countmin#</isNotNull> 
+		  <isNotNull property="building.floor_countmax" prepend="and"> tb.floor_count&lt;=#building.floor_countmax#</isNotNull> 
+		  <isNotNull property="building.tn_areamin" prepend="and"> tb.tn_area&gt;=#building.tn_areamin#</isNotNull> 
+		  <isNotNull property="building.tn_areamax" prepend="and"> tb.tn_area&lt;=#building.tn_areamax#</isNotNull> 
+		  <isNotNull property="building.ft_areamin" prepend="and"> tb.ft_area&gt;=#building.ft_areamin#</isNotNull> 
+		  <isNotNull property="building.ft_areamax" prepend="and"> tb.ft_area&lt;=#building.ft_areamax#</isNotNull> 
+		  <isNotNull property="building.build_areamin" prepend="and"> tb.build_area&gt;=#building.build_areamin#</isNotNull> 
+		  <isNotNull property="building.build_areamax" prepend="and"> tb.build_area&lt;=#building.build_areamax#</isNotNull> 
+		 <isNotEqual property="building.building_datestart" prepend="and" compareValue="0.0"> tb.building_date&gt;= #building.building_datestart# </isNotEqual>
+		 <isNotEqual property="building.building_dateend" prepend="and" compareValue="0.0"> tb.building_date&lt;= #building.building_dateend# </isNotEqual>
+		 <isNotEqual property="building.use_desgin" prepend="and" compareValue="0"> tb.use_desgin =#building.use_desgin# </isNotEqual>
+		 <isNotEqual property="building.real_type" prepend="and" compareValue="0"> tb.real_type =#building.real_type# </isNotEqual>
+		 <isNotEqual property="building.build_struct" prepend="and" compareValue="0"> tb.build_struct =#building.build_struct# </isNotEqual>
+		 <isNotEqual property="building.surver_type" prepend="and" compareValue="0"> ts.surver_type =#building.surver_type# </isNotEqual>
+		 <isNotEqual property="building.graphics_code" prepend="and" compareValue="0"> tb.graphics_code=#building.graphics_code# </isNotEqual>
+		 <isNotEqual property="building.city_district" prepend="and" compareValue="0"> tb.city_district=#building.city_district# </isNotEqual>
+		 <isNotEmpty prepend="order by " property="_sortname">
+			$_sortname$ $_sortorder$,building_id 
+		</isNotEmpty>
+			) a where rownum &lt;= #_page_end# )where rnum &gt; #_page_start# 
+	</select> -->
+	<select id="BasicBuildingMultiQuery" parameterClass="java.util.Map" resultClass="com.originsys.realtygis.domain.Building">
+			select * from(select a.*, rownum as rnum 
+          	from (select tb.building_id ,tb.building_mapid ,tb.floor_count,tb.building_address,tb.graphics_code,tb.building_date
+			from t_building tb left join T_SURVERPROJECT ts   on  tb.surverproject_id=ts.surverproject_id  where 1=1  <![CDATA[and tb.building_mapid <> -1 and tb.building_mapid <> 0 and tb.building_mapid is not null]]>
+		  <isNotNull property="building.building_address" prepend="and"> tb.building_address like '%$building.building_address$%' </isNotNull> 
+		  <isNotNull property="building.entrust_unit" prepend="and"> ts.entrust_unit like '%$building.entrust_unit$%' </isNotNull> 
+		  <isNotNull property="building.surver_enddatemin" prepend="and"> tb.surver_enddate&gt;=#building.surver_enddatemin#  </isNotNull> 
+		  <isNotNull property="building.surver_enddatemax" prepend="and"> tb.surver_enddate&lt;=#building.surver_enddatemax#</isNotNull> 
+		  <isNotNull property="building.floor_countmin" prepend="and"> tb.floor_count&gt;=#building.floor_countmin#</isNotNull> 
+		  <isNotNull property="building.floor_countmax" prepend="and"> tb.floor_count&lt;=#building.floor_countmax#</isNotNull> 
+		  <isNotNull property="building.tn_areamin" prepend="and"> tb.tn_area&gt;=#building.tn_areamin#</isNotNull> 
+		  <isNotNull property="building.tn_areamax" prepend="and"> tb.tn_area&lt;=#building.tn_areamax#</isNotNull> 
+		  <isNotNull property="building.ft_areamin" prepend="and"> tb.ft_area&gt;=#building.ft_areamin#</isNotNull> 
+		  <isNotNull property="building.ft_areamax" prepend="and"> tb.ft_area&lt;=#building.ft_areamax#</isNotNull> 
+		  <isNotNull property="building.build_areamin" prepend="and"> tb.build_area&gt;=#building.build_areamin#</isNotNull> 
+		  <isNotNull property="building.build_areamax" prepend="and"> tb.build_area&lt;=#building.build_areamax#</isNotNull> 
+		 <isNotEqual property="building.building_datestart" prepend="and" compareValue="0.0"> tb.building_date&gt;= #building.building_datestart# </isNotEqual>
+		 <isNotEqual property="building.building_dateend" prepend="and" compareValue="0.0"> tb.building_date&lt;= #building.building_dateend# </isNotEqual>
+		 <isNotEqual property="building.use_desgin" prepend="and" compareValue="0"> tb.use_desgin =#building.use_desgin# </isNotEqual>
+		 <isNotEqual property="building.real_type" prepend="and" compareValue="0"> tb.real_type =#building.real_type# </isNotEqual>
+		 <isNotEqual property="building.build_struct" prepend="and" compareValue="0"> tb.build_struct =#building.build_struct# </isNotEqual>
+		 <isNotEqual property="building.surver_type" prepend="and" compareValue="0"> ts.surver_type =#building.surver_type# </isNotEqual>
+		 <isNotEqual property="building.graphics_code" prepend="and" compareValue="0"> tb.graphics_code=#building.graphics_code# </isNotEqual>
+		 <isNotEqual property="building.city_district" prepend="and" compareValue="0"> tb.city_district=#building.city_district# </isNotEqual>
+		 <isNotEmpty prepend="order by " property="_sortname">
+			$_sortname$ $_sortorder$,building_id 
+		</isNotEmpty>
+			) a where rownum &lt;= #_page_end# )where rnum &gt; #_page_start# 
+	</select>
+	
+	<select id="dropextenthousegrid" parameterClass="java.util.Map" resultClass="com.originsys.realtygis.domain.House">
+	 <!-- select * from (
+	 	 select a.*,rownum as rnum from (
+	 	 	select t1.*,rownum r from t_house t1,t_building t2 where t1.building_id=t2.building_id  -->
+	   select * from (
+         select a.*,rownum r from (
+                select row_number() over(partition by t2.building_mapid||t1.room_number order by t1.house_id desc) as flag,t1.*
+                    from t_house t1, t_building t2
+                   where t1.building_id = t2.building_id	 	
+	 <isNotEqual property="small" prepend="and" compareValue="0">( (t1.jz_area&lt;90 and t1.jz_area&gt;0 ) 
+		 <isNotEqual property="middle" prepend="or" compareValue="0"> (t1.jz_area&gt;=90 and t1.jz_area&lt;144) </isNotEqual>	
+		 <isNotEqual property="big" prepend="or" compareValue="0"> t1.jz_area&gt;=144 </isNotEqual>	)	 
+	 </isNotEqual>	
+	 <isEqual property="small" compareValue="0">
+		 <isNotEqual property="middle" prepend="and" compareValue="0"> ((t1.jz_area&gt;=90 and t1.jz_area&lt;144) 
+		 <isNotEqual property="big" prepend="or" compareValue="0"> t1.jz_area&gt;=144 </isNotEqual>	)	 
+		 </isNotEqual>	
+		 <isEqual property="middle" compareValue="0"> 
+		 <isNotEqual property="big" prepend="and" compareValue="0"> t1.jz_area&gt;=144 </isNotEqual>	 
+		 </isEqual>
+	 </isEqual>	
+	 	 	and t2.building_mapid in
+	 <iterate  prepend="" property="build.arrlist"  open="("  close=")"  conjunction="," > 
+               #build.arrlist[]# 
+ 	 </iterate> 
+ 	 <isNotEmpty prepend="order by " property="_sortname">
+		t1.$_sortname$ $_sortorder$,house_id 
+	 </isNotEmpty>
+ 	 <!-- ) a where r &lt;= #_page_end# )where rnum &gt; #_page_start#  -->
+ 	  ) a where a.flag=1 and rownum &lt;= #_page_end#
+             ) where 1=1 and r &gt; #_page_start# 
+	</select>
+	
+	<!-- 查询列表改为可排序，可分页的     end-->
+	
+	<select id="dropextenthousecount" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+	<!--select count(t1.building_id) from t_house t1,t_building t2 where t1.building_id=t2.building_id -->
+	select count(0) from (
+       select row_number() over(partition by t2.building_mapid||t1.room_number order by t1.house_id desc) as flag,t1.*, rownum r
+                  from t_house t1, t_building t2 where t1.building_id = t2.building_id
+	<isNotEqual property="small" prepend="and" compareValue="0">( (t1.jz_area&lt;90 and t1.jz_area&gt;0) 
+		 <isNotEqual property="middle" prepend="or" compareValue="0"> (t1.jz_area&gt;=90 and t1.jz_area&lt;144) </isNotEqual>	
+		 <isNotEqual property="big" prepend="or" compareValue="0"> t1.jz_area&gt;=144 </isNotEqual>	)	 
+	 </isNotEqual>	
+	 <isEqual property="small" compareValue="0">
+		 <isNotEqual property="middle" prepend="and" compareValue="0"> ((t1.jz_area&gt;=90 and t1.jz_area&lt;144) 
+		 <isNotEqual property="big" prepend="or" compareValue="0"> t1.jz_area&gt;=144 </isNotEqual>	)	 
+		 </isNotEqual>	
+		 <isEqual property="middle" compareValue="0"> 
+		 <isNotEqual property="big" prepend="and" compareValue="0"> t1.jz_area&gt;=144 </isNotEqual>	 
+		 </isEqual>
+	 </isEqual>	
+	 	 	and t2.building_mapid in
+	 <iterate  prepend="" property="build.arrlist"  open="("  close=")"  conjunction="," > 
+               #build.arrlist[]# 
+ 	 </iterate> 
+ 	 order by t1.house_id asc, house_id) a where a.flag=1
+	</select>
+	<!-- 指定楼幢面（可以是多个）按照房屋建筑面积分类统计房屋数量 start  2014年3月25日 -->
+	<select id="getHouseAreatj" parameterClass="com.originsys.realtygis.domain.Building" resultClass="java.util.HashMap">
+		 select * from (select t1.building_id as BUILDINGID, t1.building_address as ADDRESS,row_number() OVER (PARTITION BY t1.building_mapid ORDER BY t1.building_id desc) as flag,
+		 count(case when t2.jz_area&lt;90 and t2.jz_area&gt;0 then 1 else null end) as SMALLHOUSECOUNT,
+		 count(case when t2.jz_area&gt;=90 and t2.jz_area&lt;144 then 2 else null end) as HITHOUSECOUNT,
+		 count(case when t2.jz_area&gt;=144 then 3 else null end) as BIGHOUSECOUNT from t_building t1 
+		 left join t_house t2 on t1.building_id=t2.building_id   
+		 group by t1.building_id,t1.building_mapid,t1.building_address having t1.building_mapid !='0'  
+		 and  t1.building_mapid in 
+		 <iterate  prepend="" property="arrlist"  open="("  close=")"  conjunction="," > 
+	               #arrlist[]# 
+	  	</iterate> 
+	  	) temp
+		where temp.flag=1
+	</select>
+	<!-- 指定楼幢面（可以是多个）按照房屋建筑面积分类统计房屋数量 end -->
+	<!-- 缓冲分析查询列表    start  2014-4-4-->
+	 <select id="buildingfrommaplist" resultClass="com.originsys.realtygis.domain.Building" parameterClass="java.util.Map" >
+    select * from (
+	 	 select a.*,rownum as rnum from (
+    select t.*,row_number() over(partition by building_mapid order by building_id desc) as flag from T_BUILDING t where 1=1 
+    <![CDATA[	and building_mapid <> -1 and building_mapid <> 0 and building_mapid is not null]]>
+     and building_mapid in  
+<iterate  prepend="" property="building.arrlist"  open="("  close=")"  conjunction="," > 
+               #building.arrlist[]# 
+  </iterate> 
+   <isNotEmpty prepend="order by " property="_sortname">
+				$_sortname$ $_sortorder$
+			</isNotEmpty>
+) a where rownum &lt;= #_page_end#  and flag=1)where rnum &gt; #_page_start# 
+  </select>
+	 <select id="buildingfrommapcount" resultClass="java.lang.Integer" parameterClass="com.originsys.realtygis.domain.Building" >
+   
+    select count(distinct building_mapid) from T_BUILDING where building_mapid in  
+<iterate  prepend="" property="arrlist"  open="("  close=")"  conjunction="," > 
+               #arrlist[]# 
+  </iterate> 
+
+  </select>
+	
+	<!-- 缓冲分析查询列表该  end   -->
+	<!-- 缓冲分析结果统计    start -->
+	<select id="bufferAnalysistj" resultClass="java.util.HashMap" parameterClass="com.originsys.realtygis.domain.Building">
+	     select sum(house_count) as HOUSECOUNT, sum(build_area) as B_AREA
+          from (select t.house_count,
+                 t.build_area,
+                 row_number() over(partition by t.building_mapid order by t.building_id desc) as flag
+            from V_BUILDINGBUFFERANALYSIS_TJ t  
+	   where  t.building_mapid in  
+<iterate  prepend="" property="arrlist"  open="("  close=")"  conjunction="," > 
+               #arrlist[]# 
+  </iterate> 
+  ) a
+         where a.flag = 1
+	</select>
+	<!-- 缓冲分析结果统计    end  -->
+	<!-- 地图专题查询sql   start -->
+	<select id="BasicBuildingMultiQueryForAll" parameterClass="java.util.HashMap" resultClass="com.originsys.realtygis.domain.Building">
+			
+          	select tb.building_mapid 
+			from t_building tb left join T_SURVERPROJECT ts   on  tb.surverproject_id=ts.surverproject_id  where 1=1  <![CDATA[and tb.building_mapid <> -1 and tb.building_mapid <> 0 and tb.building_mapid is not null]]>
+		  <isNotNull property="building.building_address" prepend="and"> tb.building_address like '%$building.building_address$%' </isNotNull> 
+		  <isNotNull property="building.entrust_unit" prepend="and"> ts.entrust_unit like '%$building.entrust_unit$%' </isNotNull> 
+		  <isNotNull property="building.surver_enddatemin" prepend="and"> tb.surver_enddate&gt;=#building.surver_enddatemin#  </isNotNull> 
+		  <isNotNull property="building.surver_enddatemax" prepend="and"> tb.surver_enddate&lt;=#building.surver_enddatemax#</isNotNull> 
+		  <isNotNull property="building.floor_countmin" prepend="and"> tb.floor_count&gt;=#building.floor_countmin#</isNotNull> 
+		  <isNotNull property="building.floor_countmax" prepend="and"> tb.floor_count&lt;=#building.floor_countmax#</isNotNull> 
+		  <isNotNull property="building.tn_areamin" prepend="and"> tb.tn_area&gt;=#building.tn_areamin#</isNotNull> 
+		  <isNotNull property="building.tn_areamax" prepend="and"> tb.tn_area&lt;=#building.tn_areamax#</isNotNull> 
+		  <isNotNull property="building.ft_areamin" prepend="and"> tb.ft_area&gt;=#building.ft_areamin#</isNotNull> 
+		  <isNotNull property="building.ft_areamax" prepend="and"> tb.ft_area&lt;=#building.ft_areamax#</isNotNull> 
+		  <isNotNull property="building.build_areamin" prepend="and"> tb.build_area&gt;=#building.build_areamin#</isNotNull> 
+		  <isNotNull property="building.build_areamax" prepend="and"> tb.build_area&lt;=#building.build_areamax#</isNotNull> 
+		 <isNotEqual property="building.building_datestart" prepend="and" compareValue="0.0"> tb.building_date&gt;= #building.building_datestart# </isNotEqual>
+		 <isNotEqual property="building.building_dateend" prepend="and" compareValue="0.0"> tb.building_date&lt;= #building.building_dateend# </isNotEqual>
+		 <isNotEqual property="building.use_desgin" prepend="and" compareValue="0"> tb.use_desgin =#building.use_desgin# </isNotEqual>
+		 <isNotEqual property="building.real_type" prepend="and" compareValue="0"> tb.real_type =#building.real_type# </isNotEqual>
+		 <isNotEqual property="building.build_struct" prepend="and" compareValue="0"> tb.build_struct =#building.build_struct# </isNotEqual>
+		 <isNotEqual property="building.surver_type" prepend="and" compareValue="0"> ts.surver_type =#building.surver_type# </isNotEqual>
+		 <isNotEqual property="building.graphics_code" prepend="and" compareValue="0"> tb.graphics_code=#building.graphics_code# </isNotEqual>
+		 <isNotEqual property="building.city_district" prepend="and" compareValue="0"> tb.city_district=#building.city_district# </isNotEqual>
+	
+	
+	</select>
+	<!-- 地图专题查询sql   end -->
+	<!--健康档案查询sql      start -->
+	<select id="safetybuildinglist" parameterClass="com.originsys.realtygis.domain.Invmprj" resultClass="com.originsys.realtygis.domain.Invmprj" >
+    select * from (select * from T_INVM_PRJ where build_id=#build_id# ) where rownum=1
+  </select>
+  <select id="jkdatabbuildingquery" parameterClass="com.originsys.realtygis.domain.Invmprj" resultClass="com.originsys.realtygis.domain.Invmprj" >
+    select * from T_INVM_PRJ where invm_prj_id=#invm_prj_id# 
+  </select>
+   <select id="healthgradequery" parameterClass="com.originsys.realtygis.domain.Invmhealthgrade" resultClass="com.originsys.realtygis.domain.Invmhealthgrade" >
+    select * from T_INVM_HEALTH_GRADE where invm_prj_id=#invm_prj_id# 
+  </select>
+  <!--健康档案查询 sql     end -->
+  <!-- 更新st_ridrgn_safeche普查状态数据-->
+    <update id="updatecheckstate" parameterClass="com.originsys.realtygis.domain.StridrgnSafe">
+  		update st_ridrgn_safeche
+  		<dynamic  prepend="set">
+				<isNotEmpty prepend=","  property="safegrade"> safegrade=#safegrade# </isNotEmpty>
+				<isNotEmpty prepend=","  property="testgrade"> testgrade=#testgrade# </isNotEmpty>
+				<isNotEmpty prepend=","  property="checkgrade"> checkgrade=#checkgrade# </isNotEmpty>
+				<isNotEmpty prepend=","  property="checkstate"> checkstate=#checkstate# </isNotEmpty>
+				<isNotEmpty prepend=","  property="checkstate2"> checkstate2=#checkstate2# </isNotEmpty>
+				<isNotEmpty prepend=","  property="checkstate3"> checkstate3=#checkstate3# </isNotEmpty>
+		</dynamic>
+		where smuserid=#building_id#
+    </update>  
+  <!-- 更新new_house_p普查状态数据-->
+    <update id="updatecheckstatepoint" parameterClass="com.originsys.realtygis.domain.StridrgnSafe">
+  		update new_house_p 
+      <dynamic  prepend="set">
+				<isNotEmpty prepend=","  property="safegrade"> safegrade=#safegrade# </isNotEmpty>
+				<isNotEmpty prepend=","  property="testgrade"> testgrade=#testgrade# </isNotEmpty>
+				<isNotEmpty prepend=","  property="checkgrade"> checkgrade=#checkgrade# </isNotEmpty>
+				<isNotEmpty prepend=","  property="checkstate"> checkstate=#checkstate# </isNotEmpty>
+				<isNotEmpty prepend=","  property="checkstate2"> checkstate2=#checkstate2# </isNotEmpty>
+				<isNotEmpty prepend=","  property="checkstate3"> checkstate3=#checkstate3# </isNotEmpty>
+		</dynamic>
+		where smuserid=#building_id#
+    </update>  
+  <!-- 更新ST_RIDRGN_SAFE_P普查状态数据-->
+    <update id="updatecheckstatepointfromregion" parameterClass="com.originsys.realtygis.domain.StridrgnSafe">
+  		update ST_RIDRGN_SAFE_P
+  		<dynamic  prepend="set">
+				<isNotEmpty prepend=","  property="safegrade"> safegrade=#safegrade# </isNotEmpty>
+				<isNotEmpty prepend=","  property="testgrade"> testgrade=#testgrade# </isNotEmpty>
+				<isNotEmpty prepend=","  property="checkgrade"> checkgrade=#checkgrade# </isNotEmpty>
+				<isNotEmpty prepend=","  property="checkstate"> checkstate=#checkstate# </isNotEmpty>
+				<isNotEmpty prepend=","  property="checkstate2"> checkstate2=#checkstate2# </isNotEmpty>
+				<isNotEmpty prepend=","  property="checkstate3"> checkstate3=#checkstate3# </isNotEmpty>
+		</dynamic>
+		where smuserid=#building_id#
+    </update>  
+   <!-- 查询ST_RIDRGN表数据 -->
+   <select id="getstridrgndata" parameterClass="com.originsys.realtygis.domain.Stridrgn" resultClass="com.originsys.realtygis.domain.Stridrgn">
+      select t1.smsdriw,t1.smsdrin,t1.smsdrie,t1.smsdris,t1.smarea from ST_RIDRGN t1 where t1.smuserid in (select t2.building_mapid from T_BUILDING t2 where building_id=#building_id# )and rownum=1
+   </select>
+	<select id="queryCountyLZCountAndArea" resultClass="com.originsys.realtygis.domain.CountyLZCountAndAreaBean">
+		select code_2 as code,name,count(0) as count,sum(total_area) as area from lz_a1_lx t group by code_2,name
+		union
+		select code_2 as code,name,count(0) as count,sum(total_area) as area from lz_a1_lc t group by code_2,name
+		union
+		select code_2 as code,name,count(0) as count,sum(total_area) as area from lz_a1_sz t group by code_2,name
+		union
+		select code_2 as code,name,count(0) as count,sum(total_area) as area from lz_a1_tq t group by code_2,name
+		union
+		select code_2 as code,name,count(0) as count,sum(total_area) as area from lz_a1_hy t group by code_2,name
+		union 
+		select code_2 as code,name,count(0) as count,sum(total_area) as area from lz_a1_cq t group by code_2,name
+		union 
+		select code_2 as code,name,count(0) as count,sum(total_area) as area from lz_a1_zq t group by code_2,name
+		union        
+		select code_2 as code,name,count(0) as count,sum(total_area) as area from lz_a1_py t group by code_2,name
+		union     
+		select code_2 as code,name,count(0) as count,sum(total_area) as area from lz_a1_jy t group by code_2,name
+		union
+		select code_2 as code,name,count(0) as count,sum(total_area) as area from lz_a1_sh t group by code_2,name
+	</select>
+	<select id="queryCounty" resultClass="com.originsys.realtygis.domain.CountyLZCountAndAreaBean">
+		select code,name from asdr
+	</select>
+</sqlMap>

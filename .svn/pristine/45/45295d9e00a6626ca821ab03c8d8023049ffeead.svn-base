@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>综合查询类参考</title>
+<link rel="stylesheet" href="./style.css"/>
+</head>
+<body>
+	<div class="classTitle">类参考</div>
+	<div id="main_content" class="main_content">
+		<div id="index">
+			<div align="center" class="class_index">
+				<a href="./maphelp.html?zh">参考类</a> | <a href="./mapfiles.html?zh">文件</a>
+			</div>
+			<div class="class_index1">
+				<h2>Classes</h2>
+				<ul class="classList">
+					<li><a href="./FMapLib.html?zh">FMapLib</a></li>
+					<li><a href="./bmqclassreference.html">FMapLib.BuildingMiltyQuery</a></li>
+
+				</ul>
+			</div>
+			<!-- end publish.classesIndex -->
+		</div>
+
+		<div id="content">
+			<!-- ============================== class title ============================ -->
+			<h1 class="classTitle">类 FMapLib.BuildingMiltyQuery</h1>
+
+			<!-- ============================== class summary ========================== -->
+			<p class="description">
+				综合查询API实现房产数据基本的查询功能，允许用户按自己的要求展现需要的数据，可以扩展地图的使用。 <br />
+			</p>
+
+			<!-- ============================== constructor summary ==================== -->
+
+			<h1 class="classTitle2">
+				类
+				</h1>
+				<table class="summaryTable" cellspacing="0"
+					summary="A summary of the constructor documented in the class BMapLib.DrawingManager.">
+					<tr class="title">
+						<td style="border-left: 1px solid #C8CCD1;">类</td>
+						<td>描述</td>
+					</tr>
+					<tbody>
+						<tr>
+							<td class="attributes attributesCstor">
+								<div class="fixedFont">
+									<b>FMapLib.BuildingMiltyQuery</b>(opts,datatype)
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description">BuildingMiltyQuery综合查询类的构造函数，参数：opts，查询参数数组；
+								datatype：返回的结果数据类型</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<h1 class="classTitle2">方法</h1>
+				<table class="summaryTable" cellspacing="0">
+					<tr class="title">
+						<td style="border-left: 1px solid #C8CCD1;">方法</td>
+						<td>返回值</td>
+						<td>描述</td>
+					</tr>
+					<tbody>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>query</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">none</div></td>
+							<td class="nameDescription"><div class="description">开启综合查询功能。</div></td>
+						</tr>
+					</tbody>
+				</table>
+				<h1 class="classTitle2">属性</h1>
+				<table class="summaryTable" cellspacing="0"
+					summary="A summary of the events documented in the class BMapLib.DrawingManager.">
+					<tr class="title">
+						<td style="border-left: 1px solid #C8CCD1;">属性</td>
+						<td>描述</td>
+					</tr>
+					<tbody>
+						<tr>
+							<td class="attributes attributesEvts"><div class="fixedFont"><b>result</b>
+								</div></td>
+							<td class="nameDescription"><div class="description">查询返回的结果数据。</div></td>
+						</tr>
+						</tbody>
+						</table>
+				<div class="details">
+					<a name="constructor"> </a>
+					<div class="sectionTitle">类</div>
+
+					<div class="fixedFont">
+						<b>FMapLib.BuildingMiltyQuery</b>(opts,datatype)
+					</div>
+					<div class="description">BuildingMiltyQuery类的构造函数</div>
+					<pre class="code">
+								<b>参考示例：</b><br />
+   function villageQueryByName() {<br>
+	var village={areamax:"",areamin:"",};<br>
+	village.areamin = document.getElementById("villageinput").value;<br>
+	village.areamax = document.getElementById("areamax").value;<br>
+	var villageFindInst = new FMapLib.BuildingMiltyQuery(village,"features");<br>
+	villageFindInst.query();<br>
+}
+</pre>
+					<dl class="detailList">
+						<dt class="heading">参数:</dt>
+						<dt>
+							<span class="light fixedFont"></span> <b>opts</b>
+						</dt>
+						<dd>查询参数</dd>
+						<dt>
+							<span class="light fixedFont"></span> <b>datatype</b>
+						</dt>
+						<dd>查询结果返回数据类型</dd>
+					</dl>
+				</div>
+				</div>
+				</div>
+</body>
+</html>

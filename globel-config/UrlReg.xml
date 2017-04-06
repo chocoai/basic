@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<UrlChange>
+	<!-- ①请求的是静态Html或图片,这是因为涉及到"企业ID"的问题 -->
+		<!-- 子站点 -->
+		<pattern first="href=(\&quot;|\')?([a-zA-Z0-9]+)\&quot;" 
+		         second="href=$1web_server_url/$2.html\&quot;"
+		         static_file="true"/>
+		<pattern first="(\&quot;|\')?server_url/(export|eap|portal|exportdoc|exportexcel)/([a-zA-Z0-9]+)\&quot;" 
+		         second="$1web_server_url/$3.html\&quot;"
+		         static_file="true"/>
+		<!-- 频道,子站点:频道是静态的html页面,所以请求的就是静态的html页面,放在"ID"的目录下;另外频道与新闻类的前半段相同,必须要特殊处理 -->
+		<pattern first="(\&quot;|\')?server_url/(export|eap|portal|exportdoc|exportexcel)/([a-zA-Z0-9]+)$" 
+		         second="$1web_server_url/$3.html"
+		         static_file="true"/> 
+		<!-- 金融工具类:请求的是静态的html页面,放在"企业ID"的目录下   -->
+		<pattern first="href=(\&quot;|\')?server_url/(export|eap|eap2|portal|exportdoc|exportexcel)/banktool.savingtool" 
+		         second="href=$1web_server_url/banktool/savingtool.html"
+		         static_file="true"/>
+		<!-- 图片链接:[A-Za-z0-9]+  -->
+		<pattern first="(\&quot;|\')?\.\./company_id/(images|media|wave|swf|files)/"
+		         second="$1web_server_url/company_id/$2/"
+		         static_file="true"/>
+		<!-- ewebeditor中图片链接:"../hainanrenda/18/images/abc.jpg" -->
+		<pattern first="(\&quot;|\')?\.\./company_id/([0-9]+)/(images|wave|swf|files)/"
+		         second="$1web_server_url/company_id/$2/$3/"
+		         static_file="true"/>
+		<!-- 新闻类 -->
+		<!--  这里,我们需要注意一下那个"servlet_url"这个字段 -->
+	<!-- ②仅仅对URL进行替换 -->
+		<!-- 多实例组件是以数字开头 -->
+		<pattern first="href=(\&quot;|\')?([0-9]+)\."
+		         second="href=$1web_server_url/eap/$2\."/>
+		<!-- 多实例组件:只对url进行替换 -->
+		<pattern first="href=(\&quot;|\')?server_url/(export|eap|eap2|portal|exportdoc|exportexcel)/(\\d+)\." 
+		         second="href=$1web_server_url/$2/$3\."/>
+		<!-- 单实例组件是以英文字母开头 -->
+		<pattern first="href=(\&quot;|\')?([a-zA-Z]+)\."
+		         second="href=$1web_server_url/eap/$2\."/>
+		<!-- 单实例组件:只对url进行替换 -->
+		<pattern first="href=(\&quot;|\')?server_url/(export|eap|eap2|portal|exportdoc|exportexcel)/([a-zA-Z0-9]+)\." 
+		         second="href=$1web_server_url/$2/$3\."/>		
+		<!-- js中的window.location:只对url进行替换 -->
+		<pattern first="window\\.location=(\&quot;|\')?server_url/(export|eap|eap2|portal|exportdoc|exportexcel)/" 
+		         second="window\\.location=$1web_server_url/$2"/>
+		<!-- js中的 $.post:只对url进行替换 -->
+		<pattern first="^($.post)(\&quot;|\')?server_url/(export|eap|eap2|portal|exportdoc|exportexcel)/" 
+		         second="$1$2web_server_url/$3"/>
+		<!-- resource文件夹:只对url进行替换 -->
+		<pattern first="(\&quot;|\')?\.\./resource/"
+		         second="$1web_server_url/resource/"/>
+		<pattern first="(\&quot;|\')?server_url/resource/"
+		         second="$1web_server_url/resource/"/>
+		<!-- 针对FLASH而写:对url进行替换同时保存其父目录 -->
+		<pattern first="pics=server_url/([A-Za-z0-9]+)/images/"
+		         second="pics=web_server_url/$1/images/"/>
+		<!-- 对于不符合匹配规则的url:仅仅需要转换它的url即可 -->
+		<pattern first="server_url"
+		         second="web_server_url"/>
+		<!-- 处理动态的serverletURL -->
+	</UrlChange>
+</root>

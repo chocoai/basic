@@ -1,0 +1,178 @@
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+[#global web=JspTaglibs["/WEB-INF/eap.tld"]]
+<link href="../resource/themes/redmond/jquery-ui.css" rel="stylesheet" type="text/css" id="jcss"/>
+<link href="../resource/skinlibrary/blueza6/style.css" rel="stylesheet" type="text/css" />
+<link href="../resource/skinlibrary/redline-gray/style.css" rel="stylesheet" type="text/css" />
+
+<link type="text/css" rel="stylesheet" href="../resource/css/custom.css" />
+<script type="text/javascript" src="../resource/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="../resource/js/common.js"></script>
+<script src="../resource/js/jquery.widgettabs.js" type="text/javascript"></script>
+<script src="../resource/js/jquery-ui-1.8.4.custom.min.js" type="text/javascript"></script>
+
+
+	<title>我的工作桌面</title>
+	<script type="text/javascript" src="../resource/mbtool/showads.js"></script>
+	<script type="text/javascript">showads();</script>
+<style type="text/css">
+	.column { width: 170px; float: left; padding-bottom: 100px; }
+	.portlet { margin: 0 1em 1em 0; }
+	.portlet-header { padding: 0.3em; padding-left: 0.4em;}
+	.portlet-header .ui-icon { float: right; }
+	.portlet-content { padding: 0px }
+	.ui-sortable-placeholder { border: 1px dotted black; visibility: visible !important; height: 50px !important; }
+	.ui-sortable-placeholder * { visibility: hidden; }
+	.ui-tabs .ui-tabs-nav li a { float: left; text-decoration: none; padding: 0em 1em; }
+	.ui-tabs .ui-tabs-nav li.ui-tabs-selected { padding-bottom: 0px; border-bottom-width: 0; }
+</style>
+<script type="text/javascript">
+	$(function() {
+		$("#tabs").tabs({cache:false});
+
+		$(".column").sortable({
+			connectWith: '.column'
+		});
+
+		$(".portlet").addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all")
+			.find(".portlet-header")
+				.addClass("ui-widget-header ui-corner-all")
+				.prepend('<span class="ui-icon ui-icon-minusthick"></span>')
+				.prepend('<span class="ui-icon ui-icon-newwin"></span>')
+				.prepend('<span class="ui-icon ui-icon-wrench"></span>')
+				.end()
+			.find(".portlet-content");
+
+		$(".portlet-header .ui-icon").click(function() {
+			$(this).toggleClass("ui-icon-minusthick").toggleClass("ui-icon-plusthick");
+			$(this).parents(".portlet:first").find(".portlet-content").toggle();
+		});
+
+		$(".column").disableSelection();
+	});
+	</script>
+</head>
+
+<body bgcolor="#ecf7ff" background="" style="margin:0px;repeat-x;background: url(../resource/images/bg1.gif);background-repeat:repeat-x;">
+
+			<div style="">
+
+<table style="table-layout: fixed;" align="center" bgcolor="#ffffff" cellpadding="0" cellspacing="0" class="eap_table" width="946">
+	<col width="200"/>
+	<col width=""/>
+	<col width="180"/>
+	<col width="190"/>
+	<tbody>												
+	<tr>																								
+		<td rowspan="1" colspan="4" valign="top">								
+[@web.block params="" action_name="单页栏目" action_id="snipet.block" site_id="eap2" block_name="banner" component_name="页面片断" block_id="11" component_id="snipet"/]				
+[@web.block params="" action_name="链接列表" action_id="location.block" site_id="eap2" block_name="主导航" component_name="链接类" block_id="10" component_id="location" view_id="_system_navigation" view_name="水平导航条" param="" cache_type="data" block_style=""/]																		
+		</td>																		
+	</tr>												
+	<tr>				
+	<td valign="top" colspan="4">
+<div class="ui-widget" id="tabs">
+<div style="float:right;padding-top:5px;padding-right:8px;border:0px;background:transparent;font-weight:normal" class="ui-widget-header"><a href="#">添加新内容</a>&nbsp;<a href="#">页面设置</a></div>
+	<ul>
+		<li style="padding-top:6px;padding-bottom:2px;"><a href="#tabs-1">我的工作桌面</a></li>
+		<li style="padding-top:6px;padding-bottom:2px;"><a href="#tabs-2">我的工作桌面</a></li>
+		<button style="height:22px;float:left;padding:0px 0px"><a href="#tabs-2" title="添加标签页" style="padding:0px 0px"><span class="ui-icon ui-icon-plusthick" style="padding:0px"></span></a></button>
+	</ul>
+ 
+	<div id="tabs-1" style="padding:5px;width:100%;overflow:hidden;">
+	<div style="float:left;width:210px;" class="column">
+		<div class="portlet">
+			<div class="portlet-header">我的工作桌面</div>
+			<div class="portlet-content">
+			[@web.block  component_id="snipet" block_id="16" action_name="组合窗口" action_id="snipet.block" view_id="myportal" site_id="eap2" cache_type="none" skin_name="redline-gray" skin_sequence="skin_sequence"/]
+			</div>
+		</div>
+		<div class="portlet">
+			<div class="portlet-header">我的应用</div>
+			<div class="portlet-content">
+			[@web.block params="" action_name="应用首页" action_id="sso.appblock" site_id="eap2" block_name="单点登录" component_name="单点登录" block_id="" component_id="sso"/]
+			</div>
+		</div>
+		<div class="portlet">
+			<div class="portlet-header">我的消息</div>
+			<div class="portlet-content">
+			[@web.block  component_id="commonservice" block_id="" action_name="组合窗口" action_id="commonservice.stationinfo.block" site_id="eap2" cache_type="none" skin_name="redline-gray" skin_sequence="skin_sequence"/]
+			</div>
+		</div>
+		<div class="portlet">
+			<div class="portlet-header">理财工具</div>
+			<div class="portlet-content">
+			[@web.block params="" action_name="单页栏目" action_id="snipet.block" site_id="eap2" block_name="理财工具" component_name="页面片断" block_id="21" component_id="snipet"/]
+			</div>
+		</div>
+	</div>
+	<div style="float:left;width:460px;padding-right:10px" class="column">
+		<div class="portlet blueza6">
+			<div class="portlet-header">我的待办任务</div>
+			<div class="portlet-content redline-gray" style="padding-left:20px">
+			[@web.block  component_id="location" block_id="10" action_name="组合窗口" action_id="location.block" cache_type="data" view_id="daiban" site_id="eap2" skin_name="redline-gray" skin_sequence="skin_sequence" /]
+			</div>
+		</div>
+		<div class="portlet  blueza6">
+			<div class="portlet-header">理财产品信息</div>
+			<div class="portlet-content redline-gray"><div  class="widget-content-body" style="padding-left:8px">
+			[@web.block component_id="news" block_id="18" component_name="新闻类" view_id="tab_news_block" block_name="理财产品信息" site_id="eap2" action_id="news.block" action_name="新闻首页" params=""/]
+			</div>
+			</div>
+		</div>
+		<div class="portlet blueza6">
+			<div class="portlet-header">本行快讯</div>
+			<div class="portlet-content redline-gray"><div  class="widget-content-body" style="padding-left:8px">
+			[@web.block block_style="" cache_type="none" param="" view_name="新闻栏目不带日期 " view_id="tab_news_block" component_id="news" block_id="12" component_name="新闻类" block_name="本行快讯" site_id="eap2" action_id="news.block" action_name="新闻首页" params=""/]
+			</div></div>
+		</div>
+		<div class="portlet blueza6">
+			<div class="portlet-header">通知通告</div>
+			<div class="portlet-content redline-gray"><div  class="widget-content-body" style="padding-left:8px">
+			[@web.block params="" action_name="新闻首页" action_id="news.block" site_id="eap2" block_name="本行公告" component_name="新闻类" block_id="25" component_id="news" view_id="tab_news_block" view_name="新闻栏目不带日期 " param="" cache_type="none" block_style=""/]
+			</div></div>
+		</div>
+		
+		
+	</div>
+	<div style="float:left;width:250px;" class="column">
+		[@web.block component_id="commonservice" block_id="" component_name="系统公共服务" block_name="系统公共服务" site_id="eap2" action_id="commonservice.login.loginblock" action_name="用户登录" params=""/]
+		<div class="portlet blueza6">
+			<div class="portlet-header">个人业务</div>
+			<div class="portlet-content redline-gray"><div  class="widget-content-body" style="padding-left:8px">
+			[@web.block  cache_type="none" param="" view_id="tab_news_block" component_id="news" block_id="22" component_name="新闻类" block_name="个人业务" site_id="eap2" action_id="news.block" action_name="新闻首页" params=""/]
+			</div></div>
+		</div>
+		<div class="portlet blueza6">
+			<div class="portlet-header">公司业务</div>
+			<div class="portlet-content redline-gray"><div  class="widget-content-body" style="padding-left:8px">
+			[@web.block block_style="padding-top:4px;" cache_type="none" param="" view_id="tab_news_block" component_id="news" block_id="24" component_name="新闻类" block_name="公司业务" site_id="eap2" action_id="news.block" action_name="新闻首页" params=""/]
+			</div></div>
+		</div>
+		<div class="portlet blueza6">
+			<div class="portlet-header">天气预报</div>
+			<div class="portlet-content">
+			[@web.block block_name="通知通告" component_name="新闻类" component_id="commonservice" block_id="" action_name="新闻首页" action_id="commonservice.weather" site_id="eap2" cache_type="none" skin_name="redline" skin_sequence="skin_sequence" /]
+			</div>
+		</div>
+	
+	</div>
+	<div sytle="clear:both"></div> 
+	</div>
+	<div id="tabs-2">
+	</div>
+</div>
+</td>
+</tr>					
+	<tr>										
+		<td rowspan="1" colspan="4" valign="top">
+[@web.block component_id="snipet" block_id="16" component_name="页面片断" block_name="版权信息" site_id="eap2" action_id="snipet.block" action_name="单页栏目" params=""/]										
+		</td>					
+	</tr>					
+	</tbody>
+</table>
+
+			</div>
+
+</body>
+
+</html>

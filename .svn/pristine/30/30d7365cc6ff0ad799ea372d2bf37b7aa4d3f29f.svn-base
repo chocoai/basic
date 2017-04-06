@@ -1,0 +1,131 @@
+<script type="text/javascript" src="${_share_file_url!''}/resource/js/jquery.form.js"></script>
+﻿<script type="text/javascript" src="${_share_file_url!''}/resource/js/jquery.validate.js"></script>
+<script type="text/javascript" src="${_share_file_url!''}/resource/js/i18n/jquery.ui.datepicker-zh-CN.js"></script>
+<script language="javascript" type="text/javascript">
+$(function(){
+	$("#updateInfo").click(function(){
+		var str="";
+		if($("#project_name").val()=="")
+			str+="请输入项目名称\n";
+		if($("#unit_id").val()=="")
+			str+="请选择安全责任单位\n";
+		if($("#city_district").val()=="")
+			str+="请选择所属区域\n";	
+		if(str!=""){
+			alert(str);
+			return false;
+		}	
+		var queryString=$("#updateForm").formSerialize();
+		$.post($("#updateForm").attr("action"),queryString,
+			function(data,textStatus){
+				var jdata=jQuery.parseJSON(data);
+				if(jdata.success==1){
+					alert("保存成功！");
+					if (window.showModalDialog!=null){
+						window.close();//firefox不支持			
+					}else{
+						top.close();//IE和FireFox都支持
+					}
+				}else{
+					alert("保存失败！");
+				}
+		});
+	});
+	$("#unit_name").click(function(){
+			var str;
+		 	var url="${_server_url!''}/portal/safemanage.tBuildingUnitdialog";
+			if (window.showModalDialog!=null){
+				str=window.showModalDialog(url,"","dialogWidth:700px;dialogHeight:600px;status:no;help:no;scrolling=no;scrollbars=no");
+			}else{
+				str=window.open(url,"","width=700px,height=600px,menubar=no,toolbar=no,location=no,scrollbars=no,status=no,modal=yes");
+		 	}
+		 	if(str!=undefined){
+		 		$("#unit_name").val(str[1]);
+		 		$("#unit_id").val(str[0]);
+		 	}
+	});
+});
+</script>
+<style>
+.rightpad{text-align:right;padding-right:12px;background-color:#E1F1FE;color:#2a51a4;}
+.leftpad{padding-left:12px;background-color:#F1F8FF;color:#4D4D4D;}
+</style>
+<div class="ui-widget ui-widget-content ui-corner-all" style="position: relative;padding: .2em;">
+	<div class="ui-widget-header ui-corner-all" style="padding:4px;margin-bottom:6px">
+		管理项目修改
+	</div>
+<form class="cmxform" style="margin:0" action="${_servlet_url!''}/safemanage.tBuildingProjectupdate" method="post" id="updateForm">
+	<input type="hidden" name="project_id" id="project_id" value="${block.result.project_id!''}"/>
+	<table width="100%" border="0" cellpadding="0" cellspacing="1" align="center" style="table-layout:fixed;line-height:30px;">
+			<col width="150px"><col />
+			<tr>
+				<td class="rightpad"><font color="red">*&nbsp;</font>项目名称</td>
+				<td class="leftpad">
+					<input type="text" name="project_name" id="project_name" value="${block.result.project_name!''}" size="40"/>
+				</td>
+			</tr>
+			<tr>
+				<td class="rightpad">项目地址</td>
+				<td class="leftpad">
+					<input type="text" name="project_address" id="project_address" value="${block.result.project_address!''}" size="40"/>
+				</td>
+			</tr>
+			[#if "${user.region_id!''}"!=""]
+		    <tr>
+					<td class="rightpad"><font color="red">*&nbsp;</font>所属区域</td>
+					<td class="leftpad">
+					<select name="city_district" id="city_district" disabled>
+						<option value="">--请选择--</option>
+						[#if EnumService.getEnum('xzqh')?exists]
+						[#list EnumService.getEnum('xzqh') as enum]
+							<option value="${enum.enum_value!''}" [#if "${user.region_id!''}"=="${enum.enum_value!''}"]selected="true"[/#if]>${enum.enum_name!''}</option>
+						[/#list]
+						[/#if]
+					</select>
+				</td>
+			</tr>
+		    [#else]
+			<tr>
+				<td class="rightpad"><font color="red">*&nbsp;</font>所属区域</td>
+				<td class="leftpad">
+					<select name="city_district" id="city_district">
+						<option value="">--请选择--</option>
+						[#if EnumService.getEnum('xzqh')?exists]
+						[#list EnumService.getEnum('xzqh') as enum]
+						<option value="${enum.enum_value!''}" [#if "${block.result.city_district!''}"=="${enum.enum_value!''}"]selected[/#if]>${enum.enum_name!''}</option>
+						[/#list]
+						[/#if]
+					</select>
+				</td>
+			</tr>
+			[/#if]
+			[#if "${user.orgcom_id!''}"!=""&&"${user.orgcom_name!''}"!=""]
+			<td class="rightpad"><font color="red">*&nbsp;</font>安全责任单位</td>
+				<td class="leftpad">
+						<input type="hidden" name="unit_id" id="unit_id" value="${user.orgcom_id!''}"/>
+						<input type="text" name="unit_name" id="unit_name" value="${user.orgcom_name!''}" size="40" disabled/>
+				</td>
+			[#else]	
+			<tr>
+				<td class="rightpad"><font color="red">*&nbsp;</font>安全责任单位</td>
+				<td class="leftpad">
+					<input type="hidden" name="unit_id" id="unit_id" value="${block.result.unit_id!''}"/>
+					<input type="text" name="unit_name" id="unit_name" value="${block.result.unit_name!''}"  size="40" readonly="true"/>
+				</td>
+			</tr>
+			[/#if]]
+			<tr>
+				<td class="rightpad">备注</td>
+				<td class="leftpad">
+					<textarea name="project_desc" id="project_desc" rows="3" cols="40">${block.result.project_desc!''}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<td align="center" style="background-color:#FFFFFF;" colspan="2">
+					<button type="button" id="updateInfo">提交</button>&nbsp;
+					<button type="button" onClick="window.close();">返回</button>
+				</td>
+			</tr>
+	</table>
+</form>
+</div>

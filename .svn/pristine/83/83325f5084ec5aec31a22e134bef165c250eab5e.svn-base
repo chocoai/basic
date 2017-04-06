@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component xmlns="http://www.eap2.net" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.eap2.net http://www.eap2.net/eap2/component.xsd "
+name="安全管理" id="safemanage" instance-scope="SINGLE"> 
+	<description>安全管理</description>
+	<actions>
+		<!-- 安全检查员属性维护  -->
+		<get id="safecensor.forupdate" name="修改安全检查员信息" class="com.originsys.safemanage.usertype.action.SafeCensorUserDetail">
+			<view type="html">com/originsys/safemanage/usertype/view/safecensorupdate.ftl</view>
+		</get>
+		<get id="safecensor.detail" name="安全检查员信息详细" class="com.originsys.safemanage.usertype.action.SafeCensorUserDetail">
+			<view type="html">com/originsys/safemanage/usertype/view/safecensordetail.ftl</view>
+		</get>
+		<get id="safecensor.list" name="安全检查员列表" class="">
+			<view type="html">com/originsys/safemanage/usertype/view/safecensorlist.ftl</view>
+		</get>
+		<get id="safecensor.listjson" name="安全检查员列表数据" class="com.originsys.safemanage.usertype.action.SafeCensorUserList">
+			<view type="plain">com/originsys/safemanage/usertype/view/safecensorlistjson.ftl</view>
+		</get>
+		<data id="safecensor.update1" name="安全检查员信息修改" class="com.originsys.safemanage.usertype.action.SafeCensorUserUpdate" />
+		
+		<!-- 安全管理员属性维护  -->
+		<get id="safemanager.forupdate" name="修改安全管理员信息" class="com.originsys.safemanage.usertype.action.SafeManagerUserDetail">
+			<view type="html">com/originsys/safemanage/usertype/view/safemanagerupdate.ftl</view>
+		</get>
+		<get id="safemanager.list" name="安全管理员列表" class="">
+			<view type="html">com/originsys/safemanage/usertype/view/safemanagerlist.ftl</view>
+		</get>
+		<get id="safemanager.listjson" name="安全管理员列表数据" class="com.originsys.safemanage.usertype.action.SafeManagerUserList">
+			<view type="plain">com/originsys/safemanage/usertype/view/safemanagerlistjson.ftl</view>
+		</get>
+		<data id="safemanager.update1" name="安全管理员信息修改" class="com.originsys.safemanage.usertype.action.SafeManagerUserUpdate" />
+		<get id="safemanager.detail" name="安全管理员信息详细" class="com.originsys.safemanage.usertype.action.SafeManagerUserDetail">
+			<view type="html">com/originsys/safemanage/usertype/view/safemanagerdetail.ftl</view>
+		</get>
+		
+		<!-- 安全鉴定员属性维护  -->
+		<get id="safeassessors.forupdate" name="修改安全鉴定员信息" class="com.originsys.safemanage.usertype.action.SafeAssessorsUserDetail">
+			<view type="html">com/originsys/safemanage/usertype/view/safeassessorsupdate.ftl</view>
+		</get>
+		<get id="safeassessors.list" name="安全鉴定员列表" class="">
+			<view type="html">com/originsys/safemanage/usertype/view/safeassessorslist.ftl</view>
+		</get>
+		<get id="safeassessors.listjson" name="安全鉴定员列表数据" class="com.originsys.safemanage.usertype.action.SafeAssessorsUserList">
+			<view type="plain">com/originsys/safemanage/usertype/view/safeassessorslistjson.ftl</view>
+		</get>
+		<data id="safeassessors.update1" name="安全鉴定员信息修改" class="com.originsys.safemanage.usertype.action.SafeAssessorsUserUpdate" />
+		<get id="safeassessors.detail" name="安全鉴定员信息详细" class="com.originsys.safemanage.usertype.action.SafeAssessorsUserDetail">
+			<view type="html">com/originsys/safemanage/usertype/view/safeassessorsdetail.ftl</view>
+		</get>
+		
+		
+		<get id="tBuildingProjectlist" name="管理项目小区表列表"  class="">
+			<view type="html">com/originsys/safemanage/unit/view/tBuildingProjectlist.ftl</view>
+		</get>
+		<get id="tBuildingProjectlistdata" name="管理项目小区表列表数据"  class="com.originsys.safemanage.unit.action.TBuildingProjectList">
+			<view type="plain">com/originsys/safemanage/unit/view/tBuildingProjectlistdata.ftl</view>
+		</get>
+		<get id="tBuildingProjectinsert" name="管理项目小区表增加" class="">
+			<view type="html">com/originsys/safemanage/unit/view/tBuildingProjectinsert.ftl</view>
+		</get>
+		<data id="tBuildingProjectadd" name="管理项目小区表增加保存" class="com.originsys.safemanage.unit.action.TBuildingProjectAdd"/>
+		<get id="tBuildingProjectmodify" name="管理项目小区表修改"  class="com.originsys.safemanage.unit.action.TBuildingProjectDetail">
+			<view type="html">com/originsys/safemanage/unit/view/tBuildingProjectmodify.ftl</view>
+		</get>
+		<data id="tBuildingProjectupdate" name="管理项目小区表修改保存" class="com.originsys.safemanage.unit.action.TBuildingProjectUpdate"/>
+		<get id="tBuildingProjectmodify2" name="管理项目小区表修改包含楼幢"  class="com.originsys.safemanage.unit.action.TBuildingProjectDetail">
+			<view type="html">com/originsys/safemanage/unit/view/tBuildingProjectmodify2.ftl</view>
+		</get>
+		<data id="tBuildingProjectupdate2" name="管理项目小区表修改包含楼幢保存" class="com.originsys.safemanage.unit.action.TBuildingProjectUpdate2"/>
+		<data id="tBuildingProjectdelete" name="管理项目小区表删除" class="com.originsys.safemanage.unit.action.TBuildingProjectDelete"/>
+		<get id="tBuildingProjectforcheck" name="管理项目小区表审核"  class="com.originsys.safemanage.unit.action.TBuildingProjectDetail">
+			<view type="html">com/originsys/safemanage/unit/view/tBuildingProjectcheck.ftl</view>
+		</get>
+		<data id="tBuildingProjectcheck" name="管理项目小区表审核保存" class="com.originsys.safemanage.unit.action.TBuildingProjectCheck"/>
+		
+		<get id="tBuildingUnitlist" name="安全责任单位表列表"  class="">
+			<view type="html">com/originsys/safemanage/unit/view/tBuildingUnitlist.ftl</view>
+		</get>
+		<get id="tBuildingUnitlistdata" name="安全责任单位表列表数据"  class="com.originsys.safemanage.unit.action.TBuildingUnitListClient">
+			<view type="plain">com/originsys/safemanage/unit/view/tBuildingUnitlistdata.ftl</view>
+		</get>
+		<get id="tBuildingUnitdialog" name="安全责任单位列表窗口"  class="">
+			<view type="html">com/originsys/safemanage/unit/view/tBuildingUnitdialog.ftl</view>
+		</get>
+		<get id="tBuildingUnitInsert" name="安全责任单位表增加" class="">
+			<view type="html">com/originsys/safemanage/unit/view/tBuildingUnitInsert.ftl</view>
+		</get>
+		<data id="tBuildingUnitadd" name="安全责任单位表增加保存" class="com.originsys.safemanage.unit.action.TBuildingUnitAdd"/>
+		<get id="tBuildingUnitmodify" name="安全责任单位表修改"  class="com.originsys.safemanage.unit.action.TBuildingUnitDetail">
+			<view type="html">com/originsys/safemanage/unit/view/tBuildingUnitmodify.ftl</view>
+		</get>
+		<data id="tBuildingUnitupdate" name="安全责任单位表修改保存" class="com.originsys.safemanage.unit.action.TBuildingUnitUpdate"/>
+		<data id="tBuildingUnitdelete" name="安全责任单位表删除" class="com.originsys.safemanage.unit.action.TBuildingUnitDelete"/>		
+		<get id="tBuildingUnitForCheck" name="安全责任单位审核" class="com.originsys.safemanage.unit.action.TBuildingUnitDetail">
+			<view type="html">com/originsys/safemanage/unit/view/tBuildingUnitcheck.ftl</view>
+		</get>
+		<data id="tBuildingUnitcheck" name="安全责任单位审核保存" class="com.originsys.safemanage.unit.action.TBuildingUnitCheck"/>
+		
+		
+	</actions>
+	
+	<user-types>
+		<user-type id="safecensor" name="安全检查员"
+		 setting-action="safemanage.safecensor.forupdate" 
+		 list-action="safemanage.safecensor.list" 
+		 show-action="safemanage.safecensor.detail">
+			<implement-class>com.originsys.safemanage.usertype.action.SafeCensorUserTypeIm</implement-class>
+		</user-type>
+		<user-type id="safemanager" name="安全管理员"
+		 setting-action="safemanage.safemanager.forupdate" 
+		 list-action="safemanage.safemanager.list" 
+		 show-action="safemanage.safemanager.detail">
+			<implement-class>com.originsys.safemanage.usertype.action.SafeManagerUserTypeIm</implement-class>
+		</user-type>
+		<user-type id="safeassessors" name="安全鉴定员"
+		 setting-action="safemanage.safeassessors.forupdate" 
+		 list-action="safemanage.safeassessors.list" 
+		 show-action="safemanage.safeassessors.detail">
+			<implement-class>com.originsys.safemanage.usertype.action.SafeAssessorsUserTypeIm</implement-class>
+		</user-type>
+	</user-types>
+	
+</component>
+

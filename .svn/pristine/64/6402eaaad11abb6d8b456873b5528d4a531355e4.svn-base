@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./style.css"/>
+</head>
+<body>
+	<div class="classTitle">类参考</div>
+	<div id="main_content" class="main_content">
+		<div id="index">
+			<div align="center" class="class_index">
+				<a href="./maphelp.html?mp">参考类</a> | <a href="./mapfiles.html?mp">文件</a>
+			</div>
+			<div class="class_index1">
+				<h2>Classes</h2>
+				<ul class="classList">
+					<li><a href="./FMapLib.html?mp">FMapLib</a></li>
+					<li><a href="./cmclassreference.html">FMapLib.AreaMeasureTool</a></li>
+
+				</ul>
+			</div>
+			<!-- end publish.classesIndex -->
+		</div>
+
+		<div id="content">
+			<!-- ============================== class title ============================ -->
+			<h1 class="classTitle">类 FMapLib.AreaMeasureTool</h1>
+
+			<!-- ============================== class summary ========================== -->
+			<p class="description">
+				在地图上任意画一个多边形，能够计算多边形的面积并在地图窗口的上方显示，主要用于面积的测量和计算。 <br />
+			</p>
+
+			<!-- ============================== constructor summary ==================== -->
+
+			<h1 class="classTitle2">
+				类
+				</h1>
+				<table class="summaryTable" cellspacing="0"
+					summary="A summary of the constructor documented in the class BMapLib.DrawingManager.">
+					<tr class="title">
+						<td style="border-left: 1px solid #C8CCD1;">类</td>
+						<td>描述</td>
+					</tr>
+					<tbody>
+						<tr>
+							<td class="attributes attributesCstor">
+								<div class="fixedFont">
+									<b>FMapLib.AreaMeasureTool</b>(map,boolean)
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description">AreaMeasureTool测面工具类的构造函数，参数：map，地图名称；
+								boolean：是否显示提示框，默认显示，不显示为false</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<h1 class="classTitle2">方法</h1>
+				<table class="summaryTable" cellspacing="0">
+					<tr class="title">
+						<td style="border-left: 1px solid #C8CCD1;">方法</td>
+						<td>返回值</td>
+						<td>描述</td>
+					</tr>
+					<tbody>
+						<tr>
+							<td class="attributes "><div class="fixedFont">
+									<b>close</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">none</div></td>
+							<td class="nameDescription"><div class="description">关闭测面工具。</div></td>
+						</tr>
+						<tr class="darkBgdTr">
+							<td class="attributes "><div class="fixedFont">
+									<b>open</b>()
+								</div></td>
+							<td class="returns"><div class="fixedFont">none</div></td>
+							<td class="nameDescription"><div class="description">开启地图的测面状态。</div></td>
+						</tr>
+						<tr>
+						<td class="atttributes"><div><b>getArea</b>()</div></td>
+						<td class="returns"><div>float</div></td>
+						<td class="nameDescription"><div>获得测量面积结果.</div></td>
+						</tr>
+						<tr>
+						<td class="attributes"><div><b>setMapAlert</b>(boolean)</div></td>
+						<td class="returns"><div>none</div></td>
+						<td class="nameDescription"><div>设置是否显示结果提示框</div></td>
+						</tr>
+						<tr>
+						<td class="attributes"><div><b>doMapAlert</b>()</div></td>
+						<td class="returns"><div>object</div></td>
+						<td class="namescription"><div>弹出查询结果显示框.</div></td>
+						</tr>
+					</tbody>
+				</table>
+				<h1 class="classTitle2">属性</h1>
+				<table class="summaryTable" cellspacing="0"
+					summary="A summary of the events documented in the class BMapLib.DrawingManager.">
+					<tr class="title">
+						<td style="border-left: 1px solid #C8CCD1;">属性</td>
+						<td>描述</td>
+					</tr>
+					<tbody>
+						<tr>
+							<td class="attributes attributesEvts"><div class="fixedFont"><b>unit</b>
+								</div></td>
+							<td class="nameDescription"><div class="description">测量结果的单位。</div></td>
+						</tr>
+						<tr>
+							<td class="attributes attributesEvts"><div class="fixedFont"><b>domapalert</b>
+								</div></td>
+							<td class="nameDescription"><div class="description">是否弹出信息提示框。</div></td>
+						</tr>
+						</tbody>
+						</table>
+				<div class="details">
+					<a name="constructor"> </a>
+					<div class="sectionTitle">类</div>
+
+					<div class="fixedFont">
+						<b>FMapLib.AreaMeasureTool</b>(map)
+					</div>
+					<div class="description">AreaMeasureTool类的构造函数</div>
+					<pre class="code">
+								<b>参考示例：</b><br />
+   function areaMeasure() {<br>
+	var areaToolInst=new FMapLib.AreaMeasureTool(map);<br>
+	areaToolInst.open();<br>
+}
+
+</pre>
+					<dl class="detailList">
+						<dt class="heading">参数:</dt>
+						<dt>
+							<span class="light fixedFont">string</span> <b>map</b>
+						</dt>
+						<dd>已初始化的地图的名称</dd>
+					</dl>
+				</div>
+				</div>
+				</div>
+</body>
+</html>

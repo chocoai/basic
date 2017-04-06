@@ -1,0 +1,10 @@
+authurl=http://localhost:8080/authapi
+authlogin=http://localhost:8080/portal/auth.login1
+authloginout=http://localhost:8080/portal/auth.loginout
+accessTokenURL= http://localhost:8080/portal/auth.token
+
+client_ID=4644
+client_secret=4195a13935131aefe4868122e3b8589d
+
+redirect_URI=http://localhost:8080/portal/authclient.login
+app_URL=http://localhost:8080/portal/safecheck.block

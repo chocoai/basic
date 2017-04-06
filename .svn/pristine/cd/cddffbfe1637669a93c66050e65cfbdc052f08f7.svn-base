@@ -1,0 +1,15 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>初始化地图</title>
+<script src="http://localhost:8090/gis/FMapLib/FMapLib.Include-1.0.4.js"></script>
+<script type="text/javascript">
+function onPageLoad() {
+    var map = new FMapLib.FMap("map");
+}
+</script>
+</head>
+<body onLoad="onPageLoad()">
+<div id="map" style="position:absolute;left:0px;right:0px;width:1200px;height:700px;" visibility="visible"></div> 
+</body>
+</html>

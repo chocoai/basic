@@ -1,0 +1,35 @@
+<!--[#list map.relist as relist]
+	${relist.DISTRICT!''}----${relist.AREA!''}<br/>
+[/#list]-->
+<script type="text/javascript" src="${_share_file_url!''}/safemanage/resource/js/FusionCharts.js"></script>
+<div id="chart3div" align="center" style="margin-top:60px;"></div>
+<script type="text/javascript">
+//改表iframe的背景色
+	$("#chart3div").parent().parent().attr("style","background-color:#FAFAFA");
+	var chart = new FusionCharts("${_share_file_url!''}/safemanage/resource/images/DragColumn2D.swf", "DragColumnId", "825", "350", "0", "0");
+   //拼接chart
+	var strXML="<chart palette='1' caption='安全检查' subcaption='各区县建筑面积统计' showvalues='0' xAxisName='区县' yAxisName='面积（单位：平方米）' restoreBtnBorderColor='A2A3A0' formBtnBorderColor='A2A3A0' canvasPadding='20' dragBorderColor='666666' dragBorderThickness='3' baseFontSize='12' chartRightMargin='30' showAboutMenuItem='0' showFormBtn='0' showRestoreBtn='0' >";
+	//拼接x轴（categories）
+	var strCategory="<categories>";
+	//拼接柱状数据
+	var strDataset="<dataset id='AREA' seriesName='面积'>";
+	[#list map.relist as relist][#if relist_index!=0]
+		[#if EnumService.getEnum('xzqh')?exists]
+		    [#list EnumService.getEnum('xzqh') as enum][#if enum_index!=0]
+				[#if "${relist.DISTRICT!''}" == "${enum.enum_value!''}"]
+					strCategory+="<category name='${enum.enum_name!''}' />";
+				[/#if][/#if]
+			[/#list]
+		[/#if]
+		strDataset+="<set id='${relist.DISTRICT!''}' value='#{relist.AREA!'';m0M2}' allowDrag='0'/>";
+	[/#if][/#list]
+	strCategory+="</categories>";
+	strDataset+="</dataset>";
+	
+	//拼接样式设置
+	var strStyle="<styles><definition><style name='myCaptionFont' type='font' font='Arial' size='14' bold='1' /> <style name='mySubCaptionFont' type='font' font='Arial' size='12' bold='0' /> </definition><application><apply toObject='Caption' styles='myCaptionFont' /> <apply toObject='SubCaption' styles='mySubCaptionFont' /></application></styles>";
+	strXML+=strCategory+strDataset+strStyle;
+	strXML+="</chart>";
+	chart.setDataXML(strXML);
+	chart.render("chart3div");
+</script>

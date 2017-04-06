@@ -1,0 +1,51 @@
+ [#include "/WEB-INF/commonftl/include.html"]
+
+
+	<title></title>
+	<script type="text/javascript" src="../resource/mbtool/showads.js"></script>
+	<script type="text/javascript">showads();</script>
+</head>
+<body bgcolor="" background="" style="">
+			<div style="">
+<table style="TABLE-LAYOUT: fixed" class="eap_table" cellspacing="0" cellpadding="0" width="100%" bgcolor="#ffffff">
+	<col />
+	<col />
+	<col />
+	<tbody>
+	<tr>
+		<td valign="top">
+		</td>
+		<td valign="top">
+		</td>
+		<td valign="top">
+		</td>
+	</tr>
+	<tr>
+		<td style="PADDING-TOP: 5px" valign="top" colspan="3">
+[@web.block component_name="食品安全类" site_id="eap2" block_id="" block_name="食品安全类" component_id="foodsafe" action_name="待办事宜首页" action_id="foodsafe.willdothing" params="" /]
+		</td>
+	</tr>
+	<tr>
+		<td style="PADDING-TOP: 8px" valign="top">
+[@web.block component_name="新闻类" site_id="eap2" block_id="12" block_name="通知公告" component_id="news" action_name="新闻首页" action_id="news.block" params="" /]
+		</td>
+		<td style="PADDING-LEFT: 8px; PADDING-TOP: 8px" valign="top">
+[@web.block component_name="新闻类" site_id="eap2" block_id="17" block_name="安全预警" component_id="news" action_name="新闻首页" action_id="news.block" params="" /]
+		</td>
+		<td style="PADDING-LEFT: 8px; PADDING-TOP: 8px" valign="top">
+[@web.block component_name="新闻类" site_id="eap2" block_id="15" block_name="奖励公示" component_id="news" action_name="新闻首页" action_id="news.block" params="" /]
+		</td>
+	</tr>
+	<tr>
+		<td valign="top">
+		</td>
+		<td valign="top">
+		</td>
+		<td valign="top">
+		</td>
+	</tr>
+	</tbody>
+</table>
+			</div>
+</body>
+</html>

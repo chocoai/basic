@@ -1,0 +1,6 @@
+
+ create 'house','info'
+ create 'building','info'
+ create 'surverbasic','info'
+ create 'surverproject','info'
+ create 'rt_prolinkbase','info'

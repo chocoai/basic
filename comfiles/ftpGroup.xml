@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ftp>
+	<group id="app" name="应用服务器组">
+		<server host="36.0.1.76" port="21" user="cmsfts" password="ftsadmin"/>
+	</group>
+</ftp>
+

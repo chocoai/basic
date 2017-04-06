@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>文件介绍</title>
+<link rel="stylesheet" href="./style.css"/>
+<script type="text/javascript">
+function onPageLoad(){
+	var a=window.location.href;
+	var args = a.split("?");
+	var parames=args[1];
+	//alert(parames);
+	var dom=document.getElementById("map");
+	var doma=document.getElementById("libclass");
+	var domb=document.getElementById("mapfiles");
+	var domc=document.getElementById("introduce");
+	var domd=document.getElementById("classintroduce");
+	dom.href="./maphelp.html?"+parames;
+	doma.href="./FMapLib.html?"+parames;
+	domb.href="mapfiles.html?"+parames;
+	if(parames=="qs"){
+	domc.innerHTML="<h2>QuerySurrounding.js</h2>"+
+	"<div >周边查询功能类，通过查询的位置和距离确定查询的范围，查找在该范围内的房屋，统计房屋的数量和信息，并以marker的形式在地图上展现。"+
+	"可以扩展地图的使用。 主入口类是FMapLib，"+
+    "基于FMapLib API 1.0.3。</div>"+
+	"<dl><dt class='heading'>Author:</dt>"+
+	"<dd>FMapLib API Group</dd><dt class='heading'>Version:</dt>"+
+	"<dd>1.0.3</dd></dl></div><hr/>";
+	domd.href="./qsclassreference.html";
+	domd.innerHTML="FMapLib.QuerySurrounding";
+	}
+	if(parames=="map"){
+		domc.innerHTML="<h2>FMap.js</h2>"+
+			"<div >地图API的核心类，用于实例化创建一个新的地图，实现地图在客户端的交互操作。可以通过给创建的地图添加图层和控件，"+
+		"可以扩展地图的使用。 主入口类是FMapLib，"+
+        "基于FMapLib API 1.0.3。</div>"+
+		"<dl><dt class='heading'>Author:</dt>"+
+		"<dd>FMapLib API Group</dd><dt class='heading'>Version:</dt>"+
+		"<dd>1.0.3</dd></dl></div><hr/>";
+		domd.href="./mapclassreference.html";
+		domd.innerHTML="FMapLib.FMap";
+	}
+	if(parames=="mw"){
+		domc.innerHTML="<h2>MouseWheelListener.js</h2>"+
+			"<div >实现鼠标在地图窗口滚动时地图的放大缩小功能。"+
+		"可以扩展地图的使用。 主入口类是FMapLib，"+
+        "基于FMapLib API 1.0.3。</div>"+
+		"<dl><dt class='heading'>Author:</dt>"+
+		"<dd>FMapLib API Group</dd><dt class='heading'>Version:</dt>"+
+		"<dd>1.0.3</dd></dl></div><hr/>";
+		domd.href="./mwclassreference.html";
+		domd.innerHTML="FMapLib.MouseWheelListener";
+	}
+	if(parames=="mp"){
+		domc.innerHTML="<h2>AreaMeasureTool.js</h2>"+
+		"<div >实现多边形面积测量功能 。"+
+	"可以扩展地图的使用。 主入口类是FMapLib，"+
+    "基于FMapLib API 1.0.3。</div>"+
+	"<dl><dt class='heading'>Author:</dt>"+
+	"<dd>FMapLib API Group</dd><dt class='heading'>Version:</dt>"+
+	"<dd>1.0.3</dd></dl></div><hr/>";
+	domd.href="./cmclassreference.html";
+	domd.innerHTML="FMapLib.AreaMeasureTool";
+	}
+	if(parames=="bq"){
+		domc.innerHTML="<h2>BuildingQueryByDate.js</h2>"+
+		"<div >实现房屋按建成年代查询的功能 。"+
+	"可以扩展地图的使用。 主入口类是FMapLib，"+
+    "基于FMapLib API 1.0.3。</div>"+
+	"<dl><dt class='heading'>Author:</dt>"+
+	"<dd>FMapLib API Group</dd><dt class='heading'>Version:</dt>"+
+	"<dd>1.0.3</dd></dl></div><hr/>";
+	domd.href="./bqclassreference.html";
+	domd.innerHTML="FMapLib.BuildingQueryByDate";
+	}
+	if(parames=="ml"){
+		domc.innerHTML="<h2>DistanceMeasureTool.js</h2>"+
+		"<div >实现地图窗口中线段长度的测量。"+
+	"可以扩展地图的使用。 主入口类是FMapLib，"+
+    "基于FMapLib API 1.0.3。</div>"+
+	"<dl><dt class='heading'>Author:</dt>"+
+	"<dd>FMapLib API Group</dd><dt class='heading'>Version:</dt>"+
+	"<dd>1.0.3</dd></dl></div><hr/>";
+	domd.href="./cjclassreference.html";
+	domd.innerHTML="FMapLib.DistanceMeasureTool";
+	}
+	if(parames=="sv"){
+		domc.innerHTML="<h2>BuildingsFromSurvey.js</h2>"+
+		"<div >项目测绘建筑查询API。实现对已有项目测绘数据的房屋楼幢面的查询并在地图窗口中渲染显示，同时获得房屋楼幢面的属性信息。"+
+	"可以扩展地图的使用。 主入口类是FMapLib，"+
+    "基于FMapLib API 1.0.3。</div>"+
+	"<dl><dt class='heading'>Author:</dt>"+
+	"<dd>FMapLib API Group</dd><dt class='heading'>Version:</dt>"+
+	"<dd>1.0.3</dd></dl></div><hr/>";
+	domd.href="./surveyqueryreference.html";
+	domd.innerHTML="FMapLib.BuildingsFromSurvey";
+	}
+	if(parames=="hn"){
+		domc.innerHTML="<h2>HouseQueryByName.js</h2>"+
+		"<div >房屋按地址模糊查询API，实现通过房屋地址或地址中的某一部分查询房屋，并咋地图窗口中渲染显示。"+
+	"可以扩展地图的使用。 主入口类是FMapLib，"+
+    "基于FMapLib API 1.0.3。</div>"+
+	"<dl><dt class='heading'>Author:</dt>"+
+	"<dd>FMapLib API Group</dd><dt class='heading'>Version:</dt>"+
+	"<dd>1.0.3</dd></dl></div><hr/>";
+	domd.href="./hnclassreference.html";
+	domd.innerHTML="FMapLib.HouseQueryByName";
+	}
+	if(parames=="pm"){
+		domc.innerHTML="<h2>HouseQueryByName.js</h2>"+
+		"<div >地图窗口当前显示状态的打印功能。"+
+	"可以扩展地图的使用。 主入口类是FMapLib，"+
+    "基于FMapLib API 1.0.3。</div>"+
+	"<dl><dt class='heading'>Author:</dt>"+
+	"<dd>FMapLib API Group</dd><dt class='heading'>Version:</dt>"+
+	"<dd>1.0.3</dd></dl></div><hr/>";
+	domd.href="./pmclassreference.html";
+	domd.innerHTML="FMapLib.PrintMap";
+	}
+	if(parames=="zh"){
+		domc.innerHTML="<h2>BuildingMiltyQuery.js</h2>"+
+		"<div >已有空间数据和睡醒数据的查询功能。"+
+	"可以扩展地图的使用。 主入口类是FMapLib，"+
+    "基于FMapLib API 1.0.3。</div>"+
+	"<dl><dt class='heading'>Author:</dt>"+
+	"<dd>FMapLib API Group</dd><dt class='heading'>Version:</dt>"+
+	"<dd>1.0.3</dd></dl></div><hr/>";
+	domd.href="./bmqclassreference.html";
+	domd.innerHTML="FMapLib.BuildingMiltyQuery";
+	}
+	if(parames=="rd"){
+		domc.innerHTML="<h2>Render.js</h2>"+
+		"<div >地图图层的渲染功能。"+
+	"可以扩展地图的使用。 主入口类是FMapLib，"+
+    "基于FMapLib API 1.0.3。</div>"+
+	"<dl><dt class='heading'>Author:</dt>"+
+	"<dd>FMapLib API Group</dd><dt class='heading'>Version:</dt>"+
+	"<dd>1.0.3</dd></dl></div><hr/>";
+	domd.href="./renderclassreference.html";
+	domd.innerHTML="FMapLib.Render";
+	}
+	if(parames=="tb"){
+		domc.innerHTML="<h2>ToolBar.js</h2>"+
+		"<div >添加基本操作工具条的功能。"+
+	"属于地图的基本操作。 主入口类是FMapLib，"+
+    "基于FMapLib API 1.0.3。</div>"+
+	"<dl><dt class='heading'>Author:</dt>"+
+	"<dd>FMapLib API Group</dd><dt class='heading'>Version:</dt>"+
+	"<dd>1.0.3</dd></dl></div><hr/>";
+	domd.href="./tbclassreference.html";
+	domd.innerHTML="FMapLib.ToolBar";
+	}
+	if(parames=="sm"){
+		domc.innerHTML="<h2>SatelliteMapSwitcher.js</h2>"+
+		"<div >添加地图影像切换按钮的功能。"+
+	"可以扩展地图的使用。 主入口类是FMapLib，"+
+    "基于FMapLib API 1.0.3。</div>"+
+	"<dl><dt class='heading'>Author:</dt>"+
+	"<dd>FMapLib API Group</dd><dt class='heading'>Version:</dt>"+
+	"<dd>1.0.3</dd></dl></div><hr/>";
+	domd.href="./smclassreference.html";
+	domd.innerHTML="FMapLib.SatelliteMapSwitcher";
+	}
+}
+</script>
+</head>
+<body onLoad="onPageLoad()">
+ <div id="main_content" class="main_content">
+		<div id="index">
+			<div align="center" class="class_index"><a id="map">参考类</a>
+  |  <a id="mapfiles" >文件</a></div>
+<div class="class_index1">
+<h2>Classes</h2>
+<ul class="classList">
+	<li><a id="libclass">FMapLib</a></li>
+	<li><a id="classintroduce"></a></li>
+</ul>
+</div>
+		</div>
+		<div id="content">
+			<h1 class="classTitle">文件介绍</h1>
+			<div id="introduce">
+		</div>
+		</div>
+		</div>
+	</body>
+</html>

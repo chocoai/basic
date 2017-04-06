@@ -1,0 +1,72 @@
+ [#include "/WEB-INF/commonftl/include.html"]
+
+
+	<title>济南市房屋电子地图云平台</title>
+	<script type="text/javascript" src="../resource/mbtool/showads.js"></script>
+	<script type="text/javascript">showads();</script>
+</head>
+<body bgcolor="" background="" style="margin:0px;repeat-x;background-repeat:repeat-x;background: url(${_share_file_url!''}/eap2/images/fcxiaobj_bottom.jpg);background-repeat:repeat;">
+			<div style="background:url(${_share_file_url!''}/eap2/images/fcxiaobj.jpg) repeat-x top center;">
+			<div style="">
+<table class="eap_table" cellspacing="0" cellpadding="0" width="1000" bgcolor="#ffffff" align="center">
+	<col width="346" />
+	<col width="308" />
+	<col width="346" />
+	<tbody>
+	<tr>
+		<td valign="top" colspan="3">
+[@web.block component_name="页面片断" site_id="eap2" block_id="43" params="" action_id="snipet.block" action_name="单页栏目" component_id="snipet" block_name="头部banner" /]
+		</td>
+	</tr>
+	<tr>
+		<td valign="top" colspan="3">
+[@web.block component_name="用户认证" site_id="eap2" block_id="" params="" action_id="auth.loginblockgis" action_name="用户登录gis" component_id="auth" block_name="用户认证" /]
+		</td>
+	</tr>
+	<tr>
+		<td valign="top">
+		</td>
+		<td valign="top">
+		</td>
+		<td valign="top">
+		</td>
+	</tr>
+	<tr>
+		<td style="PADDING-LEFT: 17px; PADDING-RIGHT: 14px; PADDING-TOP: 22px" valign="top">
+		</td>
+		<td style="PADDING-TOP: 22px" valign="top">
+		</td>
+		<td style="PADDING-LEFT: 14px; PADDING-RIGHT: 17px; PADDING-TOP: 22px" valign="top">
+		</td>
+	</tr>
+	<tr>
+		<td style="HEIGHT: 24px" valign="top" colspan="3">
+		</td>
+	</tr>
+	<tr>
+		<td style="BACKGROUND-COLOR: rgb(48,108,255); HEIGHT: 2px" valign="top" colspan="3">
+		</td>
+	</tr>
+	<tr>
+		<td valign="top" colspan="3">
+		</td>
+	</tr>
+	<tr>
+		<td valign="top" colspan="3">
+[@web.block component_name="页面片断" site_id="eap2" block_id="47" params="" action_id="snipet.block" action_name="单页栏目" component_id="snipet" block_name="版权信息" /]
+		</td>
+	</tr>
+	<tr>
+		<td valign="top">
+		</td>
+		<td valign="top">
+		</td>
+		<td valign="top">
+		</td>
+	</tr>
+	</tbody>
+</table>
+			</div>
+			</div>
+</body>
+</html>

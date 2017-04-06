@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+ *  Copyright (c) 2001-2003 The Open For Business Project and respected authors.
+ *  执行发布任务，其中：
+ *  1、程序文件发布到${deploy.dir}/${name}/WEB-INF/classes/.
+ *  2、webContext内容发布到${deploy.dir}/${name}/,这是公共的非程序文件
+ *  3、comfiles发布到${deploy.dir}/${name}/WEB-INF/SysFile/企业id,这是具体企业的配置和相关文件
+ *  $Id: deploy.xml,v 1.2 2009/08/10 04:46:05 samsung Exp $
+-->
+<project name="delploy" default="copy" basedir="">
+    <!-- ================================================================== -->
+    <!-- 初始化属性						                        			-->
+    <!-- ================================================================== -->
+
+    <target name="init-properties" description="==>初始化属性">
+        <property file="build.properties"/>
+        <property name="bin.dir"        value="bin"  />
+	    <property name="web.dir" value="web" />
+        <property name="class.dir" value="${deploy.dir}/${name}/WEB-INF/classes" />
+    </target>
+	<target name="clean" depends="init-properties" description="clean up">
+			<!--delete dir="${webapp.dir}/WEB-INF/SysFile/${orgname}"/-->
+
+	</target>
+		
+	<target name="init" depends="clean">
+		<mkdir dir="${deploy.dir}/${name}/WEB-INF/SysFile/${orgname}"/>
+	</target>
+    <!-- **************************************************** -->
+    <!-- 拷贝class和web文件									  -->
+    <!-- **************************************************** -->
+        <target name="copy" depends="init" description="拷贝文件">               
+
+			<!-- 复制到class，只复制有用的组件 -->
+        	 <!-- copy todir="${class.dir}">
+	        	<fileset dir="${bin.dir}" includes="com/originsys/eap/"/>
+	        	<fileset dir="${bin.dir}" includes="com/originsys/manager/"/>
+	        	<fileset dir="${bin.dir}" includes="com/originsys/snipet/"/>
+	        	<fileset dir="${bin.dir}" includes="com/originsys/news/"/>
+	        	<fileset dir="${bin.dir}" includes="com/originsys/location/"/>
+	        	<fileset dir="${bin.dir}" includes="com/originsys/virtual/"/>
+	        	<fileset dir="${bin.dir}" includes="com/originsys/map/"/>
+	        	<fileset dir="${bin.dir}" includes="com/originsys/search/"/>
+	        	<fileset dir="${bin.dir}" includes="com/originsys/question/"/>
+	        	<fileset dir="${bin.dir}" includes="com/originsys/workflow/"/>
+	        	<fileset dir="${bin.dir}" includes="com/originsys/sso/"/>
+	        	<fileset dir="${bin.dir}" includes="com/originsys/tabgroup/"/>
+	        	<fileset dir="${bin.dir}" includes="com/originsys/treenavigation/"/>
+	        	<fileset dir="${bin.dir}" includes="com/originsys/consult/"/>
+	        	<fileset dir="${bin.dir}" includes="com/originsys/tagnews/"/>
+	    	    <fileset dir="${bin.dir}" includes="com/originsys/eap/common/"/>
+	    	    <fileset dir="${bin.dir}" includes="com/originsys/eap/workflow/"/>
+	    	</copy -->
+        	<!-- 复制全部程序文件 -->
+	     	<!-- copy todir="${class.dir}">
+	    		<fileset dir="${bin.dir}" includes="**/*.*,**/*" />
+			</copy --> 
+        	<!-- 复制全部应用文件 -->
+	    	<copy todir="${deploy.dir}/${name}/">
+	            <fileset dir="${web.dir}" includes="**/*.*,**/*" excludes=".project,build.xml,build.properties,deploy.xml"/>
+	        </copy>
+        	<!-- 复制全部特定企业配置文件 -->
+        	<copy todir="${deploy.dir}/${name}/WEB-INF/SysFile/${orgname}/">
+        		<fileset dir="comfiles" includes="**/*.*,**/*"/>
+        	</copy>
+  		</target>
+  
+    
+  <!-- ================================================================ -->
+  <!-- 主要任务                                                        -->
+  <!-- ================================================================ -->
+  <target name="main" description="==> 发布程序">
+    <antcall target="copy"/>
+  	
+  </target>
+</project>

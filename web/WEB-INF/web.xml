@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+version="2.4">
+	<display-name>eap</display-name>
+	<description></description>
+	<distributable/>
+	
+	<filter>
+		<filter-name>ponitfilter</filter-name>
+		<filter-class>com.originsys.eap.control.FilterUtil</filter-class>
+	</filter> 
+	<filter-mapping>   
+		<filter-name>ponitfilter</filter-name>   
+		<servlet-name>eap</servlet-name>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher> 
+	</filter-mapping>
+
+	<listener>
+		<listener-class>
+			com.originsys.eap.util.OrgContextListener
+		</listener-class>
+	</listener>
+	<servlet>
+		<servlet-name>eap</servlet-name>
+		<servlet-class>
+			com.originsys.eap.control.MainServlet
+		</servlet-class>
+	</servlet>
+		<servlet> 
+    <servlet-name>authapi</servlet-name> 
+	    <servlet-class>com.originsys.auth.hessian.AuthHessianServlet</servlet-class> 
+	    <init-param> 
+	        <param-name>service-class</param-name> 
+	        <param-value>com.originsys.auth.hessian.BasicServiceImpl</param-value> 
+	    </init-param> 
+	  </servlet> 
+	  <servlet-mapping> 
+	    <servlet-name>authapi</servlet-name> 
+	    <url-pattern>/authapi</url-pattern> 
+	  </servlet-mapping> 
+	<servlet-mapping>
+		<servlet-name>eap</servlet-name>
+		<url-pattern>/export/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>eap</servlet-name>
+		<url-pattern>/eap/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>eap</servlet-name>
+		<url-pattern>/portal/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>eap</servlet-name>
+		<url-pattern>/exportdoc/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>eap</servlet-name>
+		<url-pattern>/exportexcel/*</url-pattern>
+	</servlet-mapping>
+	<error-page>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location>/error.jsp</location>
+	</error-page>
+	<taglib>
+		<taglib-uri>/WEB-INF/eap.tld</taglib-uri>
+		<taglib-location>/WEB-INF/eap.tld</taglib-location>
+	</taglib>
+	
+</web-app>
+

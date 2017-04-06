@@ -1,0 +1,37 @@
+{ 
+  "total": "${block.page.totalpage}", 
+  "page": "${block.page.currentpage}", 
+  "records": "${block.page.totalnum}",
+  "rows" : [
+ [#list block.resultList as result]
+ {"cell" :[
+				"${result.unit_id!''}"
+				,"${result.unit_name!''}"
+				,[#assign organ_type=""]
+				[#if EnumService.getEnum('safe_unit_type')?exists]
+				[#list EnumService.getEnum('safe_unit_type') as enum]
+				[#if "${result.unit_type!''}"=="${enum.enum_value!''}"][#assign organ_type="${enum.enum_name!''}"][/#if]
+				[/#list]
+				[/#if]
+				"${organ_type!''}"
+				,[#assign city_district=""]
+				[#if EnumService.getEnum('xzqh')?exists]
+				[#list EnumService.getEnum('xzqh') as enum]
+				[#if "${result.city_district!''}"=="${enum.enum_value!''}"][#assign city_district="${enum.enum_name!''}"][/#if]
+				[/#list]
+				[/#if]
+				"${city_district!''}"
+				,"${result.link_man!''}"
+				,"${result.link_phone!''}"
+				,"${result.review_state!''}"
+				,[#assign state=""]
+				[#if "${result.review_state!''}"=="0"][#assign state="待审核"][/#if]
+				[#if "${result.review_state!''}"=="1"][#assign state="审核驳回"][/#if]
+				[#if "${result.review_state!''}"=="2"][#assign state="审核通过"][/#if]
+				"${state!''}"
+				,"${result.unit_desc!''}"
+ 			]}
+ [#if result_has_next],[/#if]
+ [/#list]
+  ]
+}

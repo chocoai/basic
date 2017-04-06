@@ -1,0 +1,40 @@
+<script type="text/javascript" src="${_share_file_url!''}/resource/js/jquery.form.js"></script>
+﻿<script type="text/javascript" src="${_share_file_url!''}/resource/js/jquery.validate.js"></script>
+<script language="javascript" type="text/javascript">
+$(function(){
+	$("#updateInfo").click(function(){
+		if($("#project_buildingids").val()==""){
+			alert("请选择楼幢");
+			return false;
+		}
+		var queryString=$("#updateForm").formSerialize();
+		$.post($("#updateForm").attr("action"),queryString,
+			function(data,textStatus){
+				var jdata=jQuery.parseJSON(data);
+				if(jdata.success==1){
+					alert("保存成功！");
+					if (window.showModalDialog!=null){
+						window.close();//firefox不支持			
+					}else{
+						top.close();//IE和FireFox都支持
+					}
+				}else{
+					alert("保存失败！");
+				}
+		});
+	});	
+});
+</script>
+
+<div class="ui-widget ui-widget-content ui-corner-all" style="position: relative;padding: .2em;">
+<form class="cmxform" style="margin:0" action="${_servlet_url!''}/safemanage.tBuildingProjectupdate2" method="post" id="updateForm">
+	<input type="text" name="project_id" id="project_id" value="${result.project_id!''}"/>
+	<input type="text" name="project_buildingids" id="project_buildingids" value="${result.project_buildingids!''}"/>
+		项目名称:${result.project_name!''}<br>
+		所属区域:${result.city_district!''}
+			
+		[#if "${result.review_state!''}"!="2"]<button type="button" id="updateInfo">提交</button>[/#if]
+		<button type="button" onClick="window.close();">返回</button>
+				
+</form>
+</div>

@@ -1,0 +1,100 @@
+@charset "utf-8";
+/* CSS Document */
+
+body {
+    font-size: 12px;
+}
+.clearfix:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+.mbread {
+    color: #000000;
+    height: 26px;
+    line-height: 26px;
+    margin: 0 0;
+    overflow: hidden;
+    padding: 0px 0;
+    width: 980px;
+}
+.mbread a {
+    color: #000000;
+    font-size: 14px;
+    padding: 0 5px;
+}
+a {
+    text-decoration: none;
+}
+.mwrapper {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-left: 1px solid #E5E5E5;
+    border-right: 1px solid #E5E5E5;
+    border-top: 1px solid #E5E5E5;
+    margin: 0 auto;
+    width: 980px;
+}
+.mwrappend {
+    background: url("img/mfooter.jpg") no-repeat scroll right top rgba(0, 0, 0, 0);
+    display: block;
+    height: 55px;
+    margin: 0 auto;
+    width: 980px;
+}
+.copyright {
+    margin: 0 auto;
+    text-align: center;
+    width: 280px;
+}
+.lib_box {
+    margin: 10px 0;
+    padding: 10px 0;
+}
+.lib_box .lib_img {
+    border: 1px solid #DFE0DF;
+    float: left;
+    margin: 0 10px;
+    padding: 5px;
+}
+img {
+    border: medium none;
+}
+.lib_content {
+    float: left;
+    width: 500px;
+}
+.lib_content p {
+    margin-top: 0;
+}
+.mcontainer p {
+    margin: 6px 0;
+}
+.lib_content table {
+    border: 1px solid #ECECEB;
+    width: 500px;
+}
+.mcontainer {
+    line-height: 21px;
+    word-wrap: break-word;
+}
+.lib_content .t-r {
+    color: #7E7E7E;
+    width: 65px;
+}
+.lib_content td {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #ECECEB;
+    border-image: none;
+    border-style: solid;
+    border-width: 0 0 1px 1px;
+    font-size: 12px;
+    padding: 5px;
+}
+.t-r {
+    text-align: right;
+}

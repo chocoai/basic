@@ -1,0 +1,121 @@
+ [#include "/WEB-INF/commonftl/include.html"]
+
+
+
+	
+	<title>南京晨光先锋网</title>
+
+	<script type="text/javascript" src="../resource/mbtool/showads.js"></script>
+	<script type="text/javascript">showads();</script>
+</head>
+
+<body bgcolor="#ecf7ff" background="" style="margin:0px;repeat-x;background: url(${_share_file_url!''}/resource/images/bg3.jpg);font-family:&quot;微软雅黑&quot;,&quot;宋体&quot;">
+
+			<div style="">
+
+<table style="TABLE-LAYOUT: fixed" align="center" bgcolor="#ffffff" cellpadding="0" cellspacing="0" width="1024">
+	<col width="12"/>
+	<col width="260"/>
+	<col width="50"/>
+	<col width="400"/>
+	<col/>
+	<col width="12"/>
+	<tbody>	
+	<tr>		
+		<td valign="top">		
+		</td>		
+		<td colspan="4" valign="top">
+[@web.block site_id="eap2" params="" block_id="1" block_name="banner" action_id="snipet.block" action_name="单页栏目" component_name="页面片断" component_id="snipet"/]		
+		</td>		
+		<td valign="top">		
+		</td>	
+	</tr>	
+	<tr>		
+		<td rowspan="4" style="PADDING-LEFT: 3px; PADDING-TOP: 2px" valign="top">		
+		</td>		
+		<td colspan="4" style="PADDING-TOP: 1px" valign="top">
+[@web.block block_style="" cache_type="none" skin_name="red_07" skin_sequence="2" view_name="水平导航条" view_id="_system_horizontal_nav" site_id="eap2" params="" param="" block_id="2" block_name="首页导航" action_id="location.block" action_name="链接列表" component_name="链接类" component_id="location"/]		
+		</td>		
+		<td valign="top">		
+		</td>	
+	</tr>	
+	<tr>		
+		<td colspan="4" valign="top">
+[@web.block block_style="" cache_type="none" view_name="用户信息" view_id="usrinf" site_id="eap2" params="" param="" block_id="3" block_name="用户信息" action_id="snipet.block" action_name="单页栏目" component_name="页面片断" component_id="snipet"/]		
+		</td>		
+		<td valign="top">		
+		</td>	
+	</tr>	
+	<tr>		
+		<td style="PADDING-TOP: 6px" valign="top">
+[@web.block block_style="background:#f5f5f5" cache_type="none" skin_name="red_07" skin_sequence="2" view_name="网上党校" view_id="onlinesch" site_id="eap2" params="" param="" block_id="89" block_name="网上党校" action_id="location.block" action_name="链接列表" component_name="链接类" component_id="location"/]		
+		</td>		
+		<td colspan="3" style="PADDING-LEFT: 6px; PADDING-TOP: 6px" valign="top">
+[@web.block site_id="eap2" params="" block_id="85" block_name="党的章程" action_id="news.list" action_name="新闻列表" component_name="新闻类" component_id="news"/]		
+		</td>		
+		<td valign="top">		
+		</td>	
+	</tr>	
+	<tr>		
+		<td colspan="3" valign="top">		
+		</td>		
+		<td valign="top">		
+		</td>		
+		<td valign="top">		
+		</td>	
+	</tr>	
+	<tr>		
+		<td valign="top">		
+		</td>		
+		<td colspan="2" style="PADDING-TOP: 6px" valign="top">		
+		</td>		
+		<td style="PADDING-LEFT: 6px; PADDING-TOP: 6px" valign="top">		
+		</td>		
+		<td valign="top">		
+		</td>		
+		<td valign="top">		
+		</td>	
+	</tr>	
+	<tr>		
+		<td valign="top">		
+		</td>		
+		<td colspan="2" style="PADDING-TOP: 6px" valign="top">		
+		</td>		
+		<td style="PADDING-LEFT: 6px; PADDING-TOP: 6px" valign="top">		
+		</td>		
+		<td valign="top">		
+		</td>		
+		<td valign="top">		
+		</td>	
+	</tr>	
+	<tr>		
+		<td valign="top">		
+		</td>		
+		<td colspan="4" style="PADDING-TOP: 6px" valign="top">
+[@web.block site_id="eap2" params="" block_id="10" block_name="版权信息" action_id="snipet.block" action_name="单页栏目" component_name="页面片断" component_id="snipet"/]		
+		</td>		
+		<td valign="top">		
+		</td>	
+	</tr>	
+	<tr>		
+		<td valign="top">		
+		</td>		
+		<td valign="top">		
+		</td>		
+		<td valign="top">		
+		</td>		
+		<td valign="top">		
+		</td>		
+		<td valign="top">		
+		</td>		
+		<td valign="top">		
+		</td>	
+	</tr>	
+	</tbody>
+</table>
+
+			</div>
+
+</body>
+
+</html>

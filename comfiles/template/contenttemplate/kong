@@ -1,0 +1,41 @@
+ [#include "/WEB-INF/commonftl/include.html"]
+
+
+	<script type="text/javascript" src="../resource/mbtool/showads.js"]</script>
+	<script type="text/javascript">showads();</script>
+</head>
+<body bgcolor="" background="" style="">
+			<div style="">
+			<div style="">
+<table class="eap_table" cellspacing="0" cellpadding="0" width="1000" bgcolor="#ffffff" align="center">
+	<col />
+	<col />
+	<col />
+	<tbody>
+	<tr>
+		<td valign="top" colspan="3">
+[@web.content block_name="主体栏目位置" /]
+		</td>
+	</tr>
+	<tr>
+		<td valign="top">
+		</td>
+		<td valign="top">
+		</td>
+		<td valign="top">
+		</td>
+	</tr>
+	<tr>
+		<td valign="top">
+		</td>
+		<td valign="top">
+		</td>
+		<td valign="top">
+		</td>
+	</tr>
+	</tbody>
+</table>
+			</div>
+			</div>
+</body>
+</html>

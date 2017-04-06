@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="globel-config"/>
+	<classpathentry kind="src" path="realtygis"/>
+	<classpathentry kind="src" path="auth"/>
+	<classpathentry kind="src" path="authclient"/>
+	<classpathentry kind="src" path="datacenter"/>
+	<classpathentry kind="src" path="safemanage"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/Java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/eap-lib"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/sm-lib"/>
+	<classpathentry kind="output" path="web/WEB-INF/classes"/>
+</classpath>

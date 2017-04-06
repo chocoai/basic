@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component xmlns="http://www.eap2.net" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.eap2.net http://www.eap2.net/eap2/component.xsd "
+name="用户认证客户端" id="authclient" instance-scope="SINGLE">
+	<description>用户认证客户端</description>
+	<actions>
+		<get id="loginblock" class="com.originsys.authclient.action.LoginBlock" name="用户登录"  filter="" cache-type="none" is-homepage="true">
+			<view type="html">com/originsys/authclient/view/loginblock.ftl</view>		
+		</get>
+		<post name="登录" id="login" class="com.originsys.authclient.action.Login" is-switch="true"/>
+		<post name="注销" id="loginout" class="com.originsys.authclient.action.LoginOut" is-switch="true"/>
+		<get id="client.loginblock" class="" name="客户端用户登录" is-homepage="true">
+			<view type="html">com/originsys/authclient/view/clientloginblock.ftl</view>		
+		</get>
+		<post name="客户端登录" id="client.login" class="com.originsys.authclient.action.LoginClient" is-switch="true"/>
+		<data name="android客户端登录" id="client.loginAndr" class="com.originsys.authclient.action.LoginClientForAndroid" />
+		<get id="role.list" class="" name="角色列表"  is-homepage="true" >
+			<view type="html">com/originsys/authclient/view/rolelist.ftl</view>		
+		</get>
+		<get id="role.listjson" class="com.originsys.authclient.action.RoleList" name="角色编辑列表json">
+			<view type="plain">com/originsys/authclient/view/rolelistjson.ftl</view>		
+		</get>
+		<get id="role.fornew" class="com.originsys.authclient.action.ForRoleInsert" name="角色增加" >
+			<view type="html">com/originsys/authclient/view/rolenew.ftl</view>		
+		</get>
+		<data id="role.insert" class="com.originsys.authclient.action.RoleInsert" name="角色保存" />
+		<get id="role.modify" class="com.originsys.authclient.action.RoleModify" name="角色修改" >
+			<view type="html">com/originsys/authclient/view/rolemodify.ftl</view>
+		</get>
+		<data id="role.update" class="com.originsys.authclient.action.RoleUpdate" name="角色修改保存" />
+		<data id="role.delete" class="com.originsys.authclient.action.RoleDelete" name="角色删除" />			
+		<get id="role.quotelist" class="" name="引用角色列表"  is-homepage="true" >
+			<view type="html">com/originsys/authclient/view/quoterolelist.ftl</view>		
+		</get>
+		<get id="role.quotelistjson" class="com.originsys.authclient.action.QuoteRoleList" name="引用角色编辑列表json">
+			<view type="plain">com/originsys/authclient/view/quoterolelistjson.ftl</view>		
+		</get>
+		
+		<!-- 角色用户对应维护开始 -->			
+		<get id="role.memberlist" class="com.originsys.authclient.action.ForMemberListByRoleId" name="角色对应用户列表">
+			<view type="html">com/originsys/authclient/view/rolemember.ftl</view>		
+		</get>
+		<get id="role.memberlistjson" class="com.originsys.authclient.action.MemberListByRoleId" name="角色对应用户列表json">
+			<view type="plain">com/originsys/authclient/view/rolememberjson.ftl</view>		
+		</get>
+		<data id="memberrole.delete" class="com.originsys.authclient.action.MemberRoleDelete" name="角色用户对应删除" />
+		<data id="memberrole.changestate" class="com.originsys.authclient.action.MemberRoleChangeState" name="角色用户对应状态修改" />
+		<data id="memberrole.insert" class="com.originsys.authclient.action.MemberRoleInsert" name="角色用户对应增加" />
+		<get id="role.roleaccess" class="com.originsys.manager.role.RoleAccessList" name="角色对应权限列表">
+			<view type="html">com/originsys/authclient/view/roleaccesslist.ftl</view>		
+		</get>	
+		<data id="role.accessdelete" class="com.originsys.authclient.action.RoleAccessDelete" name="角色对应权限删除" />
+		<get id="role.accessforinsert" class="com.originsys.manager.role.RoleAccessForInsert" name="角色对应权限-增加新栏目/组件">
+			<view type="html">com/originsys/authclient/view/roleaccessinsert.ftl</view>		
+		</get>
+		<post id="role.accessinsert" class="com.originsys.authclient.action.RoleAccessInsert" name="角色对应权限增加"/>
+		<get id="user.roledialog" class="com.originsys.authclient.action.UserList" name="所有用户窗口"   template="dialog">
+			<view type="html">com/originsys/authclient/view/userlistdialog1.ftl</view>		
+		</get>
+		
+		<get id="admin.userlist" class="" name="系统管理员用户窗口">
+			<view type="html">com/originsys/authclient/view/adminuserlist.ftl</view>		
+		</get>
+		<get id="admin.userlistjson" class="com.originsys.authclient.action.AdminUserList" name="系统管理员用户窗口数据">
+			<view type="plain">com/originsys/authclient/view/adminuserlistjson.ftl</view>		
+		</get>
+		<get id="user.rolelist" class="com.originsys.manager.memberrole.ForRoleListByMemId" name="用户对应角色列表">
+			<view type="html">com/originsys/authclient/view/rolelistbymemid.ftl</view>		
+		</get>
+		<get id="user.rolelistdialog" class="com.originsys.authclient.action.RoleListDialog" name="本站非企业角色列表" >
+			<view type="html">com/originsys/authclient/view/rolelistdialog.ftl</view>		
+		</get>
+		
+		<get id="userInfolist" name="企业管理用户列表"  class="">
+			<view id="userInfolist" name="用户注册表列表" type="html">com/originsys/authclient/view/userInfolist.ftl</view>
+		</get>
+		<get id="userInfolistdata" name="企业管理用户列表数据"  class="com.originsys.authclient.action.UserInfoList">
+			<view id="userInfolistdata" name="用户注册表列表数据" type="plain">com/originsys/authclient/view/userInfolistdata.ftl</view>
+		</get>
+		<get id="qyuserforadd" name="企业管理用户预增加"  class="">
+			<view type="html">com/originsys/authclient/view/qyuserforadd.ftl</view>
+		</get>
+		<get id="isused" class="com.originsys.authclient.action.IsUsed" name="是否存在" >
+			<view type="plain">com/originsys/authclient/view/isused.ftl</view>		
+		</get>
+		<data id="qyuseradd" name="企业管理用户增加" class="com.originsys.authclient.action.QyUserInsert" />
+		<data id="qyuser.delete" name="企业管理员用户删除" class="com.originsys.authclient.action.QyUserDelete"/>
+		<data id="resetpass" name="企业管理重置用户登录密码" class="com.originsys.authclient.action.Reset_Pass" />
+		<get id="qyuser.modify" name="企业管理用户修改"  class="com.originsys.authclient.action.QyUserDetail">
+			<view type="html">com/originsys/authclient/view/qyusermodify.ftl</view>
+		</get>
+		<data id="qyuser.update" name="企业管理用户修改保存" class="com.originsys.authclient.action.QyUserUpdate"/>
+			
+		<get id="qyuser.rolelist" name="企业用户角色对应列表"  class="com.originsys.authclient.action.PassParam">
+			<view type="html">com/originsys/authclient/view/qyuserRolelist.ftl</view>
+		</get>
+		<get id="qyuser.rolelistdata" name="企业用户角色对应列表数据"  class="com.originsys.authclient.action.QyUserRoleList">
+			<view type="plain">com/originsys/authclient/view/qyuserRolelistdata.ftl</view>
+		</get>
+		<get id="qyuser.roledialog" name="企业管理选择角色窗口" class="com.originsys.authclient.action.QyUserRoleDialog">
+			<view type="html">com/originsys/authclient/view/qyuserroledialog.ftl</view>
+		</get>
+		<data id="qyuser.roleadd" name="企业用户角色对应增加" class="com.originsys.authclient.action.QyUserRoleAdd"/>
+		<data id="qyuser.roledelete" name="企业用户角色对应删除" class="com.originsys.authclient.action.QyUserRoleDelete"/>
+				
+	</actions>
+	
+</component>

@@ -1,0 +1,266 @@
+<style>
+.button{
+    background: url('/safemanage/resouce/images/ui-bg_highlight-soft_100_f6f6f6_1x100.png') repeat-x scroll 50% 50% #F6F6F6;
+    border: 1px solid #DDDDDD;
+    color: #0073EA;
+    font-weight: normal;
+    font-family: 微软雅黑,宋体;
+    font-size: 12px;
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 0.1em;
+    overflow: visible;
+    padding: 0;
+    position: relative;
+    text-align: center;
+    -moz-border-radius-topleft: 2px;
+     text-decoration: none;
+     height:30px;
+     width:80px; 
+}
+.buttonhover{
+  cursor: pointer;
+border:1px solid #fde893;background:#fef8cf url(/safemanage/resouce/images/ui-bg_highlight-soft_25_fef8cf_1x100.png) 50% 50% repeat-x;font-weight:normal;color:#444
+}
+</style>
+
+<div id="tooldiv" style=" margin-top:5px;margin-bottom:0px;"><button class="button" type="button" id="chooseHouse">选取房屋</button>&nbsp<button  class="button" id="chooseHouse1">新增房屋</button>
+<input style="height:24px;width:150px" class="button" name="" id="inputaddress" placeholder="请输入房屋地址"  type="text" />
+<select id="search_way" name="ways" class="button" style="height:27px"><option value="0">房屋地址</option><option value="1">平面坐标 </option></select>&nbsp
+<button class="button" id="searchHouse">定位房屋</button>&nbsp
+<button class="button" id="gps" style="" value="位置跟踪">位置跟踪</button>
+
+</div>
+<div id="map" style="position:absolute;left:0px;right:0px;width:100%;height:100%;" visibility="visible"></div> 
+<script src="${map_url!''}/gis/FMapLib/FMapLib.Include-1.0.4.js" type="text/javascript"></script>
+<script type="text/javascript" >
+var map,geolocate,a="0";
+$(function(){
+	$('#search_way').change(function(){
+	     a=$(this).children('option:selected').val();    
+	     //初始化输入框  
+	   if(a=="0"){
+	      $(inputaddress).show();
+	      if($(inputx).length!=0){
+	       $(inputx).hide();     
+	      }
+	      if($(inputy).length!=0){
+	       $(inputy).hide();
+	      }
+	     $("#inputaddress").val("请输入房屋地址");
+	     $("#inputaddress").focus(function(){
+	     if($("#inputaddress").val()=="请输入房屋地址")
+		 $("#inputaddress").val("");
+	     });
+	    }
+	    if(a=="1"){
+	     $(inputaddress).hide();
+	    if($("#inputy").length==0){
+	       $("#inputaddress").after("<input style='height:24px;width:120px' class='button' id='inputy' placeholder='请输入纵轴坐标'  type='text'/>");
+	    }
+	    if($("#inputx").length==0){
+	      $("#inputaddress").after("<input style='height:24px;width:120px' class='button' id='inputx' placeholder='请输入横轴坐标'  type='text'/>&nbsp");                               
+	    }   
+	      $(inputx).show();
+	      $(inputy).show();
+	     $("#inputx").val("请输入横轴坐标");
+	     $("#inputx").focus(function(){
+	     if($("#inputx").val()=="请输入横轴坐标")
+		  $("#inputx").val("");
+	     });
+	     $("#inputy").val("请输入纵轴坐标");
+	     $("#inputy").focus(function(){
+	     if($("#inputy").val()=="请输入纵轴坐标")
+		  $("#inputy").val("");
+	     });
+	   }
+	  });
+});
+$(function(){
+	 map = new FMapLib.FMap("map","safecheck","${user.region_id!''}");
+	 var toolbar=new FMapLib.ToolBar('tooldiv',map);//工具条
+	 geolocate = new FMapLib.Geolocate(map);//gps跟踪定位
+	 var ss=new FMapLib.SatelliteMapSwitcher(map);//影像图切换工具
+	 $("#chooseHouse").click(function () {
+		            $(this).addClass("buttonhover");
+		        });
+     $("#chooseHouse").hover(function () {
+		            $(this).addClass("buttonhover");
+		        }, function () {
+		            $(this).removeClass("buttonhover");
+		        });
+	$("#chooseHouse1").click(function () {
+		            $(this).addClass("buttonhover");
+		        });
+     $("#chooseHouse1").hover(function () {
+		            $(this).addClass("buttonhover");
+		        }, function () {
+		            $(this).removeClass("buttonhover");
+		        });
+     $("#searchHouse").hover(function () {
+		            $(this).addClass("buttonhover");
+		        }, function () {
+		            $(this).removeClass("buttonhover");
+		        });
+	 $("#gps").hover(function () {
+		            $(this).addClass("buttonhover");
+		        }, function () {
+		            $(this).removeClass("buttonhover");
+		        });	        
+   
+	 $("#chooseHouse").click(function(){
+	 /*鼠标右键取消插件*/ 
+		(function($) { 
+		$.fn.extend({ 
+		//定义鼠标右键方法，接收一个函数参数 
+		"rightClick":function(fn){ 
+		//调用这个方法后将禁止系统的右键菜单 
+		$(document).bind('contextmenu',function(e){ 
+		return false; 
+		}); 
+		//为这个对象绑定鼠标按下事件 
+		$(this).mousedown(function(e){ 
+		//如果按下的是右键，则执行函数 
+		if(3 == e.which){ 
+		fn(); 
+		} 
+		}); 
+		} 
+		}); 
+
+		})(jQuery); 
+		$(document).ready(function(e){ 
+			$("#map").rightClick(function(){stopDrop();}); 
+			}); 
+		var CH= new FMapLib.CheckHouse(map,"pad");//点选房屋ＡＰＩ
+		var url1="safecheck.survey.insert";
+		var url2="safecheck.survey.detail";
+		var url3="safecheck.survey.insert1";	
+		//CH.setThemeType("普查");
+		CH.choosehouse(map,[url1,url2,url3]);
+	});
+	$("#chooseHouse1").click(function(){
+		 /*鼠标右键取消插件*/ 
+		(function($) { 
+		$.fn.extend({ 
+		//定义鼠标右键方法，接收一个函数参数 
+		"rightClick":function(fn){ 
+		//调用这个方法后将禁止系统的右键菜单 
+		$(document).bind('contextmenu',function(e){ 
+		return false; 
+		}); 
+		//为这个对象绑定鼠标按下事件 
+		$(this).mousedown(function(e){ 
+		//如果按下的是右键，则执行函数 
+		if(3 == e.which){ 
+		fn(); 
+		} 
+		}); 
+		} 
+		}); 
+		})(jQuery); 
+		$(document).ready(function(e){ 
+			$("#map").rightClick(function(){stopDrop();}); 
+			}); 
+		//var CH= new FMapLib.PointForEditOnline(map);
+	    var url="safecheck.survey.insert1";//同步基础信息到安全管理库t_building表中
+		var a=new FMapLib.PointForEditOnline.house(map,[url]);// 实例化在线突发事件点编辑控件
+	    var drawPoint=a.getPointDrawer();// 执行添加操作，返回一个draw point Control实例
+	// featureadded事件监听
+	 drawPoint.events.on({
+		"featureadded" : addFeatureCompleted || {}
+	 }); 
+	
+	// 画点完成后执行的操作
+    function addFeatureCompleted(drawGeometryArgs) {
+    	$("#chooseHouse1").removeClass("buttonhover");
+    	drawPoint.deactivate();	// 关闭画点控件
+    	// 画点完成后执行的操作，添加marker
+	   var point = drawGeometryArgs.feature.geometry;  
+	   var c="<style>"
+           + ".td12{text-align:right;padding-right:12px;background-color:#F6FCFF;color:#000;font-size:1.2em;}"
+           + ".td13{padding-left:12px;background-color:#FFF;color:#4D4D4D;font-size:1.2em;}" 
+           + "</style>"
+  	        +"<div style='width:312px; height:180px;font-size:.8em; opacity: 1; line-height:30px; overflow-y:hidden;'>"
+  		    + "<span style=' color:#005ebc;font-size: 18px;font-family:微软雅黑;'>新建房屋</span><br>";
+  c += "<table width='295px' border='0'cellpadding='0' cellspacing='1' bgcolor='#dee2e3' style=' border-color:#F3F3F3;line-height:30px;margin-left:15px'>"
+  + "<tr>"
+  + "<td class='td12'>X坐标</td>"
+  + "<td class='td13'>"+point.x+"</td>"
+  + "</tr>"
+  + "<tr>"
+  + "<td class='td12'>Y坐标</td>"
+  + "<td class='td13'>"+point.y+"</td>"
+  + "</tr>"
+  + "<tr>"	
+  + "<td class='td12'>请输入地址</td>"
+  + "<td class='td13'><input id='addressinfo'  style:'width:400px; height:400px' type='text'/>"
+  + "</tr>"
+  + "</table>";
+  c +="<p  style='text-align:center;'><input type='submit' name='Submit' id='saveforsend' value='保存' style='background:url(/safemanage/resource/images/button_bj.jpg) repeat-x; width:222px; height:35px; border:1px #cbe5ff solid; line-height:0px; font-family:微软雅黑; font-size:14px; color:#005ebc;padding-left:15px;'/></p>";
+  c += "</div>";		
+		map.pointposition=point;
+		map.addMarker(point.x,point.y,"/safemanage/resource/images/markerbig.png",32,32);//在画点处标记一个自定义Marker；
+        a.popDialogCanvas(point,c);// 在新添加的点上弹出信息对话框,信息框内容自定义
+        //定义信息框文档对象点击事件
+     $("#saveforsend").bind("click",function() {			
+	    var address = $("#addressinfo").val();
+	    if((address=="")||(address==undefined)){
+		     alert("请输入地址！");
+	 }else{ 
+       a.addFeatureProxy(point,["ADDRESS"],[address]);// 添加地物点几何特征及相关属性特征到空间数据库。
+      }});
+    }	
+	});
+	$("#searchHouse").click(function(){
+		if(map){
+		       map.clearMarkers();
+	    	}
+			var address = $("#inputaddress").val();
+			var x=$("#inputx").val();
+			var y=$("#inputy").val();		
+			if(a=="0"){
+			if(!!!address){
+			     alert("请输入地址！");	
+			     return;	     
+		    }
+			var BF = new FMapLib.BuildingFastQuery(map);
+		    BF.queryBySafeAddress(address);
+		    }
+		    if(a=="1"){
+		    if(!!!x){
+		         alert("请输入横坐标！");
+		         return;
+		    }if(!!!y){    
+		     alert("请输入纵坐标！");
+		     return;
+		    }
+		    try{	     	    
+		   if(map){   
+			   map.addMarker(x,y,"/safemanage/resource/images/markerbig.png",32,32);//在画点处标记一个自定义Marker；
+			   map.setCenter(x,y);//重新设置中心点
+			   map.map.zoomTo(8);
+			}	  
+		    }catch(ex){alert(ex);alert("格式错误！")}
+		       
+		    }
+	});
+	
+	$("#gps").click(function(){	
+	if(this.value=="位置跟踪"){
+		geolocate.open();//开启定位功能
+       this.value="关闭跟踪";
+       this.textContent="关闭跟踪"
+	}else{
+		geolocate.close();//开启定位功能
+	    this.value="位置跟踪";
+	    this.textContent="位置跟踪"	
+	}	
+	});
+
+});
+//右键取消地图操作
+function stopDrop(){	
+    map.stopDrop();
+}
+</script>

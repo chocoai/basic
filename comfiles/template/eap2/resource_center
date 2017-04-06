@@ -1,0 +1,68 @@
+ [#include "/WEB-INF/commonftl/include.html"]
+
+
+	<title>济南市房屋电子地图云平台</title>
+	<script type="text/javascript" src="../resource/mbtool/showads.js"></script>
+	<script type="text/javascript">showads();</script>
+</head>
+<body bgcolor="" background="" style="margin:0px;repeat-x;background-repeat:repeat-x;background: url(${_share_file_url!''}/eap2/images/fcxiaobj_bottom.jpg);background-repeat:repeat;">
+			<div style="background:url(${_share_file_url!''}/eap2/images/fcxiaobj.jpg) repeat-x top center;">
+			<div style="">
+<table style="TABLE-LAYOUT: fixed" class="eap_table" cellspacing="0" cellpadding="0" width="1000" bgcolor="#ffffff" align="center">
+	<col width="346" />
+	<col />
+	<col width="346" />
+	<tbody>
+	<tr>
+		<td valign="top" colspan="2">
+[@web.block component_id="snipet" component_name="页面片断" action_name="单页栏目" action_id="snipet.block" site_id="eap2" params="" block_id="49" block_name="头部banner小" /]
+		</td>
+		<td valign="top">
+[@web.block component_id="commonservice" component_name="系统公共服务" action_name="用户登录窗口" action_id="commonservice.login.loginblock.dialog" site_id="eap2" params="" block_id="" block_name="系统公共服务" view_name="登录后视图" view_id="login_after" block_style="" cache_type="none" param="" /]
+		</td>
+	</tr>
+	<tr>
+		<td style="PADDING-TOP: 10px" valign="top" colspan="3">
+[@web.block component_id="treenavigation" component_name="导航类" action_name="树形栏目" action_id="treenavigation.block" site_id="eap2" params="" block_id="67" block_name="地理信息云平台导航" view_name="地理信息云平台导航" view_id="index_treenavigation" block_style="" cache_type="none" param="" /]
+		</td>
+	</tr>
+	<tr>
+		<td valign="top" colspan="3">
+[@web.block component_id="realtygis" component_name="房产GIS组件" action_name="楼栋综合查询" action_id="realtygis.buildingmultiquery" site_id="eap2" params="" block_id="" block_name="房产GIS组件" view_name="首页房屋地址查询" view_id="_system_firstpagesearch" block_style="block_style" cache_type="none" param="param" /]
+		</td>
+	</tr>
+	<tr>
+		<td style="HEIGHT: 24px" valign="top" colspan="3">
+		</td>
+	</tr>
+	<tr>
+		<td style="BACKGROUND-COLOR: rgb(48,108,255); HEIGHT: 2px" valign="top" colspan="3">
+		</td>
+	</tr>
+	<tr>
+		<td valign="top" colspan="3">
+[@web.block component_id="snipet" component_name="页面片断" action_name="单页栏目" action_id="snipet.block" site_id="eap2" params="" block_id="47" block_name="版权信息" /]
+		</td>
+	</tr>
+	<tr>
+		<td valign="top">
+		</td>
+		<td valign="top">
+		</td>
+		<td valign="top">
+		</td>
+	</tr>
+	<tr>
+		<td valign="top">
+		</td>
+		<td valign="top">
+		</td>
+		<td valign="top">
+		</td>
+	</tr>
+	</tbody>
+</table>
+			</div>
+			</div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+@charset "utf-8";
+.big_table {
+	background-color: #f0f8fd;
+	border:1px solid #a9e0fa;
+}
+.miaohui {
+	border: 1px solid #979797;
+}
+.baizi {
+	font-family: "微软雅黑";
+	font-size: 14px;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.lvkuang{
+	width:60px;
+	height:25px;
+	background-color:#9cff89;
+	text-align:center;
+	border: 1px solid #c4c6c7;
+}
+.huangkuang{
+	width:60px;
+	height:25px;
+	background-color:#fff889;
+	text-align:center;
+	border: 1px solid #979797;
+}
+.hongkuang{
+	width:60px;
+	height:25px;
+	background-color:#ffc5a2;
+	text-align:center;
+	border: 1px solid #979797;
+}
+.huikuang{
+	width:60px;
+	height:25px;
+	background-color:#dadada;
+	text-align:center;
+	border: 1px solid #979797;
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component xmlns="http://www.eap2.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eap2.net http://www.eap2.net/eap2/component.xsd "
+name="房产GIS工程" id="access" instance-scope="SINGLE">
+	<description>房产GIS工程</description>
+		<actions>	 
+	<post id="regionthemebystructure" name="分区房屋结购统计" class="com.originsys.access.action.regionthemepie">
+	</post>
+	<post id="housethemebyextent" name="可见视野范围内房屋统计" class="com.originsys.access.action.regionthemebyextent">
+	</post>
+	<post id="allhousetheme" name="全市房屋专题图" class="com.originsys.access.action.allhousetheme"> 
+	</post>
+	<post name="测绘项目建筑查询" id="buildingquelist" class="com.originsys.access.action.BuildingQueList"></post>
+	<post name="楼幢信息查询" id="buildingqueryfromsurvey" class="com.originsys.access.action.BuildingQueryFromSurvey"></post>
+	<post name="综合查询获得楼幢总数" id="buildingmiltygetnum" class="com.originsys.access.action.buildingmiltygetnum"></post>
+		</actions>
+</component>
